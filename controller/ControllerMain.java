@@ -1,7 +1,11 @@
 package controller;
 
 
+import java.util.HashMap;
+
 import javafx.application.*;
+import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
 import model.Maps.Map;
@@ -23,12 +27,26 @@ public class ControllerMain extends Application {
 	private MapView theMapView;
 	private MenuView theMenuView;
 	private ScoreView theScoreView;
+	private HashMap<String, Image> images;
+	private HashMap<String, Media> audio;
 	
+	private void initializeAssets() {
+	  initializeImages();
+	  initializeAudio();
+	}
+	
+	public void initializeAudio() {
+	  
+	}
+	public void initializeImages() {
+	  
+	}
 	public static void main(String[] args) {
 	  launch(args);
   }
 	
 	public void start(Stage stage) throws Exception {
+	  initializeAssets();
 		theMap = new Map01();
 		thePlayer = new Player();
 		theTower = new BasicTower01();
