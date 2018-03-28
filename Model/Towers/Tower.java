@@ -5,6 +5,9 @@ public abstract class Tower {
 	
 	private Range range;
 	private int numberOfAttacks;
-	private Ammunition ammmo; // This is meant to represent the type of thing a tower shoots. 
+	private Ammunition ammmo; // This is meant to represent the type of thing a tower shoots.
+	
+	private String imageFilePath;
+	private String ammoImageFilePath;
 
 }

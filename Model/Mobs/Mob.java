@@ -6,4 +6,6 @@ public abstract class Mob {
 	private ArmorType armor;
 	private List<Resistance> resistances;
 
+	private String imageFilePath;
+
 }
