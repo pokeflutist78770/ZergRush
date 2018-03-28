@@ -1,14 +1,33 @@
 package model.Maps;
 
+// You should have at least 3 maps.
+
+// Each map has a background image and contains a pre-defined path for enemies
+// such that enemies originate at their start location and move along this path
+// toward the player's destination and toward the end-zone.
+
+// Different maps have different backgrounds and paths that enemies travel.
+
+// One of the maps contains more than one path for enemies to travel on ( so it
+// presents more difficult gameplay, not a linear path! The path should diverge
+// at some point).
+
+// A player can select and play on at least three maps. The path that enemies
+// travel must be different -- you cannot just change a background image and
+// call it a new map. These 3 maps should be built-in and selectable at 
+// game startup.
+
+// Maps should have space on the sides of the path for players to build towers.
+
+// Enemies continuously Spawn from the map at some location. We call this the 
+// Spawn-Zone.
+
+
+
 
 public abstract class Map {
 	
-	private Path mobRoute; // This should be enough data to tell monsters where to walk and the mapView what background graphics to use.
-	
-	// A map should contain data about where monsters can walk, where towers can be placed, 
-	// where the end zone is, where things spawn, what graphics to use (by filename), 
-	// what music to use (by filename), which towers and monsters to use, etc.
-	
+	private Path mobRoute; 
 	
 	public Map ()
 	{
