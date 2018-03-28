@@ -20,7 +20,7 @@ import views.ScoreView;
 
 public class ControllerMain extends Application {
 	public final static int GUI_SIZE= 1000;
-	public final static int MOBS_PER_SCREEN = 50;
+	public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
 	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
 	private Map theMap;
 	private Player thePlayer;
