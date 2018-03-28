@@ -1,4 +1,6 @@
+package model.Mobs;
 
-public Enum Resistance {
+
+public enum Resistance {
 
 }
