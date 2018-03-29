@@ -27,11 +27,12 @@ package model.Maps;
 
 public abstract class Map {
 	
-	private Path mobRoute; 
-	
-	public Map ()
-	{
-		
-	}
+  private Path mobRoute; // Each map class should have its own hardcoded path setup.
+  
+  public Map () {
+    constructMobRoute();
+  }
+
+  abstract void constructMobRoute();
 	
 }
