@@ -18,9 +18,9 @@ import javafx.stage.Stage;
 import model.Player;
 import model.Maps.Map;
 import model.Maps.Map01;
-import model.Mobs.BasicMob01;
+import model.Mobs.DemoMob;
 import model.Mobs.Mob;
-import model.Towers.BasicTower01;
+import model.Towers.DemoTower;
 import model.Towers.Tower;
 import views.InstructionView;
 import views.MapView;
@@ -129,7 +129,7 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		//theMap = new Map01();
 		thePlayer = new Player();
-		Tower theTower = new BasicTower01();
+		Tower theTower = new DemoTower();
 		//Mob theMob = new BasicMob01();
 		theScoreView = new ScoreView();
 		

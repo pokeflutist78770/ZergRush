@@ -2,9 +2,9 @@ package model.Towers;
 
 import java.util.Set;
 
-public class BasicTower01 extends Tower {
+public class DemoTower extends Tower {
   
-  public BasicTower01() {
+  public DemoTower() {
     super(0, 0, null, null);
   }
 

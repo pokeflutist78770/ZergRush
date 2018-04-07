@@ -28,54 +28,50 @@ import model.Towers.ElementalAttribute;
 //enemies. You can mix and match this maps.
 
 public abstract class Mob {
-
-	// This constant tells how often a mob updates. 
-	// It is 1/60 of a second rounded to the nearest millisecond. 
+  
+  // Movement related fields
+  private Thread mobWalk; 
+  private Point currentLocation;
+  private Point targetLocation;
+  private Point[] movementPath;
+  private int pathIndex; 
 	
-	private static int IDNumber = 0;
-	private String name;
+
+  private double radius;
+  private ArmorAttribute armor;
 	private AttackAttribute attack;
+  private double hp;
 	private SpeedAttribute speed;
-	private DefenseAttribute defense; // i.e. hp
-	private double hp;
-	private ArmorAttribute armor;
 	private List<ResistanceAttribute> resistances;
-	private double radius;
 
-	// We'll probably have a different implementation for keeping track of 
-	// the associated images of a mob. This is a placeholder.
+	// String data of the mob.
+  private String name;
 	private String imageFilePath; 
-	
-	private Point currentLocation;
-	private Point targetLocation;
-	private Point[] movementPath;
-	private int pathIndex;
-	private int id;
 
-  private Thread mobWalk;
-
-  // The order of these arguments could probably be rearranged into a more logical order.
-	public Mob(String name, AttackAttribute attack, 
-			SpeedAttribute speed, DefenseAttribute defense, 
-			ArmorAttribute armor, List<ResistanceAttribute> resistances, 
-			String imageFP, Point[] movementPath, 
-			double radius) {
+  
+	public Mob(Point[] movementPath, double radius, 
+	    ArmorAttribute armor, AttackAttribute attack, 
+	    DefenseAttribute defense, SpeedAttribute speed,  
+	    List<ResistanceAttribute> resistances, 
+		  String name, String imageFP
+			) {
 		
 		// Initialize Attributes
+    this.movementPath = movementPath;
+    this.pathIndex = 0;
+    this.currentLocation = this.movementPath[0];
+    this.pathIndex++;
+
+    this.radius = radius;
+
+    this.armor = armor;
 		this.attack=attack;
+    this.hp=defense.getDefense();
 		this.speed = speed;
-		this.defense = defense;
-		this.armor = armor;
 		this.resistances = resistances;
-		this.radius = radius;
+
+    this.name = name;
 		this.imageFilePath = imageFP;
-		this.name = name;
-		this.movementPath = movementPath;
-		this.pathIndex = 0;
-	    this.currentLocation = this.movementPath.get(0);
-	    this.pathIndex++;
-	    this.id = Mob.IDNumber++;
-		this.hp=defense.getDefense();
 
 		initializeMovement();
 	}
