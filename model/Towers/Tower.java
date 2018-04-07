@@ -1,12 +1,21 @@
 package model.Towers;
 
 
+
 import model.Projectile;
 import model.Mobs.Mob;
+
+
+import java.awt.Point;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 import java.util.Set;
 
 import controller.ControllerMain;
+import model.Maps.Metric;
+import model.Mobs.Mob;
 
 // Towers are purchased by the player and placed strategically along the paths.
 
@@ -64,11 +73,14 @@ public abstract class Tower {
 	
 	private String imageFilePath;
 	private String ammoImageFilePath;
+
+  private Point location;
 	
-	public Tower(int c, int n, Ammunition a) {
+	public Tower(int c, int n, Ammunition a, Point p) {
 	  cost = c;
 	  numberOfAttacks = n;
 	  ammo = a;
+	  location = p;
 	  
 	  initializeTower();
 	}
@@ -93,16 +105,28 @@ public abstract class Tower {
           }
         }
       }
-
-      private void shoot(Set nearbyMobs) {
-        
-      }
-
-      private Set getNearbyMobs() {
-        // TODO Auto-generated method stub
-        return null;
-      }
     });
+  }
+
+  
+
+  abstract public void shoot(Set nearbyMobs);
+
+  private Set getNearbyMobs() {
+    Set nearbyMobs = new HashSet();
+    Iterator<Mob> itr = ControllerMain.mobs.iterator();
+    while(itr.hasNext()) {
+       Mob nextMob = itr.next();
+       if (isNear(nextMob)) {
+         nearbyMobs.add(nextMob);
+       }
+    }
+    return nearbyMobs;
+  }
+
+  private boolean isNear(Mob nextMob) {
+    return Metric.closeEnough(nextMob.getX(), nextMob.getY(), location.getX(), location.getY(), range.toDouble());
+  }
 }
 
 
