@@ -14,8 +14,10 @@ import model.Maps.Path;
 public class BasicMob01 extends Mob {
   
   public BasicMob01() {
-    super("DemoMob", SpeedAttribute.NORMAL, DefenseAttribute.DEMO_DEFENSE, 
-        ArmorAttribute.DEMO_ARMOR, new ArrayList<ResistanceAttribute>(), "", new Path(null), 100);
+    super("DemoMob", AttackAttribute.DEMO_ATTACK,
+    		SpeedAttribute.NORMAL, DefenseAttribute.DEMO_DEFENSE, 
+    		ArmorAttribute.DEMO_ARMOR, new ArrayList<ResistanceAttribute>(), "", 
+    		new Path(null), 100);
   }
 
 }

@@ -3,8 +3,11 @@ package model.Mobs;
 import java.awt.Point;
 import java.util.List;
 
+import controller.ControllerMain;
+import model.Player;
 import model.Maps.Metric;
 import model.Maps.Path;
+import model.Towers.ElementalAttribute;
 
 //Enemies move towards the destination that the player will defend. We call
 //this the End-Zone.
@@ -33,6 +36,7 @@ public abstract class Mob {
 	
 	private static int IDNumber = 0;
 	private String name;
+	private AttackAttribute attack;
 	private SpeedAttribute speed;
 	private DefenseAttribute defense; // i.e. hp
 	private ArmorAttribute armor;
@@ -50,12 +54,14 @@ public abstract class Mob {
 	private int id;
 
   // The order of these arguments could probably be rearranged into a more logical order.
-	public Mob(String name, SpeedAttribute speed, DefenseAttribute defense, 
+	public Mob(String name, AttackAttribute attack, 
+			SpeedAttribute speed, DefenseAttribute defense, 
 			ArmorAttribute armor, List<ResistanceAttribute> resistances, 
 			String imageFP, Path movementPath, 
 			double radius) {
 		
 		// Initialize Attributes
+		this.attack=attack;
 		this.speed = speed;
 		this.defense = defense;
 		this.armor = armor;
@@ -65,9 +71,9 @@ public abstract class Mob {
 		this.name = name;
 		this.movementPath = movementPath;
 		this.pathIndex = 0;
-    this.currentLocation = this.movementPath.get(0);
-    this.pathIndex++;
-    this.id = Mob.IDNumber++;
+	    this.currentLocation = this.movementPath.get(0);
+	    this.pathIndex++;
+	    this.id = Mob.IDNumber++;
 		
 		initializeMovement();
 	}
@@ -202,12 +208,14 @@ public abstract class Mob {
 		}
 	}
 
+	
 	// What do we do when a mob reaches the End-Zone???
 	private void cleanupMobEndZone() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	
 	/**
 	 * Determines if this mob has reached its target yet. 
 	 * Takes into account the radius of the mob.
@@ -217,4 +225,37 @@ public abstract class Mob {
 		return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), 
 				targetLocation.getX(), targetLocation.getY(), radius);
 	}
+	
+	
+	/* takeDamage
+	 * calculates and subtracts the damage from a Projectile object
+	 * Parameters: damage: base damage to be taken
+	 *             element: elemental multiplier for the damage
+	 * Returns: None
+	*/
+	public void takeDamage(double damage, ElementalAttribute element) {
+		double newDamage = calculateNewDamage( damage, element);
+	}
+	
+	
+	/* Attack
+	 * attacks the main player
+	 * Parameters: player - current player
+	 * Returns: None
+	*/
+	public void attack(Player player) {
+		double damage=this.attack.getAttack();
+		player.takeDamage(damage);
+	}
+	
+	
+	private double calculateNewDamage(double damage, ElementalAttribute element) {
+
+		return 0;
+	}
 }
+
+
+
+
+

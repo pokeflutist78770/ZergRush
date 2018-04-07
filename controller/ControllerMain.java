@@ -92,12 +92,14 @@ public class ControllerMain extends Application {
 	public void initializeAudio() {
 	  
 	}
+	
 	public void initializeImages() {
 	  
 	}
+	
 	public static void main(String[] args) {
 	  launch(args);
-  }
+	}
 	
 	public void start(Stage stage) throws Exception {
 	  initializeAssets();

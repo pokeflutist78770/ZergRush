@@ -1,5 +1,8 @@
 package model.Towers;
 
+import model.Projectile;
+import model.Mobs.Mob;
+
 // Towers are purchased by the player and placed strategically along the paths.
 
 // Towers will attack enemeies that pass by (in its range of attack). Examples:
@@ -57,4 +60,14 @@ public abstract class Tower {
 	private String imageFilePath;
 	private String ammoImageFilePath;
 
+	
+	/*
+	 * 
+	*/
+	public void shoot(Mob targetMob, targetX, targetY) {
+	  Projectile projectile=new Projectile(targetMob, targetX, targetY);
+		
+	}
 }
+
+
