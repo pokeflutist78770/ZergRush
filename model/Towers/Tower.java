@@ -1,5 +1,9 @@
 package model.Towers;
 
+import java.util.Set;
+
+import controller.ControllerMain;
+
 // Towers are purchased by the player and placed strategically along the paths.
 
 // Towers will attack enemeies that pass by (in its range of attack). Examples:
@@ -52,9 +56,51 @@ public abstract class Tower {
 	
 	private Range range;
 	private int numberOfAttacks;
-	private Ammunition ammmo; // This is meant to represent the type of thing a tower shoots.
+	private Ammunition ammo; // This is meant to represent the type of thing a tower shoots.
 	
 	private String imageFilePath;
 	private String ammoImageFilePath;
+	
+	public Tower(int c, int n, Ammunition a) {
+	  cost = c;
+	  numberOfAttacks = n;
+	  ammo = a;
+	  
+	  initializeTower();
+	}
+
+  private void initializeTower() {
+    
+    Thread towerAnxiety = new Thread(new Runnable() {
+
+      @Override
+      public void run() {
+        while(true) {
+          try {
+            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
+            
+            Set nearbyMobs = getNearbyMobs();
+            if (!nearbyMobs.isEmpty()) {
+              shoot(nearbyMobs);
+            }
+            
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+
+      private void shoot(Set nearbyMobs) {
+        // TODO Auto-generated method stub
+        
+      }
+
+      private Set getNearbyMobs() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    });
+  }
+	
 
 }
