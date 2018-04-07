@@ -3,6 +3,7 @@ package model.Mobs;
 import java.awt.Point;
 import java.util.List;
 
+import controller.ControllerMain;
 import model.Maps.Metric;
 import model.Maps.Path;
 
@@ -29,7 +30,6 @@ public abstract class Mob {
 
 	// This constant tells how often a mob updates. 
 	// It is 1/60 of a second rounded to the nearest millisecond. 
-	private static final int UPDATE_FREQUENCY = 17;
 	
 	private static int IDNumber = 0;
 	private String name;
@@ -48,6 +48,8 @@ public abstract class Mob {
 	private Path movementPath;
 	private int pathIndex;
 	private int id;
+
+  private Thread mobWalk;
 
   // The order of these arguments could probably be rearranged into a more logical order.
 	public Mob(String name, SpeedAttribute speed, DefenseAttribute defense, 
@@ -82,13 +84,13 @@ public abstract class Mob {
 		targetLocation = movementPath.get(pathIndex);
 		pathIndex++;
 		
-		Thread mobWalk = new Thread(new Runnable() {
+		mobWalk = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				while(true) {
 					try {
-						Thread.sleep((long) UPDATE_FREQUENCY);
+						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
 						if (reachedTarget()) {
 							updateTarget();

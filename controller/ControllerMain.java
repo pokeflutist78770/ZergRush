@@ -3,6 +3,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javafx.application.*;
 import javafx.scene.image.Image;
@@ -73,13 +74,18 @@ public class ControllerMain extends Application {
 	public final static int GUI_SIZE= 1000;
 	public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
 	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
+  public static final int UPDATE_FREQUENCY = 17;
+  
+  public static HashSet mobs;
+  public static HashSet projectiles; 
+  public static ArrayList<Tower> towers;
+  
 	private Map theMap;
 	private Player thePlayer;
 	private MapView theMapView;
 	private MenuView theMenuView;
 	private ScoreView theScoreView;
-	private HashMap<Integer, Mob> mobs;
-	private ArrayList<Tower> towers;
+
 //	private HashMap<Integer, Projectile> projectiles;
 	private HashMap<String, Image> images;
 	private HashMap<String, Media> audio;
@@ -103,8 +109,8 @@ public class ControllerMain extends Application {
 	  initializeAssets();
 		theMap = new Map01();
 		thePlayer = new Player();
-		theTower = new BasicTower01();
-		theMob = new BasicMob01();
+		Tower theTower = new BasicTower01();
+		Mob theMob = new BasicMob01();
 		theMapView = new MapView();
 		theMenuView = new MenuView();
 		theScoreView = new ScoreView();
