@@ -37,6 +37,7 @@ public abstract class Mob {
 	private AttackAttribute attack;
 	private SpeedAttribute speed;
 	private DefenseAttribute defense; // i.e. hp
+	private double hp;
 	private ArmorAttribute armor;
 	private List<ResistanceAttribute> resistances;
 	private double radius;
@@ -71,10 +72,11 @@ public abstract class Mob {
 		this.name = name;
 		this.movementPath = movementPath;
 		this.pathIndex = 0;
-    this.currentLocation = this.movementPath[0];
-    this.pathIndex++;
-    this.id = Mob.IDNumber++;
-		
+	    this.currentLocation = this.movementPath.get(0);
+	    this.pathIndex++;
+	    this.id = Mob.IDNumber++;
+		this.hp=defense.getDefense();
+
 		initializeMovement();
 	}
 
@@ -193,6 +195,14 @@ public abstract class Mob {
 	*/
 	public void takeDamage(double damage, ElementalAttribute element) {
 		double newDamage = calculateNewDamage( damage, element);
+		
+		if(newDamage>=hp) {
+			hp=0;  //in case of some weird random bugs with oveflow, or underflow in this case
+			
+			
+		}
+		
+		
 	}
 	
 	
@@ -208,8 +218,15 @@ public abstract class Mob {
 	
 	
 	private double calculateNewDamage(double damage, ElementalAttribute element) {
-
-		return 0;
+		double newDamage=damage*element.getElementalMultiplier();
+		
+		for(ResistanceAttribute resistance: ResistanceAttribute.values()) {
+			if(resistance.name().equals(element.name())) {
+				newDamage*=(1-resistance.getResistance());
+			}
+		}
+		
+		return newDamage;
 	}
 }
 

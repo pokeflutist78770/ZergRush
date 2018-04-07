@@ -6,7 +6,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import javafx.application.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
@@ -16,6 +22,7 @@ import model.Mobs.BasicMob01;
 import model.Mobs.Mob;
 import model.Towers.BasicTower01;
 import model.Towers.Tower;
+import views.InstructionView;
 import views.MapView;
 import views.MenuView;
 import views.ScoreView;
@@ -82,13 +89,24 @@ public class ControllerMain extends Application {
   
 	private Map theMap;
 	private Player thePlayer;
+	private Tower theTower;
+	private Mob theMob;
 	private MapView theMapView;
 	private MenuView theMenuView;
+	private InstructionView theInstrView;
+	private Button startButton;
+	private Button instrButton;
+	private Button backButtonInstr;
+	private Button backButtonMap;
 	private ScoreView theScoreView;
 
 //	private HashMap<Integer, Projectile> projectiles;
 	private HashMap<String, Image> images;
 	private HashMap<String, Media> audio;
+	
+	private BorderPane window;
+	public static final int width = 800;
+	public static final int height = 800;
 	
 	private void initializeAssets() {
 	  initializeImages();
@@ -108,14 +126,67 @@ public class ControllerMain extends Application {
 	}
 	
 	public void start(Stage stage) throws Exception {
-	  initializeAssets();
-		theMap = new Map01();
+		initializeAssets();
+		//theMap = new Map01();
 		thePlayer = new Player();
 		Tower theTower = new BasicTower01();
-		Mob theMob = new BasicMob01();
-		theMapView = new MapView();
-		theMenuView = new MenuView();
+		//Mob theMob = new BasicMob01();
 		theScoreView = new ScoreView();
+		
+		// Initialize window
+	    window = new BorderPane();
+		
+	    // Initialize menu buttons
+		startButton = new Button("Start");
+		instrButton = new Button("Instructions");
+		backButtonMap = new Button("Back");
+		backButtonInstr = new Button("Back");
+		
+		menuButtonListener menuHandler = new menuButtonListener();
+		startButton.setOnAction(menuHandler);
+		instrButton.setOnAction(menuHandler);
+		backButtonMap.setOnAction(menuHandler);
+		backButtonInstr.setOnAction(menuHandler);
+		
+		// Initialize Menu View
+		theMenuView = new MenuView(startButton, instrButton);
+		this.setViewTo(theMenuView);
+		
+		// Initialize Instruction View
+		theInstrView = new InstructionView(backButtonInstr);
+		
+		// Initialize Map View
+		theMapView = new MapView(backButtonMap);
+		
+	    Scene scene = new Scene(window, width, height);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	private void setViewTo(StackPane newView) 
+	{
+		// Adjust the view to newView
+		window.setCenter(null);
+		window.setCenter(newView);
 	}
 
+	private class menuButtonListener implements EventHandler<ActionEvent>
+	{
+
+		@Override
+		public void handle(ActionEvent e) 
+		{
+			// Change to MapView or or InstructionsView depending on button
+			String buttonText = ((Button) e.getSource()).getText();
+			
+			if (buttonText.equals("Start"))
+				setViewTo(theMapView);
+			else if (buttonText.equals("Instructions"))
+				setViewTo(theInstrView);
+			else if (buttonText.equals("Back"))
+				setViewTo(theMenuView);
+		}
+		
+	}
+	
 }
