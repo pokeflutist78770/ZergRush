@@ -28,6 +28,7 @@ public class Map01 extends Map {
       Map.scalePoint(p);
     }
     
+    paths = new HashMap<Integer, Point[]>();
     this.paths.put(1, pathOne);
   }
   
