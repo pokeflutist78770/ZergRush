@@ -1,5 +1,11 @@
 package model.Maps;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import controller.ControllerMain;
+
 // You should have at least 3 maps.
 
 // Each map has a background image and contains a pre-defined path for enemies
@@ -26,8 +32,13 @@ package model.Maps;
 
 
 public abstract class Map {
-	
-  private Path mobRoute; // Each map class should have its own hardcoded path setup.
+  
+	public static void scalePoint(Point p) {
+	  int x = (int) p.getX();
+	  int y = (int) p.getY();
+	  p.setLocation((int) x*ControllerMain.GUI_SIZE/1000, (int)y*ControllerMain.GUI_SIZE/1000);
+	}
+  private HashMap<Integer, Point[]> paths; // Each map class should have its own hardcoded path setup.
   
   public Map () {
     constructMobRoute();

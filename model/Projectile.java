@@ -15,8 +15,15 @@ public class Projectile {
 	
 	private boolean hasReachedTarget() {
 		if(mob==null) {
-			if(currX!=targetX || currY!=targetY) {
-				return null;
+			//technically dont need the || as if its a straight path, till only
+			//be true if both positions are c
+			if(currX==targetX && currY==targetY) {
+				return true;
+			}
+		}
+		else {
+			if(currX==mob.getX() && currY==mob.getY()) {
+				return true;
 			}
 		}
 		

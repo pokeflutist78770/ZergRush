@@ -1,7 +1,12 @@
 package model.Towers;
 
+
 import model.Projectile;
 import model.Mobs.Mob;
+
+import java.util.Set;
+
+import controller.ControllerMain;
 
 // Towers are purchased by the player and placed strategically along the paths.
 
@@ -55,19 +60,49 @@ public abstract class Tower {
 	
 	private Range range;
 	private int numberOfAttacks;
-	private Ammunition ammmo; // This is meant to represent the type of thing a tower shoots.
+	private Ammunition ammo; // This is meant to represent the type of thing a tower shoots.
 	
 	private String imageFilePath;
 	private String ammoImageFilePath;
-
 	
-	/*
-	 * 
-	*/
-	public void shoot(Mob targetMob, targetX, targetY) {
-	  Projectile projectile=new Projectile(targetMob, targetX, targetY);
-		
+	public Tower(int c, int n, Ammunition a) {
+	  cost = c;
+	  numberOfAttacks = n;
+	  ammo = a;
+	  
+	  initializeTower();
 	}
+
+  private void initializeTower() {
+    
+    Thread towerAnxiety = new Thread(new Runnable() {
+
+      @Override
+      public void run() {
+        while(true) {
+          try {
+            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
+            
+            Set nearbyMobs = getNearbyMobs();
+            if (!nearbyMobs.isEmpty()) {
+              shoot(nearbyMobs);
+            }
+            
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+
+      private void shoot(Set nearbyMobs) {
+        
+      }
+
+      private Set getNearbyMobs() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    });
 }
 
 
