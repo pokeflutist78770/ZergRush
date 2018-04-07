@@ -145,54 +145,12 @@ public abstract class Mob {
 		return currentLocation.getY();
 	}
 	
-	/**
-	 * Calculate the direction this mob is moving.
-	 * @return A point representing the unit velocity vector of this mob.
-	 */
 	public Point getDirectionVector() {
-		// Get coordinates
-		Double xDir = targetLocation.getX() - currentLocation.getY();
-		Double yDir = targetLocation.getY() - currentLocation.getY();
-		
-		// Normalize
-		Double magnitude = Math.sqrt( xDir * xDir + yDir * yDir );
-		xDir = xDir / magnitude;
-		yDir = yDir / magnitude;
-		
-		return new Point((int) Math.round(xDir), (int) Math.round(yDir));
+	  return Metric.getDirectionVector(currentLocation, targetLocation);
 	}
 	
-	/**
-	 * Calculate the angle of the velocity of this mob in degrees.
-	 * @return A double representing the angle in degrees.
-	 */
 	public double getDirectionAngle() {
-	  // Get vector direction
-	  Point vDir = getDirectionVector();
-	  
-	  // Deal with vertical vectors
-	  if (vDir.getX() == 0) {
-	    if (vDir.getY() > 0) {
-	      return 90;
-	    }
-	    else {
-	      return 270;
-	    }
-	  }
-	  
-	  double ratio = vDir.getY() / vDir.getX();
-	  double base = Math.atan(ratio);
-	  double radianAngle = 0;
-	  
-	  if (vDir.getX() < 0) {
-	    radianAngle = base + Math.PI; 
-	  } else if (vDir.getY() < 0) {
-	    radianAngle = base + 2 * Math.PI;
-	  } else {
-	    radianAngle = base;
-	  }
-	  
-	  return Math.toDegrees(radianAngle);
+	  return Metric.getDirectionAngle(currentLocation, targetLocation);
 	}
 
 	/**

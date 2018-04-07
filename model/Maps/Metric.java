@@ -1,5 +1,7 @@
 package model.Maps;
 
+import java.awt.Point;
+
 /**
  * This class exists to provide a static method that determines if two points 
  * are within some distance of one another.
@@ -26,5 +28,55 @@ public class Metric {
 		
 		return deltaX * deltaX + deltaY * deltaY < distance * distance;
 	}
+  
+  /**
+   * Calculate the direction this mob is moving.
+   * @return A point representing the unit velocity vector of this mob.
+   */
+  public static Point getDirectionVector(Point currentLocation, Point targetLocation) {
+    // Get coordinates
+    Double xDir = targetLocation.getX() - currentLocation.getY();
+    Double yDir = targetLocation.getY() - currentLocation.getY();
+    
+    // Normalize
+    Double magnitude = Math.sqrt( xDir * xDir + yDir * yDir );
+    xDir = xDir / magnitude;
+    yDir = yDir / magnitude;
+    
+    return new Point((int) Math.round(xDir), (int) Math.round(yDir));
+  }
+  
+  /**
+   * Calculate the angle of the velocity of this mob in degrees.
+   * @return A double representing the angle in degrees.
+   */
+  public static double getDirectionAngle(Point currentLocation, Point targetLocation) {
+    // Get vector direction
+    Point vDir = getDirectionVector(currentLocation, targetLocation);
+    
+    // Deal with vertical vectors
+    if (vDir.getX() == 0) {
+      if (vDir.getY() > 0) {
+        return 90;
+      }
+      else {
+        return 270;
+      }
+    }
+    
+    double ratio = vDir.getY() / vDir.getX();
+    double base = Math.atan(ratio);
+    double radianAngle = 0;
+    
+    if (vDir.getX() < 0) {
+      radianAngle = base + Math.PI; 
+    } else if (vDir.getY() < 0) {
+      radianAngle = base + 2 * Math.PI;
+    } else {
+      radianAngle = base;
+    }
+    
+    return Math.toDegrees(radianAngle);
+  }
 
 }
