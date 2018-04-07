@@ -28,56 +28,55 @@ import model.Towers.ElementalAttribute;
 //enemies. You can mix and match this maps.
 
 public abstract class Mob {
-
-	// This constant tells how often a mob updates. 
-	// It is 1/60 of a second rounded to the nearest millisecond. 
+  
+  // Movement related fields
+  private Thread mobWalk; 
+  private Point currentLocation;
+  private Point targetLocation;
+  private Point[] movementPath;
+  private int pathIndex; 
 	
-	private static int IDNumber = 0;
-	private String name;
+
+  private double radius;
+  private ArmorAttribute armor;
 	private AttackAttribute attack;
+  private double hp;
 	private SpeedAttribute speed;
-	private DefenseAttribute defense; // i.e. hp
-	private ArmorAttribute armor;
 	private List<ResistanceAttribute> resistances;
-	private double radius;
 
-	// We'll probably have a different implementation for keeping track of 
-	// the associated images of a mob. This is a placeholder.
+	// String data of the mob.
+  private String name;
 	private String imageFilePath; 
-	
-	private Point currentLocation;
-	private Point targetLocation;
-	private Point[] movementPath;
-	private int pathIndex;
-	private int id;
 
-  private Thread mobWalk;
-
-  // The order of these arguments could probably be rearranged into a more logical order.
-	public Mob(String name, AttackAttribute attack, 
-			SpeedAttribute speed, DefenseAttribute defense, 
-			ArmorAttribute armor, List<ResistanceAttribute> resistances, 
-			String imageFP, Point[] movementPath, 
-			double radius) {
+  
+	public Mob(Point[] movementPath, double radius, 
+	    ArmorAttribute armor, AttackAttribute attack, 
+	    DefenseAttribute defense, SpeedAttribute speed,  
+	    List<ResistanceAttribute> resistances, 
+		  String name, String imageFP
+			) {
 		
 		// Initialize Attributes
-		this.attack=attack;
-		this.speed = speed;
-		this.defense = defense;
-		this.armor = armor;
-		this.resistances = resistances;
-		this.radius = radius;
-		this.imageFilePath = imageFP;
-		this.name = name;
-		this.movementPath = movementPath;
-		this.pathIndex = 0;
+    this.movementPath = movementPath;
+    this.pathIndex = 0;
     this.currentLocation = this.movementPath[0];
     this.pathIndex++;
-    this.id = Mob.IDNumber++;
-		
+
+    this.radius = radius;
+
+    this.armor = armor;
+		this.attack=attack;
+    this.hp=defense.getDefense();
+		this.speed = speed;
+		this.resistances = resistances;
+
+    this.name = name;
+		this.imageFilePath = imageFP;
+
 		initializeMovement();
 	}
 
+	
 	/**
 	 * This method gets the mob walking from its spawn location to the End-Zone.
 	 * Each mob runs its movement on its own thread and will tell you where it
@@ -92,7 +91,7 @@ public abstract class Mob {
 
 			@Override
 			public void run() {
-				while(true) {
+				while(!Thread.interrupted()) {
 					try {
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
@@ -145,54 +144,12 @@ public abstract class Mob {
 		return currentLocation.getY();
 	}
 	
-	/**
-	 * Calculate the direction this mob is moving.
-	 * @return A point representing the unit velocity vector of this mob.
-	 */
 	public Point getDirectionVector() {
-		// Get coordinates
-		Double xDir = targetLocation.getX() - currentLocation.getY();
-		Double yDir = targetLocation.getY() - currentLocation.getY();
-		
-		// Normalize
-		Double magnitude = Math.sqrt( xDir * xDir + yDir * yDir );
-		xDir = xDir / magnitude;
-		yDir = yDir / magnitude;
-		
-		return new Point((int) Math.round(xDir), (int) Math.round(yDir));
+	  return Metric.getDirectionVector(currentLocation, targetLocation);
 	}
 	
-	/**
-	 * Calculate the angle of the velocity of this mob in degrees.
-	 * @return A double representing the angle in degrees.
-	 */
 	public double getDirectionAngle() {
-	  // Get vector direction
-	  Point vDir = getDirectionVector();
-	  
-	  // Deal with vertical vectors
-	  if (vDir.getX() == 0) {
-	    if (vDir.getY() > 0) {
-	      return 90;
-	    }
-	    else {
-	      return 270;
-	    }
-	  }
-	  
-	  double ratio = vDir.getY() / vDir.getX();
-	  double base = Math.atan(ratio);
-	  double radianAngle = 0;
-	  
-	  if (vDir.getX() < 0) {
-	    radianAngle = base + Math.PI; 
-	  } else if (vDir.getY() < 0) {
-	    radianAngle = base + 2 * Math.PI;
-	  } else {
-	    radianAngle = base;
-	  }
-	  
-	  return Math.toDegrees(radianAngle);
+	  return Metric.getDirectionAngle(currentLocation, targetLocation);
 	}
 
 	/**
@@ -235,6 +192,19 @@ public abstract class Mob {
 	*/
 	public void takeDamage(double damage, ElementalAttribute element) {
 		double newDamage = calculateNewDamage( damage, element);
+		
+		if(newDamage>=hp) {
+			hp=0;  //in case of some weird random bugs with oveflow, or underflow in this case
+			
+			System.out.println("Mob Dead");    //Only for debugging o=purposes
+			
+			ControllerMain.mobs.remove(this);
+			mobWalk.interrupt();
+		}	
+		
+		hp-=newDamage;
+		
+		//cue animation of stuff for getting hurt
 	}
 	
 	
@@ -250,8 +220,21 @@ public abstract class Mob {
 	
 	
 	private double calculateNewDamage(double damage, ElementalAttribute element) {
-
-		return 0;
+		double newDamage=damage*element.getElementalMultiplier();
+		
+		for(ResistanceAttribute resistance: ResistanceAttribute.values()) {
+			if(resistance.name().equals(element.name())) {
+				newDamage*=(1-resistance.getResistance());
+			}
+		}
+		
+		newDamage*=(1-armor.getArmor());
+		
+		return newDamage;
+	}
+	
+	private boolean isDead() {
+		return hp<=0;
 	}
 }
 
