@@ -89,7 +89,7 @@ abstract public class Projectile {
     } else {
       return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), targetMob.getX(), targetMob.getY(), blastRadius);
     }
-	}
+  }
 
   private Mob getMob() {
     return targetMob;

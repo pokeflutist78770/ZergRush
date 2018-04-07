@@ -200,6 +200,8 @@ public abstract class Mob {
 		if(newDamage>=hp) {
 			hp=0;  //in case of some weird random bugs with oveflow, or underflow in this case
 			
+			System.out.println("Mob Dead");    //Only for debugging o=purposes
+			
 			ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
 		}	
@@ -233,6 +235,10 @@ public abstract class Mob {
 		newDamage*=(1-armor.getArmor());
 		
 		return newDamage;
+	}
+	
+	private boolean isDead() {
+		return hp<=0;
 	}
 }
 
