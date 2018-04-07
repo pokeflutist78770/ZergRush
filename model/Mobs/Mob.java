@@ -115,7 +115,7 @@ public abstract class Mob {
 		double oldY = currentLocation.getY();
 		
 		double spd = this.speed.toDouble();
-		Point unitV = getDirection();
+		Point unitV = getDirectionVector();
 		
 		double newX = oldX + spd * unitV.getX();
 		double newY = oldY + spd * unitV.getY();
@@ -143,7 +143,7 @@ public abstract class Mob {
 	 * Calculate the direction this mob is moving.
 	 * @return A point representing the unit velocity vector of this mob.
 	 */
-	public Point getDirection() {
+	public Point getDirectionVector() {
 		// Get coordinates
 		Double xDir = targetLocation.getX() - currentLocation.getY();
 		Double yDir = targetLocation.getY() - currentLocation.getY();
@@ -154,6 +154,11 @@ public abstract class Mob {
 		yDir = yDir / magnitude;
 		
 		return new Point((int) Math.round(xDir), (int) Math.round(yDir));
+	}
+	
+	public double getDirectionAngle() {
+	  // TODO: write this
+	  return 0;
 	}
 
 	/**
