@@ -31,7 +31,7 @@ public abstract class Mob {
 	// It is 1/60 of a second rounded to the nearest millisecond. 
 	private static final int UPDATE_FREQUENCY = 17;
 	
-	
+	private static int IDNumber = 0;
 	private String name;
 	private SpeedAttribute speed;
 	private DefenseAttribute defense; // i.e. hp
@@ -47,6 +47,7 @@ public abstract class Mob {
 	private Point targetLocation;
 	private Path movementPath;
 	private int pathIndex;
+	private int id;
 
   // The order of these arguments could probably be rearranged into a more logical order.
 	public Mob(String name, SpeedAttribute speed, DefenseAttribute defense, 
@@ -66,6 +67,7 @@ public abstract class Mob {
 		this.pathIndex = 0;
     this.currentLocation = this.movementPath.get(0);
     this.pathIndex++;
+    this.id = Mob.IDNumber++;
 		
 		initializeMovement();
 	}
