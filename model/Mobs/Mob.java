@@ -56,24 +56,24 @@ public abstract class Mob {
 		  String name, String imageFP
 			) {
 		
-		// Initialize Attributes
-    this.movementPath = movementPath;
-    this.pathIndex = 0;
-    this.currentLocation = this.movementPath[0];
-    this.pathIndex++;
+	  // Initialize Attributes
+      this.movementPath = movementPath;
+      this.pathIndex = 0;
+      this.currentLocation = this.movementPath[0];
+      this.pathIndex++;
 
-    this.radius = radius;
+      this.radius = radius;
 
-    this.armor = armor;
-		this.attack=attack;
-    this.hp=defense.getDefense();
-		this.speed = speed;
-		this.resistances = resistances;
+      this.armor = armor;
+	  this.attack=attack;
+      this.hp=defense.getDefense();
+	  this.speed = speed;
+	  this.resistances = resistances;
 
-    this.name = name;
-		this.imageFilePath = imageFP;
+      this.name = name;
+      this.imageFilePath = imageFP;
 
-		initializeMovement();
+	  initializeMovement();
 	}
 
 	
@@ -157,12 +157,12 @@ public abstract class Mob {
 	 * arrived at the End-Zone, then it calls the cleanup method.
 	 */
 	private void updateTarget() {
-		if (pathIndex < movementPath.length) {
-      targetLocation = movementPath[pathIndex];
-      pathIndex++;
-		} else {
-      cleanupMobEndZone();
-		}
+	  if (pathIndex < movementPath.length) {
+        targetLocation = movementPath[pathIndex];
+        pathIndex++;
+	  } else {
+        cleanupMobEndZone();
+	  }
 	}
 
 	
@@ -233,7 +233,7 @@ public abstract class Mob {
 		return newDamage;
 	}
 	
-	private boolean isDead() {
+	public boolean isDead() {
 		return hp<=0;
 	}
 }
