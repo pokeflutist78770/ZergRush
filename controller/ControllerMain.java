@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.application.*;
@@ -74,11 +75,12 @@ public class ControllerMain extends Application {
 	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
 	private Map theMap;
 	private Player thePlayer;
-	private Tower theTower;
-	private Mob theMob;
 	private MapView theMapView;
 	private MenuView theMenuView;
 	private ScoreView theScoreView;
+	private HashMap<Integer, Mob> mobs;
+	private ArrayList<Tower> towers;
+//	private HashMap<Integer, Projectile> projectiles;
 	private HashMap<String, Image> images;
 	private HashMap<String, Media> audio;
 	
