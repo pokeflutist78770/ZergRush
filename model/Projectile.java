@@ -74,10 +74,7 @@ abstract public class Projectile {
     return Metric.getDirectionAngle(currentLocation, getTargetLocation());
   }
 
-  protected void terminate() {
-    // TODO Auto-generated method stub
-    
-  }
+  abstract protected void terminate();
 
   protected void updateLocation() {
     double oldX = currentLocation.getX();
