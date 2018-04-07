@@ -127,7 +127,7 @@ public class ControllerMain extends Application {
 	
 	public void start(Stage stage) throws Exception {
 		initializeAssets();
-		//theMap = new Map01();
+		theMap = new Map01();
 		thePlayer = new Player();
 		Tower theTower = new BasicTower01();
 		//Mob theMob = new BasicMob01();

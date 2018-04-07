@@ -1,5 +1,6 @@
 package views;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +26,7 @@ public class MapView extends StackPane {
 		backButton = back;
 		pane = new BorderPane();
 		header = new Label("Map View");
-		
+
 		pane.setTop(header);
 		pane.setBottom(backButton);
 		this.getChildren().add(pane);
