@@ -4,8 +4,7 @@ package model.Mobs;
 public enum ArmorAttribute {
   
 	//DEMO is used only for testing, to show a full resistance to any shot
-	DEMO_ARMOR(1), LIGHT_ARMOR(.25), MEDIUM_ARMOR(.33), HEAVY_ARMOR(.5);
-	
+	DEMO_ARMOR(1), NONE(0), LIGHT_ARMOR(.25), MEDIUM_ARMOR(.33), HEAVY_ARMOR(.5);
 	
 	private double armor;
 	
