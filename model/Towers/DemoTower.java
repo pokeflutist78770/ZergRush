@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.Set;
 
 import controller.ControllerMain;
+import model.Mobs.Mob;
 
 public class DemoTower extends Tower {
   
@@ -12,7 +13,7 @@ public class DemoTower extends Tower {
   }
 
   @Override
-  public void shoot(Set nearbyMobs) {
+  public void shoot(Set<Mob> nearbyMobs) {
     // TODO Auto-generated method stub
     
   }

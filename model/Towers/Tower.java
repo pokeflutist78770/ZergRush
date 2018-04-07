@@ -115,7 +115,7 @@ public abstract class Tower {
 
   
 
-  abstract public void shoot(Set nearbyMobs);
+  abstract public void shoot(Set<Mob> nearbyMobs);
 
   private Set getNearbyMobs() {
     Set nearbyMobs = new HashSet();

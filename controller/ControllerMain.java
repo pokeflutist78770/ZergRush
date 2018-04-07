@@ -17,7 +17,7 @@ import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
 import model.Maps.Map;
-import model.Maps.Map01;
+import model.Maps.DemoMap;
 import model.Mobs.DemoMob;
 import model.Mobs.Mob;
 import model.Towers.DemoTower;
@@ -127,7 +127,7 @@ public class ControllerMain extends Application {
 	
 	public void start(Stage stage) throws Exception {
 		initializeAssets();
-		//theMap = new Map01();
+		theMap = new DemoMap();
 		thePlayer = new Player();
 		Tower theTower = new DemoTower();
 		//Mob theMob = new BasicMob01();

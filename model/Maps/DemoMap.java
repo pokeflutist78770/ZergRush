@@ -3,7 +3,7 @@ package model.Maps;
 import java.awt.Point;
 import java.util.HashMap;
 
-public class Map01 extends Map {
+public class DemoMap extends Map {
   private HashMap<Integer, Point[]> paths;
   @Override
   void constructMobRoute() {
@@ -28,6 +28,7 @@ public class Map01 extends Map {
       Map.scalePoint(p);
     }
     
+    paths = new HashMap<Integer, Point[]>();
     this.paths.put(1, pathOne);
   }
   
