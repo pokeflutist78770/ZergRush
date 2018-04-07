@@ -107,5 +107,7 @@ abstract public class Projectile {
     this.targetLocation = targetLocation;
   }
 	
+	
+	
 
 }

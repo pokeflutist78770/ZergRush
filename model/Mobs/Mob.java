@@ -76,6 +76,7 @@ public abstract class Mob {
 		initializeMovement();
 	}
 
+	
 	/**
 	 * This method gets the mob walking from its spawn location to the End-Zone.
 	 * Each mob runs its movement on its own thread and will tell you where it
@@ -90,7 +91,7 @@ public abstract class Mob {
 
 			@Override
 			public void run() {
-				while(true) {
+				while(!Thread.interrupted()) {
 					try {
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
@@ -195,10 +196,13 @@ public abstract class Mob {
 		if(newDamage>=hp) {
 			hp=0;  //in case of some weird random bugs with oveflow, or underflow in this case
 			
-			
-		}
+			ControllerMain.mobs.remove(this);
+			mobWalk.interrupt();
+		}	
 		
+		hp-=newDamage;
 		
+		//cue animation of stuff for getting hurt
 	}
 	
 	
@@ -221,6 +225,8 @@ public abstract class Mob {
 				newDamage*=(1-resistance.getResistance());
 			}
 		}
+		
+		newDamage*=(1-armor.getArmor());
 		
 		return newDamage;
 	}
