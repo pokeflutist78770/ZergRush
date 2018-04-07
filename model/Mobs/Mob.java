@@ -6,7 +6,6 @@ import java.util.List;
 import controller.ControllerMain;
 import model.Player;
 import model.Maps.Metric;
-import model.Maps.Path;
 import model.Towers.ElementalAttribute;
 
 //Enemies move towards the destination that the player will defend. We call
@@ -49,7 +48,7 @@ public abstract class Mob {
 	
 	private Point currentLocation;
 	private Point targetLocation;
-	private Path movementPath;
+	private Point[] movementPath;
 	private int pathIndex;
 	private int id;
 
@@ -59,7 +58,7 @@ public abstract class Mob {
 	public Mob(String name, AttackAttribute attack, 
 			SpeedAttribute speed, DefenseAttribute defense, 
 			ArmorAttribute armor, List<ResistanceAttribute> resistances, 
-			String imageFP, Path movementPath, 
+			String imageFP, Point[] movementPath, 
 			double radius) {
 		
 		// Initialize Attributes
@@ -77,6 +76,7 @@ public abstract class Mob {
 	    this.pathIndex++;
 	    this.id = Mob.IDNumber++;
 		this.hp=defense.getDefense();
+
 		initializeMovement();
 	}
 
@@ -87,7 +87,7 @@ public abstract class Mob {
 	 */
 	private void initializeMovement() {
 		
-		targetLocation = movementPath.get(pathIndex);
+		targetLocation = movementPath[pathIndex];
 		pathIndex++;
 		
 		mobWalk = new Thread(new Runnable() {
@@ -202,8 +202,8 @@ public abstract class Mob {
 	 * arrived at the End-Zone, then it calls the cleanup method.
 	 */
 	private void updateTarget() {
-		if (pathIndex < movementPath.size()) {
-      targetLocation = movementPath.get(pathIndex);
+		if (pathIndex < movementPath.length) {
+      targetLocation = movementPath[pathIndex];
       pathIndex++;
 		} else {
       cleanupMobEndZone();

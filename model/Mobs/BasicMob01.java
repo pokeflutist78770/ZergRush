@@ -1,8 +1,8 @@
 package model.Mobs;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
-import model.Maps.Path;
 
 /**
  * This mob illustrates how a specific mob can be designed around the abstract class.
@@ -14,10 +14,8 @@ import model.Maps.Path;
 public class BasicMob01 extends Mob {
   
   public BasicMob01() {
-    super("DemoMob", AttackAttribute.DEMO_ATTACK,
-    		SpeedAttribute.NORMAL, DefenseAttribute.DEMO_DEFENSE, 
-    		ArmorAttribute.DEMO_ARMOR, new ArrayList<ResistanceAttribute>(), "", 
-    		new Path(null), 100);
+    super("DemoMob", null, SpeedAttribute.NORMAL, DefenseAttribute.DEMO_DEFENSE, 
+        ArmorAttribute.DEMO_ARMOR, new ArrayList<ResistanceAttribute>(), "", new Point[1], 100);
   }
 
 }
