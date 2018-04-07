@@ -20,7 +20,7 @@ public class DemoMob extends Mob {
     super(path, ControllerMain.TILE_SIZE, 
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
         DefenseAttribute.DEMO_DEFENSE, SpeedAttribute.NORMAL, 
-        new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.DEMO_RESISTANCE)),
+        new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.DEMO)),
         "Chad", "");
   }
 

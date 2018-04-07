@@ -65,29 +65,34 @@ import model.Mobs.Mob;
 
 public abstract class Tower {
 	
+  private String name;
 	private int cost;
-	
-	private Range range;
-	private int numberOfAttacks;
-	private Ammunition ammo; // This is meant to represent the type of thing a tower shoots.
-	
-	private String imageFilePath;
-	private String ammoImageFilePath;
 
+  private Thread towerAnxiety;
   private Point location;
+  private Range range;
+
+
+  private String imageFilePath;
 	
-	public Tower(int c, int n, Ammunition a, Point p) {
-	  cost = c;
-	  numberOfAttacks = n;
-	  ammo = a;
-	  location = p;
+	public Tower(int cost, String name,
+	    Point location, Range range, 
+	    String imageFP
+	    ) {
+	  this.cost = cost;
+	  this.name = name;
+	  
+	  this.location = location;
+	  this.range = range;
+	  
+	  imageFilePath = imageFP;
 	  
 	  initializeTower();
 	}
 
   private void initializeTower() {
     
-    Thread towerAnxiety = new Thread(new Runnable() {
+    towerAnxiety = new Thread(new Runnable() {
 
       @Override
       public void run() {
