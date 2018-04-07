@@ -156,9 +156,37 @@ public abstract class Mob {
 		return new Point((int) Math.round(xDir), (int) Math.round(yDir));
 	}
 	
+	/**
+	 * Calculate the angle of the velocity of this mob in degrees.
+	 * @return A double representing the angle in degrees.
+	 */
 	public double getDirectionAngle() {
-	  // TODO: write this
-	  return 0;
+	  // Get vector direction
+	  Point vDir = getDirectionVector();
+	  
+	  // Deal with vertical vectors
+	  if (vDir.getX() == 0) {
+	    if (vDir.getY() > 0) {
+	      return 90;
+	    }
+	    else {
+	      return 270;
+	    }
+	  }
+	  
+	  double ratio = vDir.getY() / vDir.getX();
+	  double base = Math.atan(ratio);
+	  double radianAngle = 0;
+	  
+	  if (vDir.getX() < 0) {
+	    radianAngle = base + Math.PI; 
+	  } else if (vDir.getY() < 0) {
+	    radianAngle = base + 2 * Math.PI;
+	  } else {
+	    radianAngle = base;
+	  }
+	  
+	  return Math.toDegrees(radianAngle);
 	}
 
 	/**
