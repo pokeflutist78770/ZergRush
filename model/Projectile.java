@@ -11,24 +11,34 @@ import model.Towers.ElementalAttribute;
 // This is the object that is instantiated when the tower shoots. 
 //It keeps track of its location and it moves along until it reaches its target.
 abstract public class Projectile {
-
+  
+  private Thread kamakaziImperative;
+  private SpeedAttribute speed;
   private Point currentLocation;
   private Point targetLocation = null;
 	private Mob targetMob = null;
-  private String imgStr;
+
+  private double baseDmg;
   private ElementalAttribute dmgType;
-  private int baseDmg;
-  private Thread kamakaziImperative;
-  private SpeedAttribute speed;
   private double blastRadius;
+  
+
+  private String imgStr;
 	
-	public Projectile(String imgFilePath, ElementalAttribute ea, Point startLocation, 
-	    int baseDamage, SpeedAttribute spd) {
-		imgStr = imgFilePath;
+	public Projectile(Point startLocation, SpeedAttribute spd,
+	    double radius,
+	    double baseDamage,  ElementalAttribute ea,
+	    String imgFilePath
+	    ) {
+    currentLocation = startLocation;
+    speed = spd;
+    blastRadius = radius;
+    
+
+    baseDmg = baseDamage;
 		dmgType = ea;
-		currentLocation = startLocation;
-		baseDmg = baseDamage;
-		speed = spd;
+
+    imgStr = imgFilePath;
 		
 		initializeProjectile();
 	}

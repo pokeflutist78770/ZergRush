@@ -1,11 +1,14 @@
 package model.Towers;
 
+import java.awt.Point;
 import java.util.Set;
+
+import controller.ControllerMain;
 
 public class DemoTower extends Tower {
   
   public DemoTower() {
-    super(0, 0, null, null);
+    super(0, "Library", new Point(400,400), Range.demoRange, "");
   }
 
   @Override
