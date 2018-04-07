@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class BasicMob01 extends Mob {
   
   public BasicMob01() {
-    super("DemoMob", SpeedAttribute.NORMAL, DefenseAttribute.DEMO_DEFENSE, 
+    super("DemoMob", null, SpeedAttribute.NORMAL, DefenseAttribute.DEMO_DEFENSE, 
         ArmorAttribute.DEMO_ARMOR, new ArrayList<ResistanceAttribute>(), "", new Point[1], 100);
   }
 

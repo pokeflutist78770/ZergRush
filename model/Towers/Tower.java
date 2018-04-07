@@ -1,9 +1,16 @@
 package model.Towers;
 
+
+
+import model.Projectile;
+import model.Mobs.Mob;
+
+
 import java.awt.Point;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ListIterator;
+
 import java.util.Set;
 
 import controller.ControllerMain;
@@ -101,6 +108,8 @@ public abstract class Tower {
     });
   }
 
+  
+
   abstract public void shoot(Set nearbyMobs);
 
   private Set getNearbyMobs() {
@@ -118,6 +127,6 @@ public abstract class Tower {
   private boolean isNear(Mob nextMob) {
     return Metric.closeEnough(nextMob.getX(), nextMob.getY(), location.getX(), location.getY(), range.toDouble());
   }
-	
-
 }
+
+
