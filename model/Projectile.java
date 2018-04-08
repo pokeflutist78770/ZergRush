@@ -51,7 +51,7 @@ abstract public class Projectile {
 
       @Override
       public void run() {
-        while(true) {
+        while(!Thread.interrupted()) {
           try {
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
             
