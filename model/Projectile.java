@@ -95,9 +95,9 @@ abstract public class Projectile {
 
   private boolean hasReachedTarget() {
     if (targetMob == null) {
-       return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), targetLocation.getX(), targetLocation.getY(), blastRadius);
+       return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
     } else {
-      return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), targetMob.getX(), targetMob.getY(), blastRadius);
+      return Metric.closeEnough(currentLocation, targetMob.getLocation(), blastRadius);
     }
   }
 
