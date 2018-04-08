@@ -129,7 +129,7 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		theMap = new DemoMap();
 		thePlayer = new Player();
-		Tower theTower = new DemoTower();
+		//Tower theTower = new DemoTower();
 		//Mob theMob = new BasicMob01();
 		theScoreView = new ScoreView();
 		

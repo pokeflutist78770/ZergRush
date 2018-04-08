@@ -1,11 +1,16 @@
 package views;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 // You are required to have an instruction page. Treat this as a user-guide
@@ -21,15 +26,28 @@ import javafx.scene.text.Text;
 
 public class InstructionView extends StackPane {
 
+	private Image background;
 	private Button backButton;
 	private Label header;
 	private BorderPane pane;
+	private VBox vBox;
 	
 	public InstructionView(Button back)
 	{
 		backButton = back;
+		backButton.setMaxWidth(100);
 		header = new Label("Instructions Page");
 		pane = new BorderPane();
+		background = new Image("assets/images/sc.jpg", false);
+		vBox = new VBox();
+		
+		vBox.getChildren().add(backButton);
+		vBox.setPadding(new Insets(0,0,0,350));
+		
+		// Set background
+		ImageView imv = new ImageView();
+		imv.setImage(background);
+		this.getChildren().add(imv);
 		
 		Text instructions = new Text("OBJECTIVE\nThe objective of Tower Defense is to defend your command"
 				+ " center. Waves of enemies will spawn periodically, each wave stronger than the last.\n"
@@ -47,11 +65,11 @@ public class InstructionView extends StackPane {
 				+ "2) Select Start\n\n"
 				+ "END GAME\n"
 				+ "1) Select the Back button to return to Main Menu");
+		instructions.setFill(Color.WHITE);
 		
-		
-		pane.setTop(header);
 		pane.setCenter(instructions);
-		pane.setBottom(backButton);
+		pane.setBottom(vBox);
+		BorderPane.setMargin(vBox, new Insets(0,0,10,0));
 		this.getChildren().add(pane);
 	}
 	
