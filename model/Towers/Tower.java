@@ -65,15 +65,15 @@ import model.Mobs.Mob;
 
 public abstract class Tower {
 	
-  private String name;
-	private int cost;
+  protected String name;
+  protected int cost;
 
-  private Thread towerAnxiety;
-  private Point location;
-  private Range range;
+  protected Thread towerAnxiety;
+  protected Point location;
+  protected Range range;
 
 
-  private String imageFilePath;
+  protected String imageFilePath;
 	
 	public Tower(int cost, String name,
 	    Point location, Range range, 
@@ -91,6 +91,7 @@ public abstract class Tower {
 	}
 
   private void initializeTower() {
+    ControllerMain.towers.add(this);
     
     towerAnxiety = new Thread(new Runnable() {
 
@@ -115,7 +116,7 @@ public abstract class Tower {
 
   
 
-  abstract public void shoot(Set nearbyMobs);
+  abstract public void shoot(Set<Mob> nearbyMobs);
 
   private Set getNearbyMobs() {
     Set nearbyMobs = new HashSet();
@@ -130,7 +131,7 @@ public abstract class Tower {
   }
 
   private boolean isNear(Mob nextMob) {
-    return Metric.closeEnough(nextMob.getX(), nextMob.getY(), location.getX(), location.getY(), range.toDouble());
+    return Metric.closeEnough(nextMob.getLocation(), location, range.toDouble());
   }
 }
 

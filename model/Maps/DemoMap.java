@@ -3,12 +3,10 @@ package model.Maps;
 import java.awt.Point;
 import java.util.HashMap;
 
-public class Map01 extends Map {
+public class DemoMap extends Map {
   private HashMap<Integer, Point[]> paths;
   @Override
   void constructMobRoute() {
-    // TODO Auto-generated method stub
-    // You already have a Path called mobRoute that can be enqueued. Add points to it until you're happy.
     Point[] pathOne = {new Point(950, 950), 
         new Point(883, 820),
         new Point(817, 820),

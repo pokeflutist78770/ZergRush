@@ -12,18 +12,18 @@ import model.Towers.ElementalAttribute;
 //It keeps track of its location and it moves along until it reaches its target.
 abstract public class Projectile {
   
-  private Thread kamakaziImperative;
-  private SpeedAttribute speed;
-  private Point currentLocation;
-  private Point targetLocation = null;
-	private Mob targetMob = null;
+  protected Thread kamakaziImperative;
+  protected SpeedAttribute speed;
+  protected Point currentLocation;
+  protected Point targetLocation = null;
+  protected Mob targetMob = null;
 
-  private double baseDmg;
-  private ElementalAttribute dmgType;
-  private double blastRadius;
+  protected double baseDmg;
+  protected ElementalAttribute dmgType;
+  protected double blastRadius;
   
 
-  private String imgStr;
+  protected String imgStr;
 	
 	public Projectile(Point startLocation, SpeedAttribute spd,
 	    double radius,
@@ -44,11 +44,14 @@ abstract public class Projectile {
 	}
 	
 	private void initializeProjectile() {
+	  
+	  ControllerMain.projectiles.add(this);
+	  
 	  kamakaziImperative = new Thread(new Runnable() {
 
       @Override
       public void run() {
-        while(true) {
+        while(!Thread.interrupted()) {
           try {
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
             
@@ -74,10 +77,7 @@ abstract public class Projectile {
     return Metric.getDirectionAngle(currentLocation, getTargetLocation());
   }
 
-  protected void terminate() {
-    // TODO Auto-generated method stub
-    
-  }
+  abstract protected void terminate();
 
   protected void updateLocation() {
     double oldX = currentLocation.getX();
@@ -95,17 +95,17 @@ abstract public class Projectile {
 
   private boolean hasReachedTarget() {
     if (targetMob == null) {
-       return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), targetLocation.getX(), targetLocation.getY(), blastRadius);
+       return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
     } else {
-      return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), targetMob.getX(), targetMob.getY(), blastRadius);
+      return Metric.closeEnough(currentLocation, targetMob.getLocation(), blastRadius);
     }
   }
 
-  private Mob getMob() {
+  protected Mob getMob() {
     return targetMob;
   }
 
-  private void setMob(Mob mob) {
+  protected void setMob(Mob mob) {
     this.targetMob = mob;
   }
 

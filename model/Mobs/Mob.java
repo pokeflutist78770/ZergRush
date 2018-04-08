@@ -180,6 +180,7 @@ public abstract class Mob {
 			attack(ControllerMain.thePlayer);
 		}
 		
+		
 	}
 
 	
@@ -257,6 +258,11 @@ public abstract class Mob {
 	*/
 	public boolean isDead() {
 		return hp<=0;
+	}
+
+
+	public double getRadius() {
+		return radius;
 	}
 }
 
