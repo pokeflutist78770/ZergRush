@@ -83,6 +83,7 @@ public abstract class Mob {
 	 * is, if asked.
 	 */
 	private void initializeMovement() {
+	  ControllerMain.mobs.add(this);
 		
 		targetLocation = movementPath[pathIndex];
 		pathIndex++;
@@ -169,7 +170,7 @@ public abstract class Mob {
 	// What do we do when a mob reaches the End-Zone???
 	private void cleanupMobEndZone() {
 		// TODO Auto-generated method stub
-		
+	  
 	}
 
 	
@@ -179,8 +180,7 @@ public abstract class Mob {
 	 * @return True, if the mob has reached its target. False, otherwise.
 	 */
 	private boolean reachedTarget() {
-		return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), 
-				targetLocation.getX(), targetLocation.getY(), radius);
+		return Metric.closeEnough(currentLocation, targetLocation, radius);
 	}
 	
 	
@@ -236,6 +236,21 @@ public abstract class Mob {
 	public boolean isDead() {
 		return hp<=0;
 	}
+
+
+  public double getRadius() {
+    return radius;
+  }
+
+
+  public void setRadius(double radius) {
+    this.radius = radius;
+  }
+
+
+  public Point getLocation() {
+    return currentLocation;
+  }
 }
 
 

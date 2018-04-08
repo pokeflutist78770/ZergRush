@@ -20,13 +20,15 @@ public class Metric {
 	 * @return True, if the distance between the two points is less than the 
 	 * distance provided. False, otherwise.
 	 */
-	public static boolean closeEnough(double x1, double y1, 
-			                          double x2, double y2, 
-			                          double distance) {
-		double deltaX = x1 - x2;
-		double deltaY = y1 - y2;
-		
-		return deltaX * deltaX + deltaY * deltaY < distance * distance;
+	public static boolean closeEnough(Point p1, Point p2, double distance) {
+		return distanceSquared(p1, p2) < distance * distance;
+	}
+	
+	public static double distanceSquared(Point p1, Point p2) {
+	  double deltaX = p1.getX() - p2.getX();
+	  double deltaY = p1.getY() - p2.getY();
+	  
+	  return deltaX * deltaX + deltaY * deltaY;
 	}
   
   /**
