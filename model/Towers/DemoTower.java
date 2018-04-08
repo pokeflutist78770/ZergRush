@@ -36,8 +36,8 @@ public class DemoTower extends Tower {
   }
 
   private boolean isCloser(Mob closest, Mob nextMob) {
-    double winnerDist2 = Metric.distanceSquared(location, closest.getLocation());
-    double nextDist2 = Metric.distanceSquared(location, nextMob.getLocation());
+    double winnerDist2 = Metric.distanceSquared(location, closest.getCurrentLocation());
+    double nextDist2 = Metric.distanceSquared(location, nextMob.getCurrentLocation());
     return winnerDist2 < nextDist2;
   }
 }

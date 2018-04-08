@@ -131,7 +131,7 @@ public abstract class Tower {
   }
 
   private boolean isNear(Mob nextMob) {
-    return Metric.closeEnough(nextMob.getLocation(), location, range.toDouble());
+    return Metric.closeEnough(nextMob.getCurrentLocation(), location, range.toDouble());
   }
 }
 

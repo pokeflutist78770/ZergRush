@@ -190,8 +190,7 @@ public abstract class Mob {
 	 * @return True, if the mob has reached its target. False, otherwise.
 	 */
 	private boolean reachedTarget() {
-		return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), 
-				targetLocation.getX(), targetLocation.getY(), radius);
+		return Metric.closeEnough(currentLocation, targetLocation, radius);
 	}
 	
 	
@@ -264,6 +263,12 @@ public abstract class Mob {
 	public double getRadius() {
 		return radius;
 	}
+
+
+  public Point getCurrentLocation() {
+    return currentLocation;
+  }
+
 }
 
 

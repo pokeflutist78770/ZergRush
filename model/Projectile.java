@@ -97,7 +97,7 @@ abstract public class Projectile {
     if (targetMob == null) {
        return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
     } else {
-      return Metric.closeEnough(currentLocation, targetMob.getLocation(), blastRadius);
+      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius);
     }
   }
 
