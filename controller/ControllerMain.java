@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -129,6 +130,8 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		theMap = new DemoMap();
 		thePlayer = new Player();
+	    
+		mobs = new HashSet<Mob>();
 		//Tower theTower = new DemoTower();
 		//Mob theMob = new BasicMob01();
 		theScoreView = new ScoreView();

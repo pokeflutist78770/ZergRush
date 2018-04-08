@@ -87,9 +87,8 @@ public abstract class Mob {
 		
 		targetLocation = movementPath[pathIndex];
 		pathIndex++;
-		
 		mobWalk = new Thread(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				while(!Thread.interrupted()) {
@@ -125,6 +124,7 @@ public abstract class Mob {
 		
 		double newX = oldX + spd * unitV.getX();
 		double newY = oldY + spd * unitV.getY();
+		
 		
 		currentLocation.setLocation(newX, newY);
 	}
