@@ -86,9 +86,10 @@ public class ControllerMain extends Application {
   public static HashSet mobs;
   public static HashSet projectiles; 
   public static ArrayList<Tower> towers;
+  public static Player thePlayer;
   
 	private Map theMap;
-	private Player thePlayer;
+	//private Player thePlayer;
 	private Tower theTower;
 	private Mob theMob;
 	private MapView theMapView;

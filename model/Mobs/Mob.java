@@ -35,18 +35,18 @@ public abstract class Mob {
   private Point targetLocation;
   private Point[] movementPath;
   private int pathIndex; 
-	
+  private int attackTime;
 
   private double radius;
   private ArmorAttribute armor;
-	private AttackAttribute attack;
-  private double hp;
-	private SpeedAttribute speed;
-	private List<ResistanceAttribute> resistances;
+  private AttackAttribute attack;
+  public double hp; 
+  private SpeedAttribute speed;
+  private List<ResistanceAttribute> resistances;
 
 	// String data of the mob.
   private String name;
-	private String imageFilePath; 
+  private String imageFilePath; 
 
   
 	public Mob(Point[] movementPath, double radius, 
@@ -73,6 +73,7 @@ public abstract class Mob {
       this.name = name;
       this.imageFilePath = imageFP;
 
+      attackTime=0;
 	  initializeMovement();
 	}
 
@@ -98,8 +99,9 @@ public abstract class Mob {
 						if (reachedTarget()) {
 							updateTarget();
 						}
-						
-						takeStep();
+						else {
+							takeStep();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -166,9 +168,17 @@ public abstract class Mob {
 	}
 
 	
-	// What do we do when a mob reaches the End-Zone???
+	/* cleanupMobEndZone
+	 * handles when a mob has reached end zone
+	 * Parameters: None
+	 * Returns: None
+	*/
 	private void cleanupMobEndZone() {
-		// TODO Auto-generated method stub
+		attackTime++;
+		
+		if(attackTime%60==0) {
+			attack(ControllerMain.thePlayer);
+		}
 		
 	}
 
@@ -219,6 +229,12 @@ public abstract class Mob {
 	}
 	
 	
+	/* calculateNewDamage
+	 * calculates a new damage based on modifieers
+	 * Parameters: damage: base damage
+	 * 			   element: element attribute
+	 * Returns: double representing the new damage 
+	*/
 	private double calculateNewDamage(double damage, ElementalAttribute element) {
 		double newDamage=damage*element.getElementalMultiplier();
 		
@@ -233,6 +249,12 @@ public abstract class Mob {
 		return newDamage;
 	}
 	
+	
+	/* isDead
+	 * returns if mob is dead or not
+	 * Parameters: None
+	 * Returns: boolean representing if dead
+	*/
 	public boolean isDead() {
 		return hp<=0;
 	}
