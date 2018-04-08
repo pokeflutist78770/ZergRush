@@ -17,8 +17,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
-import model.Maps.Map;
 import model.Maps.DemoMap;
+import model.Maps.Map;
 import model.Mobs.DemoMob;
 import model.Mobs.Mob;
 import model.Towers.DemoTower;
@@ -129,7 +129,7 @@ public class ControllerMain extends Application {
 	
 	public void start(Stage stage) throws Exception {
 		initializeAssets();
-		theMap = new DemoMap();
+		//theMap = new DemoMap();
 		thePlayer = new Player();
 	    
 		mobs = new HashSet<Mob>();

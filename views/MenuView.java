@@ -27,7 +27,7 @@ public class MenuView extends StackPane {
 		startButton.setMaxWidth(100);
 		instrButton = instr;
 		instrButton.setMaxWidth(100);
-		background = new Image("assets/images/sc.jpg", false);
+		background = new Image("file:assets/images/sc.jpg", false);
 		
 		// Set background
 		ImageView imv = new ImageView();

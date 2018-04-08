@@ -1,5 +1,8 @@
 package views;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,7 +41,7 @@ public class InstructionView extends StackPane {
 		backButton.setMaxWidth(100);
 		header = new Label("Instructions Page");
 		pane = new BorderPane();
-		background = new Image("assets/images/sc.jpg", false);
+		background = new Image("file:assets/images/sc.jpg", false);
 		vBox = new VBox();
 		
 		vBox.getChildren().add(backButton);
