@@ -103,14 +103,15 @@ public class ControllerMain extends Application {
 	private ScoreView theScoreView;
 
 //	private HashMap<Integer, Projectile> projectiles;
-	private HashMap<String, Image> images;
 	private HashMap<String, Media> audio;
 	
 	private BorderPane window;
 	public static final int width = 800;
 	public static final int height = 800;
+  private static HashMap<String,Image> imageMap;
 	
 	private void initializeAssets() {
+	  imageMap = new HashMap<String,Image>();
 	  initializeImages();
 	  initializeAudio();
 	}
@@ -129,7 +130,7 @@ public class ControllerMain extends Application {
 	
 	public void start(Stage stage) throws Exception {
 		initializeAssets();
-		//theMap = new DemoMap();
+		theMap = new DemoMap();
 		thePlayer = new Player();
 	    
 		mobs = new HashSet<Mob>();
@@ -191,6 +192,13 @@ public class ControllerMain extends Application {
 				setViewTo(theMenuView);
 		}
 		
+	}
+	
+	public static Image getGraphic(String imgfp) {
+	  if (!imageMap.containsKey(imgfp)) {
+      imageMap.put(imgfp, new Image("file:images/"  + imgfp + ".png"));
+	  }
+	  return imageMap.get(imgfp);
 	}
 	
 }
