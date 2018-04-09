@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
+import model.Projectile;
 import model.Maps.DemoMap;
 import model.Maps.Map;
 import model.Mobs.DemoMob;
@@ -84,9 +85,9 @@ public class ControllerMain extends Application {
 	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
   public static final int UPDATE_FREQUENCY = 17;
   
-  public static HashSet mobs;
-  public static HashSet projectiles; 
-  public static ArrayList<Tower> towers;
+  public static HashSet mobs = new HashSet<Mob>();
+  public static HashSet projectiles = new HashSet<Projectile>(); 
+  public static ArrayList<Tower> towers = new ArrayList<Tower>();
   public static Player thePlayer;
   
 	private Map theMap;
@@ -130,7 +131,6 @@ public class ControllerMain extends Application {
 	
 	public void start(Stage stage) throws Exception {
 		initializeAssets();
-		theMap = new DemoMap();
 		thePlayer = new Player();
 	    		
 		mobs = new HashSet<Mob>();
@@ -185,7 +185,25 @@ public class ControllerMain extends Application {
 			
 			if (buttonText.equals("Start"))
 			{
+			  System.out.println("We got here!");
 				setViewTo(theMapView);
+		    theMap = new DemoMap();
+		    Thread playingNow = new Thread(new Runnable() {
+
+          @Override
+          public void run() {
+            while(true) {
+              try {
+                System.out.println("Thread started");
+                Thread.sleep((long) 100);
+                theMapView.drawMap();
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+            }
+          }
+		    });
+		    playingNow.start();
 			}
 			else if (buttonText.equals("Instructions"))
 				setViewTo(theInstrView);
@@ -197,7 +215,7 @@ public class ControllerMain extends Application {
 	
 	public static Image getGraphic(String imgfp) {
 	  if (!imageMap.containsKey(imgfp)) {
-      imageMap.put(imgfp, new Image("file:images/"  + imgfp + ".png"));
+      imageMap.put(imgfp, new Image(imgfp));
 	  }
 	  return imageMap.get(imgfp);
 	}

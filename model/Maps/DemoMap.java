@@ -16,7 +16,7 @@ public class DemoMap extends Map {
   private long spawnFreq = 5000;
   
   public DemoMap() {
-    imageFilePath = "file:assets.images/sc.jpg";
+    super("file:assets/images/sc.jpg");
     
     initializeTowers();
     initializeSpawnCycle();

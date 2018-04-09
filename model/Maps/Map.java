@@ -44,8 +44,10 @@ public abstract class Map {
 	}
   protected HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
   
-  public Map () {
+  public Map (String imgFp) {
+    paths = new HashMap<Integer, List<Point>>();
     constructMobRoute();
+    imageFilePath = imgFp;
   }
   
   public Image getImage() {

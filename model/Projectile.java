@@ -130,6 +130,13 @@ abstract public class Projectile {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }
 	
+	public double getX() {
+	  return currentLocation.getX();
+	}
+	
+	public double getY() {
+	  return currentLocation.getY();
+	}
 	
 	
 
