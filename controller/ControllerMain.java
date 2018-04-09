@@ -93,6 +93,7 @@ public class ControllerMain extends Application {
   public static Thread playingNow;
   public static Pane currentView;
   public static Stage stage; 
+  public static boolean isPlaying;
   
 	private Map theMap;
 	private Tower theTower;
@@ -114,6 +115,12 @@ public class ControllerMain extends Application {
 	public static final int height = 800;
     private static HashMap<String,Image> imageMap;
 	
+    
+    /* initializeAssets
+     * Initializes all images and sound, allowing for a flyweight design pattern
+     * Parameters: Nonw
+     * Returns: None
+    */
 	private void initializeAssets() {
 	  imageMap = new HashMap<String,Image>();
 	  initializeImages();
@@ -165,12 +172,19 @@ public class ControllerMain extends Application {
 		
 		// Initialize Map View
 		theMapView = new MapView(backButtonMap);
+		isPlaying=false;
 		
 	    Scene scene = new Scene(window, width, height);
 		stage.setScene(scene);
 		stage.show();
 	}
 	
+	
+	/* setViewTo
+	 * changes the current view that the usere can see
+	 * Parameters: newView: the new view to be able to change
+	 * Returns: None
+	*/
 	private static void setViewTo(StackPane newView) 
 	{
 		// Adjust the view to newView
@@ -179,6 +193,10 @@ public class ControllerMain extends Application {
 		currentView=newView;
 	}
 
+	
+	/* menuButtonListener
+	 * Listener to check different button clicks
+	*/
 	private class menuButtonListener implements EventHandler<ActionEvent>
 	{
 
@@ -188,24 +206,32 @@ public class ControllerMain extends Application {
 		  // Change to MapView or or InstructionsView depending on button
 		  String buttonText = ((Button) e.getSource()).getText();
 			
+		  //User wishes to start a game
 		  if (buttonText.equals("Start"))
 		  {
 			setViewTo(theMapView);
 		    theMap = new DemoMap();
 		    thePlayer.resetStats();
+		    isPlaying=true;
 		    
+		    //thread to show a playing game
 		    playingNow = new Thread(new Runnable() {
 	          @Override
 	          public void run() {
 	        	try {
-	              while(!Thread.interrupted()) {
+	              while(true) {
 	              
 	                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 	                theMapView.drawMap();
-	                if(thePlayer.isDead()) {
+	                
+	                //game is over
+	                if(!isPlaying) {
 	                	System.out.println("YOU LOSE");
+	                	break;
 	                }
 	              }
+	              
+	              System.out.println("Gameplay Thread: Ended");
 	            } catch (InterruptedException e) {
 	              e.printStackTrace();
 	            }
@@ -216,11 +242,18 @@ public class ControllerMain extends Application {
 			
 		  else if (buttonText.equals("Instructions"))
 			setViewTo(theInstrView);
+		  
 		  else if (buttonText.equals("Back"))
 			setViewTo(theMenuView);
 		}	
 	}
 	
+	
+	/* getGraphic
+	 * Gets a asset image for a given string
+	 * Parameters: imgfp: filepath of the image
+	 * Returns: None
+	*/
 	public static Image getGraphic(String imgfp) {
 	  if (!imageMap.containsKey(imgfp)) {
         imageMap.put(imgfp, new Image(imgfp));
@@ -228,11 +261,14 @@ public class ControllerMain extends Application {
 	  return imageMap.get(imgfp);
 	}
 	
-	
+	/* resetMainMenu
+	 * brings the game back to the main menu
+	*/
 	public static void resetMainMenu() {
 		setViewTo(theMenuView);
 	}
 	
+	//gets the mai nstage for the game
 	public static Stage getStage() {
 		return stage;
 	}

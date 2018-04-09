@@ -225,6 +225,8 @@ public abstract class Mob {
 			ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
 			
+			ControllerMain.isPlaying=false;
+			
 			Platform.runLater(() -> {
 				//This code will be moved to when a player reaches a set amount of waves, 
 				//but for the demo this will suffice

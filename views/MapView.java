@@ -39,13 +39,13 @@ import model.Towers.Tower;
 
 public class MapView extends StackPane {
 
-
 	private Button backButton;
 	private StackPane pane;
 	private Image background;
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private VBox vBox;
+	
 	
 	public MapView(Button back)
 	{
@@ -54,7 +54,7 @@ public class MapView extends StackPane {
 		pane = new StackPane();
 		canvas = new Canvas(800,800);
 		gc = canvas.getGraphicsContext2D();
-		background = new Image("file:assets/images/sc.jpg", false);
+		background = new Image("file:assets/images/map/demoMap.png", false);
 		
 		// Draw background
 		gc.drawImage(background, 0.0, 0.0);
@@ -69,27 +69,35 @@ public class MapView extends StackPane {
 		this.getChildren().add(pane);
 	}
 
+	
+	/* drawMap
+	 * Draws the overall map and mobs/towers every iteration
+	 * Parameters: None
+	 * Returns: None
+	*/
 	public void drawMap()
 	{
 	  gc.drawImage(background, 0, 0);
-    Iterator<Tower> towitr = ControllerMain.towers.iterator();
-    while (towitr.hasNext()) {
-      Tower nextTower = towitr.next();
-      gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
-    }
+	  
+	  //draws all current towers
+      Iterator<Tower> towitr = ControllerMain.towers.iterator();
+      while (towitr.hasNext()) {
+        Tower nextTower = towitr.next();
+        gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
+      }
+      
+      //draws every mob
 	  Iterator<Mob> mobitr = ControllerMain.mobs.iterator();
 	  while (mobitr.hasNext()) {
 	    Mob nextMob = mobitr.next();
 	    gc.drawImage(nextMob.getImage(), nextMob.getX(), nextMob.getY());
 	  }
 	  
+	  //drasws any current rojectiles
 	  Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
 	  while (projitr.hasNext()) {
 	    Projectile nextProj = projitr.next();
 	    gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
-	  }
-	  
-		
+	  }	
 	}
-	
 }

@@ -97,21 +97,30 @@ public abstract class Tower {
 
       @Override
       public void run() {
-        while(true) {
-          try {
+    	try {
+          while(true) {
+          
             Thread.sleep((long) 60*ControllerMain.UPDATE_FREQUENCY);
             
             Set nearbyMobs = getNearbyMobs();
             if (!nearbyMobs.isEmpty()) {
+              System.out.println(ControllerMain.isPlaying);
               shoot(nearbyMobs);
+              System.out.println(ControllerMain.isPlaying);
             }
             
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
+            if(!ControllerMain.isPlaying) {
+            	break;
+            }
+          }  
+          
+          System.out.println("Tower Thread: Ended");
+    	} catch (InterruptedException e) {
+          e.printStackTrace();
         }
       }
     });
+    
     towerAnxiety.start();
   }
 
