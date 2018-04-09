@@ -17,5 +17,21 @@ package model;
 // Players should largely use the mouse as device to play the game.
 
 public class Player {
-
+	//just a default for now until mob attacks and balances are sorted out
+	//Maybe even when difficulties are added, decrease health as such, 
+	private double HP=100;   
+	
+	
+	public void takeDamage(double damage) {
+		if(damage<=HP) {
+			HP-=damage;
+		}
+		
+		if(HP<=0) {
+			System.out.println("Player lost");
+			
+			//display loss screen
+		}
+		
+	}
 }

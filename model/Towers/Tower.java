@@ -1,8 +1,22 @@
 package model.Towers;
 
+
+
+import model.Projectile;
+import model.Mobs.Mob;
+
+
+import java.awt.Point;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
+
 import java.util.Set;
 
 import controller.ControllerMain;
+import javafx.scene.image.Image;
+import model.Maps.Metric;
+import model.Mobs.Mob;
 
 // Towers are purchased by the player and placed strategically along the paths.
 
@@ -52,32 +66,40 @@ import controller.ControllerMain;
 
 public abstract class Tower {
 	
-	private int cost;
+  protected String name;
+  protected int cost;
+
+  protected Thread towerAnxiety;
+  protected Point location;
+  protected Range range;
+
+
+  private String imageFilePath;
 	
-	private Range range;
-	private int numberOfAttacks;
-	private Ammunition ammo; // This is meant to represent the type of thing a tower shoots.
-	
-	private String imageFilePath;
-	private String ammoImageFilePath;
-	
-	public Tower(int c, int n, Ammunition a) {
-	  cost = c;
-	  numberOfAttacks = n;
-	  ammo = a;
+	public Tower(int cost, String name,
+	    Point location, Range range, 
+	    String imageFP
+	    ) {
+	  this.cost = cost;
+	  this.name = name;
+	  
+	  this.location = location;
+	  this.range = range;
+	  
+	  imageFilePath = imageFP;
 	  
 	  initializeTower();
 	}
 
   private void initializeTower() {
     
-    Thread towerAnxiety = new Thread(new Runnable() {
+    towerAnxiety = new Thread(new Runnable() {
 
       @Override
       public void run() {
         while(true) {
           try {
-            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
+            Thread.sleep((long) 60*ControllerMain.UPDATE_FREQUENCY);
             
             Set nearbyMobs = getNearbyMobs();
             if (!nearbyMobs.isEmpty()) {
@@ -89,18 +111,50 @@ public abstract class Tower {
           }
         }
       }
-
-      private void shoot(Set nearbyMobs) {
-        // TODO Auto-generated method stub
-        
-      }
-
-      private Set getNearbyMobs() {
-        // TODO Auto-generated method stub
-        return null;
-      }
     });
+    towerAnxiety.start();
   }
-	
 
+  
+
+  abstract public void shoot(Set<Mob> nearbyMobs);
+
+  private Set getNearbyMobs() {
+    Set nearbyMobs = new HashSet();
+    Iterator<Mob> itr = ControllerMain.mobs.iterator();
+    while(itr.hasNext()) {
+       Mob nextMob = itr.next();
+       if (isNear(nextMob)) {
+         nearbyMobs.add(nextMob);
+       }
+    }
+    return nearbyMobs;
+  }
+
+  private boolean isNear(Mob nextMob) {
+    return Metric.closeEnough(nextMob.getCurrentLocation(), location, range.toDouble());
+  }
+
+  public String getImageFilePath() {
+    return imageFilePath;
+  }
+
+  public void setImageFilePath(String imageFilePath) {
+    this.imageFilePath = imageFilePath;
+  }
+  
+  public Image getImage() {
+    return ControllerMain.getGraphic(this.getImageFilePath());
+  }
+  
+  public double getX() {
+    return location.getX();
+  }
+  
+  public double getY() {
+    return location.getY();
+  }
+  
 }
+
+

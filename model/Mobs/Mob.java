@@ -4,8 +4,11 @@ import java.awt.Point;
 import java.util.List;
 
 import controller.ControllerMain;
+import javafx.scene.image.Image;
+import model.Player;
 import model.Maps.Metric;
-import model.Maps.Path;
+import model.Towers.ElementalAttribute;
+import views.MapView;
 
 //Enemies move towards the destination that the player will defend. We call
 //this the End-Zone.
@@ -27,53 +30,56 @@ import model.Maps.Path;
 //enemies. You can mix and match this maps.
 
 public abstract class Mob {
+  
+  // Movement related fields
+  private Thread mobWalk; 
+  private Point currentLocation;
+  private Point targetLocation;
+  private List<Point> movementPath;
+  private int pathIndex; 
+  private int attackTime;
 
-	// This constant tells how often a mob updates. 
-	// It is 1/60 of a second rounded to the nearest millisecond. 
-	
-	private static int IDNumber = 0;
-	private String name;
-	private SpeedAttribute speed;
-	private DefenseAttribute defense; // i.e. hp
-	private ArmorAttribute armor;
-	private List<ResistanceAttribute> resistances;
-	private double radius;
+  private double radius;
+  private ArmorAttribute armor;
+  private AttackAttribute attack;
+  public double hp; 
+  private SpeedAttribute speed;
+  private List<ResistanceAttribute> resistances;
 
-	// We'll probably have a different implementation for keeping track of 
-	// the associated images of a mob. This is a placeholder.
-	private String imageFilePath; 
-	
-	private Point currentLocation;
-	private Point targetLocation;
-	private Path movementPath;
-	private int pathIndex;
-	private int id;
+	// String data of the mob.
+  private String name;
+  private String imageFilePath; 
 
-  private Thread mobWalk;
-
-  // The order of these arguments could probably be rearranged into a more logical order.
-	public Mob(String name, SpeedAttribute speed, DefenseAttribute defense, 
-			ArmorAttribute armor, List<ResistanceAttribute> resistances, 
-			String imageFP, Path movementPath, 
-			double radius) {
+  
+	public Mob(List<Point> movementPath, double radius, 
+	    ArmorAttribute armor, AttackAttribute attack, 
+	    DefenseAttribute defense, SpeedAttribute speed,  
+	    List<ResistanceAttribute> resistances, 
+		  String name, String imageFP) {
 		
-		// Initialize Attributes
-		this.speed = speed;
-		this.defense = defense;
-		this.armor = armor;
-		this.resistances = resistances;
-		this.radius = radius;
-		this.imageFilePath = imageFP;
-		this.name = name;
-		this.movementPath = movementPath;
-		this.pathIndex = 0;
-    this.currentLocation = this.movementPath.get(0);
-    this.pathIndex++;
-    this.id = Mob.IDNumber++;
-		
-		initializeMovement();
+	  // Initialize Attributes
+      this.movementPath = movementPath;
+      this.pathIndex = 0;
+      System.out.println(movementPath.get(0).getX());
+      this.currentLocation = this.movementPath.get(0);
+      this.pathIndex++;
+
+      this.radius = radius;
+
+      this.armor = armor;
+	  this.attack=attack;
+      this.hp=new Double(defense.getDefense());
+	  this.speed = speed;
+	  this.resistances = resistances;
+
+      this.name = name;
+      this.imageFilePath = imageFP;
+
+      attackTime=0;
+	  initializeMovement();
 	}
 
+	
 	/**
 	 * This method gets the mob walking from its spawn location to the End-Zone.
 	 * Each mob runs its movement on its own thread and will tell you where it
@@ -83,20 +89,20 @@ public abstract class Mob {
 		
 		targetLocation = movementPath.get(pathIndex);
 		pathIndex++;
-		
 		mobWalk = new Thread(new Runnable() {
-
+			
 			@Override
 			public void run() {
-				while(true) {
+				while(!Thread.interrupted()) {
 					try {
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
 						if (reachedTarget()) {
 							updateTarget();
 						}
-						
-						takeStep();
+						else {
+							takeStep();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -141,54 +147,12 @@ public abstract class Mob {
 		return currentLocation.getY();
 	}
 	
-	/**
-	 * Calculate the direction this mob is moving.
-	 * @return A point representing the unit velocity vector of this mob.
-	 */
 	public Point getDirectionVector() {
-		// Get coordinates
-		Double xDir = targetLocation.getX() - currentLocation.getY();
-		Double yDir = targetLocation.getY() - currentLocation.getY();
-		
-		// Normalize
-		Double magnitude = Math.sqrt( xDir * xDir + yDir * yDir );
-		xDir = xDir / magnitude;
-		yDir = yDir / magnitude;
-		
-		return new Point((int) Math.round(xDir), (int) Math.round(yDir));
+	  return Metric.getDirectionVector(currentLocation, targetLocation);
 	}
 	
-	/**
-	 * Calculate the angle of the velocity of this mob in degrees.
-	 * @return A double representing the angle in degrees.
-	 */
 	public double getDirectionAngle() {
-	  // Get vector direction
-	  Point vDir = getDirectionVector();
-	  
-	  // Deal with vertical vectors
-	  if (vDir.getX() == 0) {
-	    if (vDir.getY() > 0) {
-	      return 90;
-	    }
-	    else {
-	      return 270;
-	    }
-	  }
-	  
-	  double ratio = vDir.getY() / vDir.getX();
-	  double base = Math.atan(ratio);
-	  double radianAngle = 0;
-	  
-	  if (vDir.getX() < 0) {
-	    radianAngle = base + Math.PI; 
-	  } else if (vDir.getY() < 0) {
-	    radianAngle = base + 2 * Math.PI;
-	  } else {
-	    radianAngle = base;
-	  }
-	  
-	  return Math.toDegrees(radianAngle);
+	  return Metric.getDirectionAngle(currentLocation, targetLocation);
 	}
 
 	/**
@@ -196,27 +160,132 @@ public abstract class Mob {
 	 * arrived at the End-Zone, then it calls the cleanup method.
 	 */
 	private void updateTarget() {
-		if (pathIndex < movementPath.size()) {
-      targetLocation = movementPath.get(pathIndex);
-      pathIndex++;
-		} else {
-      cleanupMobEndZone();
-		}
+	  if (pathIndex < movementPath.size()) {
+        targetLocation = movementPath.get(pathIndex);
+        pathIndex++;
+	  } else {
+        cleanupMobEndZone();
+	  }
 	}
 
-	// What do we do when a mob reaches the End-Zone???
+	
+	/* cleanupMobEndZone
+	 * handles when a mob has reached end zone
+	 * Parameters: None
+	 * Returns: None
+	*/
 	private void cleanupMobEndZone() {
-		// TODO Auto-generated method stub
+		attackTime++;
+		
+		if(attackTime%60==0) {
+			attack(ControllerMain.thePlayer);
+		}
+		
 		
 	}
 
+	
 	/**
 	 * Determines if this mob has reached its target yet. 
 	 * Takes into account the radius of the mob.
 	 * @return True, if the mob has reached its target. False, otherwise.
 	 */
 	private boolean reachedTarget() {
-		return Metric.closeEnough(currentLocation.getX(), currentLocation.getY(), 
-				targetLocation.getX(), targetLocation.getY(), radius);
+		return Metric.closeEnough(currentLocation, targetLocation, radius);
 	}
+	
+	
+	/* takeDamage
+	 * calculates and subtracts the damage from a Projectile object
+	 * Parameters: damage: base damage to be taken
+	 *             element: elemental multiplier for the damage
+	 * Returns: None
+	*/
+	public void takeDamage(double damage, ElementalAttribute element) {
+		double newDamage = calculateNewDamage( damage, element);
+		
+		if(newDamage>=hp) {
+			hp=0;  //in case of some weird random bugs with oveflow, or underflow in this case
+			
+			System.out.println("Mob Dead");    //Only for debugging o=purposes
+			
+			ControllerMain.mobs.remove(this);
+			mobWalk.interrupt();
+		}	
+		
+		hp-=newDamage;
+		
+		//cue animation of stuff for getting hurt
+	}
+	
+	
+	/* Attack
+	 * attacks the main player
+	 * Parameters: player - current player
+	 * Returns: None
+	*/
+	public void attack(Player player) {
+		double damage=this.attack.getAttack();
+		player.takeDamage(damage);
+	}
+	
+	
+	/* calculateNewDamage
+	 * calculates a new damage based on modifieers
+	 * Parameters: damage: base damage
+	 * 			   element: element attribute
+	 * Returns: double representing the new damage 
+	*/
+	private double calculateNewDamage(double damage, ElementalAttribute element) {
+		double newDamage=damage*element.getElementalMultiplier();
+		
+		for(ResistanceAttribute resistance: ResistanceAttribute.values()) {
+			if(resistance.name().equals(element.name())) {
+				newDamage*=(1-resistance.getResistance());
+			}
+		}
+		
+		newDamage*=(1-armor.getArmor());
+		
+		return newDamage;
+	}
+	
+	
+	/* isDead
+	 * returns if mob is dead or not
+	 * Parameters: None
+	 * Returns: boolean representing if dead
+	*/
+	public boolean isDead() {
+		return hp<=0;
+	}
+
+
+	public double getRadius() {
+		return radius;
+	}
+
+  public Point getCurrentLocation() {
+    return currentLocation;
+  }
+
+
+  public String getImageFilePath() {
+    return imageFilePath;
+  }
+
+
+  public void setImageFilePath(String imageFilePath) {
+    this.imageFilePath = imageFilePath;
+  }
+  
+  public Image getImage() {
+    return ControllerMain.getGraphic(this.getImageFilePath());
+  }
+
 }
+
+
+
+
+

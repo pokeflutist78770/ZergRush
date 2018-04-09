@@ -1,21 +1,30 @@
 package controller;
 
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import javafx.application.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
+import model.Projectile;
+import model.Maps.DemoMap;
 import model.Maps.Map;
-import model.Maps.Map01;
-import model.Mobs.BasicMob01;
+import model.Mobs.DemoMob;
 import model.Mobs.Mob;
-import model.Towers.BasicTower01;
+import model.Towers.DemoTower;
 import model.Towers.Tower;
+import views.InstructionView;
 import views.MapView;
 import views.MenuView;
 import views.ScoreView;
@@ -71,26 +80,39 @@ import views.ScoreView;
 // load a game, have it paused initially, and then resume to play the game. 
 
 public class ControllerMain extends Application {
-	public final static int GUI_SIZE= 1000;
+	public final static int GUI_SIZE= 800;
 	public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
 	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
   public static final int UPDATE_FREQUENCY = 17;
   
-  public static HashSet mobs;
-  public static HashSet projectiles; 
-  public static ArrayList<Tower> towers;
+  public static HashSet mobs = new HashSet<Mob>();
+  public static HashSet projectiles = new HashSet<Projectile>(); 
+  public static ArrayList<Tower> towers = new ArrayList<Tower>();
+  public static Player thePlayer;
   
 	private Map theMap;
-	private Player thePlayer;
+	//private Player thePlayer;
+	private Tower theTower;
+	private Mob theMob;
 	private MapView theMapView;
 	private MenuView theMenuView;
+	private InstructionView theInstrView;
+	private Button startButton;
+	private Button instrButton;
+	private Button backButtonInstr;
+	private Button backButtonMap;
 	private ScoreView theScoreView;
 
 //	private HashMap<Integer, Projectile> projectiles;
-	private HashMap<String, Image> images;
 	private HashMap<String, Media> audio;
 	
+	private BorderPane window;
+	public static final int width = 800;
+	public static final int height = 800;
+  private static HashMap<String,Image> imageMap;
+	
 	private void initializeAssets() {
+	  imageMap = new HashMap<String,Image>();
 	  initializeImages();
 	  initializeAudio();
 	}
@@ -98,22 +120,102 @@ public class ControllerMain extends Application {
 	public void initializeAudio() {
 	  
 	}
+	
 	public void initializeImages() {
 	  
 	}
+	
 	public static void main(String[] args) {
 	  launch(args);
-  }
+	}
 	
 	public void start(Stage stage) throws Exception {
-	  initializeAssets();
-		theMap = new Map01();
+		initializeAssets();
 		thePlayer = new Player();
-		Tower theTower = new BasicTower01();
-		Mob theMob = new BasicMob01();
-		theMapView = new MapView();
-		theMenuView = new MenuView();
+	    		
+		mobs = new HashSet<Mob>();
+		//Tower theTower = new DemoTower();
 		theScoreView = new ScoreView();
+		
+		// Initialize window
+	    window = new BorderPane();
+		
+	    // Initialize menu buttons
+		startButton = new Button("Start");
+		instrButton = new Button("Instructions");
+		backButtonMap = new Button("Back");
+		backButtonInstr = new Button("Back");
+		
+		menuButtonListener menuHandler = new menuButtonListener();
+		startButton.setOnAction(menuHandler);
+		instrButton.setOnAction(menuHandler);
+		backButtonMap.setOnAction(menuHandler);
+		backButtonInstr.setOnAction(menuHandler);
+		
+		// Initialize Menu View
+		theMenuView = new MenuView(startButton, instrButton);
+		this.setViewTo(theMenuView);
+		
+		// Initialize Instruction View
+		theInstrView = new InstructionView(backButtonInstr);
+		
+		// Initialize Map View
+		theMapView = new MapView(backButtonMap);
+		
+	    Scene scene = new Scene(window, width, height);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	private void setViewTo(StackPane newView) 
+	{
+		// Adjust the view to newView
+		window.setCenter(null);
+		window.setCenter(newView);
 	}
 
+	private class menuButtonListener implements EventHandler<ActionEvent>
+	{
+
+		@Override
+		public void handle(ActionEvent e) 
+		{
+			// Change to MapView or or InstructionsView depending on button
+			String buttonText = ((Button) e.getSource()).getText();
+			
+			if (buttonText.equals("Start"))
+			{
+				setViewTo(theMapView);
+		    theMap = new DemoMap();
+		    Thread playingNow = new Thread(new Runnable() {
+
+          @Override
+          public void run() {
+            while(true) {
+              try {
+                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
+                theMapView.drawMap();
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+            }
+          }
+		    });
+		    playingNow.start();
+			}
+			else if (buttonText.equals("Instructions"))
+				setViewTo(theInstrView);
+			else if (buttonText.equals("Back"))
+				setViewTo(theMenuView);
+		}
+		
+	}
+	
+	public static Image getGraphic(String imgfp) {
+	  if (!imageMap.containsKey(imgfp)) {
+      imageMap.put(imgfp, new Image(imgfp));
+	  }
+	  return imageMap.get(imgfp);
+	}
+	
 }

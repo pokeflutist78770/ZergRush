@@ -1,5 +1,21 @@
 package views;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
 // You are required to have an instruction page. Treat this as a user-guide
 // to how to play your game. This guide should be found in the starting menu.
 
@@ -11,6 +27,53 @@ package views;
 
 // The player can read the User-Guide of the game anytime before game-play.
 
-public class InstructionView {
+public class InstructionView extends StackPane {
 
+	private Image background;
+	private Button backButton;
+	private Label header;
+	private BorderPane pane;
+	private VBox vBox;
+	
+	public InstructionView(Button back)
+	{
+		backButton = back;
+		backButton.setMaxWidth(100);
+		header = new Label("Instructions Page");
+		pane = new BorderPane();
+		background = new Image("file:assets/images/sc.jpg", false);
+		vBox = new VBox();
+		
+		vBox.getChildren().add(backButton);
+		vBox.setPadding(new Insets(0,0,0,350));
+		
+		// Set background
+		ImageView imv = new ImageView();
+		imv.setImage(background);
+		this.getChildren().add(imv);
+		
+		Text instructions = new Text("OBJECTIVE\nThe objective of Tower Defense is to defend your command"
+				+ " center. Waves of enemies will spawn periodically, each wave stronger than the last.\n"
+				+ "In order to defend your command center, you will need to construct towers. Each tower costs"
+				+ " money. You will earn money after killing enemies.\nTowers may be upgraded as you "
+				+ "earn money. Survive all waves of enemies with your command center in tact, and you will have survived\n"
+				+ "Tower Defense!\n\n"
+				+ "START NEW GAME\n"
+				+ "1) Choose Persistence (Save option)\n"
+				+ "2) Choose Game Speed\n"
+				+ "3) Choose Map\n"
+				+ "4) Select Start\n\n"
+				+ "LOAD GAME\n"
+				+ "1) Select Load option\n"
+				+ "2) Select Start\n\n"
+				+ "END GAME\n"
+				+ "1) Select the Back button to return to Main Menu");
+		instructions.setFill(Color.WHITE);
+		
+		pane.setCenter(instructions);
+		pane.setBottom(vBox);
+		BorderPane.setMargin(vBox, new Insets(0,0,10,0));
+		this.getChildren().add(pane);
+	}
+	
 }
