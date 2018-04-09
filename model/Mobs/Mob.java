@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.List;
 
 import controller.ControllerMain;
+import javafx.scene.image.Image;
 import model.Player;
 import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
@@ -262,7 +263,25 @@ public abstract class Mob {
 	public double getRadius() {
 		return radius;
 	}
-	
+
+  public Point getCurrentLocation() {
+    return currentLocation;
+  }
+
+
+  public String getImageFilePath() {
+    return imageFilePath;
+  }
+
+
+  public void setImageFilePath(String imageFilePath) {
+    this.imageFilePath = imageFilePath;
+  }
+  
+  public Image getImage() {
+    return ControllerMain.getGraphic(this.getImageFilePath());
+  }
+
 }
 
 

@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 
 import controller.ControllerMain;
+import javafx.scene.image.Image;
 import model.Maps.Metric;
 import model.Mobs.Mob;
 import model.Mobs.SpeedAttribute;
@@ -23,7 +24,7 @@ abstract public class Projectile {
   protected double blastRadius;
   
 
-  protected String imgStr;
+  private String imageFilePath;
 	
 	public Projectile(Point startLocation, SpeedAttribute spd,
 	    double radius,
@@ -38,7 +39,7 @@ abstract public class Projectile {
     baseDmg = baseDamage;
 		dmgType = ea;
 
-    imgStr = imgFilePath;
+    imageFilePath = imgFilePath;
 		
 		initializeProjectile();
 	}
@@ -97,7 +98,7 @@ abstract public class Projectile {
     if (targetMob == null) {
        return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
     } else {
-      return Metric.closeEnough(currentLocation, targetMob.getLocation(), blastRadius);
+      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius);
     }
   }
 
@@ -115,6 +116,18 @@ abstract public class Projectile {
 
   private void setTargetLocation(Point targetLocation) {
     this.targetLocation = targetLocation;
+  }
+
+  public String getImageFilePath() {
+    return imageFilePath;
+  }
+
+  public void setImageFilePath(String imgStr) {
+    this.imageFilePath = imgStr;
+  }
+  
+  public Image getImage() {
+    return ControllerMain.getGraphic(this.getImageFilePath());
   }
 	
 	

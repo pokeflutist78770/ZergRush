@@ -14,6 +14,7 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import controller.ControllerMain;
+import javafx.scene.image.Image;
 import model.Maps.Metric;
 import model.Mobs.Mob;
 
@@ -73,7 +74,7 @@ public abstract class Tower {
   protected Range range;
 
 
-  protected String imageFilePath;
+  private String imageFilePath;
 	
 	public Tower(int cost, String name,
 	    Point location, Range range, 
@@ -131,7 +132,19 @@ public abstract class Tower {
   }
 
   private boolean isNear(Mob nextMob) {
-    return Metric.closeEnough(nextMob.getLocation(), location, range.toDouble());
+    return Metric.closeEnough(nextMob.getCurrentLocation(), location, range.toDouble());
+  }
+
+  public String getImageFilePath() {
+    return imageFilePath;
+  }
+
+  public void setImageFilePath(String imageFilePath) {
+    this.imageFilePath = imageFilePath;
+  }
+  
+  public Image getImage() {
+    return ControllerMain.getGraphic(this.getImageFilePath());
   }
 }
 
