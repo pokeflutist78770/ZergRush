@@ -3,6 +3,7 @@ package model.Mobs;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import controller.ControllerMain;
 
@@ -16,7 +17,7 @@ import controller.ControllerMain;
  */
 public class DemoMob extends Mob {
   
-  public DemoMob(Point[] path) {
+  public DemoMob(List<Point> path) {
     super(path, ControllerMain.TILE_SIZE, 
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
         DefenseAttribute.DEMO_DEFENSE, SpeedAttribute.NORMAL, 

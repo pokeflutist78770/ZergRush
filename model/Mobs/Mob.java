@@ -34,7 +34,7 @@ public abstract class Mob {
   private Thread mobWalk; 
   private Point currentLocation;
   private Point targetLocation;
-  private Point[] movementPath;
+  private List<Point> movementPath;
   private int pathIndex; 
   private int attackTime;
 
@@ -50,7 +50,7 @@ public abstract class Mob {
   private String imageFilePath; 
 
   
-	public Mob(Point[] movementPath, double radius, 
+	public Mob(List<Point> movementPath, double radius, 
 	    ArmorAttribute armor, AttackAttribute attack, 
 	    DefenseAttribute defense, SpeedAttribute speed,  
 	    List<ResistanceAttribute> resistances, 
@@ -60,7 +60,7 @@ public abstract class Mob {
 	  // Initialize Attributes
       this.movementPath = movementPath;
       this.pathIndex = 0;
-      this.currentLocation = this.movementPath[0];
+      this.currentLocation = this.movementPath.get(0);
       this.pathIndex++;
 
       this.radius = radius;
@@ -86,7 +86,7 @@ public abstract class Mob {
 	 */
 	private void initializeMovement() {
 		
-		targetLocation = movementPath[pathIndex];
+		targetLocation = movementPath.get(pathIndex);
 		pathIndex++;
 		mobWalk = new Thread(new Runnable() {
 			
@@ -160,8 +160,8 @@ public abstract class Mob {
 	 * arrived at the End-Zone, then it calls the cleanup method.
 	 */
 	private void updateTarget() {
-	  if (pathIndex < movementPath.length) {
-        targetLocation = movementPath[pathIndex];
+	  if (pathIndex < movementPath.size()) {
+        targetLocation = movementPath.get(pathIndex);
         pathIndex++;
 	  } else {
         cleanupMobEndZone();

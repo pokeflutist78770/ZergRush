@@ -1,13 +1,56 @@
 package model.Maps;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+
+import controller.ControllerMain;
+import model.Mobs.DemoMob;
+import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
-  private HashMap<Integer, Point[]> paths;
+  
+  private long spawnFreq = 5000;
+  
+  public DemoMap() {
+    imageFilePath = "file:assets.images/sc.jpg";
+    
+    initializeTowers();
+    initializeSpawnCycle();
+  }
+  
+  private void initializeSpawnCycle() {
+    Thread spawnCycle = new Thread(new Runnable() {
+
+      @Override
+      public void run() {
+        do {
+          try {
+            ControllerMain.mobs.add(new DemoMob(paths.get(0)));
+            
+            Thread.sleep(spawnFreq);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          } 
+        } while(true);
+        
+      }
+      
+    });
+    
+  }
+
+  private void initializeTowers() {
+    ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.height/2, ControllerMain.width/2)));
+  }
+
   @Override
   void constructMobRoute() {
-    Point[] pathOne = {new Point(950, 950), 
+    List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
+        new Point(950, 950), 
         new Point(883, 820),
         new Point(817, 820),
         new Point(781, 931),
@@ -20,13 +63,12 @@ public class DemoMap extends Map {
         new Point(235, 278),
         new Point(266, 162),
         new Point(185, 75),
-        new Point(128, 92)};
+        new Point(128, 92)));
     
     for(Point p: pathOne) {
       Map.scalePoint(p);
     }
     
-    paths = new HashMap<Integer, Point[]>();
     this.paths.put(1, pathOne);
   }
   

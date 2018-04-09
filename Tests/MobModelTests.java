@@ -22,7 +22,7 @@ public class MobModelTests {
 
 	@Test
 	public void FullResistance() {
-		DemoMob mob=new DemoMob(new Point[10]);
+		DemoMob mob=new DemoMob(new ArrayList<Point>());
 		mob.takeDamage(20000, ElementalAttribute.NONE);
 		assertFalse(mob.isDead());
 	}
