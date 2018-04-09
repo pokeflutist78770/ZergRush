@@ -131,10 +131,9 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		//theMap = new DemoMap();
 		thePlayer = new Player();
-	    
+	    		
 		mobs = new HashSet<Mob>();
 		//Tower theTower = new DemoTower();
-		//Mob theMob = new BasicMob01();
 		theScoreView = new ScoreView();
 		
 		// Initialize window
@@ -184,7 +183,9 @@ public class ControllerMain extends Application {
 			String buttonText = ((Button) e.getSource()).getText();
 			
 			if (buttonText.equals("Start"))
+			{
 				setViewTo(theMapView);
+			}
 			else if (buttonText.equals("Instructions"))
 				setViewTo(theInstrView);
 			else if (buttonText.equals("Back"))

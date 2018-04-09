@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import controller.ControllerMain;
+import views.MapView;
 
 
 /**
@@ -16,7 +17,7 @@ import controller.ControllerMain;
  */
 public class DemoMob extends Mob {
   
-  public DemoMob(Point[] path) {
+  public DemoMob(Point[] path, MapView theMap) {
     super(path, ControllerMain.TILE_SIZE, 
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
         DefenseAttribute.DEMO_DEFENSE, SpeedAttribute.NORMAL, 
