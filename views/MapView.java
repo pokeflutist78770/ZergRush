@@ -71,8 +71,6 @@ public class MapView extends StackPane {
 
 	public void drawMap()
 	{
-	  gc.setFill(Color.BLACK);
-	  gc.fillRect(0, 0, 100, 100);
 	  gc.drawImage(background, 0, 0);
     Iterator<Tower> towitr = ControllerMain.towers.iterator();
     while (towitr.hasNext()) {
@@ -84,11 +82,11 @@ public class MapView extends StackPane {
 	    Mob nextMob = mobitr.next();
 	    gc.drawImage(nextMob.getImage(), nextMob.getX(), nextMob.getY());
 	  }
-	  Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
+	  /*Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
 	  while (projitr.hasNext()) {
 	    Projectile nextProj = projitr.next();
 	    gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
-	  }
+	  }*/
 	  
 		
 	}

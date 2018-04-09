@@ -80,7 +80,7 @@ import views.ScoreView;
 // load a game, have it paused initially, and then resume to play the game. 
 
 public class ControllerMain extends Application {
-	public final static int GUI_SIZE= 1000;
+	public final static int GUI_SIZE= 800;
 	public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
 	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
   public static final int UPDATE_FREQUENCY = 17;
@@ -185,7 +185,6 @@ public class ControllerMain extends Application {
 			
 			if (buttonText.equals("Start"))
 			{
-			  System.out.println("We got here!");
 				setViewTo(theMapView);
 		    theMap = new DemoMap();
 		    Thread playingNow = new Thread(new Runnable() {
@@ -194,8 +193,7 @@ public class ControllerMain extends Application {
           public void run() {
             while(true) {
               try {
-                System.out.println("Thread started");
-                Thread.sleep((long) 100);
+                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
                 theMapView.drawMap();
               } catch (InterruptedException e) {
                 e.printStackTrace();

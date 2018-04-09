@@ -11,10 +11,11 @@ public class DemoProjectile extends Projectile {
 
   public DemoProjectile(Point startLocation, Mob targetMob) {
     super(startLocation, 
-        SpeedAttribute.NORMAL, targetMob.getRadius(), 10000000000.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/ghost.png");
+        SpeedAttribute.NORMAL, targetMob.getRadius(), 100.0, 
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/Goop.png");
     
     this.setMob(targetMob);
+    this.targetLocation = targetMob.getCurrentLocation();
   }
 
   @Override

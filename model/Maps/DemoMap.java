@@ -19,7 +19,8 @@ public class DemoMap extends Map {
     super("file:assets/images/sc.jpg");
     
     initializeTowers();
-    initializeSpawnCycle();
+    //initializeSpawnCycle();
+    ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
   
   private void initializeSpawnCycle() {
@@ -29,7 +30,8 @@ public class DemoMap extends Map {
       public void run() {
         do {
           try {
-            ControllerMain.mobs.add(new DemoMob(paths.get(0)));
+            System.out.println("demomap is spawning");
+            ControllerMain.mobs.add(new DemoMob(paths.get(1)));
             
             Thread.sleep(spawnFreq);
           } catch (InterruptedException e) {
@@ -40,11 +42,12 @@ public class DemoMap extends Map {
       }
       
     });
+    spawnCycle.start();
     
   }
 
   private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.height/2, ControllerMain.width/2)));
+    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
   @Override
