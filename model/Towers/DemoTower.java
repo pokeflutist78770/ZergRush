@@ -12,13 +12,13 @@ import model.Mobs.Mob;
 public class DemoTower extends Tower {
   
   public DemoTower(Point loc) {
-    super(0, "Library", loc, Range.demoRange, "file:assets/images/thick.png");
+    super(0, "Library", loc, Range.demoRange, "file:assets/images/Slime.png");
   }
 
   @Override
   public void shoot(Set<Mob> nearbyMobs) {
     Mob closest = getClosestMob(nearbyMobs);
-    new DemoProjectile(location, closest);
+    ControllerMain.projectiles.add(new DemoProjectile(new Point(location), closest));
   }
 
   private Mob getClosestMob(Set<Mob> nearbyMobs) {

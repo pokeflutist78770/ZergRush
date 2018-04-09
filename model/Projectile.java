@@ -46,8 +46,6 @@ abstract public class Projectile {
 	
 	private void initializeProjectile() {
 	  
-	  ControllerMain.projectiles.add(this);
-	  
 	  kamakaziImperative = new Thread(new Runnable() {
 
       @Override
@@ -67,6 +65,7 @@ abstract public class Projectile {
         }
       }
 	  });
+	  kamakaziImperative.start();
     
   }
   

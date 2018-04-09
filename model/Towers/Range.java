@@ -2,7 +2,7 @@ package model.Towers;
 
 
 public enum Range {
-  demoRange(5);
+  demoRange(200);
   
   private final double distance;
   

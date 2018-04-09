@@ -92,7 +92,6 @@ public abstract class Tower {
 	}
 
   private void initializeTower() {
-    ControllerMain.towers.add(this);
     
     towerAnxiety = new Thread(new Runnable() {
 
@@ -100,7 +99,7 @@ public abstract class Tower {
       public void run() {
         while(true) {
           try {
-            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
+            Thread.sleep((long) 60*ControllerMain.UPDATE_FREQUENCY);
             
             Set nearbyMobs = getNearbyMobs();
             if (!nearbyMobs.isEmpty()) {
@@ -113,6 +112,7 @@ public abstract class Tower {
         }
       }
     });
+    towerAnxiety.start();
   }
 
   

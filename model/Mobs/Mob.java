@@ -60,6 +60,7 @@ public abstract class Mob {
 	  // Initialize Attributes
       this.movementPath = movementPath;
       this.pathIndex = 0;
+      System.out.println(movementPath.get(0).getX());
       this.currentLocation = this.movementPath.get(0);
       this.pathIndex++;
 
@@ -67,7 +68,7 @@ public abstract class Mob {
 
       this.armor = armor;
 	  this.attack=attack;
-      this.hp=defense.getDefense();
+      this.hp=new Double(defense.getDefense());
 	  this.speed = speed;
 	  this.resistances = resistances;
 

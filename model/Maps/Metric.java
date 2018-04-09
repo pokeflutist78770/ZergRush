@@ -37,7 +37,7 @@ public class Metric {
    */
   public static Point getDirectionVector(Point currentLocation, Point targetLocation) {
     // Get coordinates
-    Double xDir = targetLocation.getX() - currentLocation.getY();
+    Double xDir = targetLocation.getX() - currentLocation.getX();
     Double yDir = targetLocation.getY() - currentLocation.getY();
     
     // Normalize
