@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import controller.ControllerMain;
+import views.MapView;
 
 
 /**

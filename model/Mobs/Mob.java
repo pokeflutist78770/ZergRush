@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import model.Player;
 import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
+import views.MapView;
 
 //Enemies move towards the destination that the player will defend. We call
 //this the End-Zone.
@@ -54,8 +55,7 @@ public abstract class Mob {
 	    ArmorAttribute armor, AttackAttribute attack, 
 	    DefenseAttribute defense, SpeedAttribute speed,  
 	    List<ResistanceAttribute> resistances, 
-		  String name, String imageFP
-			) {
+		  String name, String imageFP) {
 		
 	  // Initialize Attributes
       this.movementPath = movementPath;
@@ -126,7 +126,6 @@ public abstract class Mob {
 		
 		double newX = oldX + spd * unitV.getX();
 		double newY = oldY + spd * unitV.getY();
-		
 		
 		currentLocation.setLocation(newX, newY);
 	}
@@ -264,7 +263,6 @@ public abstract class Mob {
 	public double getRadius() {
 		return radius;
 	}
-
 
   public Point getCurrentLocation() {
     return currentLocation;
