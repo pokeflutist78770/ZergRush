@@ -4,7 +4,19 @@ import java.awt.Point;
 import java.util.List;
 
 import controller.ControllerMain;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Player;
 import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
@@ -93,8 +105,9 @@ public abstract class Mob {
 			
 			@Override
 			public void run() {
-				while(!Thread.interrupted()) {
-					try {
+				try {
+					while(!Thread.interrupted()) {
+			
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
 						if (reachedTarget()) {
@@ -103,10 +116,12 @@ public abstract class Mob {
 						else {
 							takeStep();
 						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
 					}
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
 				}
+				
+				System.out.println("Mob Thread: Ended");
 			}
 		});
 		
@@ -179,9 +194,7 @@ public abstract class Mob {
 		
 		if(attackTime%60==0) {
 			attack(ControllerMain.thePlayer);
-		}
-		
-		
+		}	
 	}
 
 	
@@ -211,6 +224,34 @@ public abstract class Mob {
 			
 			ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
+			
+			Platform.runLater(() -> {
+				//This code will be moved to when a player reaches a set amount of waves, 
+				//but for the demo this will suffice
+				ControllerMain.currentView.setEffect(new GaussianBlur());
+				
+				VBox pauseRoot = new VBox(5);
+	            pauseRoot.getChildren().add(new Label("You win!"));
+	            pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+	            pauseRoot.setAlignment(Pos.CENTER);
+	            pauseRoot.setPadding(new Insets(20));
+	
+	            Button resume = new Button("Main Menu");
+	            pauseRoot.getChildren().add(resume);
+	            
+				Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+	            popupStage.initOwner(ControllerMain.getStage());
+	            popupStage.initModality(Modality.APPLICATION_MODAL);
+	            popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+	            
+	            resume.setOnAction(event -> {
+	                ControllerMain.currentView.setEffect(null);
+	                ControllerMain.resetMainMenu();
+	                popupStage.hide();
+	            });
+	            
+	            popupStage.show();
+			});
 		}	
 		
 		hp-=newDamage;
@@ -226,7 +267,7 @@ public abstract class Mob {
 	*/
 	public void attack(Player player) {
 		double damage=this.attack.getAttack();
-		player.takeDamage(damage);
+		player.takeDamage(damage, mobWalk);
 	}
 	
 	

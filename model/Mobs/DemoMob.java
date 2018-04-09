@@ -21,7 +21,7 @@ public class DemoMob extends Mob {
   public DemoMob(List<Point> path) {
     super(path, ControllerMain.TILE_SIZE, 
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
-        DefenseAttribute.DEMO_DEFENSE, SpeedAttribute.NORMAL, 
+        DefenseAttribute.LARGE, SpeedAttribute.NORMAL, 
         new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.DEMO)),
         "Chad", "file:assets/images/TheHunter.png");
   }

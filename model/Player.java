@@ -1,5 +1,19 @@
 package model;
 
+import controller.ControllerMain;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 // Players can buy towers through some form of currency (money, points, mana 
 // power, life-force, etc.).
 
@@ -19,19 +33,60 @@ package model;
 public class Player {
 	//just a default for now until mob attacks and balances are sorted out
 	//Maybe even when difficulties are added, decrease health as such, 
-	private double HP=100;   
+	private double HP=1000;   
 	
 	
-	public void takeDamage(double damage) {
+	public void takeDamage(double damage, Thread mobWalk) {
 		if(damage<=HP) {
 			HP-=damage;
+			System.out.println("Player HP: "+HP);
 		}
 		
 		if(HP<=0) {
 			System.out.println("Player lost");
-			
+			ControllerMain.playingNow.interrupt();
+			mobWalk.interrupt();
 			//display loss screen
+			
+
+			Platform.runLater(() -> {
+				//This code will be moved to when a player reaches a set amount of waves, 
+				//but for the demo this will suffice
+				ControllerMain.currentView.setEffect(new GaussianBlur());
+				
+				VBox pauseRoot = new VBox(5);
+	            pauseRoot.getChildren().add(new Label("You lost!"));
+	            pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+	            pauseRoot.setAlignment(Pos.CENTER);
+	            pauseRoot.setPadding(new Insets(20));
+	
+	            Button resume = new Button("Main Menu");
+	            pauseRoot.getChildren().add(resume);
+	            
+				Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+	            popupStage.initOwner(ControllerMain.getStage());
+	            popupStage.initModality(Modality.APPLICATION_MODAL);
+	            popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+	            
+	            resume.setOnAction(event -> {
+	                ControllerMain.currentView.setEffect(null);
+	                ControllerMain.resetMainMenu();
+	                popupStage.hide();
+	            });
+	            
+	            popupStage.show();
+			});
 		}
 		
+	}
+	
+	
+	public void resetStats() {
+		HP=1000;
+	}
+	
+	
+	public boolean isDead() {
+		return HP<=0;
 	}
 }

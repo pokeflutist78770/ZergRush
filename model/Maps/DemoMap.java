@@ -23,6 +23,7 @@ public class DemoMap extends Map {
     ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
   
+  
   private void initializeSpawnCycle() {
     Thread spawnCycle = new Thread(new Runnable() {
 
@@ -32,6 +33,7 @@ public class DemoMap extends Map {
           try {
             System.out.println("demomap is spawning");
             ControllerMain.mobs.add(new DemoMob(paths.get(1)));
+            
             
             Thread.sleep(spawnFreq);
           } catch (InterruptedException e) {
