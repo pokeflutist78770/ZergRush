@@ -146,6 +146,15 @@ public abstract class Tower {
   public Image getImage() {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }
+  
+  public double getX() {
+    return location.getX();
+  }
+  
+  public double getY() {
+    return location.getY();
+  }
+  
 }
 
 

@@ -3,8 +3,13 @@ package views;
 import java.util.List;
 import java.awt.Paint;
 import java.awt.Point;
+<<<<<<< HEAD
 import java.util.Set;
+=======
+import java.util.Iterator;
+>>>>>>> f0bc51179bb1c04bf6d7b212bc489a026058592d
 
+import controller.ControllerMain;
 import javafx.animation.PathTransition;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -73,12 +78,29 @@ public class MapView extends StackPane {
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(vBox);
 		this.getChildren().add(pane);
-		
-		drawMap();
 	}
 
-	private void drawMap()
+	public void drawMap()
 	{
+	  gc.setFill(Color.BLACK);
+	  gc.fillRect(0, 0, 100, 100);
+	  gc.drawImage(background, 0, 0);
+    Iterator<Tower> towitr = ControllerMain.towers.iterator();
+    while (towitr.hasNext()) {
+      Tower nextTower = towitr.next();
+      gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
+    }
+	  Iterator<Mob> mobitr = ControllerMain.mobs.iterator();
+	  while (mobitr.hasNext()) {
+	    Mob nextMob = mobitr.next();
+	    gc.drawImage(nextMob.getImage(), nextMob.getX(), nextMob.getY());
+	  }
+	  Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
+	  while (projitr.hasNext()) {
+	    Projectile nextProj = projitr.next();
+	    gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
+	  }
+	  
 		
 	}
 	
