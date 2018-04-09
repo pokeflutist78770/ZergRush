@@ -1,7 +1,9 @@
 package views;
 
+import java.util.List;
 import java.awt.Paint;
 import java.awt.Point;
+import java.util.Set;
 
 import javafx.animation.PathTransition;
 import javafx.geometry.Insets;
@@ -22,6 +24,9 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import model.Projectile;
+import model.Mobs.Mob;
+import model.Towers.Tower;
 
 //A player can view information about an enemy by clicking one that has been 
 //placed. Information should include the characteristics of that enemy.
@@ -41,9 +46,15 @@ public class MapView extends StackPane {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private VBox vBox;
+	private Set mob;
+	private Set projectiles;
+	private List towers;
 	
-	public MapView(Button back)
+	public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t)
 	{
+		mob = m;
+		projectiles = p;
+		towers = t;
 		vBox = new VBox();
 		backButton = back;
 		pane = new StackPane();

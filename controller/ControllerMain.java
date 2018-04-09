@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import model.Player;
+import model.Projectile;
 import model.Maps.DemoMap;
 import model.Maps.Map;
 import model.Mobs.DemoMob;
@@ -132,8 +133,12 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		theMap = new DemoMap();
 		thePlayer = new Player();
-	    		
+	    
+		towers = new ArrayList<Tower>();
 		mobs = new HashSet<Mob>();
+		projectiles = new HashSet<Projectile>();
+		
+		
 		//Tower theTower = new DemoTower();
 		theScoreView = new ScoreView();
 		
@@ -160,7 +165,7 @@ public class ControllerMain extends Application {
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
-		theMapView = new MapView(backButtonMap);
+		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
 		
 	    Scene scene = new Scene(window, width, height);
 		stage.setScene(scene);

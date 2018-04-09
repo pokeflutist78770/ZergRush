@@ -17,7 +17,7 @@ import views.MapView;
  */
 public class DemoMob extends Mob {
   
-  public DemoMob(Point[] path, MapView theMap) {
+  public DemoMob(Point[] path) {
     super(path, ControllerMain.TILE_SIZE, 
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
         DefenseAttribute.DEMO_DEFENSE, SpeedAttribute.NORMAL, 
