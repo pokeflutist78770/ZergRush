@@ -213,6 +213,11 @@ public class ControllerMain extends Application {
 		    thePlayer.resetStats();
 		    isPlaying=true;
 		    
+		    //gotta start with a fresh new game :)
+		    //towers.clear();
+		    mobs.clear();
+		    projectiles.clear();
+		    
 		    //thread to show a playing game
 		    playingNow = new Thread(new Runnable() {
 	          @Override

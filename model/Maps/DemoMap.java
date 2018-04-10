@@ -13,7 +13,7 @@ import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
-  private long spawnFreq = 500;
+  private long spawnFreq = 750;
   
   public DemoMap() {
     super("file:assets.images.map/demoMap.png");
@@ -38,9 +38,7 @@ public class DemoMap extends Map {
             
             DemoMob mob=new DemoMob(paths.get(1));
             
-            System.out.println("New Start: "+paths.get(1).size());
-            System.out.println("DemoMap is spawning: "+mob.toString()+
-            		           "\n\t"+mob.getX()+" "+mob.getY());
+            System.out.println("DemoMap is spawning: "+mob.toString());
             
             ControllerMain.mobs.add(mob);
             

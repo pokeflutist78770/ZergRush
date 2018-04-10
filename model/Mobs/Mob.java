@@ -71,8 +71,7 @@ public abstract class Mob {
 		       String name, String imageFP) {
 		
 	  // Initialize Attributes
-      // this.movementPath = movementPath;
-      this.movementPath=createDeepCopy(movementPath);
+      this.movementPath = movementPath;
       
       this.pathIndex = 0;
       
@@ -95,17 +94,6 @@ public abstract class Mob {
       attackTime=0;
 	  initializeMovement();
 	}
-
-	
-	
-	public List<Point> createDeepCopy(List<Point> movementPath){
-		List<Point> newPath = new ArrayList<>();
-		System.out.println("-----------\n\t"+movementPath.get(0));
-		for(Point point: movementPath) {
-			newPath.add(point);
-		}
-		return newPath;
-	}
 	
 	
 	/**
@@ -118,13 +106,13 @@ public abstract class Mob {
 		targetLocation = movementPath.get(pathIndex);
 		pathIndex++;
 		
-		//trackss and moves the mob
+		//tracks and moves the mob
 		mobWalk = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
-					while(!Thread.interrupted()) {
+					while(ControllerMain.isPlaying) {
 			
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
@@ -148,6 +136,7 @@ public abstract class Mob {
 		mobWalk.start();
 	}
 	
+	
 	/**
 	 * Moves this mob a step toward its target.
 	 * This method assumes that the mob does not move further than its
@@ -165,6 +154,7 @@ public abstract class Mob {
 		
 		currentLocation.setLocation(newX, newY);
 	}
+	
 
 	/**
 	 * A getter method
@@ -174,6 +164,7 @@ public abstract class Mob {
 		return currentLocation.getX();
 	}
 	
+	
 	/**
 	 * A getter method
 	 * @return The current Y-coordinate
@@ -182,10 +173,14 @@ public abstract class Mob {
 		return currentLocation.getY();
 	}
 	
+	
+	//getter for the direction vector
 	public Point getDirectionVector() {
 	  return Metric.getDirectionVector(currentLocation, targetLocation);
 	}
 	
+	
+	//direction angle for the mob
 	public double getDirectionAngle() {
 	  return Metric.getDirectionAngle(currentLocation, targetLocation);
 	}
