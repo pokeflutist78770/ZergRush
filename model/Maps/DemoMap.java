@@ -13,27 +13,40 @@ import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
-  private long spawnFreq = 5000;
+  private long spawnFreq = 500;
   
   public DemoMap() {
     super("file:assets.images.map/demoMap.png");
     
     initializeTowers();
-    //initializeSpawnCycle();
-    ControllerMain.mobs.add(new DemoMob(paths.get(1)));
+    initializeSpawnCycle();
+   // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
   
   
+  /* initializeSpawnCycle
+   * Starts the spawn cycle for the gameplay
+   * Parameters: None
+   * Returns: None
+  */
   private void initializeSpawnCycle() {
     Thread spawnCycle = new Thread(new Runnable() {
-
       @Override
       public void run() {
         do {
           try {
-            System.out.println("demomap is spawning");
-            ControllerMain.mobs.add(new DemoMob(paths.get(1)));
             
+            DemoMob mob=new DemoMob(paths.get(1));
+            
+            System.out.println("New Start: "+paths.get(1).size());
+            System.out.println("DemoMap is spawning: "+mob.toString()+
+            		           "\n\t"+mob.getX()+" "+mob.getY());
+            
+            ControllerMain.mobs.add(mob);
+            
+            if(!ControllerMain.isPlaying) {
+            	break;
+            }
             
             Thread.sleep(spawnFreq);
           } catch (InterruptedException e) {
@@ -42,16 +55,25 @@ public class DemoMap extends Map {
         } while(true);
         
       }
-      
     });
-    spawnCycle.start();
     
+    spawnCycle.start();
   }
 
+  
+  /* initializeTowers
+   * initializes the towers for the map
+  */
   private void initializeTowers() {
     ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
+  
+  /* constructMobRoute
+   * Creates the route for each mob to walk through
+   * Parameters: None
+   * Returns: None
+  */
   @Override
   void constructMobRoute() {
     List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
@@ -76,7 +98,4 @@ public class DemoMap extends Map {
     
     this.paths.put(1, pathOne);
   }
-  
-  
-
 }

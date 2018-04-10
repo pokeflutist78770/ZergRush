@@ -1,6 +1,7 @@
 package model.Mobs;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.ControllerMain;
@@ -58,22 +59,26 @@ public abstract class Mob {
   private SpeedAttribute speed;
   private List<ResistanceAttribute> resistances;
 
-	// String data of the mob.
+  // String data of the mob.
   private String name;
   private String imageFilePath; 
 
   
 	public Mob(List<Point> movementPath, double radius, 
-	    ArmorAttribute armor, AttackAttribute attack, 
-	    DefenseAttribute defense, SpeedAttribute speed,  
-	    List<ResistanceAttribute> resistances, 
-		  String name, String imageFP) {
+	           ArmorAttribute armor, AttackAttribute attack, 
+	           DefenseAttribute defense, SpeedAttribute speed,  
+	           List<ResistanceAttribute> resistances, 
+		       String name, String imageFP) {
 		
 	  // Initialize Attributes
-      this.movementPath = movementPath;
+      // this.movementPath = movementPath;
+      this.movementPath=createDeepCopy(movementPath);
+      
       this.pathIndex = 0;
+      
       System.out.println(movementPath.get(0).getX());
-      this.currentLocation = this.movementPath.get(0);
+      
+      this.currentLocation = new Point((int)this.movementPath.get(0).getX(), (int)this.movementPath.get(0).getY());
       this.pathIndex++;
 
       this.radius = radius;
@@ -92,6 +97,17 @@ public abstract class Mob {
 	}
 
 	
+	
+	public List<Point> createDeepCopy(List<Point> movementPath){
+		List<Point> newPath = new ArrayList<>();
+		System.out.println("-----------\n\t"+movementPath.get(0));
+		for(Point point: movementPath) {
+			newPath.add(point);
+		}
+		return newPath;
+	}
+	
+	
 	/**
 	 * This method gets the mob walking from its spawn location to the End-Zone.
 	 * Each mob runs its movement on its own thread and will tell you where it
@@ -101,6 +117,8 @@ public abstract class Mob {
 		
 		targetLocation = movementPath.get(pathIndex);
 		pathIndex++;
+		
+		//trackss and moves the mob
 		mobWalk = new Thread(new Runnable() {
 			
 			@Override
@@ -110,9 +128,11 @@ public abstract class Mob {
 			
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
+						//reached the next place, need to chnge direction
 						if (reachedTarget()) {
 							updateTarget();
 						}
+						//move closer to targete location
 						else {
 							takeStep();
 						}
@@ -224,8 +244,8 @@ public abstract class Mob {
 			
 			ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
-			
-			ControllerMain.isPlaying=false;
+			/*
+			//ControllerMain.isPlaying=false;
 			
 			Platform.runLater(() -> {
 				//This code will be moved to when a player reaches a set amount of waves, 
@@ -253,7 +273,7 @@ public abstract class Mob {
 	            });
 	            
 	            popupStage.show();
-			});
+			}); */
 		}	
 		
 		hp-=newDamage;

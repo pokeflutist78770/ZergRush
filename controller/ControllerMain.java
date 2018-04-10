@@ -199,7 +199,6 @@ public class ControllerMain extends Application {
 	*/
 	private class menuButtonListener implements EventHandler<ActionEvent>
 	{
-
 		@Override
 		public void handle(ActionEvent e) 
 		{
@@ -226,7 +225,6 @@ public class ControllerMain extends Application {
 	                
 	                //game is over
 	                if(!isPlaying) {
-	                	System.out.println("YOU LOSE");
 	                	break;
 	                }
 	              }
@@ -239,10 +237,12 @@ public class ControllerMain extends Application {
 		    
 		    playingNow.start();
 		  }
-			
+		  
+		  //user wants to access instructions
 		  else if (buttonText.equals("Instructions"))
 			setViewTo(theInstrView);
 		  
+		  //button to go back from the gameplay (might be a optional button)
 		  else if (buttonText.equals("Back"))
 			setViewTo(theMenuView);
 		}	
