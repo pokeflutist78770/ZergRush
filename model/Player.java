@@ -35,7 +35,13 @@ public class Player {
 	//Maybe even when difficulties are added, decrease health as such, 
 	private double HP=100;   
 	
-	public void takeDamage(double damage, Thread mobWalk) {
+	
+	/* takeDamage
+	 * subtracts a certain amount from the players HP
+	 * Parameters: damage: base damage to be taken 
+	 * Returns: None
+	*/
+	public void takeDamage(double damage) {
 		if(damage<=HP) {
 			HP-=damage;
 			System.out.println("Player HP: "+HP);
@@ -44,7 +50,7 @@ public class Player {
 		if(HP<=0) {
 			System.out.println("Player lost");
 			ControllerMain.playingNow.interrupt();
-			mobWalk.interrupt();
+			
 			//display loss screen
 			
 			ControllerMain.isPlaying=false;
@@ -81,11 +87,13 @@ public class Player {
 	}
 	
 	
+	//resets HP for a new game
 	public void resetStats() {
 		HP=1000;
 	}
 	
 	
+	//tells if the player is dead yet
 	public boolean isDead() {
 		return HP<=0;
 	}

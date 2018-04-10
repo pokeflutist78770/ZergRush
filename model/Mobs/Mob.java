@@ -284,7 +284,7 @@ public abstract class Mob {
 	*/
 	public void attack(Player player) {
 		double damage=this.attack.getAttack();
-		player.takeDamage(damage, mobWalk);
+		player.takeDamage(damage);
 	}
 	
 	

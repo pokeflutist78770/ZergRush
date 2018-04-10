@@ -76,25 +76,31 @@ public abstract class Tower {
 
   private String imageFilePath;
 	
-	public Tower(int cost, String name,
-	    Point location, Range range, 
-	    String imageFP
-	    ) {
-	  this.cost = cost;
-	  this.name = name;
+  public Tower(int cost, String name,
+	           Point location, Range range, 
+	           String imageFP
+	           ) {
+    
+	this.cost = cost;
+    this.name = name;
+    this.location = location;
+    this.range = range;
 	  
-	  this.location = location;
-	  this.range = range;
+    imageFilePath = imageFP;
 	  
-	  imageFilePath = imageFP;
-	  
-	  initializeTower();
-	}
+    initializeTower();
+  }
 
+  
+  /* initializeTower
+   * initializes tower by starting a thread for it to check for nearby mobs
+   * Parameters: None
+   * Returns: None
+  */
   private void initializeTower() {
     
     towerAnxiety = new Thread(new Runnable() {
-
+    	
       @Override
       public void run() {
     	try {
