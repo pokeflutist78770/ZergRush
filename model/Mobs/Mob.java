@@ -43,6 +43,7 @@ import views.MapView;
 //enemies. You can mix and match this maps.
 
 public abstract class Mob {
+  public static int IDNumber=0;
   
   // Movement related fields
   private Thread mobWalk; 

@@ -223,15 +223,10 @@ public class ControllerMain extends Application {
 	          @Override
 	          public void run() {
 	        	try {
-	              while(true) {
+	              while(isPlaying) {
 	              
 	                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 	                theMapView.drawMap();
-	                
-	                //game is over
-	                if(!isPlaying) {
-	                	break;
-	                }
 	              }
 	              
 	              System.out.println("Gameplay Thread: Ended");
@@ -244,12 +239,15 @@ public class ControllerMain extends Application {
 		  }
 		  
 		  //user wants to access instructions
-		  else if (buttonText.equals("Instructions"))
+		  else if (buttonText.equals("Instructions")) {
 			setViewTo(theInstrView);
+		  }
 		  
 		  //button to go back from the gameplay (might be a optional button)
-		  else if (buttonText.equals("Back"))
+		  else if (buttonText.equals("Back")) {
+			isPlaying=false;
 			setViewTo(theMenuView);
+		  }
 		}	
 	}
 	
@@ -265,7 +263,7 @@ public class ControllerMain extends Application {
 	  }
 	  return imageMap.get(imgfp);
 	}
-	
+	 
 	/* resetMainMenu
 	 * brings the game back to the main menu
 	*/

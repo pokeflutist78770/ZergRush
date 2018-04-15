@@ -33,7 +33,7 @@ import javafx.stage.StageStyle;
 public class Player {
 	//just a default for now until mob attacks and balances are sorted out
 	//Maybe even when difficulties are added, decrease health as such, 
-	private double HP=100;   
+	private double HP=10000;   
 	
 	
 	/* takeDamage

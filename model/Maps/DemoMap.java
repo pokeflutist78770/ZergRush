@@ -9,6 +9,7 @@ import java.util.List;
 
 import controller.ControllerMain;
 import model.Mobs.DemoMob;
+import model.Mobs.Zergling;
 import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
@@ -36,7 +37,8 @@ public class DemoMap extends Map {
         do {
           try {
             
-            DemoMob mob=new DemoMob(paths.get(1));
+            Zergling mob=new Zergling(paths.get(1));
+           // DemoMob mob=new DemoMob(paths.get(1));
             
             System.out.println("DemoMap is spawning: "+mob.toString());
             
