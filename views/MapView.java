@@ -79,6 +79,23 @@ public class MapView extends StackPane {
 	{
 	  gc.drawImage(background, 0, 0);
 	  
+	  
+	  /*
+	   * NOTE: These only work for Zergling and Hydralisk, will probably need a way to 
+	   * allow the mob to know its own dimensions or something, whatever it may be
+	  */
+	  double sx=2;
+      double sy=2;
+      double sw=38;
+      double sh=38;
+      double dw=38;
+      double dh=38;
+    	
+    	
+      /*
+	   * Our beautiful animation stuff will go here
+      */
+      
 	  //draws all current towers
       Iterator<Tower> towitr = ControllerMain.towers.iterator();
       while (towitr.hasNext()) {
@@ -90,7 +107,9 @@ public class MapView extends StackPane {
 	  Iterator<Mob> mobitr = ControllerMain.mobs.iterator();
 	  while (mobitr.hasNext()) {
 	    Mob nextMob = mobitr.next();
-	    gc.drawImage(nextMob.getImage(), nextMob.getX(), nextMob.getY());
+	
+	    gc.drawImage(nextMob.getImage(), sx, sy, sw,sh, 
+	    		     nextMob.getX(), nextMob.getY(), dw, dh);
 	  }
 	  
 	  //drasws any current rojectiles

@@ -9,6 +9,8 @@ import java.util.List;
 
 import controller.ControllerMain;
 import model.Mobs.DemoMob;
+import model.Mobs.Hydralisk;
+import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
 import model.Towers.DemoTower;
 
@@ -38,11 +40,15 @@ public class DemoMap extends Map {
           try {
             
             Zergling mob=new Zergling(paths.get(1));
+            Hydralisk mob2=new Hydralisk(paths.get(1));
+            Ultralisk mob3=new Ultralisk(paths.get(1));
            // DemoMob mob=new DemoMob(paths.get(1));
             
             System.out.println("DemoMap is spawning: "+mob.toString());
             
             ControllerMain.mobs.add(mob);
+            ControllerMain.mobs.add(mob2);
+            ControllerMain.mobs.add(mob3);
             
             if(!ControllerMain.isPlaying) {
             	break;

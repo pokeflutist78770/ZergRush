@@ -48,6 +48,7 @@ public abstract class Mob {
   // Movement related fields
   private Thread mobWalk; 
   private Point currentLocation;
+  
   private Point targetLocation;
   private List<Point> movementPath;
   private int pathIndex; 
@@ -152,7 +153,7 @@ public abstract class Mob {
 		
 		double newX = oldX + spd * unitV.getX();
 		double newY = oldY + spd * unitV.getY();
-		
+
 		currentLocation.setLocation(newX, newY);
 	}
 	
