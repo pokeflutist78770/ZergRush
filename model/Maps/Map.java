@@ -36,12 +36,6 @@ import javafx.scene.image.Image;
 public abstract class Map {
   
   protected String imageFilePath;
-  
-	public static void scalePoint(Point p) {
-	  int x = (int) p.getX();
-	  int y = (int) p.getY();
-	  p.setLocation((int) x*ControllerMain.GUI_SIZE/1000, (int)y*ControllerMain.GUI_SIZE/1000);
-	}
   protected HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
   
   public Map (String imgFp) {
@@ -50,6 +44,19 @@ public abstract class Map {
     imageFilePath = imgFp;
   }
   
+  
+  /* scalePoint
+   * scales a given x and y position to the screen resolution
+   * Parameters: p: a gien Point object
+   * Returns: None
+  */
+  public static void scalePoint(Point p) {
+	int x = (int) p.getX();
+	int y = (int) p.getY();
+	p.setLocation((int) x*ControllerMain.GUI_SIZE/1000, (int)y*ControllerMain.GUI_SIZE/1000);
+  }
+  
+  //gets the map image
   public Image getImage() {
     return ControllerMain.getGraphic(imageFilePath);
   }

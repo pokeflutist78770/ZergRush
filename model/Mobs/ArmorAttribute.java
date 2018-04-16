@@ -1,6 +1,7 @@
 package model.Mobs;
 
 
+
 public enum ArmorAttribute {
   
 	//DEMO is used only for testing, to show a full resistance to any shot

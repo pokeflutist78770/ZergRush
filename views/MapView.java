@@ -44,7 +44,6 @@ import model.Towers.Tower;
 
 public class MapView extends StackPane {
 
-
 	private Button backButton;
 	private StackPane pane;
 	private Image background;
@@ -55,7 +54,12 @@ public class MapView extends StackPane {
 	private Set projectiles;
 	private List towers;
 	
+<<<<<<< HEAD
 	public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t)
+=======
+	
+	public MapView(Button back)
+>>>>>>> fa33034c6b9745c3efa5ef12667ec3a1d5ba9ce0
 	{
 		mob = m;
 		projectiles = p;
@@ -65,7 +69,7 @@ public class MapView extends StackPane {
 		pane = new StackPane();
 		canvas = new Canvas(800,800);
 		gc = canvas.getGraphicsContext2D();
-		background = new Image("file:assets/images/sc.jpg", false);
+		background = new Image("file:assets/images/map/demoMap.png", false);
 		
 		// Draw background
 		gc.drawImage(background, 0.0, 0.0);
@@ -80,26 +84,54 @@ public class MapView extends StackPane {
 		this.getChildren().add(pane);
 	}
 
+	
+	/* drawMap
+	 * Draws the overall map and mobs/towers every iteration
+	 * Parameters: None
+	 * Returns: None
+	*/
 	public void drawMap()
 	{
 	  gc.drawImage(background, 0, 0);
-    Iterator<Tower> towitr = ControllerMain.towers.iterator();
-    while (towitr.hasNext()) {
-      Tower nextTower = towitr.next();
-      gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
-    }
+	  
+	  
+	  /*
+	   * NOTE: These only work for Zergling and Hydralisk, will probably need a way to 
+	   * allow the mob to know its own dimensions or something, whatever it may be
+	  */
+	  double sx=2;
+      double sy=2;
+      double sw=38;
+      double sh=38;
+      double dw=38;
+      double dh=38;
+    	
+    	
+      /*
+	   * Our beautiful animation stuff will go here
+      */
+      
+	  //draws all current towers
+      Iterator<Tower> towitr = ControllerMain.towers.iterator();
+      while (towitr.hasNext()) {
+        Tower nextTower = towitr.next();
+        gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
+      }
+      
+      //draws every mob
 	  Iterator<Mob> mobitr = ControllerMain.mobs.iterator();
 	  while (mobitr.hasNext()) {
 	    Mob nextMob = mobitr.next();
-	    gc.drawImage(nextMob.getImage(), nextMob.getX(), nextMob.getY());
+	
+	    gc.drawImage(nextMob.getImage(), sx, sy, sw,sh, 
+	    		     nextMob.getX(), nextMob.getY(), dw, dh);
 	  }
-	  /*Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
+	  
+	  //drasws any current rojectiles
+	  Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
 	  while (projitr.hasNext()) {
 	    Projectile nextProj = projitr.next();
 	    gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
-	  }*/
-	  
-		
+	  }	
 	}
-	
 }

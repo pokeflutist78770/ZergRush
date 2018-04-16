@@ -9,6 +9,8 @@ import model.Mobs.Mob;
 import model.Mobs.SpeedAttribute;
 import model.Towers.ElementalAttribute;
 
+
+
 // This is the object that is instantiated when the tower shoots. 
 //It keeps track of its location and it moves along until it reaches its target.
 abstract public class Projectile {
@@ -22,39 +24,45 @@ abstract public class Projectile {
   protected double baseDmg;
   protected ElementalAttribute dmgType;
   protected double blastRadius;
-  
-
+ 
   private String imageFilePath;
-	
-	public Projectile(Point startLocation, SpeedAttribute spd,
-	    double radius,
-	    double baseDamage,  ElementalAttribute ea,
-	    String imgFilePath
-	    ) {
+
+  
+  
+  public Projectile(Point startLocation, SpeedAttribute spd,
+                    double radius, double baseDamage,  ElementalAttribute ea,
+                    String imgFilePath
+                    ) {
+		
     currentLocation = startLocation;
     speed = spd;
     blastRadius = radius;
-    
-
     baseDmg = baseDamage;
-		dmgType = ea;
+    dmgType = ea;
 
     imageFilePath = imgFilePath;
 		
-		initializeProjectile();
-	}
+    initializeProjectile();
+  }
 	
-	private void initializeProjectile() {
-	  
-	  kamakaziImperative = new Thread(new Runnable() {
 
+  abstract protected void terminate();
+	
+  /* initializeProjectile
+   * starts a thread for a new projectile and shows an animation
+   * Parameters: None
+   * Returns: None
+  */
+  private void initializeProjectile() {
+	  
+    kamakaziImperative = new Thread(new Runnable() {
       @Override
       public void run() {
-        while(!Thread.interrupted()) {
+    	while(!Thread.interrupted()) {
           try {
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
             
-            if (!hasReachedTarget()) {
+            if (!hasReachedTarget()) { //projectile still hasnt reached mob yet
               updateLocation();
             } else {
               terminate();
@@ -64,21 +72,17 @@ abstract public class Projectile {
           }
         }
       }
-	  });
-	  kamakaziImperative.start();
+    });
     
-  }
-  
-  public Point getDirectionVector() {
-    return Metric.getDirectionVector(currentLocation, getTargetLocation());
-  }
-  
-  public double getDirectionAngle() {
-    return Metric.getDirectionAngle(currentLocation, getTargetLocation());
+    kamakaziImperative.start();
   }
 
-  abstract protected void terminate();
-
+  
+  /* updateLocation
+   * updates the current location of a projectile
+   * Parameters: None
+   * Return: None
+  */
   protected void updateLocation() {
     double oldX = currentLocation.getX();
     double oldY = currentLocation.getY();
@@ -89,18 +93,38 @@ abstract public class Projectile {
     double newX = oldX + spd * unitV.getX();
     double newY = oldY + spd * unitV.getY();
     
-    currentLocation.setLocation(newX, newY);
-    
+    currentLocation.setLocation(newX, newY);  
   }
 
+  
+  /* hasReachedTarget
+   * tells if a projectile has reached its destined target
+   * Parameters: None
+   * Returns: None
+  */
   private boolean hasReachedTarget() {
+	//area of effect projectile
     if (targetMob == null) {
        return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
+    
+    //target is a mob
     } else {
       return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius);
     }
   }
 
+  
+  /*----------     Getters/Setters      ----------*/
+  
+  
+  public Point getDirectionVector() {
+    return Metric.getDirectionVector(currentLocation, getTargetLocation());
+  }
+	  
+  public double getDirectionAngle() {
+    return Metric.getDirectionAngle(currentLocation, getTargetLocation());
+  }
+	  
   protected Mob getMob() {
     return targetMob;
   }
@@ -129,14 +153,11 @@ abstract public class Projectile {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }
 	
-	public double getX() {
-	  return currentLocation.getX();
-	}
+  public double getX() {
+    return currentLocation.getX();
+  }
 	
-	public double getY() {
-	  return currentLocation.getY();
-	}
-	
-	
-
+  public double getY() {
+    return currentLocation.getY();
+  }
 }

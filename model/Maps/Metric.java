@@ -24,6 +24,13 @@ public class Metric {
 		return distanceSquared(p1, p2) < distance * distance;
 	}
 	
+	
+	/* distanceSquared
+	 * calculates two distances squared
+	 * Parameters: p1: point one
+	 *             p2: another point to calculate distance from
+	 * Returns: double representing the equation if squared distance
+	*/
 	public static double distanceSquared(Point p1, Point p2) {
 	  double deltaX = p1.getX() - p2.getX();
 	  double deltaY = p1.getY() - p2.getY();
@@ -31,6 +38,7 @@ public class Metric {
 	  return deltaX * deltaX + deltaY * deltaY;
 	}
   
+	
   /**
    * Calculate the direction this mob is moving.
    * @return A point representing the unit velocity vector of this mob.
@@ -47,6 +55,7 @@ public class Metric {
     
     return new Point((int) Math.round(xDir), (int) Math.round(yDir));
   }
+  
   
   /**
    * Calculate the angle of the velocity of this mob in degrees.
@@ -67,13 +76,16 @@ public class Metric {
     }
     
     double ratio = vDir.getY() / vDir.getX();
-    double base = Math.atan(ratio);
+    double base = Math.atan(ratio);  //solves for base angle 
     double radianAngle = 0;
     
+    //some nice redirecting of the angle to prevent negatives (Im 98% sure)
     if (vDir.getX() < 0) {
       radianAngle = base + Math.PI; 
     } else if (vDir.getY() < 0) {
       radianAngle = base + 2 * Math.PI;
+    
+    //angle is good as is
     } else {
       radianAngle = base;
     }

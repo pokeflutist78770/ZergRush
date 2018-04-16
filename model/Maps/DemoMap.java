@@ -9,29 +9,50 @@ import java.util.List;
 
 import controller.ControllerMain;
 import model.Mobs.DemoMob;
+import model.Mobs.Hydralisk;
+import model.Mobs.Ultralisk;
+import model.Mobs.Zergling;
 import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
-  private long spawnFreq = 5000;
+  private long spawnFreq = 750;
   
   public DemoMap() {
-    super("file:assets/images/sc.jpg");
+    super("file:assets.images.map/demoMap.png");
     
     initializeTowers();
-    //initializeSpawnCycle();
-    ControllerMain.mobs.add(new DemoMob(paths.get(1)));
+    initializeSpawnCycle();
+   // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
   
+  
+  /* initializeSpawnCycle
+   * Starts the spawn cycle for the gameplay
+   * Parameters: None
+   * Returns: None
+  */
   private void initializeSpawnCycle() {
     Thread spawnCycle = new Thread(new Runnable() {
-
       @Override
       public void run() {
         do {
           try {
-            System.out.println("demomap is spawning");
-            ControllerMain.mobs.add(new DemoMob(paths.get(1)));
+            
+            Zergling mob=new Zergling(paths.get(1));
+            Hydralisk mob2=new Hydralisk(paths.get(1));
+            Ultralisk mob3=new Ultralisk(paths.get(1));
+           // DemoMob mob=new DemoMob(paths.get(1));
+            
+            System.out.println("DemoMap is spawning: "+mob.toString());
+            
+            ControllerMain.mobs.add(mob);
+            ControllerMain.mobs.add(mob2);
+            ControllerMain.mobs.add(mob3);
+            
+            if(!ControllerMain.isPlaying) {
+            	break;
+            }
             
             Thread.sleep(spawnFreq);
           } catch (InterruptedException e) {
@@ -40,16 +61,25 @@ public class DemoMap extends Map {
         } while(true);
         
       }
-      
     });
-    spawnCycle.start();
     
+    spawnCycle.start();
   }
 
+  
+  /* initializeTowers
+   * initializes the towers for the map
+  */
   private void initializeTowers() {
     ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
+  
+  /* constructMobRoute
+   * Creates the route for each mob to walk through
+   * Parameters: None
+   * Returns: None
+  */
   @Override
   void constructMobRoute() {
     List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
@@ -74,7 +104,4 @@ public class DemoMap extends Map {
     
     this.paths.put(1, pathOne);
   }
-  
-  
-
 }

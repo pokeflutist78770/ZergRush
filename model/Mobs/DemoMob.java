@@ -22,10 +22,14 @@ public class DemoMob extends Mob {
   public DemoMob(Point[] path) {
 =======
   public DemoMob(List<Point> path) {
+<<<<<<< HEAD
 >>>>>>> f0bc51179bb1c04bf6d7b212bc489a026058592d
     super(path, ControllerMain.TILE_SIZE, 
+=======
+    super(path, ControllerMain.TILE_SIZE/3, 
+>>>>>>> fa33034c6b9745c3efa5ef12667ec3a1d5ba9ce0
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
-        DefenseAttribute.DEMO_DEFENSE, SpeedAttribute.NORMAL, 
+        DefenseAttribute.LARGE, SpeedAttribute.NORMAL, 
         new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.DEMO)),
         "Chad", "file:assets/images/TheHunter.png");
   }

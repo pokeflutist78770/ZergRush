@@ -1,10 +1,23 @@
 package model.Mobs;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.ControllerMain;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Player;
 import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
@@ -30,10 +43,12 @@ import views.MapView;
 //enemies. You can mix and match this maps.
 
 public abstract class Mob {
+  public static int IDNumber=0;
   
   // Movement related fields
   private Thread mobWalk; 
   private Point currentLocation;
+  
   private Point targetLocation;
   private List<Point> movementPath;
   private int pathIndex; 
@@ -46,22 +61,25 @@ public abstract class Mob {
   private SpeedAttribute speed;
   private List<ResistanceAttribute> resistances;
 
-	// String data of the mob.
+  // String data of the mob.
   private String name;
   private String imageFilePath; 
 
   
 	public Mob(List<Point> movementPath, double radius, 
-	    ArmorAttribute armor, AttackAttribute attack, 
-	    DefenseAttribute defense, SpeedAttribute speed,  
-	    List<ResistanceAttribute> resistances, 
-		  String name, String imageFP) {
+	           ArmorAttribute armor, AttackAttribute attack, 
+	           DefenseAttribute defense, SpeedAttribute speed,  
+	           List<ResistanceAttribute> resistances, 
+		       String name, String imageFP) {
 		
 	  // Initialize Attributes
       this.movementPath = movementPath;
+      
       this.pathIndex = 0;
+      
       System.out.println(movementPath.get(0).getX());
-      this.currentLocation = this.movementPath.get(0);
+      
+      this.currentLocation = new Point((int)this.movementPath.get(0).getX(), (int)this.movementPath.get(0).getY());
       this.pathIndex++;
 
       this.radius = radius;
@@ -78,7 +96,7 @@ public abstract class Mob {
       attackTime=0;
 	  initializeMovement();
 	}
-
+	
 	
 	/**
 	 * This method gets the mob walking from its spawn location to the End-Zone.
@@ -89,29 +107,37 @@ public abstract class Mob {
 		
 		targetLocation = movementPath.get(pathIndex);
 		pathIndex++;
+		
+		//tracks and moves the mob
 		mobWalk = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				while(!Thread.interrupted()) {
-					try {
+				try {
+					while(ControllerMain.isPlaying) {
+			
 						Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 						
+						//reached the next place, need to chnge direction
 						if (reachedTarget()) {
 							updateTarget();
 						}
+						//move closer to targete location
 						else {
 							takeStep();
 						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
 					}
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
 				}
+				
+				System.out.println("Mob Thread: Ended");
 			}
 		});
 		
 		mobWalk.start();
 	}
+	
 	
 	/**
 	 * Moves this mob a step toward its target.
@@ -127,9 +153,10 @@ public abstract class Mob {
 		
 		double newX = oldX + spd * unitV.getX();
 		double newY = oldY + spd * unitV.getY();
-		
+
 		currentLocation.setLocation(newX, newY);
 	}
+	
 
 	/**
 	 * A getter method
@@ -139,6 +166,7 @@ public abstract class Mob {
 		return currentLocation.getX();
 	}
 	
+	
 	/**
 	 * A getter method
 	 * @return The current Y-coordinate
@@ -147,10 +175,14 @@ public abstract class Mob {
 		return currentLocation.getY();
 	}
 	
+	
+	//getter for the direction vector
 	public Point getDirectionVector() {
 	  return Metric.getDirectionVector(currentLocation, targetLocation);
 	}
 	
+	
+	//direction angle for the mob
 	public double getDirectionAngle() {
 	  return Metric.getDirectionAngle(currentLocation, targetLocation);
 	}
@@ -179,9 +211,7 @@ public abstract class Mob {
 		
 		if(attackTime%60==0) {
 			attack(ControllerMain.thePlayer);
-		}
-		
-		
+		}	
 	}
 
 	
@@ -211,6 +241,36 @@ public abstract class Mob {
 			
 			ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
+			/*
+			//ControllerMain.isPlaying=false;
+			
+			Platform.runLater(() -> {
+				//This code will be moved to when a player reaches a set amount of waves, 
+				//but for the demo this will suffice
+				ControllerMain.currentView.setEffect(new GaussianBlur());
+				
+				VBox pauseRoot = new VBox(5);
+	            pauseRoot.getChildren().add(new Label("You win!"));
+	            pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+	            pauseRoot.setAlignment(Pos.CENTER);
+	            pauseRoot.setPadding(new Insets(20));
+	
+	            Button resume = new Button("Main Menu");
+	            pauseRoot.getChildren().add(resume);
+	            
+				Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+	            popupStage.initOwner(ControllerMain.getStage());
+	            popupStage.initModality(Modality.APPLICATION_MODAL);
+	            popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+	            
+	            resume.setOnAction(event -> {
+	                ControllerMain.currentView.setEffect(null);
+	                ControllerMain.resetMainMenu();
+	                popupStage.hide();
+	            });
+	            
+	            popupStage.show();
+			}); */
 		}	
 		
 		hp-=newDamage;

@@ -76,42 +76,57 @@ public abstract class Tower {
 
   private String imageFilePath;
 	
-	public Tower(int cost, String name,
-	    Point location, Range range, 
-	    String imageFP
-	    ) {
-	  this.cost = cost;
-	  this.name = name;
+  public Tower(int cost, String name,
+	           Point location, Range range, 
+	           String imageFP
+	           ) {
+    
+	this.cost = cost;
+    this.name = name;
+    this.location = location;
+    this.range = range;
 	  
-	  this.location = location;
-	  this.range = range;
+    imageFilePath = imageFP;
 	  
-	  imageFilePath = imageFP;
-	  
-	  initializeTower();
-	}
+    initializeTower();
+  }
 
+  
+  /* initializeTower
+   * initializes tower by starting a thread for it to check for nearby mobs
+   * Parameters: None
+   * Returns: None
+  */
   private void initializeTower() {
     
     towerAnxiety = new Thread(new Runnable() {
-
+    	
       @Override
       public void run() {
-        while(true) {
-          try {
+    	try {
+          while(true) {
+          
             Thread.sleep((long) 60*ControllerMain.UPDATE_FREQUENCY);
             
             Set nearbyMobs = getNearbyMobs();
             if (!nearbyMobs.isEmpty()) {
+              System.out.println(ControllerMain.isPlaying);
               shoot(nearbyMobs);
+              System.out.println(ControllerMain.isPlaying);
             }
             
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
+            if(!ControllerMain.isPlaying) {
+            	break;
+            }
+          }  
+          
+          System.out.println("Tower Thread: Ended");
+    	} catch (InterruptedException e) {
+          e.printStackTrace();
         }
       }
     });
+    
     towerAnxiety.start();
   }
 

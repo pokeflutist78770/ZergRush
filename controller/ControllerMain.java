@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
@@ -80,22 +81,25 @@ import views.ScoreView;
 // load a game, have it paused initially, and then resume to play the game. 
 
 public class ControllerMain extends Application {
-	public final static int GUI_SIZE= 800;
-	public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
-	public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
+  public final static int GUI_SIZE= 800;
+  public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
+  public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
   public static final int UPDATE_FREQUENCY = 17;
   
   public static HashSet mobs = new HashSet<Mob>();
   public static HashSet projectiles = new HashSet<Projectile>(); 
   public static ArrayList<Tower> towers = new ArrayList<Tower>();
   public static Player thePlayer;
+  public static Thread playingNow;
+  public static Pane currentView;
+  public static Stage stage; 
+  public static boolean isPlaying;
   
 	private Map theMap;
-	//private Player thePlayer;
 	private Tower theTower;
 	private Mob theMob;
 	private MapView theMapView;
-	private MenuView theMenuView;
+	private static MenuView theMenuView;
 	private InstructionView theInstrView;
 	private Button startButton;
 	private Button instrButton;
@@ -106,11 +110,17 @@ public class ControllerMain extends Application {
 //	private HashMap<Integer, Projectile> projectiles;
 	private HashMap<String, Media> audio;
 	
-	private BorderPane window;
+	private static BorderPane window;
 	public static final int width = 800;
 	public static final int height = 800;
-  private static HashMap<String,Image> imageMap;
+    private static HashMap<String,Image> imageMap;
 	
+    
+    /* initializeAssets
+     * Initializes all images and sound, allowing for a flyweight design pattern
+     * Parameters: Nonw
+     * Returns: None
+    */
 	private void initializeAssets() {
 	  imageMap = new HashMap<String,Image>();
 	  initializeImages();
@@ -143,6 +153,7 @@ public class ControllerMain extends Application {
 		
 		// Initialize window
 	    window = new BorderPane();
+		this.stage=stage;
 		
 	    // Initialize menu buttons
 		startButton = new Button("Start");
@@ -164,62 +175,112 @@ public class ControllerMain extends Application {
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
+<<<<<<< HEAD
 		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
+=======
+		theMapView = new MapView(backButtonMap);
+		isPlaying=false;
+>>>>>>> fa33034c6b9745c3efa5ef12667ec3a1d5ba9ce0
 		
 	    Scene scene = new Scene(window, width, height);
 		stage.setScene(scene);
 		stage.show();
 	}
 	
-	private void setViewTo(StackPane newView) 
+	
+	/* setViewTo
+	 * changes the current view that the usere can see
+	 * Parameters: newView: the new view to be able to change
+	 * Returns: None
+	*/
+	private static void setViewTo(StackPane newView) 
 	{
 		// Adjust the view to newView
 		window.setCenter(null);
 		window.setCenter(newView);
+		currentView=newView;
 	}
 
+	
+	/* menuButtonListener
+	 * Listener to check different button clicks
+	*/
 	private class menuButtonListener implements EventHandler<ActionEvent>
 	{
-
 		@Override
 		public void handle(ActionEvent e) 
 		{
-			// Change to MapView or or InstructionsView depending on button
-			String buttonText = ((Button) e.getSource()).getText();
+		  // Change to MapView or or InstructionsView depending on button
+		  String buttonText = ((Button) e.getSource()).getText();
 			
-			if (buttonText.equals("Start"))
-			{
-				setViewTo(theMapView);
+		  //User wishes to start a game
+		  if (buttonText.equals("Start"))
+		  {
+			setViewTo(theMapView);
 		    theMap = new DemoMap();
-		    Thread playingNow = new Thread(new Runnable() {
-
-          @Override
-          public void run() {
-            while(true) {
-              try {
-                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
-                theMapView.drawMap();
-              } catch (InterruptedException e) {
-                e.printStackTrace();
-              }
-            }
-          }
-		    });
+		    thePlayer.resetStats();
+		    isPlaying=true;
+		    
+		    //gotta start with a fresh new game :)
+		    //towers.clear();
+		    mobs.clear();
+		    projectiles.clear();
+		    
+		    //thread to show a playing game
+		    playingNow = new Thread(new Runnable() {
+	          @Override
+	          public void run() {
+	        	try {
+	              while(isPlaying) {
+	              
+	                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
+	                theMapView.drawMap();
+	              }
+	              
+	              System.out.println("Gameplay Thread: Ended");
+	            } catch (InterruptedException e) {
+	              e.printStackTrace();
+	            }
+	          }});
+		    
 		    playingNow.start();
-			}
-			else if (buttonText.equals("Instructions"))
-				setViewTo(theInstrView);
-			else if (buttonText.equals("Back"))
-				setViewTo(theMenuView);
-		}
-		
+		  }
+		  
+		  //user wants to access instructions
+		  else if (buttonText.equals("Instructions")) {
+			setViewTo(theInstrView);
+		  }
+		  
+		  //button to go back from the gameplay (might be a optional button)
+		  else if (buttonText.equals("Back")) {
+			isPlaying=false;
+			setViewTo(theMenuView);
+		  }
+		}	
 	}
 	
+	
+	/* getGraphic
+	 * Gets a asset image for a given string
+	 * Parameters: imgfp: filepath of the image
+	 * Returns: None
+	*/
 	public static Image getGraphic(String imgfp) {
 	  if (!imageMap.containsKey(imgfp)) {
-      imageMap.put(imgfp, new Image(imgfp));
+        imageMap.put(imgfp, new Image(imgfp));
 	  }
 	  return imageMap.get(imgfp);
 	}
+	 
+	/* resetMainMenu
+	 * brings the game back to the main menu
+	*/
+	public static void resetMainMenu() {
+		setViewTo(theMenuView);
+	}
 	
+	//gets the mai nstage for the game
+	public static Stage getStage() {
+		return stage;
+	}
 }
