@@ -175,12 +175,8 @@ public class ControllerMain extends Application {
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
-<<<<<<< HEAD
 		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
-=======
-		theMapView = new MapView(backButtonMap);
 		isPlaying=false;
->>>>>>> fa33034c6b9745c3efa5ef12667ec3a1d5ba9ce0
 		
 	    Scene scene = new Scene(window, width, height);
 		stage.setScene(scene);

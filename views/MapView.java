@@ -3,11 +3,8 @@ package views;
 import java.util.List;
 import java.awt.Paint;
 import java.awt.Point;
-<<<<<<< HEAD
 import java.util.Set;
-=======
 import java.util.Iterator;
->>>>>>> f0bc51179bb1c04bf6d7b212bc489a026058592d
 
 import controller.ControllerMain;
 import javafx.animation.PathTransition;
@@ -54,12 +51,7 @@ public class MapView extends StackPane {
 	private Set projectiles;
 	private List towers;
 	
-<<<<<<< HEAD
 	public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t)
-=======
-	
-	public MapView(Button back)
->>>>>>> fa33034c6b9745c3efa5ef12667ec3a1d5ba9ce0
 	{
 		mob = m;
 		projectiles = p;
