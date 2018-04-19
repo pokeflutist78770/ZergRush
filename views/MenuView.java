@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,7 +40,7 @@ public class MenuView extends StackPane {
 	private Button saveButton;
 	private Boolean save;
 	private Boolean load;
-	private String speed;
+	private Slider speedSlider;
 	
 	public MenuView(Button start, Button instr)
 	{
@@ -81,7 +82,7 @@ public class MenuView extends StackPane {
 		difficulty = new Label("Select difficulty:");
 		difficulty.setStyle("-fx-font: 22 serif; -fx-text-fill: #808080;");
 		this.getChildren().add(difficulty);
-		difficulty.setPadding(new Insets(685,0,0,0));
+		difficulty.setPadding(new Insets(650,0,0,0));
 		
 		// Bottom Buttons
 		hBox.getChildren().add(instrButton);
@@ -139,25 +140,25 @@ public class MenuView extends StackPane {
 	        map =  myComboBox.getSelectionModel().getSelectedItem().toString();
 	    });
 	    
-	    // Speed Drop-Down
-		speed = "";
-		ComboBox<String> speedComboBox = new ComboBox<String>();
-		speedComboBox.setMinWidth(168);
-	    speedComboBox.getItems().addAll("Slow","Medium","Fast");
-	    speedComboBox.setEditable(false);  
-	    speedComboBox.setPromptText("Game Speed");
-	    speedComboBox.setStyle("-fx-font: 16 serif; -fx-base: #000000;");
-	    speedComboBox.setOnAction((ActionEvent ev) -> {
-	        speed =  speedComboBox.getSelectionModel().getSelectedItem().toString();
-	        System.out.println(speed);
-	    });
+	    // Game Speed Slider
+	    VBox slideBox = new VBox();
+	    speedSlider = new Slider(0, 1, 0.53);
+	    speedSlider.setMaxWidth(150);
+	    speedSlider.setStyle("-fx-font: 16 serif; -fx-base: #000000;");
+	    Label sliderLabel = new Label("Game Speed");
+	    sliderLabel.setStyle("-fx-text-fill: #ffffff");
+	    
+	    slideBox.getChildren().add(speedSlider);
+	    slideBox.getChildren().add(sliderLabel);
+	    sliderLabel.setPadding(new Insets(0,0,0,45));
+	    slideBox.setPadding(new Insets(10,0,0,640));
+	    slideBox.setPickOnBounds(false);
+	    this.getChildren().add(slideBox);
 	    
 	    // Add Map Drop-Down
 	    VBox comboVBox = new VBox();
 	    comboVBox.getChildren().add(myComboBox);
-	    comboVBox.getChildren().add(speedComboBox);
-	    comboVBox.setPadding(new Insets(525,0,0,318));
-	    comboVBox.setSpacing(3);
+	    comboVBox.setPadding(new Insets(515,0,0,322));
 		comboVBox.setPickOnBounds(false);
 	    this.getChildren().add(comboVBox);
 	    
@@ -259,12 +260,11 @@ public class MenuView extends StackPane {
 		  return save;
 	  }
 	
-	  public String getSpeedSelection()
+	  public double getSpeedSelection()
 	  {
-		  if (speed.equals(""))
-			  return null;
-		  else
-			  return speed;
+		  // Returns 0.0 (min) to 1.0 (max) representing 
+		  // position of cursor on slider
+		  return speedSlider.getValue();
 	  }
 	  
 	  public String getModeSelection()
