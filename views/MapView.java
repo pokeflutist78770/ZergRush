@@ -119,7 +119,7 @@ public class MapView extends StackPane {
 	    		     nextMob.getX(), nextMob.getY(), dw, dh);
 	  }
 	  
-	  //drasws any current rojectiles
+	  //draws any current projectiles
 	  Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
 	  while (projitr.hasNext()) {
 	    Projectile nextProj = projitr.next();
