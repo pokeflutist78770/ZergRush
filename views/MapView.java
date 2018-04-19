@@ -9,6 +9,7 @@ import java.util.Iterator;
 import controller.ControllerMain;
 import javafx.animation.PathTransition;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -47,9 +49,15 @@ public class MapView extends StackPane {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private VBox vBox;
+	private HBox towerBox;
 	private Set mob;
 	private Set projectiles;
 	private List towers;
+	private Button tower1;
+	private Button tower2;
+	private Button tower3;
+	private Button upgradeButton;
+	private Button upgrade;
 	
 	public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t)
 	{
@@ -57,22 +65,76 @@ public class MapView extends StackPane {
 		projectiles = p;
 		towers = t;
 		vBox = new VBox();
+		towerBox = new HBox();
 		backButton = back;
 		pane = new StackPane();
 		canvas = new Canvas(800,800);
 		gc = canvas.getGraphicsContext2D();
+		StackPane.setAlignment(canvas, Pos.TOP_CENTER);
 		background = new Image("file:assets/images/map/demoMap.png", false);
+		
+		// Command Panel - Black Background
+		Canvas commandCanvas = new Canvas(800,880);
+		GraphicsContext gcCommand = commandCanvas.getGraphicsContext2D();
+		gcCommand.setFill(Color.BLACK);
+		gcCommand.setStroke(Color.BLACK);
+		gcCommand.fillRect(0, 0, commandCanvas.getWidth(), commandCanvas.getHeight());
+		
+		// Tower1 Button
+	    Image tower1Image = new Image("file:assets/images/marine.png", false);
+	    ImageView iv1 = new ImageView(tower1Image);
+	    iv1.setFitHeight(37);
+	    iv1.setFitWidth(37);
+	    tower1 = new Button("", iv1);
+	    tower1.setStyle("-fx-base: #808080;");
+	    
+		// Tower2 Button
+	    Image tower2Image = new Image("file:assets/images/ghost.png", false);
+	    ImageView iv2 = new ImageView(tower2Image);
+	    iv2.setFitHeight(37);
+	    iv2.setFitWidth(37);
+	    tower2 = new Button("", iv2);
+	    tower2.setStyle("-fx-base: #808080;");
+	    
+		// Tower3 Button
+	    Image tower3Image = new Image("file:assets/images/thick.png", false);
+	    ImageView iv3 = new ImageView(tower3Image);
+	    iv3.setFitHeight(37);
+	    iv3.setFitWidth(37);
+	    tower3 = new Button("", iv3);
+	    tower3.setStyle("-fx-base: #808080;");
+	    
+	    // Purchase Button
+		upgradeButton = new Button("Upgrade");
+		upgradeButton.setMinWidth(30);
+		upgradeButton.setMinHeight(10);
+		upgradeButton.setStyle("-fx-font: 14 serif; -fx-base: #808080;");
+	    
+		// Canvas Border
+		gc.setLineDashes(5);
+		gc.setStroke(Color.GRAY);
+		gc.setLineWidth(3);
 		
 		// Draw background
 		gc.drawImage(background, 0.0, 0.0);
 		
-		// Add button
+		// Add upgrade button
 		backButton.setMaxWidth(100);
-		vBox.getChildren().add(backButton);
-		vBox.setPadding(new Insets(750,0,0,350));
+		vBox.getChildren().add(upgradeButton);
+		vBox.setPadding(new Insets(828,0,0,470));
 		
+		// Add Tower Buttons
+		towerBox.getChildren().add(tower1);
+		towerBox.getChildren().add(tower2);
+		towerBox.getChildren().add(tower3);
+		towerBox.setPadding(new Insets(818,0,0,275));
+		towerBox.setSpacing(12);
+		towerBox.setPickOnBounds(false);
+		
+		pane.getChildren().add(commandCanvas);
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(vBox);
+		pane.getChildren().add(towerBox);
 		this.getChildren().add(pane);
 	}
 
@@ -85,6 +147,7 @@ public class MapView extends StackPane {
 	public void drawMap()
 	{
 	  gc.drawImage(background, 0, 0);
+	  gc.strokeLine(0, 800, 800, 800);
 	  
 	  /*
 	   * NOTE: These only work for Zergling and Hydralisk, will probably need a way to 
