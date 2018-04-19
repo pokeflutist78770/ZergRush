@@ -86,7 +86,6 @@ public class MapView extends StackPane {
 	{
 	  gc.drawImage(background, 0, 0);
 	  
-	  
 	  /*
 	   * NOTE: These only work for Zergling and Hydralisk, will probably need a way to 
 	   * allow the mob to know its own dimensions or something, whatever it may be
@@ -97,29 +96,37 @@ public class MapView extends StackPane {
       double sh=38;
       double dw=38;
       double dh=38;
-    	
-    	
+
       /*
 	   * Our beautiful animation stuff will go here
       */
-      
+
 	  //draws all current towers
       Iterator<Tower> towitr = ControllerMain.towers.iterator();
       while (towitr.hasNext()) {
         Tower nextTower = towitr.next();
         gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
       }
-      
+
       //draws every mob
 	  Iterator<Mob> mobitr = ControllerMain.mobs.iterator();
 	  while (mobitr.hasNext()) {
 	    Mob nextMob = mobitr.next();
-	
-	    gc.drawImage(nextMob.getImage(), sx, sy, sw,sh, 
-	    		     nextMob.getX(), nextMob.getY(), dw, dh);
+	    
+	    //This is done here instead to make prevent any errors when removing while iterating
+	    if(nextMob.isDead()) {
+	    	mobitr.remove();
+	    	continue;
+	    }
+	    
+	    gc.drawImage(nextMob.getImage(), sx, sy,
+	    			 nextMob.getSpriteSize(),  nextMob.getSpriteSize(), 
+	    		     nextMob.getX(), nextMob.getY(),
+	    		     nextMob.getSpriteSize(), nextMob.getSpriteSize());
 	  }
-	  
-	  //draws any current projectiles
+
+
+	  //drasws any current rojectiles
 	  Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
 	  while (projitr.hasNext()) {
 	    Projectile nextProj = projitr.next();

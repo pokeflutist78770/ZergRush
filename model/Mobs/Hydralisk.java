@@ -18,7 +18,7 @@ public class Hydralisk extends Mob {
 				new ArrayList<ResistanceAttribute>(Collections.singletonList(
 						                           ResistanceAttribute.POISON)), 
 				"Hydralisk"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/hydralisk.png");
+				"file:assets/images/mob/zerg/hydralisk.png", 38);
 	}
 
 }

@@ -48,7 +48,7 @@ public abstract class Mob {
   // Movement related fields
   private Thread mobWalk; 
   private Point currentLocation;
-  
+  private double spriteSize;
   private Point targetLocation;
   private List<Point> movementPath;
   private int pathIndex; 
@@ -70,11 +70,11 @@ public abstract class Mob {
 	           ArmorAttribute armor, AttackAttribute attack, 
 	           DefenseAttribute defense, SpeedAttribute speed,  
 	           List<ResistanceAttribute> resistances, 
-		       String name, String imageFP) {
+		       String name, String imageFP, double spriteSize) {
 		
 	  // Initialize Attributes
       this.movementPath = movementPath;
-      
+      this.spriteSize=spriteSize;
       this.pathIndex = 0;
       
       System.out.println(movementPath.get(0).getX());
@@ -148,7 +148,7 @@ public abstract class Mob {
 		double oldX = currentLocation.getX();
 		double oldY = currentLocation.getY();
 		
-		double spd = this.speed.toDouble();
+		double spd = this.speed.getSpeed();
 		Point unitV = getDirectionVector();
 		
 		double newX = oldX + spd * unitV.getX();
@@ -233,13 +233,13 @@ public abstract class Mob {
 	*/
 	public void takeDamage(double damage, ElementalAttribute element) {
 		double newDamage = calculateNewDamage( damage, element);
-		
+
 		if(newDamage>=hp) {
 			hp=0;  //in case of some weird random bugs with oveflow, or underflow in this case
-			
+
 			System.out.println("Mob Dead");    //Only for debugging o=purposes
 			
-			ControllerMain.mobs.remove(this);
+		//	ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
 			/*
 			//ControllerMain.isPlaying=false;
@@ -321,9 +321,11 @@ public abstract class Mob {
 	}
 
 
-	public double getRadius() {
-		return radius;
-	}
+  /*----------    Getters/Setters     -------------*/	
+	
+  public double getRadius() {
+	return radius;
+  }
 
   public Point getCurrentLocation() {
     return currentLocation;
@@ -343,6 +345,9 @@ public abstract class Mob {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }
 
+  public double getSpriteSize() {
+	  return spriteSize;
+  }
 }
 
 

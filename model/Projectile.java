@@ -87,7 +87,7 @@ abstract public class Projectile {
     double oldX = currentLocation.getX();
     double oldY = currentLocation.getY();
     
-    double spd = this.speed.toDouble();
+    double spd = this.speed.getSpeed();
     Point unitV = getDirectionVector();
     
     double newX = oldX + spd * unitV.getX();

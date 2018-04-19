@@ -236,7 +236,6 @@ public class ControllerMain extends Application {
 	              
 	              System.out.println("Gameplay Thread: Ended");
 	            } catch (InterruptedException e) {
-	              e.printStackTrace();
 	            }
 	          }});
 		    
