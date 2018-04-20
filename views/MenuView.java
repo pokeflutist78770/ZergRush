@@ -82,7 +82,7 @@ public class MenuView extends StackPane {
 		difficulty = new Label("Select difficulty:");
 		difficulty.setStyle("-fx-font: 22 serif; -fx-text-fill: #808080;");
 		this.getChildren().add(difficulty);
-		difficulty.setPadding(new Insets(650,0,0,0));
+		difficulty.setPadding(new Insets(670,0,0,16));
 		
 		// Bottom Buttons
 		hBox.getChildren().add(instrButton);

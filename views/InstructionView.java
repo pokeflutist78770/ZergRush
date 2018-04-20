@@ -50,7 +50,7 @@ public class InstructionView extends StackPane {
 		
 		vBox = new VBox();
 		vBox.getChildren().add(backButton);
-		vBox.setPadding(new Insets(0,0,25,370));
+		vBox.setPadding(new Insets(0,0,15,370));
 		
 		// Black Background Canvas
 		Canvas canvas = new Canvas(800,880);

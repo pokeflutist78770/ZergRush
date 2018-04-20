@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -58,6 +59,17 @@ public class MapView extends StackPane {
 	private Button tower3;
 	private Button upgradeButton;
 	private Button upgrade;
+	private GridPane gameGrid;
+	private Label wave;
+	private Label enemies;
+	private Label cash;
+	private Label kills;
+	private Label waveNum;
+	private Label enemiesNum;
+	private Label cashNum;
+	private Label killsNum;
+	private GridPane updateGrid;
+	private Label status;
 	
 	public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t)
 	{
@@ -131,13 +143,97 @@ public class MapView extends StackPane {
 		towerBox.setSpacing(12);
 		towerBox.setPickOnBounds(false);
 		
+		// GameGrid
+		gameGrid = new GridPane();
+		gameGrid.setPickOnBounds(false);
+		gameGrid.setPadding(new Insets(818,0,0,10));
+		
+		// Wave Number Label
+		wave = new Label("Wave:");
+		wave.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
+		gameGrid.add(wave, 0, 0);
+		
+		waveNum = new Label("000");
+		waveNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
+		waveNum.setPadding(new Insets(0,0,0,10));
+		gameGrid.add(waveNum, 1, 0);
+		
+		// Enemies Remaining Label
+		enemies = new Label("Enemies Remaining:");
+		enemies.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
+		enemies.setPadding(new Insets(0,0,0,20));
+		gameGrid.add(enemies, 2, 0);
+		
+		enemiesNum = new Label("000");
+		enemiesNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
+		enemiesNum.setPadding(new Insets(0,0,0,3));
+		gameGrid.add(enemiesNum, 3, 0);
+		
+		// Cash Label
+		cash = new Label("Cash:");
+		cash.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ffffff;");
+		gameGrid.add(cash, 0, 1);
+		
+		cashNum = new Label("$$$");
+		cashNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ffffff;");
+		cashNum.setPadding(new Insets(0,0,0,10));
+		gameGrid.add(cashNum, 1, 1);
+		
+		// Kills Label
+		kills = new Label("Total Kills:");
+		kills.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		kills.setPadding(new Insets(0,0,0,20));
+		gameGrid.add(kills, 2, 1);
+		
+		killsNum = new Label("000");
+		killsNum.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		killsNum.setPadding(new Insets(0,0,0,3));
+		gameGrid.add(killsNum, 3, 1);
+		
+		
+		// Update Grid
+		updateGrid = new GridPane();
+		updateGrid.setPickOnBounds(false);
+		updateGrid.setPadding(new Insets(800,0,0,550));
+		
+		// Add other Update Labels (Tower Click, Enemy Click)
+		// Determine where to put Status on Grid
+		
+		// Status Label
+		status = new Label();
+		//status = new Label("Select a tower on map before upgrading.");
+		status.setStyle("-fx-font: 15 serif; -fx-text-fill: #32cd32;");
+		updateGrid.add(status, 0, 5);
+		
 		pane.getChildren().add(commandCanvas);
 		pane.getChildren().add(canvas);
 		pane.getChildren().add(vBox);
 		pane.getChildren().add(towerBox);
+		pane.getChildren().add(gameGrid);
+		pane.getChildren().add(updateGrid);
 		this.getChildren().add(pane);
+		
+	}
+	
+	public void setKillsNum(int num)
+	{
+		killsNum.setText(String.valueOf(num));
+	}
+	
+	public void setCashNum(int num)
+	{
+		cashNum.setText("$"+String.valueOf(num));
 	}
 
+	public void setEnemiesNum(int num)
+	{
+		enemiesNum.setText(String.valueOf(num));
+	}
+	
+	public void setWaveNum(int num)
+	{
+		waveNum.setText(String.valueOf(num));
+	}
 	
 	/* drawMap
 	 * Draws the overall map and mobs/towers every iteration

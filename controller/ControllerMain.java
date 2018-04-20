@@ -193,7 +193,6 @@ public class ControllerMain extends Application {
 	{
 		// Adjust the view to newView
 		window.setCenter(null);
-		//window.setCenter(newView);
 		window.setTop(newView);
 		currentView=newView;
 	}
