@@ -59,9 +59,10 @@ public class MapView extends StackPane {
 		// Draw background
 		gc.drawImage(background, 0.0, 0.0);
 		
+		Button tower =new Button("Tower");
 		// Add button
 		backButton.setMaxWidth(100);
-		vBox.getChildren().add(backButton);
+		vBox.getChildren().addAll(tower, backButton);
 		vBox.setPadding(new Insets(750,0,0,350));
 		
 		pane.getChildren().add(canvas);
@@ -113,9 +114,9 @@ public class MapView extends StackPane {
 	    }
 	    
 	    gc.drawImage(nextMob.getImage(), sx, sy,
-	    			 nextMob.getSpriteSize(),  nextMob.getSpriteSize(), 
+	    			 nextMob.getSpriteSizeX(),  nextMob.getSpriteSizeY(), 
 	    		     nextMob.getX(), nextMob.getY(),
-	    		     nextMob.getSpriteSize(), nextMob.getSpriteSize());
+	    		     nextMob.getSpriteSizeX(), nextMob.getSpriteSizeY());
 	  }
 
 	  //drasws any current rojectiles

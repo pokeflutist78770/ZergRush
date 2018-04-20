@@ -33,7 +33,8 @@ import javafx.stage.StageStyle;
 public class Player {
 	//just a default for now until mob attacks and balances are sorted out
 	//Maybe even when difficulties are added, decrease health as such, 
-	private double HP=10000;   
+	private final double BASE_HP=10000;
+	private double CURRENT_HP=BASE_HP;   
 	
 	
 	/* takeDamage
@@ -42,12 +43,12 @@ public class Player {
 	 * Returns: None
 	*/
 	public void takeDamage(double damage) {
-		if(damage<=HP) {
-			HP-=damage;
-			System.out.println("Player HP: "+HP);
+		if(damage<=CURRENT_HP) {
+			CURRENT_HP-=damage;
+			System.out.println("Player HP: "+CURRENT_HP);
 		}
 		
-		if(HP<=0) {
+		if(CURRENT_HP<=0) {
 			System.out.println("Player lost");
 			ControllerMain.playingNow.interrupt();
 			
@@ -89,12 +90,12 @@ public class Player {
 	
 	//resets HP for a new game
 	public void resetStats() {
-		HP=1000;
+		CURRENT_HP=BASE_HP;
 	}
 	
 	
 	//tells if the player is dead yet
 	public boolean isDead() {
-		return HP<=0;
+		return CURRENT_HP<=0;
 	}
 }

@@ -2,7 +2,11 @@ package model.Mobs;
 
 
 public enum DefenseAttribute {
-  DEMO_DEFENSE(75), SMALL(50), MEDIUM(100), LARGE(200);
+  DEMO_DEFENSE(75), 
+  SMALL(50), 
+  MEDIUM(100), 
+  LARGE(350),
+  EXTRA_LARGE(1000);
 	
 	
   private double hp;

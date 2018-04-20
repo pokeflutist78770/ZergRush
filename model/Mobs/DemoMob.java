@@ -23,7 +23,7 @@ public class DemoMob extends Mob {
         ArmorAttribute.DEMO_ARMOR, AttackAttribute.DEMO_ATTACK, 
         DefenseAttribute.LARGE, SpeedAttribute.NORMAL, 
         new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.DEMO)),
-        "Chad", "file:assets/images/TheHunter.png", 50);
+        "Chad", "file:assets/images/TheHunter.png", 50, 50);
   }
 
 }

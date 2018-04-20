@@ -48,7 +48,8 @@ public abstract class Mob {
   // Movement related fields
   private Thread mobWalk; 
   private Point currentLocation;
-  private double spriteSize;
+  private double spriteSizeX;
+  private double spriteSizeY;
   private Point targetLocation;
   private List<Point> movementPath;
   private int pathIndex; 
@@ -70,11 +71,12 @@ public abstract class Mob {
 	           ArmorAttribute armor, AttackAttribute attack, 
 	           DefenseAttribute defense, SpeedAttribute speed,  
 	           List<ResistanceAttribute> resistances, 
-		       String name, String imageFP, double spriteSize) {
+		       String name, String imageFP, double spriteSizeX, double spriteSizeY) {
 		
 	  // Initialize Attributes
       this.movementPath = movementPath;
-      this.spriteSize=spriteSize;
+      this.spriteSizeX=spriteSizeX;
+      this.spriteSizeY=spriteSizeY;
       this.pathIndex = 0;
       
       System.out.println(movementPath.get(0).getX());
@@ -239,7 +241,6 @@ public abstract class Mob {
 
 			System.out.println("Mob Dead");    //Only for debugging o=purposes
 			
-		//	ControllerMain.mobs.remove(this);
 			mobWalk.interrupt();
 			/*
 			//ControllerMain.isPlaying=false;
@@ -345,8 +346,12 @@ public abstract class Mob {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }
 
-  public double getSpriteSize() {
-	  return spriteSize;
+  public double getSpriteSizeX() {
+	  return spriteSizeX;
+  }
+  
+  public double getSpriteSizeY() {
+	  return spriteSizeY;
   }
 }
 

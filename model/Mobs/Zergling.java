@@ -13,9 +13,8 @@ public class Zergling extends Mob{
 		super(movementPath, ControllerMain.TILE_SIZE/3, ArmorAttribute.NONE, 
 				AttackAttribute.WEAK_ATTACK, DefenseAttribute.SMALL, 
 				SpeedAttribute.FAST, 
-				new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.DEMO)), 
+				new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Zergling"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/zergling.png", 38);
+				"file:assets/images/mob/zerg/zergling.png", 38, 38);
 	}
-
 }
