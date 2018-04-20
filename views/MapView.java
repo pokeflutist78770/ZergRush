@@ -61,15 +61,22 @@ public class MapView extends StackPane {
 	private Button upgrade;
 	private GridPane gameGrid;
 	private Label wave;
-	private Label enemies;
+	private Label health;
 	private Label cash;
 	private Label kills;
 	private Label waveNum;
-	private Label enemiesNum;
+	private Label healthNum;
 	private Label cashNum;
 	private Label killsNum;
 	private GridPane updateGrid;
+	private HBox statusBox;
 	private Label status;
+	private Label attr1;
+	private Label attr2;
+	private Label attr3;
+	private Label attr4;
+	private Label attr5;
+	private Label attr6;
 	
 	public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t)
 	{
@@ -133,13 +140,13 @@ public class MapView extends StackPane {
 		// Add upgrade button
 		backButton.setMaxWidth(100);
 		vBox.getChildren().add(upgradeButton);
-		vBox.setPadding(new Insets(828,0,0,470));
+		vBox.setPadding(new Insets(828,0,0,460));
 		
 		// Add Tower Buttons
 		towerBox.getChildren().add(tower1);
 		towerBox.getChildren().add(tower2);
 		towerBox.getChildren().add(tower3);
-		towerBox.setPadding(new Insets(818,0,0,275));
+		towerBox.setPadding(new Insets(818,0,0,265));
 		towerBox.setSpacing(12);
 		towerBox.setPickOnBounds(false);
 		
@@ -158,16 +165,16 @@ public class MapView extends StackPane {
 		waveNum.setPadding(new Insets(0,0,0,10));
 		gameGrid.add(waveNum, 1, 0);
 		
-		// Enemies Remaining Label
-		enemies = new Label("Enemies Remaining:");
-		enemies.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
-		enemies.setPadding(new Insets(0,0,0,20));
-		gameGrid.add(enemies, 2, 0);
+		// Health Remaining Label
+		health = new Label("Player Health:");
+		health.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
+		health.setPadding(new Insets(0,0,0,20));
+		gameGrid.add(health, 2, 0);
 		
-		enemiesNum = new Label("000");
-		enemiesNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
-		enemiesNum.setPadding(new Insets(0,0,0,3));
-		gameGrid.add(enemiesNum, 3, 0);
+		healthNum = new Label("000");
+		healthNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
+		healthNum.setPadding(new Insets(0,0,0,3));
+		gameGrid.add(healthNum, 3, 0);
 		
 		// Cash Label
 		cash = new Label("Cash:");
@@ -190,20 +197,62 @@ public class MapView extends StackPane {
 		killsNum.setPadding(new Insets(0,0,0,3));
 		gameGrid.add(killsNum, 3, 1);
 		
-		
 		// Update Grid
 		updateGrid = new GridPane();
 		updateGrid.setPickOnBounds(false);
-		updateGrid.setPadding(new Insets(800,0,0,550));
+		updateGrid.setPadding(new Insets(805,0,0,605));
+
+		/** Update Grid Layout
+		 * 
+		 * attr1	attr2
+		 * attr3	attr4
+		 * attr5	attr6
+		 * 
+		*/
 		
-		// Add other Update Labels (Tower Click, Enemy Click)
-		// Determine where to put Status on Grid
+		// attr1 Update Grid
+		attr1 = new Label("Enemy");
+		attr1.setStyle("-fx-font: 15 serif; -fx-text-fill: #ff0000;");
+		updateGrid.add(attr1, 0, 0);
+		
+		// attr2 Update Grid
+		attr2 = new Label("Cost");
+		attr2.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		attr2.setPadding(new Insets(0,0,0,40));
+		updateGrid.add(attr2, 1, 0);
+		
+		// attr3 Update Grid
+		attr3 = new Label("Attack");
+		attr3.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		updateGrid.add(attr3, 0, 1);
+		
+		// attr4 Update Grid
+		attr4 = new Label("Speed");
+		attr4.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		attr4.setPadding(new Insets(0,0,0,40));
+		updateGrid.add(attr4, 1, 1);
+		
+		// attr5 Update Grid
+		attr5 = new Label("Armor");
+		attr5.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		updateGrid.add(attr5, 0, 2);
+		
+		// attr6 Update Grid
+		attr6 = new Label("Defense");
+		attr6.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
+		attr6.setPadding(new Insets(0,0,0,40));
+		updateGrid.add(attr6, 1, 2);
 		
 		// Status Label
 		status = new Label();
-		//status = new Label("Select a tower on map before upgrading.");
+		status = new Label("Select a tower on map before upgrading.");
 		status.setStyle("-fx-font: 15 serif; -fx-text-fill: #32cd32;");
-		updateGrid.add(status, 0, 5);
+		
+		// Status Box
+		statusBox = new HBox();
+		statusBox.getChildren().add(status);
+		statusBox.setPadding(new Insets(860,0,0,550));
+		statusBox.setPickOnBounds(false);
 		
 		pane.getChildren().add(commandCanvas);
 		pane.getChildren().add(canvas);
@@ -211,8 +260,8 @@ public class MapView extends StackPane {
 		pane.getChildren().add(towerBox);
 		pane.getChildren().add(gameGrid);
 		pane.getChildren().add(updateGrid);
+		pane.getChildren().add(statusBox);
 		this.getChildren().add(pane);
-		
 	}
 	
 	public void setKillsNum(int num)
@@ -225,9 +274,9 @@ public class MapView extends StackPane {
 		cashNum.setText("$"+String.valueOf(num));
 	}
 
-	public void setEnemiesNum(int num)
+	public void setHealthNum(int num)
 	{
-		enemiesNum.setText(String.valueOf(num));
+		healthNum.setText(String.valueOf(num));
 	}
 	
 	public void setWaveNum(int num)
