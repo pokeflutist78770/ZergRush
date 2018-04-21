@@ -339,12 +339,41 @@ public abstract class Mob {
   public Image getImage() {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }
-
-  public double getSpriteSizeX() {
-    return spriteSizeX;
+  
+  public double getSX() {
+    return this.sx;
+  }
+  
+  public double getSY() {
+    return this.sy;
+  }
+  
+  public double getSW() {
+    return this.sw;
+  }
+  
+  public double getSH() {
+    return this.sh;
+  }
+  
+  public double getDelX() {
+    return this.delX;
+  }
+  
+  public double getDelY() {
+    return this.delY;
+  }
+  
+  public int getAnimationSteps() {
+    return this.animationSteps;
+  }
+  
+  public int getStepCount() {
+    return this.stepCount;
+  }
+  
+  public void step() {
+    this.stepCount ++;
   }
 
-  public double getSpriteSizeY() {
-    return spriteSizeY;
-  }
 }
