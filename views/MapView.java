@@ -285,6 +285,13 @@ public class MapView extends StackPane {
 		waveNum.setText(String.valueOf(num));
 	}
 	
+	/**
+	 * Draws a mob given in its correct orientation and animation position.
+	 * @param mob Mob to be drawn
+	 */
+	private void drawMob(Mob mob) {
+	  
+	}
 	/* drawMap
 	 * Draws the overall map and mobs/towers every iteration
 	 * Parameters: None
