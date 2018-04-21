@@ -4,6 +4,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -31,26 +34,37 @@ public class InstructionView extends StackPane {
 
 	private Image background;
 	private Button backButton;
-	private Label header;
 	private BorderPane pane;
 	private VBox vBox;
 	
 	public InstructionView(Button back)
 	{
-		backButton = back;
-		backButton.setMaxWidth(100);
-		header = new Label("Instructions Page");
 		pane = new BorderPane();
 		background = new Image("file:assets/images/sc.jpg", false);
-		vBox = new VBox();
 		
+		//Back Button
+		backButton = back;
+		backButton.setMinWidth(80);
+		backButton.setMinHeight(20);
+		backButton.setStyle("-fx-font: 18 serif; -fx-base: #000000;");
+		
+		vBox = new VBox();
 		vBox.getChildren().add(backButton);
-		vBox.setPadding(new Insets(0,0,0,350));
+		vBox.setPadding(new Insets(0,0,15,370));
+		
+		// Black Background Canvas
+		Canvas canvas = new Canvas(800,880);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.BLACK);
+		gc.setStroke(Color.BLACK);
+		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		this.getChildren().add(canvas);
 		
 		// Set background
 		ImageView imv = new ImageView();
 		imv.setImage(background);
 		this.getChildren().add(imv);
+		StackPane.setAlignment(imv, Pos.TOP_CENTER);
 		
 		Text instructions = new Text("OBJECTIVE\nThe objective of Tower Defense is to defend your command"
 				+ " center. Waves of enemies will spawn periodically, each wave stronger than the last.\n"
@@ -68,6 +82,7 @@ public class InstructionView extends StackPane {
 				+ "2) Select Start\n\n"
 				+ "END GAME\n"
 				+ "1) Select the Back button to return to Main Menu");
+		instructions.setStyle("-fx-font: 13 serif;");
 		instructions.setFill(Color.WHITE);
 		
 		pane.setCenter(instructions);

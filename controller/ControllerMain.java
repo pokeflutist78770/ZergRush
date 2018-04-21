@@ -112,13 +112,13 @@ public class ControllerMain extends Application {
 	
 	private static BorderPane window;
 	public static final int width = 800;
-	public static final int height = 800;
+	public static final int height = 880;
     private static HashMap<String,Image> imageMap;
 	
     
     /* initializeAssets
      * Initializes all images and sound, allowing for a flyweight design pattern
-     * Parameters: Nonw
+     * Parameters: None
      * Returns: None
     */
 	private void initializeAssets() {
@@ -142,8 +142,12 @@ public class ControllerMain extends Application {
 	public void start(Stage stage) throws Exception {
 		initializeAssets();
 		thePlayer = new Player();
-	    		
+	    
+		towers = new ArrayList<Tower>();
 		mobs = new HashSet<Mob>();
+		projectiles = new HashSet<Projectile>();
+		
+		
 		//Tower theTower = new DemoTower();
 		theScoreView = new ScoreView();
 		
@@ -171,7 +175,7 @@ public class ControllerMain extends Application {
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
-		theMapView = new MapView(backButtonMap);
+		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
 		isPlaying=false;
 		
 	    Scene scene = new Scene(window, width, height);
@@ -189,7 +193,7 @@ public class ControllerMain extends Application {
 	{
 		// Adjust the view to newView
 		window.setCenter(null);
-		window.setCenter(newView);
+		window.setTop(newView);
 		currentView=newView;
 	}
 
@@ -231,7 +235,6 @@ public class ControllerMain extends Application {
 	              
 	              System.out.println("Gameplay Thread: Ended");
 	            } catch (InterruptedException e) {
-	              e.printStackTrace();
 	            }
 	          }});
 		    

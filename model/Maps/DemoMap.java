@@ -8,15 +8,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.Mobs.BattleCruiser;
 import model.Mobs.DemoMob;
 import model.Mobs.Hydralisk;
+import model.Mobs.Marine;
+import model.Mobs.SpeedAttribute;
 import model.Mobs.Ultralisk;
+import model.Mobs.Wraith;
+import model.Mobs.Zealot;
 import model.Mobs.Zergling;
 import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
-  private long spawnFreq = 750;
+  private long spawnFreq = 750; 
   
   public DemoMap() {
     super("file:assets.images.map/demoMap.png");
@@ -38,18 +43,25 @@ public class DemoMap extends Map {
       public void run() {
         do {
           try {
+        	  
+        	//Zealot mob=new Zealot(paths.get(1));
+        	//Marine mob=new Marine(paths.get(1));
+        	//Wraith mob=new Wraith(paths.get(1));
+        	BattleCruiser mob=new BattleCruiser(paths.get(1));
+            //Zergling mob=new Zergling(paths.get(1));
+            //Hydralisk mob2=new Hydralisk(paths.get(1));
+            //Ultralisk mob3=new Ultralisk(paths.get(1));
+            //DemoMob mob=new DemoMob(paths.get(1));
             
-            Zergling mob=new Zergling(paths.get(1));
-            Hydralisk mob2=new Hydralisk(paths.get(1));
-            Ultralisk mob3=new Ultralisk(paths.get(1));
-           // DemoMob mob=new DemoMob(paths.get(1));
-            
-            System.out.println("DemoMap is spawning: "+mob.toString());
+            //System.out.println("DemoMap is spawning: "+mob.toString());
             
             ControllerMain.mobs.add(mob);
-            ControllerMain.mobs.add(mob2);
-            ControllerMain.mobs.add(mob3);
+            //ControllerMain.mobs.add(mob2);
+            //ControllerMain.mobs.add(mob3);
             
+            System.out.println("Slow Speed: "+SpeedAttribute.SLOW.getSpeed());
+            System.out.println("Normal Speed: "+SpeedAttribute.NORMAL.getSpeed());
+            System.out.println("Fast Speed: "+SpeedAttribute.FAST.getSpeed());
             if(!ControllerMain.isPlaying) {
             	break;
             }
