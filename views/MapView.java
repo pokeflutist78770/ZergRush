@@ -77,6 +77,7 @@ public class MapView extends StackPane {
   private Label attr4;
   private Label attr5;
   private Label attr6;
+  private int updateCount = 0;
 
   public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t) {
     mob = m;
@@ -281,10 +282,11 @@ public class MapView extends StackPane {
   /**
    * Draws a mob given in its correct orientation and animation position.
    * 
-   * @param mob Mob to be drawn
+   * @param mob
+   *          Mob to be drawn
    */
   private void drawMob(Mob mob) {
-    
+    this.updateCount++;
     double sx = mob.getSX();
     double sy = mob.getSY();
     double sw = mob.getSW();
@@ -296,14 +298,14 @@ public class MapView extends StackPane {
     double x = mob.getX();
     double y = mob.getY();
     double angle = mob.getDirectionAngle();
-    
-    
+
     double currentStep = stepCount % animSteps + 1;
     double currSY = sy + currentStep * delY;
-    
+
     gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
-    mob.step();
-    
+    if (this.updateCount % 4 == 0) {
+      mob.step();
+    }
   }
 
   /*
@@ -313,7 +315,6 @@ public class MapView extends StackPane {
   public void drawMap() {
     gc.drawImage(background, 0, 0);
     gc.strokeLine(0, 800, 800, 800);
-
 
     /*
      * Our beautiful animation stuff will go here
@@ -337,7 +338,7 @@ public class MapView extends StackPane {
         mobitr.remove();
         continue;
       }
-      
+
       drawMob(nextMob);
     }
 
