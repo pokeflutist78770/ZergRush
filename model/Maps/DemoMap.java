@@ -52,9 +52,9 @@ public class DemoMap extends Map {
         	//Archon mob=new Archon(paths.get(1));
         	//Marine mob=new Marine(paths.get(1));
         	//Wraith mob=new Wraith(paths.get(1));
-//        	BattleCruiser mob=new BattleCruiser(paths.get(1));
-            Zergling mob=new Zergling(paths.get(1));
-            //Hydralisk mob2=new Hydralisk(paths.get(1));
+            //BattleCruiser mob=new BattleCruiser(paths.get(1));
+            //Zergling mob=new Zergling(paths.get(1));
+            Hydralisk mob=new Hydralisk(paths.get(1));
             //Ultralisk mob3=new Ultralisk(paths.get(1));
             //DemoMob mob=new DemoMob(paths.get(1));
             
