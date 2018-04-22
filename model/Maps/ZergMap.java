@@ -17,7 +17,7 @@ public class ZergMap extends Map {
   private String soundtrack;
   
   public ZergMap() {
-    super("file:assets.images.map/zerg_map.jpg");
+    super("file:assets/images/map/zerg_map.jpg");
     soundtrack = "zergSoundtrack";
     initializeTowers();
     initializeSpawnCycle();

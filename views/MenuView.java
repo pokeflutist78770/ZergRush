@@ -132,7 +132,7 @@ public class MenuView extends StackPane {
 		map = "";
 		ComboBox<String> myComboBox = new ComboBox<String>();
 		myComboBox.setMinWidth(168);
-	    myComboBox.getItems().addAll("Map 1","Map 2","Map 3");
+	    myComboBox.getItems().addAll("Terran","Protoss","Zerg");
 	    myComboBox.setEditable(false);  
 	    myComboBox.setPromptText("Map Selection");
 	    myComboBox.setStyle("-fx-font: 16 serif; -fx-base: #000000;");

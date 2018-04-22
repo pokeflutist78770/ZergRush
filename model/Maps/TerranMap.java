@@ -17,7 +17,7 @@ public class TerranMap extends Map {
   private String soundtrack;;
   
   public TerranMap() {
-    super("file:assets.images.map/terran_map.jpg");
+    super("file:assets/images/map/terran_map.jpg");
     soundtrack = "terranSoundtrack";
     initializeTowers();
     initializeSpawnCycle();
