@@ -300,15 +300,15 @@ public class MapView extends StackPane {
     double delY = mob.getDelY();
     int animSteps = mob.getAnimationSteps();
     int stepCount = mob.getStepCount();
-    double x = mob.getX();
-    double y = mob.getY();
+    double x = mob.getX() -sw/2 ;
+    double y = mob.getY() -sh/2;
     double angle = mob.getDirectionAngle();
 
     double currentStep = stepCount % animSteps + 1;
     double currSY = sy + currentStep * delY;
 
     gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
-    if (this.updateCount % 4 == 0) {
+    if (this.updateCount % 5 == 0) {
       mob.step();
     }
   }
