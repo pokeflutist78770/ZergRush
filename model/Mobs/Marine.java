@@ -19,7 +19,15 @@ public class Marine extends Mob{
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Marine"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/marine.png", 19, 38);
+				"file:assets/images/mob/terran/marine.png",
+        2.0,
+        2.0,
+        42.0,
+        55.0,
+        45.0,
+        58.0, 
+        7
+        );
 	}
 
 }

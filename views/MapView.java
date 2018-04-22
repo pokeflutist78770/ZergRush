@@ -282,8 +282,7 @@ public class MapView extends StackPane {
   /**
    * Draws a mob given in its correct orientation and animation position.
    * 
-   * @param mob
-   *          Mob to be drawn
+   * @param mob Mob to be drawn
    */
   private void drawMob(Mob mob) {
     this.updateCount++;
