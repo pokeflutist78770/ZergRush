@@ -21,6 +21,9 @@ import model.Player;
 import model.Projectile;
 import model.Maps.DemoMap;
 import model.Maps.Map;
+import model.Maps.ProtossMap;
+import model.Maps.TerranMap;
+import model.Maps.ZergMap;
 import model.Mobs.DemoMob;
 import model.Mobs.Mob;
 import model.Towers.DemoTower;
@@ -212,12 +215,32 @@ public class ControllerMain extends Application {
 		  //User wishes to start a game
 		  if (buttonText.equals("Start"))
 		  {
+			// No difficulty selected
+			if (theMenuView.getModeSelection() == null)
+				return;
+			
+			// No map selected
+			String mapSelection = theMenuView.getMapSelection();
+			if (mapSelection == null)
+				return;
+			
+			isPlaying = true;
+			
+			// Set background for MapView based on Map Selection
+			if (mapSelection.equals("Terran"))
+				theMap = new TerranMap();
+			else if (mapSelection.equals("Protoss"))
+				theMap = new ProtossMap();
+			else
+				theMap = new ZergMap();
+			
+			theMapView.setMapSelection(theMap.imageFilePath);
 			setViewTo(theMapView);
-		    theMap = new DemoMap();
-		    thePlayer.resetStats();
-		    isPlaying=true;
+		    
+
 		    
 		    //gotta start with a fresh new game :)
+		    thePlayer.resetStats();
 		    //towers.clear();
 		    mobs.clear();
 		    projectiles.clear();

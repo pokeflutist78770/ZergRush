@@ -90,7 +90,6 @@ public class MapView extends StackPane {
 		canvas = new Canvas(800,800);
 		gc = canvas.getGraphicsContext2D();
 		StackPane.setAlignment(canvas, Pos.TOP_CENTER);
-		background = new Image("file:assets/images/map/demoMap.png", false);
 		
 		// Command Panel - Black Background
 		Canvas commandCanvas = new Canvas(800,880);
@@ -133,9 +132,6 @@ public class MapView extends StackPane {
 		gc.setLineDashes(5);
 		gc.setStroke(Color.GRAY);
 		gc.setLineWidth(3);
-		
-		// Draw background
-		gc.drawImage(background, 0.0, 0.0);
 		
 		// Add upgrade button
 		backButton.setMaxWidth(100);
@@ -265,6 +261,12 @@ public class MapView extends StackPane {
 		this.getChildren().add(pane);
 	}
 	
+	public void setMapSelection(String filepath)
+	{
+		background = new Image(filepath, false);
+		gc.drawImage(background, 0.0, 0.0);
+	}
+	
 	public void setKillsNum(int num)
 	{
 		killsNum.setText(String.valueOf(num));
@@ -284,6 +286,27 @@ public class MapView extends StackPane {
 	{
 		waveNum.setText(String.valueOf(num));
 	}
+	
+	public int getKillsNum()
+	{
+		return Integer.valueOf(killsNum.getText());
+	}
+	
+	public int getCashNum()
+	{
+		return Integer.valueOf(cashNum.getText());
+	}
+	
+	public int getHealthNum()
+	{
+		return Integer.valueOf(healthNum.toString());
+	}
+	
+	public int getWaveNum()
+	{
+		return Integer.valueOf(waveNum.toString());
+	}
+	
 	
 	/**
 	 * Draws a mob given in its correct orientation and animation position.

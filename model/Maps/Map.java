@@ -35,7 +35,7 @@ import javafx.scene.image.Image;
 
 public abstract class Map {
   
-  protected String imageFilePath;
+  public String imageFilePath;
   protected HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
   
   public Map (String imgFp) {
