@@ -64,9 +64,9 @@ public class DemoMap extends Map {
             //ControllerMain.mobs.add(mob2);
             //ControllerMain.mobs.add(mob3);
             
-            System.out.println("Slow Speed: "+SpeedAttribute.SLOW.getSpeed());
-            System.out.println("Normal Speed: "+SpeedAttribute.NORMAL.getSpeed());
-            System.out.println("Fast Speed: "+SpeedAttribute.FAST.getSpeed());
+            //System.out.println("Slow Speed: "+SpeedAttribute.SLOW.getSpeed());
+            //System.out.println("Normal Speed: "+SpeedAttribute.NORMAL.getSpeed());
+            //System.out.println("Fast Speed: "+SpeedAttribute.FAST.getSpeed());
             if(!ControllerMain.isPlaying) {
             	break;
             }

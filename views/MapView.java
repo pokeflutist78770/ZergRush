@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 import controller.ControllerMain;
 import javafx.animation.PathTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -43,7 +46,8 @@ import model.Towers.Tower;
 // sprites moving.
 
 public class MapView extends StackPane {
-
+  
+  private GraphicsContext gcCommand;
   private Button backButton;
   private StackPane pane;
   private Image background;
@@ -78,8 +82,10 @@ public class MapView extends StackPane {
   private Label attr5;
   private Label attr6;
   private int updateCount = 0;
-
+  private boolean towerPlacement;
+  
   public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t) {
+	towerPlacement=false;
     mob = m;
     projectiles = p;
     towers = t;
@@ -88,23 +94,29 @@ public class MapView extends StackPane {
     backButton = back;
     pane = new StackPane();
     canvas = new Canvas(800, 800);
+    EventHandler<MouseEvent> mouseHandler=new mouseHandler();
+    canvas.setOnMouseMoved(mouseHandler);
+    canvas.setOnMouseClicked(mouseHandler);
     gc = canvas.getGraphicsContext2D();
     StackPane.setAlignment(canvas, Pos.TOP_CENTER);
     background = new Image("file:assets/images/map/demoMap.png", false);
 
     // Command Panel - Black Background
     Canvas commandCanvas = new Canvas(800, 880);
-    GraphicsContext gcCommand = commandCanvas.getGraphicsContext2D();
+    gcCommand = commandCanvas.getGraphicsContext2D();
     gcCommand.setFill(Color.BLACK);
     gcCommand.setStroke(Color.BLACK);
     gcCommand.fillRect(0, 0, commandCanvas.getWidth(), commandCanvas.getHeight());
 
+    
+    EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
     // Tower1 Button
     Image tower1Image = new Image("file:assets/images/marine.png", false);
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
     tower1 = new Button("", iv1);
+    tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
     // Tower2 Button
@@ -113,6 +125,7 @@ public class MapView extends StackPane {
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
     tower2 = new Button("", iv2);
+    tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
 
     // Tower3 Button
@@ -355,4 +368,36 @@ public class MapView extends StackPane {
     }
   }
   
+  
+  
+  private class towerButtonHandler implements EventHandler<ActionEvent>{
+
+	@Override
+	public void handle(ActionEvent e) {
+		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
+		towerPlacement=!towerPlacement;
+	} 
+  }
+  
+  
+  private class mouseHandler implements EventHandler<MouseEvent>{
+
+	@Override
+	public void handle(MouseEvent e) {
+	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
+		//if(towerPlacement) {
+		  gcCommand.setFill(Color.RED);
+		  gcCommand.fillRect(e.getX(), e.getY(), 100, 100);
+	      System.out.println(e.getX()+" "+e.getY());
+		//}
+	  }
+	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
+		  System.out.println("Mouse Clicked");
+	  }
+    }
+  }
 }
+
+
+
+
