@@ -21,7 +21,15 @@ public Zealot(List<Point> movementPath) {
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"Zealot"+Mob.IDNumber++,
-				"file:assets/images/mob/protoss/zealot.png", 38, 38,1,2);
+				"file:assets/images/mob/protoss/zealot.png",
+        2.0,
+        2.0,
+        98.0,
+        105.0,
+        101.0,
+        108.0, 
+        9
+        );
 	}
 }
 
