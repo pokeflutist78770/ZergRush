@@ -92,7 +92,7 @@ public class TerranMap extends Map {
         new Point(562, 130),
         new Point(402, 204),
         new Point(358, 166),
-        new Point(316, 189),
+        new Point(316, 89),
         new Point(201, 168),
         new Point(147, 119)
         ));
