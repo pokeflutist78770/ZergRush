@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import javafx.application.*;
 import javafx.event.ActionEvent;
@@ -88,6 +89,9 @@ public class ControllerMain extends Application {
   public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
   public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
   public static final int UPDATE_FREQUENCY = 17;
+  
+
+  private static Random random = new Random();
   
   public static HashSet mobs = new HashSet<Mob>();
   public static HashSet projectiles = new HashSet<Projectile>(); 
@@ -238,14 +242,22 @@ public class ControllerMain extends Application {
 			setViewTo(theMapView);
 		    
 
-		    
+		    /**
 		    //gotta start with a fresh new game :)
 		    thePlayer.resetStats();
 		    //towers.clear();
 		    mobs.clear();
-		    projectiles.clear();
+		    projectiles.clear();*/
 		    
 		    //thread to show a playing game
+			
+			  try {
+          Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY/2);
+        } catch (InterruptedException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
+			
 		    playingNow = new Thread(new Runnable() {
 	          @Override
 	          public void run() {
@@ -301,4 +313,9 @@ public class ControllerMain extends Application {
 	public static Stage getStage() {
 		return stage;
 	}
+
+  public static Random getRandom() {
+    return random;
+  }
+
 }

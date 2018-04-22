@@ -4,6 +4,7 @@ import java.util.List;
 import java.awt.Paint;
 import java.awt.Point;
 import java.util.Set;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import controller.ControllerMain;
@@ -326,33 +327,25 @@ public class MapView extends StackPane {
      */
 
     // draws all current towers
-    Iterator<Tower> towitr = ControllerMain.towers.iterator();
-    while (towitr.hasNext()) {
-      Tower nextTower = towitr.next();
-      gc.drawImage(nextTower.getImage(), nextTower.getX(), nextTower.getY());
+    HashSet<Tower> towersCpy = new HashSet(ControllerMain.towers);
+    for (Tower t: towersCpy) {
+      gc.drawImage(t.getImage(), t.getX(), t.getY()); // TODO: Ben, center this graphic.
     }
+    towersCpy.clear();
 
     // draws every mob
-    Iterator<Mob> mobitr = ControllerMain.mobs.iterator();
-    while (mobitr.hasNext()) {
-      Mob nextMob = mobitr.next();
-
-      // This is done here instead to make prevent any errors when removing while
-      // iterating
-      if (nextMob.isDead()) {
-        mobitr.remove();
-        continue;
-      }
-
-      drawMob(nextMob);
+    HashSet<Mob> mobsCpy = new HashSet(ControllerMain.mobs);
+    for (Mob m: mobsCpy) {
+      drawMob(m);
     }
+    mobsCpy.clear();
 
     // drasws any current rojectiles
-    Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
-    while (projitr.hasNext()) {
-      Projectile nextProj = projitr.next();
-      gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
+    HashSet<Projectile> projectilesCpy = new HashSet(ControllerMain.projectiles);
+    for (Projectile p: projectilesCpy) {
+      gc.drawImage(p.getImage(), p.getX(), p.getY());// TODO: Ben, center this graphic
     }
+    projectilesCpy.clear();
   }
   
 }

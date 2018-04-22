@@ -20,48 +20,8 @@ public class ZergMap extends Map {
     super("file:assets/images/map/zerg_map.jpg");
     soundtrack = "zergSoundtrack";
     initializeTowers();
-    initializeSpawnCycle();
+    initializeSpawnCycle(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
-  }
-  
-  
-  /* initializeSpawnCycle
-   * Starts the spawn cycle for the gameplay
-   * Parameters: None
-   * Returns: None
-  */
-  private void initializeSpawnCycle() {
-    Thread spawnCycle = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        do {
-          try {
-            
-            Zergling mob=new Zergling(paths.get(1));
-            Hydralisk mob2=new Hydralisk(paths.get(1));
-            Ultralisk mob3=new Ultralisk(paths.get(1));
-           // DemoMob mob=new DemoMob(paths.get(1));
-            
-            System.out.println("DemoMap is spawning: "+mob.toString());
-            
-            ControllerMain.mobs.add(mob);
-            ControllerMain.mobs.add(mob2);
-            ControllerMain.mobs.add(mob3);
-            
-            if(!ControllerMain.isPlaying) {
-              break;
-            }
-            
-            Thread.sleep(spawnFreq);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          } 
-        } while(true);
-        
-      }
-    });
-    
-    spawnCycle.start();
   }
 
   

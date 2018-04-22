@@ -4,9 +4,15 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.lang.reflect.*;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
+import model.Mobs.Hydralisk;
+import model.Mobs.Mob;
+import model.Mobs.Ultralisk;
+import model.Mobs.Zergling;
 
 // You should have at least 3 maps.
 
@@ -37,11 +43,16 @@ public abstract class Map {
   
   public String imageFilePath;
   protected HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
+  public static long SPAWN_FREQUENCY =   10* 1000;
+
+  private int waveIntensity;
+  private int waveRatio = 3;
   
   public Map (String imgFp) {
     paths = new HashMap<Integer, List<Point>>();
     constructMobRoute();
     imageFilePath = imgFp;
+    waveIntensity = 27;
   }
   
   
@@ -62,5 +73,81 @@ public abstract class Map {
   }
 
   abstract void constructMobRoute();
+  
+
+  protected void initializeSpawnCycle(List<String> mobTypes) {
+    
+    List<Class> mobClasses = new ArrayList<Class>();
+    for (String mType: mobTypes) {
+      try {
+        mobClasses.add(Class.forName("model.Mobs." + mType));
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        System.out.println("mobTypes to mobClasses conversion in model.Map failed.");
+      }
+    }
+    
+    List<Constructor<Mob>> mobConstructors = new ArrayList<Constructor<Mob>>();
+    for (Class cls: mobClasses) {
+      mobConstructors.add(cls.getConstructors()[0]);
+    }
+    
+    Thread spawnCycle = new Thread(new Runnable() {
+
+      @Override
+      public void run() {
+        do {
+          try {
+            
+            spawnWave(mobConstructors, waveIntensity);
+            updateWaveIntensity();
+            
+            
+            
+            // TODO: going to change what spawns.
+            
+            
+            if(!ControllerMain.isPlaying) {
+              break;
+            }
+            
+            Thread.sleep(SPAWN_FREQUENCY );
+          } catch (InterruptedException | IllegalArgumentException e) {
+            e.printStackTrace();
+          } 
+        } while(true);
+        
+      }
+    });
+    
+    spawnCycle.start();
+  }
+
+
+  protected void updateWaveIntensity() {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  protected void spawnWave(List<Constructor<Mob>> mobConstructors, int intensity) {
+
+    int numberOfPaths = paths.size();
+    int numberOfMobTypes = mobConstructors.size();
+    int spawnCount = waveIntensity;
+    for (int i = 0; i < numberOfMobTypes; i++) {
+      try {
+        for (int j = 0; j < spawnCount; j++) {
+          ControllerMain.mobs.add(mobConstructors.get(i).newInstance(paths.get(1+ ControllerMain.getRandom().nextInt(numberOfPaths))));
+        }
+        spawnCount = spawnCount / waveRatio;
+      } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+          | InvocationTargetException e) {
+        System.out.println("Failure in spawnWave method of Map class");
+        e.printStackTrace();
+      }
+    }
+    
+  }
 	
 }
