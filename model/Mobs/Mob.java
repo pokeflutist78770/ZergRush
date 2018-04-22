@@ -48,13 +48,17 @@ public abstract class Mob {
   // Movement related fields
   private Thread mobWalk;
   private Point currentLocation;
-  private double spriteSizeX;
-  private double spriteSizeY;
+  
   private Point targetLocation;
   private List<Point> movementPath;
   private int pathIndex;
   private int attackTime;
 
+  private double spriteSizeX;
+  private double spriteSizeY;
+  private double spriteSourceX;
+  private double spriteSourceY;
+  
   private double radius;
   private ArmorAttribute armor;
   private AttackAttribute attack;
@@ -375,5 +379,4 @@ public abstract class Mob {
   public void step() {
     this.stepCount ++;
   }
-
 }

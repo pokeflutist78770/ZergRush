@@ -28,6 +28,8 @@ public class Marine extends Mob{
         58.0, 
         7
         );
+
+
 	}
 
 }

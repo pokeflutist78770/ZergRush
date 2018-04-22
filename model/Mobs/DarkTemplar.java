@@ -15,12 +15,12 @@ public DarkTemplar(List<Point> movementPath) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.HEAVY_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
-				DefenseAttribute.LARGE, 
+				DefenseAttribute.MEDIUM, 
 				SpeedAttribute.SLOW, 
 				new ArrayList<ResistanceAttribute>(
-						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
+						Collections.singletonList(ResistanceAttribute.POISON)), 
 				"DarkTemplar"+Mob.IDNumber++,
-				"file:assets/images/mob/protoss/dark_templar.png", 38, 38);
+				"file:assets/images/mob/protoss/dark_templar.png", 54, 59,5,2);
 	}
 }
 

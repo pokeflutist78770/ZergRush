@@ -27,5 +27,6 @@ public class Ultralisk extends Mob {
         108.0, 
         9
         );
+
 	}
 }

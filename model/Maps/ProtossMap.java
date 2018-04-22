@@ -17,7 +17,7 @@ public class ProtossMap extends Map {
   private String soundtrack;;
   
   public ProtossMap() {
-    super("file:assets.images.map/protoss_map.jpg");
+    super("file:assets/images/map/protoss_map.jpg");
     soundtrack = "protossSoundtrack";
     initializeTowers();
     initializeSpawnCycle();

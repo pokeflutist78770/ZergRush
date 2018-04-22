@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.Mobs.Archon;
 import model.Mobs.BattleCruiser;
+import model.Mobs.DarkTemplar;
 import model.Mobs.DemoMob;
 import model.Mobs.Hydralisk;
 import model.Mobs.Marine;
@@ -24,7 +26,8 @@ public class DemoMap extends Map {
   private long spawnFreq = 750; 
   
   public DemoMap() {
-    super("file:assets.images.map/demoMap.png");
+    super("file:assets/images/map/demoMap.png");
+    
     
     initializeTowers();
     initializeSpawnCycle();
@@ -45,11 +48,13 @@ public class DemoMap extends Map {
           try {
         	  
         	//Zealot mob=new Zealot(paths.get(1));
+        	//DarkTemplar mob=new DarkTemplar(paths.get(1));
+        	//Archon mob=new Archon(paths.get(1));
         	//Marine mob=new Marine(paths.get(1));
         	//Wraith mob=new Wraith(paths.get(1));
 //        	BattleCruiser mob=new BattleCruiser(paths.get(1));
             Zergling mob=new Zergling(paths.get(1));
-            Hydralisk mob2=new Hydralisk(paths.get(1));
+            //Hydralisk mob2=new Hydralisk(paths.get(1));
             //Ultralisk mob3=new Ultralisk(paths.get(1));
             //DemoMob mob=new DemoMob(paths.get(1));
             
