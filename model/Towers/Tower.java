@@ -170,6 +170,11 @@ public abstract class Tower {
     return location.getY();
   }
   
+  public int getCost()
+  {
+	  return cost;
+  }
+  
 }
 
 

@@ -233,8 +233,21 @@ public class ControllerMain extends Application {
 				theMap = new ProtossMap();
 			else
 				theMap = new ZergMap();
-			
 			theMapView.setMapSelection(theMap.imageFilePath);
+			
+			// Set Wave Difficulty
+			theMapView.setWaveNum(theMenuView.getModeSelection());
+			
+			// Set Kills
+			theMapView.setKillsNum(0);
+			
+			// Set Cash
+			theMapView.setCashNum(100);
+			
+			// Pass Player to MapView
+			theMapView.setPlayer(thePlayer);
+			
+			
 			setViewTo(theMapView);
 		    
 

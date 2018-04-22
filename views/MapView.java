@@ -3,14 +3,21 @@ package views;
 import java.util.List;
 import java.awt.Paint;
 import java.awt.Point;
+import java.text.DecimalFormat;
 import java.util.Set;
 import java.util.Iterator;
 
 import controller.ControllerMain;
 import javafx.animation.PathTransition;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,6 +36,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import model.Player;
 import model.Projectile;
 import model.Mobs.Mob;
 import model.Towers.Tower;
@@ -78,7 +86,11 @@ public class MapView extends StackPane {
   private Label attr5;
   private Label attr6;
   private int updateCount = 0;
-
+  private Player thePlayer;
+  private DecimalFormat formatter;
+  private int deadMobs;
+  private int cashEarned;
+  
   public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t) {
     mob = m;
     projectiles = p;
@@ -91,6 +103,9 @@ public class MapView extends StackPane {
     gc = canvas.getGraphicsContext2D();
     StackPane.setAlignment(canvas, Pos.TOP_CENTER);
     background = new Image("file:assets/images/map/demoMap.png", false);
+    formatter = new DecimalFormat("#,###");
+    deadMobs = 0;
+    cashEarned = 0;
 
     // Command Panel - Black Background
     Canvas commandCanvas = new Canvas(800, 880);
@@ -160,7 +175,7 @@ public class MapView extends StackPane {
     wave.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
     gameGrid.add(wave, 0, 0);
 
-    waveNum = new Label("000");
+    waveNum = new Label("1");
     waveNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
     waveNum.setPadding(new Insets(0, 0, 0, 10));
     gameGrid.add(waveNum, 1, 0);
@@ -181,7 +196,7 @@ public class MapView extends StackPane {
     cash.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ffffff;");
     gameGrid.add(cash, 0, 1);
 
-    cashNum = new Label("$$$");
+    cashNum = new Label("$100");
     cashNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ffffff;");
     cashNum.setPadding(new Insets(0, 0, 0, 10));
     gameGrid.add(cashNum, 1, 1);
@@ -210,41 +225,40 @@ public class MapView extends StackPane {
      */
 
     // attr1 Update Grid
-    attr1 = new Label("Enemy");
+    attr1 = new Label();
     attr1.setStyle("-fx-font: 15 serif; -fx-text-fill: #ff0000;");
     updateGrid.add(attr1, 0, 0);
 
     // attr2 Update Grid
-    attr2 = new Label("Cost");
+    attr2 = new Label();
     attr2.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr2.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr2, 1, 0);
 
     // attr3 Update Grid
-    attr3 = new Label("Attack");
+    attr3 = new Label();
     attr3.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     updateGrid.add(attr3, 0, 1);
 
     // attr4 Update Grid
-    attr4 = new Label("Speed");
+    attr4 = new Label();
     attr4.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr4.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr4, 1, 1);
 
     // attr5 Update Grid
-    attr5 = new Label("Armor");
+    attr5 = new Label();
     attr5.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     updateGrid.add(attr5, 0, 2);
 
     // attr6 Update Grid
-    attr6 = new Label("Defense");
+    attr6 = new Label();
     attr6.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr6.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr6, 1, 2);
 
     // Status Label
     status = new Label();
-    status = new Label("Select a tower on map before upgrading.");
     status.setStyle("-fx-font: 15 serif; -fx-text-fill: #32cd32;");
 
     // Status Box
@@ -270,19 +284,26 @@ public class MapView extends StackPane {
   }
 
   public void setKillsNum(int num) {
-    killsNum.setText(String.valueOf(num));
+    deadMobs = num;
   }
 
   public void setCashNum(int num) {
+	  // Sets the Player Cash Label
+	cashEarned = num;
     cashNum.setText("$" + String.valueOf(num));
   }
 
-  public void setHealthNum(int num) {
-    healthNum.setText(String.valueOf(num));
+  public void setHealthNum(double hp) {
+    healthNum.setText(String.valueOf(hp));
   }
 
-  public void setWaveNum(int num) {
-    waveNum.setText(String.valueOf(num));
+  public void setWaveNum(String difficulty) {
+    waveNum.setText(difficulty);
+  }
+  
+  public void setPlayer(Player p)
+  {
+	  thePlayer = p;
   }
 
   /**
@@ -318,9 +339,28 @@ public class MapView extends StackPane {
    * None Returns: None
    */
   public void drawMap() {
-    gc.drawImage(background, 0, 0);
+	gc.drawImage(background, 0, 0);
     gc.strokeLine(0, 800, 800, 800);
-
+    
+    double health = thePlayer.getHP() / 100;
+    String healthStr = formatter.format(health);
+    
+    String cashStr = formatter.format(cashEarned);
+    
+    // UI can't be updated on a non-application thread
+    // Since drawMap() is called from a non-application thread,
+    // add this thread to the event queue to be called later 
+    Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+            // if you change the UI, do it here !
+        	healthNum.setText(healthStr);
+        	killsNum.setText(String.valueOf(deadMobs));
+        	cashNum.setText("$"+cashStr);
+        }
+    });
+   
+    
     /*
      * Our beautiful animation stuff will go here
      */
@@ -340,12 +380,15 @@ public class MapView extends StackPane {
       // This is done here instead to make prevent any errors when removing while
       // iterating
       if (nextMob.isDead()) {
+    	deadMobs++;
+    	cashEarned += 50;
         mobitr.remove();
         continue;
       }
 
       drawMob(nextMob);
     }
+    
 
     // drasws any current rojectiles
     Iterator<Projectile> projitr = ControllerMain.projectiles.iterator();
