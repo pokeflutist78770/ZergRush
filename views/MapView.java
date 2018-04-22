@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 import controller.ControllerMain;
 import javafx.animation.PathTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -328,7 +330,8 @@ public class MapView extends StackPane {
 	    	continue;
 	    }
 	    
-	    gc.drawImage(nextMob.getImage(), sx, sy,
+	    gc.drawImage(nextMob.getImage(),
+	    			 nextMob.getSpriteSourceX(), nextMob.getSpriteSourceY(),
 	    			 nextMob.getSpriteSizeX(),  nextMob.getSpriteSizeY(), 
 	    		     nextMob.getX(), nextMob.getY(),
 	    		     nextMob.getSpriteSizeX(), nextMob.getSpriteSizeY());
@@ -342,4 +345,24 @@ public class MapView extends StackPane {
 	    gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
 	  }	
 	}
+	
+	
+	
+	
+	private class towerPlacementHandler implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent e) {
+		
+		}
+	}
 }
+
+
+
+
+
+
+
+
+

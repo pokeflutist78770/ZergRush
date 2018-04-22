@@ -48,13 +48,17 @@ public abstract class Mob {
   // Movement related fields
   private Thread mobWalk; 
   private Point currentLocation;
-  private double spriteSizeX;
-  private double spriteSizeY;
+  
   private Point targetLocation;
   private List<Point> movementPath;
   private int pathIndex; 
   private int attackTime;
 
+  private double spriteSizeX;
+  private double spriteSizeY;
+  private double spriteSourceX;
+  private double spriteSourceY;
+  
   private double radius;
   private ArmorAttribute armor;
   private AttackAttribute attack;
@@ -71,12 +75,17 @@ public abstract class Mob {
 	           ArmorAttribute armor, AttackAttribute attack, 
 	           DefenseAttribute defense, SpeedAttribute speed,  
 	           List<ResistanceAttribute> resistances, 
-		       String name, String imageFP, double spriteSizeX, double spriteSizeY) {
+		       String name, String imageFP, 
+		       double spriteSizeX, double spriteSizeY,
+		       double spriteSourceX, double spriteSourceY) {
 		
 	  // Initialize Attributes
       this.movementPath = movementPath;
       this.spriteSizeX=spriteSizeX;
       this.spriteSizeY=spriteSizeY;
+      this.spriteSourceX=spriteSourceX;
+      this.spriteSourceY=spriteSourceY;
+      
       this.pathIndex = 0;
       
       System.out.println(movementPath.get(0).getX());
@@ -352,6 +361,14 @@ public abstract class Mob {
   
   public double getSpriteSizeY() {
 	  return spriteSizeY;
+  }
+  
+  public double getSpriteSourceX() {
+	  return spriteSourceX;
+  }
+  
+  public double getSpriteSourceY() {
+	  return spriteSourceY;
   }
 }
 

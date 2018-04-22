@@ -18,6 +18,6 @@ public class Ultralisk extends Mob {
 				new ArrayList<ResistanceAttribute>(Collections.singletonList(
 						                           ResistanceAttribute.POISON)), 
 				"Ultralisk"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/ultralisk.png", 75, 75);
+				"file:assets/images/mob/zerg/ultralisk.png", 98, 105,2,2);
 	}
 }

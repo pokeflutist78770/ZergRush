@@ -19,6 +19,6 @@ public class Wraith extends Mob{
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Wraith"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/wraith.png", 38, 38);
+				"file:assets/images/mob/terran/wraith.png", 48, 38, 0,0);
 	}
 }
