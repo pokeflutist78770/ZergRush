@@ -262,6 +262,12 @@ public class MapView extends StackPane {
     pane.getChildren().add(statusBox);
     this.getChildren().add(pane);
   }
+  
+  public void setMapSelection(String filepath)
+  {
+    background = new Image(filepath, ControllerMain.GUI_SIZE, ControllerMain.GUI_SIZE, true, true);
+    gc.drawImage(background, 0.0, 0.0);
+  }
 
   public void setKillsNum(int num) {
     killsNum.setText(String.valueOf(num));
@@ -348,4 +354,5 @@ public class MapView extends StackPane {
       gc.drawImage(nextProj.getImage(), nextProj.getX(), nextProj.getY());
     }
   }
+  
 }

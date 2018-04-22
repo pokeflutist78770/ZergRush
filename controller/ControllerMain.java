@@ -228,7 +228,7 @@ public class ControllerMain extends Application {
 			
 			// Set background for MapView based on Map Selection
 			if (mapSelection.equals("Terran"))
-				theMap = new DemoMap();
+				theMap = new TerranMap();
 			else if (mapSelection.equals("Protoss"))
 				theMap = new ProtossMap();
 			else
