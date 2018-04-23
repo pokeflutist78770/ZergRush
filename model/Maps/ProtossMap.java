@@ -13,22 +13,15 @@ import model.Towers.DemoTower;
 
 public class ProtossMap extends Map {
 
-  private long spawnFreq = 750;
   private String soundtrack;;
   
-  public ProtossMap() {
-    super("file:assets/images/map/protoss_map.jpg");
+  public ProtossMap(int difficulty) {
+    super("file:assets/images/map/protoss_map.jpg", difficulty);
     soundtrack = "protossSoundtrack";
     initializeTowers();
     initializeSpawnCycle(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
+    name = "Protoss"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
-  }
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
   

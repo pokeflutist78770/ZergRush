@@ -39,7 +39,7 @@ public class RunningGirlView extends Canvas {
     this.setWidth(333);
     this.setHeight(200);
 
-    // TODO 1: Create both images and draw both when the controller instructs
+    //  1: Create both images and draw both when the controller instructs
     spritesheet = new Image("file:images/runner.png", false);
     // spritsheet contains 6 sub images
     dirt = new Image("file:images/desertdirt.jpg", false);
@@ -56,7 +56,7 @@ public class RunningGirlView extends Canvas {
     timeline.play();
   }
 
-  // TODO 2: Complete this class with its handle method to show 15 different 
+  //  2: Complete this class with its handle method to show 15 different 
   // views of the runner by cycling through the spritesheet three times. 
   // Begin at the upper left corner. Moving 10 pixels to the right each time.
   // The image two draw is 90 x 90 pixels.
@@ -65,7 +65,7 @@ public class RunningGirlView extends Canvas {
     double sx, sy, sw, sh, dx, dy, dw, dh;
 
     public AnimateStarter() {
-      // TODO ICA: And the only one: Complete this animation to show 21 drawImages.
+      //  ICA: And the only one: Complete this animation to show 21 drawImages.
       // You need to add code the constructor to set the 8 instance variables
       // and draw the first image.  The handle messsage show shoe different
       // subImages moving left to right across the background.

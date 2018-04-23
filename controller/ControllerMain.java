@@ -93,9 +93,9 @@ public class ControllerMain extends Application {
 
   private static Random random = new Random();
   
-  public static HashSet mobs = new HashSet<Mob>();
-  public static HashSet projectiles = new HashSet<Projectile>(); 
-  public static ArrayList<Tower> towers = new ArrayList<Tower>();
+  public static HashSet<Mob> mobs = new HashSet<Mob>();
+  public static HashSet<Projectile> projectiles = new HashSet<Projectile>(); 
+  public static HashSet<Tower> towers = new HashSet<Tower>();
   public static Player thePlayer;
   public static Thread playingNow;
   public static Pane currentView;
@@ -150,11 +150,6 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		thePlayer = new Player();
 	    
-		towers = new ArrayList<Tower>();
-		mobs = new HashSet<Mob>();
-		projectiles = new HashSet<Projectile>();
-		
-		//TODO: Mobs not removed from previous game
 		
 		//Tower theTower = new DemoTower();
 		theScoreView = new ScoreView();
@@ -168,22 +163,23 @@ public class ControllerMain extends Application {
 		instrButton = new Button("Instructions");
 		backButtonMap = new Button("Back");
 		backButtonInstr = new Button("Back");
-		
+
+    // Initialize Menu View
+    theMenuView = new MenuView(startButton, instrButton);
+    this.setViewTo(theMenuView); 
+    
 		menuButtonListener menuHandler = new menuButtonListener();
 		startButton.setOnAction(menuHandler);
 		instrButton.setOnAction(menuHandler);
 		backButtonMap.setOnAction(menuHandler);
 		backButtonInstr.setOnAction(menuHandler);
 		
-		// Initialize Menu View
-		theMenuView = new MenuView(startButton, instrButton);
-		this.setViewTo(theMenuView);
 		
 		// Initialize Instruction View
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
-		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
+		theMapView = new MapView(backButtonMap);
 		isPlaying=false;
 		
 	    Scene scene = new Scene(window, width, height);
@@ -230,14 +226,29 @@ public class ControllerMain extends Application {
 				return;
 			
 			isPlaying = true;
+			theMap = null;
+			
+			// Get difficulty
+			String difficultyStr = theMenuView.getModeSelection();
+			int difficulty = 0;
+			if (difficultyStr.equals("Easy")) {
+			  difficulty = 1;
+			} else if (difficultyStr.equals("Medium")) {
+			  difficulty = 2;
+			} else if (difficultyStr.equals("Hard")) {
+			  difficulty = 3;
+			} else {
+			  difficulty = 2;
+			}
+			Map.setWaveIntensity(3);
 			
 			// Set background for MapView based on Map Selection
 			if (mapSelection.equals("Terran"))
-				theMap = new TerranMap();
+				theMap = new TerranMap(difficulty);
 			else if (mapSelection.equals("Protoss"))
-				theMap = new ProtossMap();
+				theMap = new ProtossMap(difficulty);
 			else
-				theMap = new ZergMap();
+				theMap = new ZergMap(difficulty);
 			theMapView.setMapSelection(theMap.imageFilePath);
 			
 			// Set Wave Difficulty
@@ -255,20 +266,19 @@ public class ControllerMain extends Application {
 			setViewTo(theMapView);
 		    
 
-		    /**
+		    
 		    //gotta start with a fresh new game :)
 		    thePlayer.resetStats();
-		    //towers.clear();
+		    towers.clear();
 		    mobs.clear();
 		    projectiles.clear();
-		    **/
+
 		    
 		    //thread to show a playing game
 			
 			  try {
           Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY/2);
         } catch (InterruptedException e1) {
-          // TODO Auto-generated catch block
           e1.printStackTrace();
         }
 			

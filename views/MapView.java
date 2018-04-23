@@ -60,9 +60,6 @@ public class MapView extends StackPane {
   private GraphicsContext gc;
   private VBox vBox;
   private HBox towerBox;
-  private Set mob;
-  private Set projectiles;
-  private List towers;
   private Button tower1;
   private Button tower2;
   private Button tower3;
@@ -92,10 +89,7 @@ public class MapView extends StackPane {
   private static int deadMobs;
   private static int cashEarned;
   
-  public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t) {
-    mob = m;
-    projectiles = p;
-    towers = t;
+  public MapView(Button back) {
     vBox = new VBox();
     towerBox = new HBox();
     backButton = back;
@@ -385,6 +379,7 @@ public class MapView extends StackPane {
       drawMob(m);
     }
     mobsCpy.clear();
+    
 
 
     // drasws any current rojectiles

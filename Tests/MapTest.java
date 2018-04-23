@@ -30,9 +30,9 @@ public class MapTest {
   @Test
   public void test() {
     
-	Map protossMap = new ProtossMap();
-	Map terranMap = new TerranMap();
-	Map zergmap = new ZergMap();
+	Map protossMap = new ProtossMap(1);
+	Map terranMap = new TerranMap(1);
+	Map zergmap = new ZergMap(1);
 	Map demoMap = new DemoMap();
 	Metric metric = new Metric();
 	

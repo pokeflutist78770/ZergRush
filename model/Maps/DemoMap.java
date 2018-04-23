@@ -26,7 +26,7 @@ public class DemoMap extends Map {
   private long spawnFreq = 750; 
   
   public DemoMap() {
-    super("file:assets/images/map/demoMap.png");
+    super("file:assets/images/map/demoMap.png",2);
     
     
     initializeTowers();
@@ -81,14 +81,6 @@ public class DemoMap extends Map {
     });
     
     spawnCycle.start();
-  }
-
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
   
