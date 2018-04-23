@@ -44,6 +44,7 @@ import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
+import model.Towers.Range;
 import model.Towers.Tower;
 
 //A player can view information about an enemy by clicking one that has been 
@@ -93,8 +94,9 @@ public class MapView extends StackPane {
   private boolean towerPlacement;
   private Point mousePos;
   private boolean isValidPos;
+  private Range currRange;
+  private Image currTower;
   
-
   private Player thePlayer;
   private DecimalFormat formatter;
   private static int deadMobs;
@@ -104,7 +106,8 @@ public class MapView extends StackPane {
 
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
-
+	currRange=Range.DEMO_RANGE;
+	
     vBox = new VBox();
     towerBox = new HBox();
     backButton = back;
@@ -137,7 +140,7 @@ public class MapView extends StackPane {
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
-    tower1 = new Button("", iv1);
+    tower1 = new TowerButton("", iv1, Range.DEMO_RANGE);
     tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
@@ -146,7 +149,7 @@ public class MapView extends StackPane {
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new Button("", iv2);
+    tower2 = new TowerButton("", iv2, Range.DEMO_RANGE);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
@@ -155,7 +158,7 @@ public class MapView extends StackPane {
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new Button("", iv3);
+    tower3 = new TowerButton("", iv3, Range.DEMO_RANGE);
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
@@ -453,6 +456,7 @@ public class MapView extends StackPane {
   
   
   public void drawGhostTower() {
+	  double radius=currRange.toDouble();
 	  if(isValidPos) {
 		  gc.setFill(Color.color(0, .5, 0, .5));
 	  }
@@ -460,7 +464,9 @@ public class MapView extends StackPane {
 		  gc.setFill(Color.color(.75, 0, 0, .5));
 	  }
 	  
-	  gc.fillOval(mousePos.getX(), mousePos.getY(), 200, 200);
+	  gc.fillOval(mousePos.getX()-radius, mousePos.getY()-radius, 
+			      radius*2, radius*2);
+	  gc.drawImage(currTower, mousePos.getX(), mousePos.getY());
   }
   
   
@@ -471,6 +477,9 @@ public class MapView extends StackPane {
 	@Override
 	public void handle(ActionEvent e) {
 		towerPlacement=!towerPlacement;
+		TowerButton button=(TowerButton) e.getSource();
+		currRange=button.getRange();
+		currTower=button.getImage().getImage();
 		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 	} 
   }
@@ -482,11 +491,6 @@ public class MapView extends StackPane {
 	public void handle(MouseEvent e) {
 	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
 		mousePos.setLocation(e.getX(), e.getY());
-		//if(towerPlacement) {
-		//gc.setFill(Color.RED);
-		//gc.fillRect(e.getX(), e.getY(), 400, 400);
-	    //System.out.println(e.getX()+" "+e.getY());
-		//}
 	  }
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
 		System.out.println("Mouse Clicked");
