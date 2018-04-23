@@ -29,13 +29,13 @@ public class BattleCruiser extends Mob{
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"BattleCruiser"+Mob.IDNumber++,
 				"file:assets/images/mob/terran/battlecruiser.png",
-        2.0,
-        2.0,
-        98.0,
-        105.0,
-        101.0,
-        108.0, 
-        9
+        265.0,
+        209.0,
+        78.0,
+        77.0,
+        0.0,
+        0.0, 
+        1
         );
 	}
 }
