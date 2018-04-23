@@ -41,7 +41,7 @@ import model.Towers.Tower;
 // sprites moving.
 
 public class MapView extends StackPane {
-  private static final double ghostTowerSize=60;
+  public static final double ghostTowerSize=60;
   private GraphicsContext gcCommand;
   private Button backButton;
   private StackPane pane;
@@ -88,7 +88,7 @@ public class MapView extends StackPane {
   private static int cashEarned;
   
   public MapView(Button back) {
-
+    //variables for towewr placement
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
 	isValidPos=true;
@@ -314,14 +314,17 @@ public class MapView extends StackPane {
     cashNum.setText("$" + String.valueOf(num));
   }
 
+  //sets the UI for player health
   public void setHealthNum(double hp) {
     healthNum.setText(String.valueOf(hp));
   }
 
+  //sets UI forr wave
   public void setWaveNum(String difficulty) {
     waveNum.setText(difficulty);
   }
   
+  //sets the curent player
   public void setPlayer(Player p)
   {
 	  thePlayer = p;
@@ -372,6 +375,7 @@ public class MapView extends StackPane {
       }
     } else {
       gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
+      
       if (this.updateCount % 5 == 0) {
         mob.step();
       }
@@ -439,8 +443,15 @@ public class MapView extends StackPane {
   }
   
   
+  /* drawGhostImage
+   * draws a ghot image of a selected tower along with its range
+   * Parameters: None
+   * Returns: None
+  */
   public void drawGhostTower() {
 	  double radius=currRange.toDouble();
+	  
+	  //tower can be placed
 	  if(isValidPos) {
 		  gc.setFill(Color.color(0, .5, 0, .5));
 	  }
@@ -457,15 +468,21 @@ public class MapView extends StackPane {
   }
   
   
+  /* towerButtonHandler
+   * Handles all interaction with TowerButtons
+  */
   private class towerButtonHandler implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent e) {
 		TowerButton button=(TowerButton) e.getSource();
+		
+		//user clicks on the same button
 		if(currName.equals(button.getName())) {
 			towerPlacement=false;
 			return;
 		}
+		
 		towerPlacement=true;
 		currRange=button.getRange();
 		currTower=button.getImage().getImage();
@@ -475,11 +492,14 @@ public class MapView extends StackPane {
   } 
   
   
+  /* mouseHandler
+   * handles all interaction with the mouse, fro movement to clicking to place a tower
+  */
   private class mouseHandler implements EventHandler<MouseEvent>{
 
 	@Override
 	public void handle(MouseEvent e) {
-		
+	  //need to update current mouse position
 	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
 		mousePos.setLocation(e.getX(), e.getY());
 	  }
@@ -488,6 +508,7 @@ public class MapView extends StackPane {
 		towerPlacement=false;
 		Tower newTower=null;
 		
+		//the different buttons
 		if(currName.equals("Marine")) {
 			newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
