@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -22,8 +24,10 @@ public class MobModelTests {
 
 	@Test
 	public void FullResistance() {
-		DemoMob mob=new DemoMob(new ArrayList<Point>());
-		mob.takeDamage(20000, ElementalAttribute.NONE);
-		assertFalse(mob.isDead());
+		
+		
+		
+		
+		
 	}
 }

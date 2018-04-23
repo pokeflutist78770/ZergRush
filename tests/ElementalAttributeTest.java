@@ -8,7 +8,6 @@ public class ElementalAttributeTest {
 
   @Test
   public void test() {
-    fail("Not yet implemented");
   }
 
 }

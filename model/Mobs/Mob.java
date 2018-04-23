@@ -3,6 +3,7 @@ package model.Mobs;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 import javafx.application.Platform;
@@ -190,10 +191,10 @@ public abstract class Mob {
     double oldY = currentLocation.getY();
 
     double spd = this.speed.getSpeed();
-    Point unitV = getDirectionVector();
+    Vector<Double> unitV = getDirectionVector();
 
-    double newX = oldX + spd * unitV.getX();
-    double newY = oldY + spd * unitV.getY();
+    double newX = oldX + spd * unitV.get(0);
+    double newY = oldY + spd * unitV.get(1);
 
     currentLocation.setLocation(newX, newY);
   }
@@ -217,7 +218,7 @@ public abstract class Mob {
   }
 
   // getter for the direction vector
-  public Point getDirectionVector() {
+  public Vector<Double> getDirectionVector() {
     return Metric.getDirectionVector(currentLocation, targetLocation);
   }
 

@@ -122,6 +122,13 @@ public class ControllerMain extends Application {
 	public static final int height = 880;
     private static HashMap<String,Image> imageMap;
 	
+    // For testing
+    public ControllerMain() {
+      initializeAssets();
+      thePlayer = new Player();
+      isPlaying=false;
+      theMap = new DemoMap();
+    }
     
     /* initializeAssets
      * Initializes all images and sound, allowing for a flyweight design pattern
@@ -263,7 +270,6 @@ public class ControllerMain extends Application {
 			// Pass Player to MapView
 			theMapView.setPlayer(thePlayer);
 			
-			
 			setViewTo(theMapView);
 		    
 
@@ -273,6 +279,7 @@ public class ControllerMain extends Application {
 		    towers.clear();
 		    mobs.clear();
 		    projectiles.clear();
+
 		    
 		    //thread to show a playing game
 			

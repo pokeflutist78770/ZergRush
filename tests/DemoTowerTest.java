@@ -23,7 +23,7 @@ public class DemoTowerTest {
     assertTrue(dTow.getY() == 400);
     assertTrue(dTow.getCost() == 0);
     assertTrue(dTow.getImageFilePath().equals("file:assets/images/Slime.png"));
-    dTow.getImage();
+    //dTow.getImage();
     
     dTow.setImageFilePath("file:assets/images/ghost.png");
   }

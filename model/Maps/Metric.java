@@ -1,6 +1,8 @@
 package model.Maps;
 
 import java.awt.Point;
+import java.util.Arrays;
+import java.util.Vector;
 
 /**
  * This class exists to provide a static method that determines if two points 
@@ -43,7 +45,7 @@ public class Metric {
    * Calculate the direction this mob is moving.
    * @return A point representing the unit velocity vector of this mob.
    */
-  public static Point getDirectionVector(Point currentLocation, Point targetLocation) {
+  public static Vector<Double> getDirectionVector(Point currentLocation, Point targetLocation) {
     // Get coordinates
     Double xDir = targetLocation.getX() - currentLocation.getX();
     Double yDir = targetLocation.getY() - currentLocation.getY();
@@ -53,7 +55,7 @@ public class Metric {
     xDir = xDir / magnitude;
     yDir = yDir / magnitude;
     
-    return new Point((int) Math.round(xDir), (int) Math.round(yDir));
+    return new Vector(Arrays.asList(xDir, yDir));
   }
   
   
@@ -63,26 +65,26 @@ public class Metric {
    */
   public static double getDirectionAngle(Point currentLocation, Point targetLocation) {
     // Get vector direction
-    Point vDir = getDirectionVector(currentLocation, targetLocation);
+    Vector<Double> vDir = getDirectionVector(currentLocation, targetLocation);
     
     // Deal with vertical vectors
-    if (vDir.getX() == 0) {
-      if (vDir.getY() > 0) {
-        return 90;
+    if (vDir.get(0) == 0) {
+      if (vDir.get(1) > 0) {
+        return 270;
       }
       else {
-        return 270;
+        return 90;
       }
     }
     
-    double ratio = vDir.getY() / vDir.getX();
+    double ratio = vDir.get(1) / vDir.get(0);
     double base = Math.atan(ratio);  //solves for base angle 
     double radianAngle = 0;
     
-    //some nice redirecting of the angle to prevent negatives (Im 98% sure)
-    if (vDir.getX() < 0) {
+    //some nice redirecting of the angle to prevent negatives (I'm 98% sure)
+    if (vDir.get(0) < 0) {
       radianAngle = base + Math.PI; 
-    } else if (vDir.getY() < 0) {
+    } else if (vDir.get(1) < 0) {
       radianAngle = base + 2 * Math.PI;
     
     //angle is good as is
@@ -90,7 +92,11 @@ public class Metric {
       radianAngle = base;
     }
     
-    return Math.toDegrees(radianAngle);
+    if (Math.toDegrees(radianAngle) == 0.0) {
+      return 0.0;
+    }
+    
+    return 360 - Math.toDegrees(radianAngle);
   }
 
 }

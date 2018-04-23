@@ -23,13 +23,13 @@ import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
-  private long spawnFreq = 750; 
   
   public DemoMap() {
     super("file:assets/images/map/demoMap.png",2);
     
     
     initializeTowers();
+    ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.GUI_SIZE/2, ControllerMain.GUI_SIZE/2)));
     initializeSpawnCycle();
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
@@ -71,7 +71,7 @@ public class DemoMap extends Map {
             	break;
             }
             
-            Thread.sleep(spawnFreq);
+            Thread.sleep(SPAWN_FREQUENCY);
           } catch (InterruptedException e) {
             e.printStackTrace();
           } 
