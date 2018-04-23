@@ -392,7 +392,6 @@ public class MapView extends StackPane {
   public void drawMap() {
 	gc.drawImage(background, 0, 0);
     gc.strokeLine(0, 800, 800, 800);
-
     if(towerPlacement) {
     	drawGhostTower();
     }
