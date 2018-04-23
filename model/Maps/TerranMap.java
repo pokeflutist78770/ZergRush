@@ -40,7 +40,7 @@ public class TerranMap extends Map {
             //Zergling mob=new Zergling(paths.get(1));
             //Hydralisk mob2=new Hydralisk(paths.get(1));
             //Ultralisk mob3=new Ultralisk(paths.get(1));
-           // DemoMob mob=new DemoMob(paths.get(1));
+            //DemoMob mob=new DemoMob(paths.get(1));
             
             //System.out.println("Protoss Map is spawning: "+mob.toString());
             

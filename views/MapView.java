@@ -1,6 +1,6 @@
 package views;
 
-import java.util.List;
+import java.util.List; 
 import java.awt.Paint;
 import java.awt.Point;
 import java.util.Set;
@@ -82,10 +82,18 @@ public class MapView extends StackPane {
   private Label attr5;
   private Label attr6;
   private int updateCount = 0;
+  
   private boolean towerPlacement;
+  private Point mousePos;
+  private Color rangeColor;
+  private boolean isValidPos;
   
   public MapView(Button back, Set<Mob> m, Set<Projectile> p, List<Tower> t) {
+	mousePos=new Point(0,0);
 	towerPlacement=false;
+	rangeColor=Color.color(1,0,0, .5);
+	
+	
     mob = m;
     projectiles = p;
     towers = t;
@@ -103,13 +111,16 @@ public class MapView extends StackPane {
 
     // Command Panel - Black Background
     Canvas commandCanvas = new Canvas(800, 880);
+    EventHandler<MouseEvent> mouseHandler1=new mouseHandler();
+    commandCanvas.setOnMouseMoved(mouseHandler1);
+    commandCanvas.setOnMouseClicked(mouseHandler1);
     gcCommand = commandCanvas.getGraphicsContext2D();
     gcCommand.setFill(Color.BLACK);
     gcCommand.setStroke(Color.BLACK);
     gcCommand.fillRect(0, 0, commandCanvas.getWidth(), commandCanvas.getHeight());
 
-    
     EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
+    
     // Tower1 Button
     Image tower1Image = new Image("file:assets/images/marine.png", false);
     ImageView iv1 = new ImageView(tower1Image);
@@ -127,13 +138,14 @@ public class MapView extends StackPane {
     tower2 = new Button("", iv2);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
-
+    
     // Tower3 Button
     Image tower3Image = new Image("file:assets/images/thick.png", false);
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
     tower3 = new Button("", iv3);
+    tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
     // Purchase Button
@@ -273,7 +285,11 @@ public class MapView extends StackPane {
     pane.getChildren().add(gameGrid);
     pane.getChildren().add(updateGrid);
     pane.getChildren().add(statusBox);
+    
     this.getChildren().add(pane);
+    this.setOnMouseClicked(mouseHandler);
+    this.setOnMouseMoved(mouseHandler);
+    //this.setOnMouse
   }
   
   public void setMapSelection(String filepath)
@@ -333,7 +349,11 @@ public class MapView extends StackPane {
   public void drawMap() {
     gc.drawImage(background, 0, 0);
     gc.strokeLine(0, 800, 800, 800);
-
+    
+    if(towerPlacement) {
+    	drawGhostTower();
+    }
+    
     /*
      * Our beautiful animation stuff will go here
      */
@@ -369,13 +389,23 @@ public class MapView extends StackPane {
   }
   
   
+  public void drawGhostTower() {
+	  if(isValidPos) {
+		  
+	  }
+	  gc.setFill(rangeColor);
+	  gc.fillOval(mousePos.getX(), mousePos.getY(), 200, 200);
+  }
+  
+  
+  
   
   private class towerButtonHandler implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent e) {
-		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 		towerPlacement=!towerPlacement;
+		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 	} 
   }
   
@@ -385,14 +415,15 @@ public class MapView extends StackPane {
 	@Override
 	public void handle(MouseEvent e) {
 	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
+		mousePos.setLocation(e.getX(), e.getY());
 		//if(towerPlacement) {
-		  gcCommand.setFill(Color.RED);
-		  gcCommand.fillRect(e.getX(), e.getY(), 100, 100);
-	      System.out.println(e.getX()+" "+e.getY());
+		//gc.setFill(Color.RED);
+		//gc.fillRect(e.getX(), e.getY(), 400, 400);
+	    //System.out.println(e.getX()+" "+e.getY());
 		//}
 	  }
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
-		  System.out.println("Mouse Clicked");
+		System.out.println("Mouse Clicked");
 	  }
     }
   }
