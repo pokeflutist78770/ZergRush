@@ -42,7 +42,7 @@ import model.Towers.Tower;
 // sprites moving.
 
 public class MapView extends StackPane {
-  private static final double ghostTowerSize=60;
+  public static final double ghostTowerSize=60;
   private GraphicsContext gcCommand;
   private Button backButton;
   private StackPane pane;
