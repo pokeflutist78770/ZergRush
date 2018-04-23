@@ -44,6 +44,9 @@ import views.MapView;
 
 public abstract class Mob {
   public static int IDNumber = 0;
+  
+  private boolean wasKilled = false;
+  private int movementPerturbation = 3;
 
   // Movement related fields
   private Thread mobWalk;
@@ -103,7 +106,9 @@ public abstract class Mob {
     
     System.out.println(movementPath.get(0).getX());
 
-    this.currentLocation = new Point((int) this.movementPath.get(0).getX(), (int) this.movementPath.get(0).getY());
+    
+    
+    this.currentLocation = perturbPoint(movementPath.get(0));
     this.pathIndex++;
 
     this.radius = radius;
@@ -114,11 +119,18 @@ public abstract class Mob {
     this.speed = speed;
     this.resistances = resistances;
 
-    this.name = name;
+    this.setName(name);
     this.imageFilePath = imageFP;
 
     attackTime = 0;
     initializeMovement();
+  }
+
+  private Point perturbPoint(Point inPoint) {
+    return new Point(
+        (int) ( inPoint.getX() + (ControllerMain.TILE_SIZE * ( ControllerMain.getRandom().nextInt(movementPerturbation * 100) / 100.0 -1))),
+        (int) ( inPoint.getY() + (ControllerMain.TILE_SIZE * ( ControllerMain.getRandom().nextInt(movementPerturbation * 100) / 100.0 -1)))
+        );
   }
 
   /**
@@ -137,7 +149,7 @@ public abstract class Mob {
       @Override
       public void run() {
         try {
-          while (ControllerMain.isPlaying) {
+          while (ControllerMain.isPlaying && !isDead()) {
 
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 
@@ -151,9 +163,11 @@ public abstract class Mob {
             }
           }
         } catch (InterruptedException e) {
+          System.out.println("Mobwalk is failing.");
           // e.printStackTrace();
         }
-
+        ControllerMain.mobs.remove(this);
+        MapView.incrKills();
         System.out.println("Mob Thread: Ended");
       }
     });
@@ -212,7 +226,7 @@ public abstract class Mob {
    */
   private void updateTarget() {
     if (pathIndex < movementPath.size()) {
-      targetLocation = movementPath.get(pathIndex);
+      targetLocation = perturbPoint(movementPath.get(pathIndex));
       pathIndex++;
     } else {
       cleanupMobEndZone();
@@ -319,6 +333,10 @@ public abstract class Mob {
    * representing if dead
    */
   public boolean isDead() {
+    //if (wasKilled) {
+    //  return true;
+    //}
+	// TODO: Mobs not removed from map
     return hp <= 0;
   }
 
@@ -377,6 +395,18 @@ public abstract class Mob {
   }
   
   public void step() {
-    this.stepCount ++;
+    this.stepCount++;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  public void kill() {
+    wasKilled = true;
   }
 }
