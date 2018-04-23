@@ -26,6 +26,16 @@ import javafx.scene.text.Text;
 
 // The players should have the choice of choosing between maps.
 
+/**
+ * This class represents the Menu Page of Tower Defense.
+ * The Menu Page allows the Player to select a Map and Difficulty.
+ * Player may also customize Game Speed and decide if they would like to Save or Load a game.
+ * Start button will start the game, Instruction button will bring up instruction page.
+ * 
+ * @author David Weinflash
+ *
+ */
+
 public class MenuView extends StackPane {
 
 	private Image background;
@@ -42,6 +52,16 @@ public class MenuView extends StackPane {
 	private Boolean load;
 	private Slider speedSlider;
 	
+	/**
+	* Constructor for MenuView. Adds the Start and Instruction buttons to bottom of page.
+	* Adds Difficulty Radio Buttons below Start/Instruction Buttons. Label will update
+	* based on Difficulty setting. Map Selection set at center of page below Title.
+	* Game Speed as slider at top right; Load/Save buttons set at top left.
+	* 
+	* @param Button back, Button instr
+	*          - Back Button returns to Main Menu
+	*          - Instr Button sets view to Instruction View
+	*/
 	public MenuView(Button start, Button instr)
 	{
 		// Start Button
@@ -214,12 +234,11 @@ public class MenuView extends StackPane {
 		StackPane.setAlignment(hBox, Pos.CENTER);
 	}
 
+	/**
+	* Class to handle the Difficulty selected by User via RadioButtons.
+	* Update the Difficulty Label based on RadioButton selection
+	*/
 	private class RadioButtonHandler implements EventHandler<ActionEvent> {
-
-			/**
-			* Determine the shape type based on the radio button 
-			* selected by user.
-			*/
 		  
 			@Override
 			public void handle(ActionEvent e) 
@@ -249,6 +268,8 @@ public class MenuView extends StackPane {
 				
 			}
 	  }
+	
+	  /*----------    Getters/Setters     -------------*/
 	
 	  public Boolean getLoadStatus()
 	  {
