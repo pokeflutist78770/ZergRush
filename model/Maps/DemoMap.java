@@ -33,7 +33,7 @@ public class DemoMap extends Map {
     initializeSpawnCycle(Arrays.asList("Zergling"));
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
-
+  
   
   /* constructMobRoute
    * Creates the route for each mob to walk through
