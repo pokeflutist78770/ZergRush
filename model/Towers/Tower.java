@@ -133,6 +133,28 @@ public abstract class Tower {
 
   abstract protected void shoot(Set<Mob> nearbyMobs);
 
+  
+  private Mob getClosestMob(Set<Mob> nearbyMobs) {
+    Iterator<Mob> itr = nearbyMobs.iterator();
+	Mob closest = itr.next();
+    while (itr.hasNext()) {
+      Mob nextMob = itr.next();
+      if (isCloser(closest, nextMob)) {
+	    continue;
+	  } else {
+	    closest = nextMob;
+      }
+    }
+    return closest;
+  }
+
+  private boolean isCloser(Mob closest, Mob nextMob) {
+    double winnerDist2 = Metric.distanceSquared(location, closest.getCurrentLocation());
+	double nextDist2 = Metric.distanceSquared(location, nextMob.getCurrentLocation());
+	return winnerDist2 < nextDist2;
+  }
+	  
+	  
   private Set getNearbyMobs() {
     Set nearbyMobs = new HashSet();
     Iterator<Mob> itr = ControllerMain.mobs.iterator();
