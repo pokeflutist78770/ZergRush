@@ -78,6 +78,7 @@ public class MapView extends StackPane {
   private boolean isValidPos;
   private Range currRange;
   private Image currTower;
+  private String currName;
   
   private Player thePlayer;
   private DecimalFormat formatter;
@@ -119,7 +120,7 @@ public class MapView extends StackPane {
     EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
     
     // Tower1 Button
-    Image tower1Image = new Image("file:assets/images/towers/marine.png", false);
+    Image tower1Image = new Image("file:assets/images/tower/marine.png", false);
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
@@ -128,20 +129,20 @@ public class MapView extends StackPane {
     tower1.setStyle("-fx-base: #808080;");
 
     // Tower2 Button
-    Image tower2Image = new Image("file:assets/images/towers/depot.png", false);
+    Image tower2Image = new Image("file:assets/images/tower/depot.png", false);
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new TowerButton("", iv2, "Ghost", Range.LARGE_RANGE);
+    tower2 = new TowerButton("", iv2, "Depot", Range.LARGE_RANGE);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
     // Tower3 Button
-    Image tower3Image = new Image("file:assets/images/towers/tank.png", false);
+    Image tower3Image = new Image("file:assets/images/tower/tank.png", false);
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new TowerButton("", iv3, "Missle Turret", Range.DEMO_RANGE);
+    tower3 = new TowerButton("", iv3, "Tank", Range.DEMO_RANGE);
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
@@ -416,7 +417,8 @@ public class MapView extends StackPane {
     // draws all current towers
     HashSet<Tower> towersCpy = new HashSet(ControllerMain.towers);
     for (Tower t: towersCpy) {
-      gc.drawImage(t.getImage(), t.getX(), t.getY()); // TODO: Ben, center this graphic.
+      gc.drawImage(t.getImage(), t.getX(), t.getY(),
+    		  	   ghostTowerSize, ghostTowerSize); // TODO: Ben, center this graphic.
     }
     towersCpy.clear();
 
@@ -464,7 +466,7 @@ public class MapView extends StackPane {
 		TowerButton button=(TowerButton) e.getSource();
 		currRange=button.getRange();
 		currTower=button.getImage().getImage();
-		
+		currName=button.getName();
 		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 	} 
   } 
@@ -478,6 +480,7 @@ public class MapView extends StackPane {
 		mousePos.setLocation(e.getX(), e.getY());
 	  }
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
+		  towerPlacement=false;
 		ControllerMain.towers.add(new DemoTower(
 				                  new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 				                		    (int)(mousePos.getY()-.5*ghostTowerSize))));
