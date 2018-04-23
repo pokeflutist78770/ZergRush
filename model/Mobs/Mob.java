@@ -415,7 +415,7 @@ public abstract class Mob {
   public void kill() {
     ControllerMain.soundEffects.get(deathSound).play();
     wasKilled = true;
-   // ControllerMain.mobs.remove(this);
+    ControllerMain.mobs.remove(this);
     MapView.incrKills();
   }
 }
