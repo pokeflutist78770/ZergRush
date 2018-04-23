@@ -25,7 +25,7 @@ import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
-import model.Towers.DemoTower;
+
 import model.Towers.Depot;
 import model.Towers.Marine;
 import model.Towers.Range;
@@ -507,24 +507,26 @@ public class MapView extends StackPane {
 	  }
 	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
-		towerPlacement=false;
-		Tower newTower=null;
-		
-		//the different buttons
-		if(currName.equals("Marine")) {
-			newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+		if(towerPlacement) {
+			towerPlacement=false;
+			Tower newTower=null;
+			
+			//the different buttons
+			if(currName.equals("Marine")) {
+				newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+			}
+			else if( currName.equals("Depot")){
+				newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+			}
+			else if(currName.equals("Tank")) {
+				newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+			}
+			
+			ControllerMain.towers.add(newTower);
 		}
-		else if( currName.equals("Depot")){
-			newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
-		}
-		else if(currName.equals("Tank")) {
-			newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
-		}
-		
-		ControllerMain.towers.add(newTower);
 		System.out.println("Mouse Clicked");
 	  }
     }
