@@ -27,7 +27,7 @@ public DarkTemplar(List<Point> movementPath) {
         59.0,
         57.0,
         62.0, 
-        11
+        8
         );
 	}
 }

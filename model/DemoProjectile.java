@@ -12,7 +12,7 @@ public class DemoProjectile extends Projectile {
   public DemoProjectile(Point startLocation, Mob targetMob, int testing) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/Goop.png",testing);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/proj.png",testing);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();

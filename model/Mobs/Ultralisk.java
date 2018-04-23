@@ -18,7 +18,7 @@ public class Ultralisk extends Mob {
 				new ArrayList<ResistanceAttribute>(Collections.singletonList(
 						                           ResistanceAttribute.POISON)), 
 				"Ultralisk"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/ultralisk.png",
+				"file:assets/images/mob/zerg/ultralisk.png", "ultra_death",
         2.0,
         2.0,
         98.0,

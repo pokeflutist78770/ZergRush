@@ -350,7 +350,7 @@ public class MapView extends StackPane {
       double nrgY = 393;
       double nrgSteps = 4;
       double nrgCurrStep = stepCount % nrgSteps + 1;
-      double nrgSX = nrgX + nrgCurrStep * 92;
+      double nrgSX = nrgX + nrgCurrStep * 85;
       gc.drawImage(mob.getImage(), nrgSX, nrgY, sw, sh, x, y, sw, sh);
       
       gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
@@ -360,7 +360,7 @@ public class MapView extends StackPane {
       double swirlY = 1047;
       double swirlSteps = 15;
       double swirlCurrStep = stepCount % swirlSteps + 1;
-      double swirlSX = swirlX + swirlCurrStep * 92;
+      double swirlSX = swirlX + swirlCurrStep * 85;
       gc.drawImage(mob.getImage(), swirlSX, swirlY, sw, sh, x, y, sw, sh);
       
       if (this.updateCount % 5 == 0) {
@@ -432,7 +432,7 @@ public class MapView extends StackPane {
     // drasws any current rojectiles
     HashSet<Projectile> projectilesCpy = new HashSet(ControllerMain.projectiles);
     for (Projectile p: projectilesCpy) {
-      gc.drawImage(p.getImage(), p.getX(), p.getY());// TODO: Ben, center this graphic
+      gc.drawImage(p.getImage(), 0,0, 1001, 1001, p.getX() - 15, p.getY() -15, 30, 30);
     }
     projectilesCpy.clear();
   }
