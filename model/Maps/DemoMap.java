@@ -29,58 +29,9 @@ public class DemoMap extends Map {
     
     
     initializeTowers();
-    ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.GUI_SIZE/2, ControllerMain.GUI_SIZE/2)));
-    initializeSpawnCycle();
+    //ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.GUI_SIZE/2, ControllerMain.GUI_SIZE/2)));
+    initializeSpawnCycle(Arrays.asList("Zergling"));
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
-  }
-  
-  
-  /* initializeSpawnCycle
-   * Starts the spawn cycle for the gameplay
-   * Parameters: None
-   * Returns: None
-  */
-  private void initializeSpawnCycle() {
-    Thread spawnCycle = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        do {
-          try {
-        	  
-        	//Zealot mob=new Zealot(paths.get(1));
-        	//DarkTemplar mob=new DarkTemplar(paths.get(1));
-        	//Archon mob=new Archon(paths.get(1));
-        	//Marine mob=new Marine(paths.get(1));
-        	//Wraith mob=new Wraith(paths.get(1));
-//        	BattleCruiser mob=new BattleCruiser(paths.get(1));
-            Zergling mob=new Zergling(paths.get(1));
-            //Hydralisk mob2=new Hydralisk(paths.get(1));
-            //Ultralisk mob3=new Ultralisk(paths.get(1));
-            //DemoMob mob=new DemoMob(paths.get(1));
-            
-            //System.out.println("DemoMap is spawning: "+mob.toString());
-            
-            ControllerMain.mobs.add(mob);
-            //ControllerMain.mobs.add(mob2);
-            //ControllerMain.mobs.add(mob3);
-            
-            System.out.println("Slow Speed: "+SpeedAttribute.SLOW.getSpeed());
-            System.out.println("Normal Speed: "+SpeedAttribute.NORMAL.getSpeed());
-            System.out.println("Fast Speed: "+SpeedAttribute.FAST.getSpeed());
-            if(!ControllerMain.isPlaying) {
-            	break;
-            }
-            
-            Thread.sleep(SPAWN_FREQUENCY);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          } 
-        } while(true);
-        
-      }
-    });
-    
-    spawnCycle.start();
   }
 
   
@@ -111,6 +62,6 @@ public class DemoMap extends Map {
       Map.scalePoint(p);
     }
     
-    this.paths.put(1, pathOne);
+    this.getPaths().put(1, pathOne);
   }
 }

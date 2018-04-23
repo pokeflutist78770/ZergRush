@@ -55,7 +55,7 @@ public class TerranMap extends Map {
     }
     
     
-    this.paths.put(1, pathOne);
+    this.getPaths().put(1, pathOne);
   }
 
 }

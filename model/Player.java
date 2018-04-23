@@ -37,6 +37,10 @@ public class Player {
 	private final double BASE_HP=10000;
 	private double CURRENT_HP=BASE_HP;
 	
+	public Player() {
+	  CURRENT_HP = BASE_HP;
+	}
+	
 	
 	/* takeDamage
 	 * subtracts a certain amount from the players HP
@@ -44,46 +48,11 @@ public class Player {
 	 * Returns: None
 	*/
 	public void takeDamage(double damage) {
-		if(damage<=CURRENT_HP) {
-			CURRENT_HP-=damage;
-			System.out.println("Player HP: "+CURRENT_HP);
-		}
+	  CURRENT_HP -= damage;
+    System.out.println("Player HP: "+CURRENT_HP);
 		
 		if(CURRENT_HP<=0) {
-			System.out.println("Player lost");
-			ControllerMain.playingNow.interrupt();
-			
-			//display loss screen
-			
-			ControllerMain.isPlaying=false;
-			
-			Platform.runLater(() -> {
-				//This code will be moved to when a player reaches a set amount of waves, 
-				//but for the demo this will suffice
-				ControllerMain.currentView.setEffect(new GaussianBlur());
-				
-				VBox pauseRoot = new VBox(5);
-	            pauseRoot.getChildren().add(new Label("You lost!"));
-	            pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
-	            pauseRoot.setAlignment(Pos.CENTER);
-	            pauseRoot.setPadding(new Insets(20));
-	
-	            Button resume = new Button("Main Menu");
-	            pauseRoot.getChildren().add(resume);
-	            
-				Stage popupStage = new Stage(StageStyle.TRANSPARENT);
-	            popupStage.initOwner(ControllerMain.getStage());
-	            popupStage.initModality(Modality.APPLICATION_MODAL);
-	            popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
-	            
-	            resume.setOnAction(event -> {
-	                ControllerMain.currentView.setEffect(null);
-	                ControllerMain.resetMainMenu();
-	                popupStage.hide();
-	            });
-	            
-	            popupStage.show();
-			});
+		  ControllerMain.dealWithDeadPlayer();
 		}
 		
 	}

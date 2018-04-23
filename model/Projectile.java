@@ -32,8 +32,8 @@ abstract public class Projectile {
   
   public Projectile(Point startLocation, SpeedAttribute spd,
                     double radius, double baseDamage,  ElementalAttribute ea,
-                    String imgFilePath
-                    ) {
+                    String imgFilePath,
+                    int testing) {
 		
     currentLocation = startLocation;
     speed = spd;
@@ -43,7 +43,9 @@ abstract public class Projectile {
 
     imageFilePath = imgFilePath;
 		
-    initializeProjectile();
+    if (testing == 0) {
+      initializeProjectile();
+    }
   }
 	
 
@@ -59,19 +61,16 @@ abstract public class Projectile {
     kamakaziImperative = new Thread(new Runnable() {
       @Override
       public void run() {
-    	while(!Thread.interrupted()) {
+    	while(!hasReachedTarget()) {
           try {
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
             
-            if (!hasReachedTarget()) { //projectile still hasnt reached mob yet
-              updateLocation();
-            } else {
-              terminate();
-            }
+            updateLocation();
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
         }
+    	    terminate();
       }
     });
     

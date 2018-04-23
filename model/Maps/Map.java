@@ -45,7 +45,7 @@ public abstract class Map {
   public String imageFilePath;
   public static int idNo = 0;
   protected String name;
-  protected HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
+  private HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
   public static long SPAWN_FREQUENCY =   10* 1000;
 
   private static int waveIntensity;
@@ -168,6 +168,16 @@ public abstract class Map {
 
   public static void setWaveIntensity(int input) {
     waveIntensity = input;
+  }
+
+
+  public HashMap<Integer, List<Point>> getPaths() {
+    return paths;
+  }
+
+
+  public void setPaths(HashMap<Integer, List<Point>> paths) {
+    this.paths = paths;
   }
 	
 }

@@ -9,10 +9,10 @@ import model.Towers.ElementalAttribute;
 
 public class DemoProjectile extends Projectile {
 
-  public DemoProjectile(Point startLocation, Mob targetMob) {
+  public DemoProjectile(Point startLocation, Mob targetMob, int testing) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/Goop.png");
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/Goop.png",testing);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();
@@ -22,7 +22,6 @@ public class DemoProjectile extends Projectile {
   protected void terminate() {
     targetMob.takeDamage(baseDmg, dmgType);
     ControllerMain.projectiles.remove(this);
-    kamakaziImperative.interrupt();
   }
 
 }

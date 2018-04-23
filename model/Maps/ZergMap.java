@@ -71,8 +71,8 @@ public class ZergMap extends Map {
     }
     
     
-    this.paths.put(1, pathOne);
-    this.paths.put(2, pathTwo);
+    this.getPaths().put(1, pathOne);
+    this.getPaths().put(2, pathTwo);
   }
 
 }
