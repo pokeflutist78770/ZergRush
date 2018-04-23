@@ -254,7 +254,6 @@ public class ControllerMain extends Application {
 			  try {
           Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY/2);
         } catch (InterruptedException e1) {
-          // TODO Auto-generated catch block
           e1.printStackTrace();
         }
 			

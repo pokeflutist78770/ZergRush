@@ -52,7 +52,7 @@ public abstract class Map {
     paths = new HashMap<Integer, List<Point>>();
     constructMobRoute();
     imageFilePath = imgFp;
-    waveIntensity = 27;
+    waveIntensity = 3;
   }
   
   
@@ -103,10 +103,6 @@ public abstract class Map {
             updateWaveIntensity();
             
             
-            
-            // TODO: going to change what spawns.
-            
-            
             if(!ControllerMain.isPlaying) {
               break;
             }
@@ -125,7 +121,7 @@ public abstract class Map {
 
 
   protected void updateWaveIntensity() {
-    // TODO Auto-generated method stub
+    waveIntensity = 3*waveIntensity;
     
   }
 
