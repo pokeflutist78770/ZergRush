@@ -2,6 +2,12 @@ package model.Mobs;
 
 import controller.ControllerMain;
 
+/**
+ * Speed Attribute represent the rate at which mobs move about the map.
+ * 
+ * @author Ben Walters
+ *
+ */
 public enum SpeedAttribute {
 	// 500 is arbitrary. The point is just that its some fraction of the GUI size.
 	

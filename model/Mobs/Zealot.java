@@ -10,7 +10,11 @@ import controller.ControllerMain;
 public class Zealot extends Mob{
 
 	
-	
+/**
+ * Zealots are the tier one unit of the Protoss army.  They are relatively slow and tanky with low damage output.
+ * 	
+ * @param movementPath
+ */
 public Zealot(List<Point> movementPath) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 

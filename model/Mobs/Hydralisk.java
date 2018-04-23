@@ -7,6 +7,13 @@ import java.util.List;
 
 import controller.ControllerMain;
 
+/**
+ * Hydralisks are the tier two unit of the zerg army. They have very high damage output with relatively slow movement
+ * and low HP.  Typical glass cannon.
+ * 
+ * @author Ben
+ *
+ */
 public class Hydralisk extends Mob {
 	
 	public Hydralisk(List<Point> movementPath) {

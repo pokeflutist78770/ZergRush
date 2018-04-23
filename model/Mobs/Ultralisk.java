@@ -7,6 +7,13 @@ import java.util.List;
 
 import controller.ControllerMain;
 
+
+/**
+ * Ultralisks are the tier three unit of the Zerg army.  They are extremely tanky and high damage.
+ * 
+ * @author Ben Walters
+ *
+ */
 public class Ultralisk extends Mob {
 
 	public Ultralisk(List<Point> movementPath) {
