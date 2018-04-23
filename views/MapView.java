@@ -25,7 +25,7 @@ import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
-import model.Towers.DemoTower;
+
 import model.Towers.Depot;
 import model.Towers.Marine;
 import model.Towers.Range;
@@ -42,7 +42,7 @@ import model.Towers.Tower;
 // sprites moving.
 
 public class MapView extends StackPane {
-  private static final double ghostTowerSize=60;
+  public static final double ghostTowerSize=60;
   private GraphicsContext gcCommand;
   private Button backButton;
   private StackPane pane;
@@ -86,10 +86,19 @@ public class MapView extends StackPane {
   private Player thePlayer;
   private DecimalFormat formatter;
   private static int deadMobs;
-  private static int cashEarned;
   
+  
+  /**
+  * Constructor for MapVew. Provides a HUD and view of the Map to illustrate current game
+  * state. HUD includes a Command Panel for game stats (Player HP, Cash, Kills, Difficulty),
+  * tower purchases, tower upgrades, and status updates (click on an item in game, warning
+  * messages) Takes a Button for implementation of a Back Button to Main Menu.
+  * 
+  * @param Button back
+  *          - Back Button returns to Main Menu
+  */
   public MapView(Button back) {
-
+    //variables for towewr placement
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
 	isValidPos=true;
@@ -109,7 +118,6 @@ public class MapView extends StackPane {
     background = new Image("file:assets/images/map/demoMap.png", false);
     formatter = new DecimalFormat("#,###");
     deadMobs = 0;
-    cashEarned = 0;
 
     // Command Panel - Black Background
     Canvas commandCanvas = new Canvas(800, 880);
@@ -182,7 +190,7 @@ public class MapView extends StackPane {
     gameGrid.setPickOnBounds(false);
     gameGrid.setPadding(new Insets(818, 0, 0, 10));
 
-    // Wave Number Label
+    // Wave Difficulty Label
     wave = new Label("Wave:");
     wave.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
     gameGrid.add(wave, 0, 0);
@@ -232,7 +240,9 @@ public class MapView extends StackPane {
     /**
      * Update Grid Layout
      * 
-     * attr1 attr2 attr3 attr4 attr5 attr6
+     * attr1 attr2 
+     * attr3 attr4 
+     * attr5 attr6
      * 
      */
 
@@ -293,46 +303,103 @@ public class MapView extends StackPane {
     //this.setOnMouse
   }
   
+   /**
+   * Set the map background on canvas.
+   * 
+   * @param filepath
+   *          - String representing the image file of map
+   * @return None
+   */
   public void setMapSelection(String filepath)
   {
     background = new Image(filepath, ControllerMain.GUI_SIZE, ControllerMain.GUI_SIZE, true, true);
     gc.drawImage(background, 0.0, 0.0);
   }
 
+  /**
+  * Set the number of kills for Player.
+  * 
+  * @param num
+  *          - Integer representing number of enemy kills
+  * @return None
+  */
   public void setKillsNum(int num) {
     deadMobs = num;
   }
   
+  /**
+  * Increment the number of Player kills by one.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
   public static void incrKills()
   {
 	  deadMobs++;
-	  cashEarned += 50;
+	  ControllerMain.thePlayer.addCash(50);
   }
 
+  /**
+  * Set the amount of Cash for Player.
+  * cashEarned is int instance variable.
+  * cashNum is Label on Command Panel.
+  * 
+  * @param num
+  * 	- Integer representing the Player Cash.
+  * 
+  * @return None
+  */
   public void setCashNum(int num) {
-	  // Sets the Player Cash Label
-	cashEarned = num;
-    cashNum.setText("$" + String.valueOf(num));
+	// Sets the Player Cash Label
+    cashNum.setText("$" + String.valueOf(ControllerMain.thePlayer.getCash()));
   }
 
+  /**
+  * Set the amount of Health Points for Player.
+  * Adjusts the healthNum Label on Command Panel.
+  * 
+  * @param hp
+  * 	- Double value representing the HP for Player.
+  * 
+  * @return None
+  */
   public void setHealthNum(double hp) {
     healthNum.setText(String.valueOf(hp));
   }
 
+  /**
+  * Set the Wave Difficulty on Command Panel.
+  * Adjusts the waveNum Label on Command Panel.
+  * 
+  * @param Difficulty
+  * 	- String representing the chosen difficulty by Player.
+  * 
+  * @return None
+  */
   public void setWaveNum(String difficulty) {
     waveNum.setText(difficulty);
   }
   
+  /**
+  * Get the current Player as established in ControllerMain.
+  * Set the passed in player to thePlayer.
+  * 
+  * @param p
+  * 	- Player instantiated in Controller Main
+  * 
+  * @return None
+  */
   public void setPlayer(Player p)
   {
 	  thePlayer = p;
   }
 
   /**
-   * Draws a mob given in its correct orientation and animation position.
-   * 
-   * @param mob Mob to be drawn
-   */
+  * Draws a mob given in its correct orientation and animation position.
+  * 
+  * @param mob Mob to be drawn
+  */
   private void drawMob(Mob mob) {
     this.updateCount++;
     double sx = mob.getSX();
@@ -350,6 +417,7 @@ public class MapView extends StackPane {
     double currentStep = stepCount % animSteps + 1;
     double currSY = sy + currentStep * delY;
     
+    // Draw the Archon enemy on map
     if(mob instanceof Archon) {
       double nrgX = 385;
       double nrgY = 393;
@@ -373,6 +441,7 @@ public class MapView extends StackPane {
       }
     } else {
       gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
+      
       if (this.updateCount % 5 == 0) {
         mob.step();
       }
@@ -381,14 +450,16 @@ public class MapView extends StackPane {
     
   }
 
-  /*
-   * drawMap Draws the overall map and mobs/towers every iteration Parameters:
-   * None Returns: None
-   */
+  /**
+  * drawMap Draws the overall map and mobs/towers every iteration 
+  * 
+  * @Param: None 
+  * 
+  * @return: None
+  */
   public void drawMap() {
 	gc.drawImage(background, 0, 0);
     gc.strokeLine(0, 800, 800, 800);
-    
 
     if(towerPlacement) {
     	drawGhostTower();
@@ -397,7 +468,7 @@ public class MapView extends StackPane {
     double health = thePlayer.getHP() / 100;
     String healthStr = formatter.format(health);
     
-    String cashStr = formatter.format(cashEarned);
+    String cashStr = formatter.format(ControllerMain.thePlayer.getCash());
     
     // UI can't be updated on a non-application thread
     // Since drawMap() is called from a non-application thread,
@@ -411,12 +482,6 @@ public class MapView extends StackPane {
         	cashNum.setText("$"+cashStr);
         }
     });
-   
-
-    
-    /*
-     * Our beautiful animation stuff will go here
-     */
 
     // draws all current towers
     HashSet<Tower> towersCpy = new HashSet(ControllerMain.towers);
@@ -433,7 +498,7 @@ public class MapView extends StackPane {
     }
     mobsCpy.clear();
     
-    // drasws any current rojectiles
+    // draws any current projectiles
     HashSet<Projectile> projectilesCpy = new HashSet(ControllerMain.projectiles);
     for (Projectile p: projectilesCpy) {
       gc.drawImage(p.getImage(), 0,0, 1001, 1001, p.getX() - 15, p.getY() -15, 30, 30);
@@ -441,9 +506,19 @@ public class MapView extends StackPane {
     projectilesCpy.clear();
   }
   
-  
+
+  /**
+  * Draw a representation of Tower with green circle surrounding
+  * to allow Player to choose a placement of Tower on Map.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
   public void drawGhostTower() {
 	  double radius=currRange.toDouble();
+	  
+	  //tower can be placed
 	  if(isValidPos) {
 		  gc.setFill(Color.color(0, .5, 0, .5));
 	  }
@@ -459,16 +534,28 @@ public class MapView extends StackPane {
 			       ghostTowerSize, ghostTowerSize);
   }
   
-  
+
+  /**
+  * Button handler to place either Tower1, Tower2, or Tower3 on Map.
+  * Get Tower image according to Button clicked.
+  * Update instance variables currRange, currTower and currName.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
   private class towerButtonHandler implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent e) {
 		TowerButton button=(TowerButton) e.getSource();
+		
+		//user clicks on the same button
 		if(currName.equals(button.getName())) {
 			towerPlacement=false;
 			return;
 		}
+		
 		towerPlacement=true;
 		currRange=button.getRange();
 		currTower=button.getImage().getImage();
@@ -477,34 +564,47 @@ public class MapView extends StackPane {
 	} 
   } 
   
-  
+  /**
+  * Mouse handler to place a Tower on click or hover with Tower for placement.
+  * Get Tower image according to Button clicked.
+  * Add Tower to list on ControllerMain when clicked.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
   private class mouseHandler implements EventHandler<MouseEvent>{
 
 	@Override
 	public void handle(MouseEvent e) {
-		
+	  //need to update current mouse position
 	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
 		mousePos.setLocation(e.getX(), e.getY());
 	  }
 	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
-		towerPlacement=false;
-		Tower newTower=null;
-		
-		if(currName.equals("Marine")) {
-			newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+
+		if(towerPlacement) {
+			towerPlacement=false;
+			Tower newTower=null;
+			
+			//the different buttons
+			if(currName.equals("Marine")) {
+				newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+			}
+			else if( currName.equals("Depot")){
+				newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+			}
+			else if(currName.equals("Tank")) {
+				newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+			}
+			
+			ControllerMain.towers.add(newTower);
+
 		}
-		else if( currName.equals("Depot")){
-			newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
-		}
-		else if(currName.equals("Tank")) {
-			newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
-		}
-		
-		ControllerMain.towers.add(newTower);
 		System.out.println("Mouse Clicked");
 	  }
     }

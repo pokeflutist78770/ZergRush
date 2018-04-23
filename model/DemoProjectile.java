@@ -7,8 +7,15 @@ import model.Mobs.Mob;
 import model.Mobs.SpeedAttribute;
 import model.Towers.ElementalAttribute;
 
+
+/*============================================================================*
+ * 	DemoProjectile                                                            *
+ *  Serves as a basic projectile, normal speed as well as damage, nothing     *
+ *  special                                                                   *
+ *============================================================================*/
 public class DemoProjectile extends Projectile {
 
+  
   public DemoProjectile(Point startLocation, Mob targetMob, int testing) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
@@ -23,5 +30,4 @@ public class DemoProjectile extends Projectile {
     targetMob.takeDamage(baseDmg, dmgType);
     ControllerMain.projectiles.remove(this);
   }
-
 }

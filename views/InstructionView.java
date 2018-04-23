@@ -37,6 +37,14 @@ public class InstructionView extends StackPane {
 	private BorderPane pane;
 	private VBox vBox;
 	
+	/**
+	* Constructor for InstructionVew. Provides an instruction page on 
+	* how to play Tower Defense. Takes a Button for implementation
+	* of a Back Button to Main Menu.
+	* 
+	* @param Button back
+	*          - Back Button returns to Main Menu
+	*/
 	public InstructionView(Button back)
 	{
 		pane = new BorderPane();
@@ -66,6 +74,7 @@ public class InstructionView extends StackPane {
 		this.getChildren().add(imv);
 		StackPane.setAlignment(imv, Pos.TOP_CENTER);
 		
+		// Set instruction text
 		Text instructions = new Text("OBJECTIVE\nThe objective of Tower Defense is to defend your command"
 				+ " center. Waves of enemies will spawn periodically, each wave stronger than the last.\n"
 				+ "In order to defend your command center, you will need to construct towers. Each tower costs"

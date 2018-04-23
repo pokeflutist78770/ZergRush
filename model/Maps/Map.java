@@ -13,7 +13,6 @@ import model.Mobs.Hydralisk;
 import model.Mobs.Mob;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
 // You should have at least 3 maps.
 
@@ -80,18 +79,16 @@ public abstract class Map {
   abstract void constructMobRoute();
   
 
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  protected void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
-  }
-  
-
+  /** initializeSpawnCycle
+   *  Starts the spawn cycle for the given mmap, periodiclaly creating new mob objects
+   *  Parameters: mobTypes: list containing all the mob types fortge map represented as Strings
+   *  Returns: None
+   */
   protected void initializeSpawnCycle(List<String> mobTypes) {
     
     List<Class> mobClasses = new ArrayList<Class>();
+    
+    //attempts to add all mob classes to a new list
     for (String mType: mobTypes) {
       try {
         mobClasses.add(Class.forName("model.Mobs." + mType));
@@ -101,13 +98,13 @@ public abstract class Map {
       }
     }
     
+    //now adds all the constructors
     List<Constructor<Mob>> mobConstructors = new ArrayList<Constructor<Mob>>();
     for (Class cls: mobClasses) {
       mobConstructors.add(cls.getConstructors()[0]);
     }
     
     Thread spawnCycle = new Thread(new Runnable() {
-
       @Override
       public void run() {
         try {
@@ -119,7 +116,7 @@ public abstract class Map {
           try {
             
             spawnWave(mobConstructors, waveIntensity);
-            updateWaveIntensity();
+            updateWaveIntensity();  //allows waves to get harder as time goes on
             
             Thread.sleep(SPAWN_FREQUENCY );
           } catch (InterruptedException | IllegalArgumentException e) {
@@ -134,21 +131,31 @@ public abstract class Map {
   }
 
 
+  /* updates the wave intensity, increasing it */
   protected void updateWaveIntensity() {
     waveIntensity = 3*waveIntensity;
     
   }
 
-
+  
+  /* spawnWave
+   * Spawns a new wave of enemies for the player to fight
+   * Parameters: mobConstructors: list of mob constructors in order to spawn them
+   *             intensity: the intensity of a wave, how hard it is
+   * Returns: None
+  */
   protected void spawnWave(List<Constructor<Mob>> mobConstructors, int intensity) {
 
     int numberOfPaths = paths.size();
     int numberOfMobTypes = mobConstructors.size();
     int spawnCount = waveIntensity;
+    
+    //lets start spawning enemies shall we!
     for (int i = 0; i < numberOfMobTypes; i++) {
       try {
         for (int j = 0; j < spawnCount; j++) {
-          ControllerMain.mobs.add(mobConstructors.get(i).newInstance(paths.get(1+ ControllerMain.getRandom().nextInt(numberOfPaths))));
+          ControllerMain.mobs.add(mobConstructors.get(i).newInstance(
+        		                  paths.get(1+ ControllerMain.getRandom().nextInt(numberOfPaths))));
         }
         spawnCount = spawnCount / waveRatio;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -156,11 +163,11 @@ public abstract class Map {
         System.out.println("Failure in spawnWave method of Map class");
         e.printStackTrace();
       }
-    }
-    
+    } 
   }
 
-
+  /*-------------------    Getters/Setters    ----------------*/
+  
   public static int getWaveIntensity() {
     return waveIntensity;
   }

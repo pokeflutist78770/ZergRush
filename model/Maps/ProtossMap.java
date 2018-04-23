@@ -9,8 +9,14 @@ import controller.ControllerMain;
 import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
+
+
+/*============================================================================*
+ * ProtossMap                                                                 *
+ * Serves as the main Protoss map, where the player will face protoss enemies *
+ * As well as two separate paths for enemies!                                 *
+ *============================================================================*/
 public class ProtossMap extends Map {
 
   private String soundtrack;;
@@ -18,7 +24,6 @@ public class ProtossMap extends Map {
   public ProtossMap(int difficulty) {
     super("file:assets/images/map/protoss_map.jpg", difficulty);
     soundtrack = "protossSoundtrack";
-    initializeTowers();
     initializeSpawnCycle(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
     name = "Protoss"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));

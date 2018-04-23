@@ -1,6 +1,12 @@
 package model.Mobs;
 
-
+/**
+ * Defense Attribute enums represent another damage mitigated to a mob's HP, separate from armor, defense attributes 
+ * mitigate damage against specific kinds of attacks.
+ * 
+ * @author Ben
+ *
+ */
 public enum DefenseAttribute {
   DEMO_DEFENSE(75), 
   SMALL(50), 

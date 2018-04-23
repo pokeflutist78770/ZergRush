@@ -1,6 +1,6 @@
 package model;
 
-import controller.ControllerMain;
+import controller.ControllerMain; 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,10 +35,14 @@ public class Player {
 	//just a default for now until mob attacks and balances are sorted out
 	//Maybe even when difficulties are added, decrease health as such, 
 	private final double BASE_HP=10000;
-	private double CURRENT_HP=BASE_HP;
+	private final double BASE_CASH=300;
+	
+	private double CURRENT_HP;
+	private double CURRENT_CASH;
 	
 	public Player() {
 	  CURRENT_HP = BASE_HP;
+	  CURRENT_CASH=BASE_CASH;
 	}
 	
 	
@@ -57,9 +61,26 @@ public class Player {
 		
 	}
 	
+	
+	/* addCash
+	 * adds cash to the users Bank, allowing them to add more Towers
+	 * Parameters: cash: new cash to be added
+	 * Returns: None
+	*/
+	public void addCash(double cash) {
+		CURRENT_CASH+=cash;
+	}
+	
+	/*------------------ Getters/Setters   -----------------*/
+	
 	public double getHP()
 	{
 		return CURRENT_HP;
+	}
+	
+	
+	public double getCash() {
+		return CURRENT_CASH;
 	}
 	
 	//resets HP for a new game
