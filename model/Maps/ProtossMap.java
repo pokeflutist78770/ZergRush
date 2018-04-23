@@ -10,6 +10,13 @@ import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
 
+
+
+/*============================================================================*
+ * ProtossMap                                                                 *
+ * Serves as the main Protoss map, where the player will face protoss enemies *
+ * As well as two separate paths for enemies!                                 *
+ *============================================================================*/
 public class ProtossMap extends Map {
 
   private String soundtrack;;

@@ -10,6 +10,15 @@ import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
 
+
+
+
+/*============================================================================*
+ * 	TerranMap                                                                 *
+ * 	Serves as the Terran map, one simple path with Terran enemies             *
+ *============================================================================*/
+
+
 public class TerranMap extends Map {
 
   private String soundtrack;;

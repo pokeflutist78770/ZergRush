@@ -9,6 +9,14 @@ import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
 
+
+/*============================================================================*
+ * 	ZergMap                                                                   *
+ * 	The zerg map, where the plaer will face the infamous zergs while having   *
+ * 	to deal with two separate paths                                           *
+ *============================================================================*/
+
+
 public class ZergMap extends Map {
 
   private String soundtrack;
