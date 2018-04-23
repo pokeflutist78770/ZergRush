@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
 import controller.ControllerMain;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -25,25 +24,14 @@ import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
 import views.MapView;
 
-//Enemies move towards the destination that the player will defend. We call
-//this the End-Zone.
 
-//Movement of enemies is animated and should not move like the hunter in your
-//Wumpus Project.
-
-// Each enemey has certain stats/characteristics. Example:
-//    * Speed
-//    * Defense
-//    * High/Low Armor
-//    * Resistance to certain buffs
-//    * Be Creative!
-// You can choose whether this difference applies to either each individual
-// enemy that is spawned on the map or whether it applies to each type of 
-// enemy.
-
-//Each map should have 3 different types of enemies. A minimum of total 9 
-//enemies. You can mix and match this maps.
-
+/**
+ * Mob is an abstract class modeling an active mob on the map.  For each mob, there is a thread handling it's movement
+ * along a path given in its constructor.  Each mob has unique attributes, animations, and audio clips.
+ * 
+ * @author Ben Walters
+ *
+ */
 public abstract class Mob {
   public static int IDNumber = 0;
   
@@ -58,11 +46,6 @@ public abstract class Mob {
   private List<Point> movementPath;
   private int pathIndex;
   private int attackTime;
-
-  private double spriteSizeX;
-  private double spriteSizeY;
-  private double spriteSourceX;
-  private double spriteSourceY;
   
   private double radius;
   private ArmorAttribute armor;
@@ -82,13 +65,33 @@ public abstract class Mob {
   private int animationSteps;
   
   // For audio
-  
+  private String deathSound;
 
   // String data of the mob.
   private String name;
   private String imageFilePath;
-  private String deathSound;
-
+  
+  /**
+   * Constructor for Mobs
+   * 
+   * @param movementPath series of points representing a mob's movement across a path.
+   * @param radius  - the maximum distance a mob can move in a given step
+   * @param armor - ArmorAttribute of the mob
+   * @param attack - AttackAttribute of the mob
+   * @param defense - DefenseAttribute of the mob
+   * @param speed - SpeedAttribute of the mob
+   * @param resistances - ResistanceAttribute of the mob
+   * @param name - name of the mob
+   * @param imageFP - string path to the sprite sheet image file
+   * @param deathSound - string referencing the audioclip to be played when a unit dies
+   * @param sx - x position of first mob image on sprite sheet
+   * @param sy - y position of first mob image on sprite sheet
+   * @param sw - width of a given frame on the sprite sheet
+   * @param sh - height of a given frame on the sprite sheet
+   * @param delX - distance to move in order to get the next horizontal frame on the sprite sheet
+   * @param delY - distance to move in order to get the next vertical frame on the sprite sheet
+   * @param animationSteps - the number of frames representing a cycle on the sprite sheet
+   */
   public Mob(List<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
       DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances, String name,
       String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY, 
@@ -105,31 +108,32 @@ public abstract class Mob {
     this.delY = delY;
     this.animationSteps = animationSteps;
     
+    // Sound Attributes
     this.deathSound = deathSound;
     
     // Initialize Attributes
     this.movementPath = movementPath;
     this.pathIndex = 0;
-    
-    
     this.currentLocation = perturbPoint(movementPath.get(0));
     this.pathIndex++;
-
     this.radius = radius;
-
     this.armor = armor;
     this.attack = attack;
     this.hp = new Double(defense.getDefense());
     this.speed = speed;
     this.resistances = resistances;
-
     this.setName(name);
     this.imageFilePath = imageFP;
-
     attackTime = 0;
     initializeMovement();
   }
 
+  /**
+   * Takes a current point on the mob's path and determines the next point it should move to.
+   * 
+   * @param inPoint - current point location of mob
+   * @return Point - next point in mobs movement path
+   */
   private Point perturbPoint(Point inPoint) {
     return new Point(
         (int) ( inPoint.getX() + (ControllerMain.TILE_SIZE * ( ControllerMain.getRandom().nextInt(movementPerturbation * 100) / 100.0 -1))),
@@ -240,7 +244,7 @@ public abstract class Mob {
     }
   }
 
-  /*
+  /**
    * cleanupMobEndZone handles when a mob has reached end zone Parameters: None
    * Returns: None
    */
@@ -262,7 +266,7 @@ public abstract class Mob {
     return Metric.closeEnough(currentLocation, targetLocation, radius);
   }
 
-  /*
+  /**
    * takeDamage calculates and subtracts the damage from a Projectile object
    * Parameters: damage: base damage to be taken element: elemental multiplier for
    * the damage Returns: None
@@ -307,7 +311,7 @@ public abstract class Mob {
   }
 
   
-  /*
+  /**
    * Attack attacks the main player Parameters: player - current player Returns:
    * None
    */
@@ -317,7 +321,7 @@ public abstract class Mob {
   }
 
   
-  /*
+  /**
    * calculateNewDamage calculates a new damage based on modifieers Parameters:
    * damage: base damage element: element attribute Returns: double representing
    * the new damage
@@ -337,7 +341,7 @@ public abstract class Mob {
   }
 
   
-  /*
+  /**
    * isDead returns if mob is dead or not 
    * Parameters: None 
    * Returns: boolean representing if dead
@@ -412,6 +416,10 @@ public abstract class Mob {
     this.name = name;
   }
   
+  /**
+   * If a mob's HP reaches zero, it's death sound clip will trigger, and the player's score will be incremented. After
+   * that point, the mob is removed from the current state of the game.
+   */
   public void kill() {
     ControllerMain.soundEffects.get(deathSound).play();
     wasKilled = true;
