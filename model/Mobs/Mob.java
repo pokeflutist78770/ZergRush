@@ -146,7 +146,7 @@ public abstract class Mob {
     initializeMovement();
   }
 
-  /**
+  /*
    * Takes a current point on the mob's path and determines the next point it
    * should move to.
    * 
@@ -161,7 +161,7 @@ public abstract class Mob {
             * (ControllerMain.getRandom().nextInt(movementPerturbation * 100) / 100.0 - 1))));
   }
 
-  /**
+  /*
    * This method gets the mob walking from its spawn location to the End-Zone.
    * Each mob runs its movement on its own thread and will tell you where it is,
    * if asked.
@@ -206,7 +206,7 @@ public abstract class Mob {
     mobWalk.start();
   }
 
-  /**
+  /*
    * Moves this mob a step toward its target. This method assumes that the mob
    * does not move further than its radius in a single step.
    */
@@ -251,7 +251,7 @@ public abstract class Mob {
     return Metric.getDirectionAngle(currentLocation, targetLocation);
   }
 
-  /**
+  /*
    * Updates the mob to have the next target, if there is one. If the mob arrived
    * at the End-Zone, then it calls the cleanup method.
    */
@@ -264,7 +264,7 @@ public abstract class Mob {
     }
   }
 
-  /**
+  /*
    * cleanupMobEndZone handles when a mob has reached end zone Parameters: None
    * Returns: None
    */
@@ -276,7 +276,7 @@ public abstract class Mob {
     }
   }
 
-  /**
+  /*
    * Determines if this mob has reached its target yet. Takes into account the
    * radius of the mob.
    * 
@@ -339,7 +339,7 @@ public abstract class Mob {
     player.takeDamage(damage);
   }
 
-  /**
+  /*
    * calculateNewDamage calculates a new damage based on modifieers Parameters:
    * damage: base damage element: element attribute Returns: double representing
    * the new damage
