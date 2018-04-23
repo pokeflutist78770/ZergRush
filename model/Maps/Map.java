@@ -13,7 +13,6 @@ import model.Mobs.Hydralisk;
 import model.Mobs.Mob;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
 // You should have at least 3 maps.
 
@@ -78,15 +77,6 @@ public abstract class Map {
   }
 
   abstract void constructMobRoute();
-  
-
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  protected void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
-  }
   
 
   protected void initializeSpawnCycle(List<String> mobTypes) {

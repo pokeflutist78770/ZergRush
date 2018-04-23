@@ -9,7 +9,6 @@ import controller.ControllerMain;
 import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
 public class TerranMap extends Map {
 
@@ -18,7 +17,6 @@ public class TerranMap extends Map {
   public TerranMap(int difficulty) {
     super("file:assets/images/map/terran_map.jpg", difficulty);
     soundtrack = "terranSoundtrack";
-    initializeTowers();
     initializeSpawnCycle(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
     name = "Terran"+ idNo;
   }

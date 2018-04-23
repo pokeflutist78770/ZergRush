@@ -7,9 +7,7 @@ import java.awt.Point;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ListIterator;
-
 import java.util.Set;
-
 import controller.ControllerMain;
 import javafx.scene.image.Image;
 import model.Maps.Metric;
@@ -31,11 +29,9 @@ public abstract class Tower {
 
   protected String name;
   protected int cost;
-
   protected Thread towerAnxiety;
   protected Point location;
   protected Range range;
-
   private String imageFilePath;
   
   /**
@@ -56,7 +52,7 @@ public abstract class Tower {
     initializeTower();
   }
 
-  /**
+  /*
    * initializeTower initializes tower by starting a thread for it to check for
    * nearby mobs Parameters: None Returns: None
    */
@@ -113,7 +109,7 @@ public abstract class Tower {
     return closest;
   }
 
-  /**
+  /*
    * Compares two mob's locations and determines which is close to the tower.
    * 
    * @param closest the current closest mob to the tower
@@ -126,7 +122,7 @@ public abstract class Tower {
     return winnerDist2 < nextDist2;
   }
 
-  /**
+  /*
    * Creates a set of Mobs which are close to the tower, filtering out those that a sufficiently distant by querying
    * the mobs collection in the controller main.
    * @return a HashSet of nearby mobs
@@ -143,7 +139,7 @@ public abstract class Tower {
     return nearbyMobs;
   }
 
-  /**
+  /*
    * Determines if a mob is near to the tower by comparison with it's location relative to the range of the tower
    * @param nextMob - Mob to be checked for nearness
    * @return

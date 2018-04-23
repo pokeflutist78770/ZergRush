@@ -35,7 +35,6 @@ import model.Maps.TerranMap;
 import model.Maps.ZergMap;
 
 import model.Mobs.Mob;
-import model.Towers.DemoTower;
 import model.Towers.Tower;
 import views.InstructionView;
 import views.MapView;
@@ -131,12 +130,12 @@ public class ControllerMain extends Application {
   private static HashMap<String, Image> imageMap;
 
   // For testing
-  public ControllerMain() {
-    initializeAssets();
-    thePlayer = new Player();
-    isPlaying = false;
-    theMap = new DemoMap();
-  }
+//  public ControllerMain() {
+//    initializeAssets();
+//    thePlayer = new Player();
+//    isPlaying = false;
+//    theMap = new DemoMap();
+//  }
 
   /*
    * initializeAssets Initializes all images and sound, allowing for a flyweight

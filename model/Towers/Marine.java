@@ -6,7 +6,12 @@ import java.util.Set;
 import controller.ControllerMain;
 import model.DemoProjectile;
 import model.Mobs.Mob;
-
+/**
+ * Marine is the first Tower type.  It upgrades to a Marauder and Ultimately a Ghost.
+ * 
+ * @author Ben Walters
+ *
+ */
 public class Marine extends Tower{
 
 	 public Marine(Point loc) {

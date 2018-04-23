@@ -19,7 +19,6 @@ import model.Mobs.Ultralisk;
 import model.Mobs.Wraith;
 import model.Mobs.Zealot;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
