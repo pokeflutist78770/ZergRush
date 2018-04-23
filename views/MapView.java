@@ -1,27 +1,14 @@
 package views;
 
-import java.util.List; 
-import java.awt.Paint;
 import java.awt.Point;
 import java.text.DecimalFormat;
-import java.util.Set;
 import java.util.HashSet;
-import java.util.Iterator;
-
 import controller.ControllerMain;
-import javafx.animation.PathTransition;
-
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -29,21 +16,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
+import model.Towers.DemoTower;
 import model.Towers.Range;
 import model.Towers.Tower;
 
@@ -57,7 +39,7 @@ import model.Towers.Tower;
 // sprites moving.
 
 public class MapView extends StackPane {
-  
+  private static final double ghostTowerSize=60;
   private GraphicsContext gcCommand;
   private Button backButton;
   private StackPane pane;
@@ -106,6 +88,7 @@ public class MapView extends StackPane {
 
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
+	isValidPos=true;
 	currRange=Range.DEMO_RANGE;
 	
     vBox = new VBox();
@@ -140,7 +123,7 @@ public class MapView extends StackPane {
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
-    tower1 = new TowerButton("", iv1, Range.DEMO_RANGE);
+    tower1 = new TowerButton("", iv1, "Marine", Range.MEDIUM_RANGE);
     tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
@@ -149,7 +132,7 @@ public class MapView extends StackPane {
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new TowerButton("", iv2, Range.DEMO_RANGE);
+    tower2 = new TowerButton("", iv2, "Ghost", Range.LARGE_RANGE);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
@@ -158,7 +141,7 @@ public class MapView extends StackPane {
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new TowerButton("", iv3, Range.DEMO_RANGE);
+    tower3 = new TowerButton("", iv3, "Missle Turret", Range.DEMO_RANGE);
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
@@ -466,10 +449,11 @@ public class MapView extends StackPane {
 	  
 	  gc.fillOval(mousePos.getX()-radius, mousePos.getY()-radius, 
 			      radius*2, radius*2);
-	  gc.drawImage(currTower, mousePos.getX(), mousePos.getY());
+	  
+	  gc.drawImage(currTower, mousePos.getX()-.5*ghostTowerSize, 
+			       mousePos.getY()-.5*ghostTowerSize,
+			       ghostTowerSize, ghostTowerSize);
   }
-  
-  
   
   
   private class towerButtonHandler implements EventHandler<ActionEvent>{
@@ -480,9 +464,10 @@ public class MapView extends StackPane {
 		TowerButton button=(TowerButton) e.getSource();
 		currRange=button.getRange();
 		currTower=button.getImage().getImage();
+		
 		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 	} 
-  }
+  } 
   
   
   private class mouseHandler implements EventHandler<MouseEvent>{
@@ -493,6 +478,9 @@ public class MapView extends StackPane {
 		mousePos.setLocation(e.getX(), e.getY());
 	  }
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
+		ControllerMain.towers.add(new DemoTower(
+				                  new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize))));
 		System.out.println("Mouse Clicked");
 	  }
     }
