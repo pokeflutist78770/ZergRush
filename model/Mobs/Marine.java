@@ -7,6 +7,13 @@ import java.util.List;
 
 import controller.ControllerMain;
 
+/**
+ * Marines are the tier one unit of the Terran army.  They have low HP and movement speed and deal reltively little
+ * damage.
+ * 
+ * @author Ben
+ *
+ */
 public class Marine extends Mob{
 
 	public Marine(List<Point> movementPath) {
