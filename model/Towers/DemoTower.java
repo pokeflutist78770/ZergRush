@@ -16,7 +16,7 @@ public class DemoTower extends Tower {
   }
 
   @Override
-  public void shoot(Set<Mob> nearbyMobs) {
+  protected void shoot(Set<Mob> nearbyMobs) {
     Mob closest = getClosestMob(nearbyMobs);
     ControllerMain.projectiles.add(new DemoProjectile(new Point(location), closest));
   }
