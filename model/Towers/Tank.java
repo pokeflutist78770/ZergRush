@@ -24,8 +24,8 @@ public class Tank  extends Tower{
 		Mob closest = getClosestMob(nearbyMobs);
 	    ControllerMain.projectiles.add(new DemoProjectile(
 	    		                       new Point(
-	    		                    	   (int)(location.getX()-.5*MapView.ghostTowerSize),
-	    		                    	   (int)(location.getY()-.5*MapView.ghostTowerSize)), 
+	    		                    	   (int)(location.getX()+.5*MapView.ghostTowerSize),
+	    		                    	   (int)(location.getY()+.5*MapView.ghostTowerSize)), 
 	    		                       closest,0));
 	}
 }
