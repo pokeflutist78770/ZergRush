@@ -252,7 +252,6 @@ public class ControllerMain extends Application {
 			// Pass Player to MapView
 			theMapView.setPlayer(thePlayer);
 			
-			
 			setViewTo(theMapView);
 		    
 
@@ -261,7 +260,8 @@ public class ControllerMain extends Application {
 		    thePlayer.resetStats();
 		    //towers.clear();
 		    mobs.clear();
-		    projectiles.clear();*/
+		    projectiles.clear();
+		    **/
 		    
 		    //thread to show a playing game
 			

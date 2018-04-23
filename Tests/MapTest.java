@@ -9,10 +9,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import model.Maps.DemoMap;
 import model.Maps.Map;
+import model.Maps.Metric;
+import model.Maps.ProtossMap;
+import model.Maps.TerranMap;
+import model.Maps.ZergMap;
 import model.Mobs.*;
 
 import org.junit.Test;
+
+import controller.ControllerMain;
+import javafx.scene.image.Image;
 
 public class MapTest {
 
@@ -22,6 +30,28 @@ public class MapTest {
   @Test
   public void test() {
     
+	Map protossMap = new ProtossMap();
+	Map terranMap = new TerranMap();
+	Map zergmap = new ZergMap();
+	Map demoMap = new DemoMap();
+	Metric metric = new Metric();
+	
+	Point p1 = new Point(876,890);
+	Point p2 = new Point(762, 834);
+	
+	Point p3 = new Point(0,0);
+	
+	metric.closeEnough(p1, p2, 10000000);
+	metric.closeEnough(p1, p2, .00001);
+	
+	metric.getDirectionVector(p1, p2);
+	metric.getDirectionAngle(p1, p2);
+	
+	metric.getDirectionAngle(p3, p3);
+	metric.getDirectionAngle(p3, p2);
+	metric.getDirectionAngle(p2, p3);
+	
+
 
     List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
         new Point(876, 890), 
@@ -40,6 +70,17 @@ public class MapTest {
         new Point(147, 119)
         ));
     
+    
+    DemoMob demoMob = new DemoMob(pathOne);
+    
+    AttackAttribute attack = AttackAttribute.DEMO_ATTACK;
+    attack.getAttack();
+    attack = AttackAttribute.MEDIUM_ATTACK;
+    attack.getAttack();
+    attack = AttackAttribute.STRONG_ATTACK;
+    attack.getAttack();
+    attack = AttackAttribute.WEAK_ATTACK;
+    attack.getAttack();
     
     for(Point p: pathOne) {
       Map.scalePoint(p);
