@@ -15,7 +15,7 @@ public class Zergling extends Mob{
 				SpeedAttribute.FAST, 
 				new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Zergling"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/zergling.png",
+				"file:assets/images/mob/zerg/zergling.png", "zergling_death",
 				2.0,
 				2.0,
 				40.0,

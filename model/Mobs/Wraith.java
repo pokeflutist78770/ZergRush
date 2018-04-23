@@ -19,7 +19,7 @@ public class Wraith extends Mob{
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Wraith"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/wraith.png",
+				"file:assets/images/mob/terran/wraith.png", "wraith_death",
         688.0,
         0.0,
         49.0,
