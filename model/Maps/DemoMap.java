@@ -11,7 +11,6 @@ import controller.ControllerMain;
 import model.Mobs.Archon;
 import model.Mobs.BattleCruiser;
 import model.Mobs.DarkTemplar;
-import model.Mobs.DemoMob;
 import model.Mobs.Hydralisk;
 import model.Mobs.Marine;
 import model.Mobs.SpeedAttribute;
@@ -19,7 +18,6 @@ import model.Mobs.Ultralisk;
 import model.Mobs.Wraith;
 import model.Mobs.Zealot;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
