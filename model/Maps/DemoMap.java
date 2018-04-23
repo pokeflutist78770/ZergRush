@@ -1,6 +1,6 @@
 package model.Maps;
 
-import java.awt.Point;
+import java.awt.Point; 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,7 +18,6 @@ import model.Mobs.Ultralisk;
 import model.Mobs.Wraith;
 import model.Mobs.Zealot;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
 
 public class DemoMap extends Map {
   
@@ -27,7 +26,6 @@ public class DemoMap extends Map {
     super("file:assets/images/map/demoMap.png",2);
     
     
-    initializeTowers();
     //ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.GUI_SIZE/2, ControllerMain.GUI_SIZE/2)));
     initializeSpawnCycle(Arrays.asList("Zergling"));
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));

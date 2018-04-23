@@ -4,12 +4,18 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import controller.ControllerMain;
 import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
-import model.Towers.DemoTower;
+
+
+/*============================================================================*
+ * 	ZergMap                                                                   *
+ * 	The zerg map, where the plaer will face the infamous zergs while having   *
+ * 	to deal with two separate paths                                           *
+ *============================================================================*/
+
 
 public class ZergMap extends Map {
 
@@ -18,7 +24,6 @@ public class ZergMap extends Map {
   public ZergMap(int difficulty) {
     super("file:assets/images/map/zerg_map.jpg", difficulty);
     soundtrack = "zergSoundtrack";
-    initializeTowers();
     initializeSpawnCycle(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
     name = "Zerg"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));

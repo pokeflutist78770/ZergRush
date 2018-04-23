@@ -34,62 +34,22 @@ import model.Maps.ProtossMap;
 import model.Maps.TerranMap;
 import model.Maps.ZergMap;
 import model.Mobs.Mob;
-import model.Towers.DemoTower;
 import model.Towers.Tower;
 import views.InstructionView;
 import views.MapView;
 import views.MenuView;
 import views.ScoreView;
 
-// The player loses the game after a certain number of enemies breach the
-// defenses and reaches the End-Zone.
-
-// The player can win the game by fullfilling some objective. Example:
-// * Successfully defeating some number of enemies
-// * Defeating a boss enemy
-// * Defending the destination for a certain amount of time
-// * Be Creative!
-
-// You game should have all sound effects for major events as discussed with
-// your Scrum Master. Examples:
-// * Spawning of enemies
-// * Each enemy dying
-// * Enemies entering the spawn zone.
-// * General Sound music throughout the game
-// * Think Creatively!
-
-// The player should be able to save the game and load a saved game outside 
-// gameplay of the map or when the game is paused. That is, after completion
-// (win or lose) of a map, at the starting-menu, a save option should be 
-// available (to keep update on his latest progress), or when the game is 
-// paused mmomentarily while in the map.
-
-// The player first reaches the Starting Menu before selecting a Map
-
-// Persistence is implemented in the Starting Menu
-
-// In-game message should be displayed after a map is won/lost. This can be 
-// in the formof statistics (tower kills, etc...)
-
-// You may invent a version of gameplay or use one of the of the two popular
-// versions of game-play:
-// * Continuous: Enemies continuously spawn and the player builds towers to 
-//               defend the destination. The game ends when the destination 
-//               has been defended for a specified time period or when a 
-//               certain number of enemies have been defeated.
-// * Waves: A collection of enemies form one wave. Each wave of enemies spawns
-//               with a short pause in between waves. The game ends when all 
-//               waves have been defeated.
-
-// The player can pause and resume the game in single-player mode.
-
-// The player can toggle the speed of the game between normal speed and a fast speed.
-// This feature is not required for multi-player mode
-
-// Save/Load Games: When playing single-player mode, the player can choose to save
-// the game and play at a later time. A Load Game option is in the main menu. This
-// feature works well with the Pause Game feature, since it is more elegant to 
-// load a game, have it paused initially, and then resume to play the game. 
+/**
+ * Central controller for JavaFX Application based TowerDefense game. Players
+ * place towers to fend of waves of incoming enemies until such a time as they
+ * accrue enough points to win or are overwhelmed by the enemy. Game state is
+ * maintained as a collection of objects made available to other classes through
+ * static attributes in order to avoid serializability conflicts.
+ * 
+ * @author Ben Walters
+ *
+ */
 
 public class ControllerMain extends Application {
   public final static int GUI_SIZE = 800;
@@ -130,12 +90,12 @@ public class ControllerMain extends Application {
   private static HashMap<String, Image> imageMap;
 
   // For testing
-  public ControllerMain() {
-    initializeAssets();
-    thePlayer = new Player();
-    isPlaying = false;
-    theMap = new DemoMap();
-  }
+  // public ControllerMain() {
+  // initializeAssets();
+  // thePlayer = new Player();
+  // isPlaying = false;
+  // theMap = new DemoMap();
+  // }
 
   /*
    * initializeAssets Initializes all images and sound, allowing for a flyweight
@@ -147,7 +107,10 @@ public class ControllerMain extends Application {
     initializeAudio();
   }
 
-  public void initializeAudio() {
+  /*
+   * Instantiates and stores all audio clips for gameplay for flyweight retrieval.
+   */
+  private void initializeAudio() {
     soundEffects.put("zergling_death", new AudioClip("file:assets/audio/mob/zerg/zergling_death.wav"));
     soundEffects.put("hydra_death", new AudioClip("file:assets/audio/mob/zerg/hydra_death.wav"));
     soundEffects.put("ultra_death", new AudioClip("file:assets/audio/mob/zerg/ultra_death.wav"));
@@ -158,13 +121,18 @@ public class ControllerMain extends Application {
     soundEffects.put("wraith_death", new AudioClip("file:assets/audio/mob/terran/wraith_death.wav"));
     soundEffects.put("bc_death", new AudioClip("file:assets/audio/mob/terran/bc_death.wav"));
     soundEffects.put("terran_soundtrack", new AudioClip("file:assets/audio/map/terran.mp3"));
+    soundEffects.put("defeat", new AudioClip("file:assets/audio/map/defeat.mp3"));
 
   }
 
-  public void initializeImages() {
+  /*
+   * Initializes and stores images for flyweight retrieval.
+   */
+  private void initializeImages() {
 
   }
 
+  /* Launch the JavaFX application */
   public static void main(String[] args) {
     launch(args);
   }
@@ -344,16 +312,25 @@ public class ControllerMain extends Application {
     setViewTo(theMenuView);
   }
 
-  // gets the mai nstage for the game
+  // Getter for main stage of game
   public static Stage getStage() {
     return stage;
   }
 
+  // For when you just need Random
   public static Random getRandom() {
     return random;
   }
 
+  /*
+   * Handles loss conditions for the player, terminating active mob threads and
+   * resetting the game state.
+   */
   public static void dealWithDeadPlayer() {
+    if(soundEffects.get("terran_soundtrack").isPlaying()) {
+      soundEffects.get("terran_soundtrack").stop();
+    }
+    soundEffects.get("defeat").play();
     System.out.println("Player lost");
     // ControllerMain.playingNow.interrupt();%here
 
