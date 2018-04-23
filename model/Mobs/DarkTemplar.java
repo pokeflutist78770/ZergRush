@@ -21,13 +21,13 @@ public DarkTemplar(List<Point> movementPath) {
 						Collections.singletonList(ResistanceAttribute.POISON)), 
 				"DarkTemplar"+Mob.IDNumber++,
 				"file:assets/images/mob/protoss/dark_templar.png",
+        5.0,
         2.0,
-        2.0,
-        98.0,
-        105.0,
-        101.0,
-        108.0, 
-        9
+        54.0,
+        59.0,
+        57.0,
+        62.0, 
+        11
         );
 	}
 }

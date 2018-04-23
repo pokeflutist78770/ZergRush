@@ -20,13 +20,13 @@ public Archon(List<Point> movementPath) {
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"Archon"+Mob.IDNumber++,
 				"file:assets/images/mob/protoss/archon.png",
-        2.0,
-        2.0,
-        98.0,
-        105.0,
-        101.0,
-        108.0, 
-        9
+        213.0,
+        595.0,
+        82.0,
+        89.0,
+        85.0,
+        92.0, 
+        4
         );
 	}
 }

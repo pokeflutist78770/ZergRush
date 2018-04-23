@@ -42,6 +42,7 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import model.Player;
 import model.Projectile;
+import model.Mobs.Archon;
 import model.Mobs.Mob;
 import model.Towers.Range;
 import model.Towers.Tower;
@@ -360,11 +361,36 @@ public class MapView extends StackPane {
 
     double currentStep = stepCount % animSteps + 1;
     double currSY = sy + currentStep * delY;
-
-    gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
-    if (this.updateCount % 5 == 0) {
-      mob.step();
+    
+    if(mob instanceof Archon) {
+      double nrgX = 385;
+      double nrgY = 393;
+      double nrgSteps = 4;
+      double nrgCurrStep = stepCount % nrgSteps + 1;
+      double nrgSX = nrgX + nrgCurrStep * 92;
+      gc.drawImage(mob.getImage(), nrgSX, nrgY, sw, sh, x, y, sw, sh);
+      
+      gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
+      
+      
+      double swirlX = 343;
+      double swirlY = 1047;
+      double swirlSteps = 15;
+      double swirlCurrStep = stepCount % swirlSteps + 1;
+      double swirlSX = swirlX + swirlCurrStep * 92;
+      gc.drawImage(mob.getImage(), swirlSX, swirlY, sw, sh, x, y, sw, sh);
+      
+      if (this.updateCount % 5 == 0) {
+        mob.step();
+      }
+    } else {
+      gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
+      if (this.updateCount % 5 == 0) {
+        mob.step();
+      }
     }
+
+    
   }
 
   /*
