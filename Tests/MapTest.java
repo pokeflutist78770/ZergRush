@@ -71,7 +71,7 @@ public class MapTest {
         ));
     
     
-    DemoMob demoMob = new DemoMob(pathOne);
+    //DemoMob demoMob = new DemoMob(pathOne);
     
     AttackAttribute attack = AttackAttribute.DEMO_ATTACK;
     attack.getAttack();

@@ -11,7 +11,6 @@ import controller.ControllerMain;
 import model.Mobs.Archon;
 import model.Mobs.BattleCruiser;
 import model.Mobs.DarkTemplar;
-import model.Mobs.DemoMob;
 import model.Mobs.Hydralisk;
 import model.Mobs.Marine;
 import model.Mobs.SpeedAttribute;
