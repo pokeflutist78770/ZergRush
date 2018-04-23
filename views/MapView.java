@@ -86,7 +86,6 @@ public class MapView extends StackPane {
   private Player thePlayer;
   private DecimalFormat formatter;
   private static int deadMobs;
-  private static int cashEarned;
   
   public MapView(Button back) {
     //variables for towewr placement
@@ -109,7 +108,6 @@ public class MapView extends StackPane {
     background = new Image("file:assets/images/map/demoMap.png", false);
     formatter = new DecimalFormat("#,###");
     deadMobs = 0;
-    cashEarned = 0;
 
     // Command Panel - Black Background
     Canvas commandCanvas = new Canvas(800, 880);
@@ -306,13 +304,12 @@ public class MapView extends StackPane {
   public static void incrKills()
   {
 	  deadMobs++;
-	  cashEarned += 50;
+	  ControllerMain.thePlayer.addCash(50);
   }
 
   public void setCashNum(int num) {
-	  // Sets the Player Cash Label
-	cashEarned = num;
-    cashNum.setText("$" + String.valueOf(num));
+	// Sets the Player Cash Label
+    cashNum.setText("$" + String.valueOf(ControllerMain.thePlayer.getCash()));
   }
 
   //sets the UI for player health
@@ -399,7 +396,7 @@ public class MapView extends StackPane {
     double health = thePlayer.getHP() / 100;
     String healthStr = formatter.format(health);
     
-    String cashStr = formatter.format(cashEarned);
+    String cashStr = formatter.format(ControllerMain.thePlayer.getCash());
     
     // UI can't be updated on a non-application thread
     // Since drawMap() is called from a non-application thread,
