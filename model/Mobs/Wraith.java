@@ -7,6 +7,12 @@ import java.util.List;
 
 import controller.ControllerMain;
 
+/**
+ * Wraiths are the tier two unit of the Terran army.  They are fast, flying units, with relatively low damage.
+ * 
+ * @author Ben Walters
+ *
+ */
 public class Wraith extends Mob{
 
 	public Wraith(List<Point> movementPath) {
