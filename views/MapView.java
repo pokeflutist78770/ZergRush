@@ -300,8 +300,8 @@ public class MapView extends StackPane {
     this.getChildren().add(pane);
     this.setOnMouseClicked(mouseHandler);
     this.setOnMouseMoved(mouseHandler);
-    //this.setOnMouse
   }
+  
   
    /**
    * Set the map background on canvas.
@@ -315,6 +315,7 @@ public class MapView extends StackPane {
     background = new Image(filepath, ControllerMain.GUI_SIZE, ControllerMain.GUI_SIZE, true, true);
     gc.drawImage(background, 0.0, 0.0);
   }
+  
 
   /**
   * Set the number of kills for Player.
@@ -326,6 +327,7 @@ public class MapView extends StackPane {
   public void setKillsNum(int num) {
     deadMobs = num;
   }
+  
   
   /**
   * Increment the number of Player kills by one.
@@ -340,6 +342,7 @@ public class MapView extends StackPane {
 	  ControllerMain.thePlayer.addCash(50);
   }
 
+  
   /**
   * Set the amount of Cash for Player.
   * cashEarned is int instance variable.
@@ -355,6 +358,7 @@ public class MapView extends StackPane {
     cashNum.setText("$" + String.valueOf(ControllerMain.thePlayer.getCash()));
   }
 
+  
   /**
   * Set the amount of Health Points for Player.
   * Adjusts the healthNum Label on Command Panel.
@@ -368,6 +372,7 @@ public class MapView extends StackPane {
     healthNum.setText(String.valueOf(hp));
   }
 
+  
   /**
   * Set the Wave Difficulty on Command Panel.
   * Adjusts the waveNum Label on Command Panel.
@@ -380,6 +385,7 @@ public class MapView extends StackPane {
   public void setWaveNum(String difficulty) {
     waveNum.setText(difficulty);
   }
+  
   
   /**
   * Get the current Player as established in ControllerMain.
@@ -394,6 +400,7 @@ public class MapView extends StackPane {
   {
 	  thePlayer = p;
   }
+  
 
   /**
   * Draws a mob given in its correct orientation and animation position.
@@ -450,6 +457,7 @@ public class MapView extends StackPane {
     
   }
 
+  
   /**
   * drawMap Draws the overall map and mobs/towers every iteration 
   * 

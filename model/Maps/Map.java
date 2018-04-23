@@ -83,7 +83,7 @@ public abstract class Map {
    *  Starts the spawn cycle for the given mmap, periodiclaly creating new mob objects
    *  Parameters: mobTypes: list containing all the mob types fortge map represented as Strings
    *  Returns: None
-   */
+  */
   protected void initializeSpawnCycle(List<String> mobTypes) {
     
     List<Class> mobClasses = new ArrayList<Class>();
@@ -134,7 +134,6 @@ public abstract class Map {
   /* updates the wave intensity, increasing it */
   protected void updateWaveIntensity() {
     waveIntensity = 3*waveIntensity;
-    
   }
 
   
