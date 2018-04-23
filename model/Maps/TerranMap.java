@@ -21,7 +21,6 @@ public class TerranMap extends Map {
     initializeTowers();
     initializeSpawnCycle(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
     name = "Terran"+ idNo;
-   // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
 
   

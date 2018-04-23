@@ -142,7 +142,7 @@ public class MapView extends StackPane {
     tower1.setStyle("-fx-base: #808080;");
 
     // Tower2 Button
-    Image tower2Image = new Image("file:assets/images/ghost.png", false);
+    Image tower2Image = new Image("file:assets/images/depot.png", false);
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
@@ -151,7 +151,7 @@ public class MapView extends StackPane {
     tower2.setStyle("-fx-base: #808080;");
     
     // Tower3 Button
-    Image tower3Image = new Image("file:assets/images/thick.png", false);
+    Image tower3Image = new Image("file:assets/images/tank.png", false);
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
