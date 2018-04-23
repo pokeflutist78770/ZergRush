@@ -109,9 +109,7 @@ public abstract class Tower {
             
             Set nearbyMobs = getNearbyMobs();
             if (!nearbyMobs.isEmpty()) {
-              System.out.println(ControllerMain.isPlaying);
               shoot(nearbyMobs);
-              System.out.println(ControllerMain.isPlaying);
             }
             
             if(!ControllerMain.isPlaying) {
@@ -134,7 +132,7 @@ public abstract class Tower {
   abstract protected void shoot(Set<Mob> nearbyMobs);
 
   
-  private Mob getClosestMob(Set<Mob> nearbyMobs) {
+  protected Mob getClosestMob(Set<Mob> nearbyMobs) {
     Iterator<Mob> itr = nearbyMobs.iterator();
 	Mob closest = itr.next();
     while (itr.hasNext()) {

@@ -112,10 +112,6 @@ public abstract class Mob {
     this.pathIndex = 0;
     
     
-    System.out.println(movementPath.get(0).getX());
-
-    
-    
     this.currentLocation = perturbPoint(movementPath.get(0));
     this.pathIndex++;
 
@@ -158,10 +154,7 @@ public abstract class Mob {
       public void run() {
         try {
           while (ControllerMain.isPlaying) {
-            if (isDead()) {
-              break;
-            }
-            if (Thread.interrupted()) {
+            if (isDead() || Thread.interrupted()) {
               break;
             }
 
@@ -313,6 +306,7 @@ public abstract class Mob {
     // cue animation of stuff for getting hurt
   }
 
+  
   /*
    * Attack attacks the main player Parameters: player - current player Returns:
    * None
@@ -322,6 +316,7 @@ public abstract class Mob {
     player.takeDamage(damage);
   }
 
+  
   /*
    * calculateNewDamage calculates a new damage based on modifieers Parameters:
    * damage: base damage element: element attribute Returns: double representing
@@ -341,9 +336,11 @@ public abstract class Mob {
     return newDamage;
   }
 
+  
   /*
-   * isDead returns if mob is dead or not Parameters: None Returns: boolean
-   * representing if dead
+   * isDead returns if mob is dead or not 
+   * Parameters: None 
+   * Returns: boolean representing if dead
    */
   public boolean isDead() {
     return wasKilled;
@@ -418,7 +415,7 @@ public abstract class Mob {
   public void kill() {
     ControllerMain.soundEffects.get(deathSound).play();
     wasKilled = true;
-    ControllerMain.mobs.remove(this);
+   // ControllerMain.mobs.remove(this);
     MapView.incrKills();
   }
 }

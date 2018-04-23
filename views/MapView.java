@@ -26,7 +26,10 @@ import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
 import model.Towers.DemoTower;
+import model.Towers.Depot;
+import model.Towers.Marine;
 import model.Towers.Range;
+import model.Towers.Tank;
 import model.Towers.Tower;
 
 //A player can view information about an enemy by clicking one that has been 
@@ -91,6 +94,7 @@ public class MapView extends StackPane {
 	towerPlacement=false;
 	isValidPos=true;
 	currRange=Range.DEMO_RANGE;
+	currName="";
 	
     vBox = new VBox();
     towerBox = new HBox();
@@ -429,8 +433,6 @@ public class MapView extends StackPane {
     }
     mobsCpy.clear();
     
-
-
     // drasws any current rojectiles
     HashSet<Projectile> projectilesCpy = new HashSet(ControllerMain.projectiles);
     for (Projectile p: projectilesCpy) {
@@ -462,8 +464,12 @@ public class MapView extends StackPane {
 
 	@Override
 	public void handle(ActionEvent e) {
-		towerPlacement=!towerPlacement;
 		TowerButton button=(TowerButton) e.getSource();
+		if(currName.equals(button.getName())) {
+			towerPlacement=false;
+			return;
+		}
+		towerPlacement=true;
 		currRange=button.getRange();
 		currTower=button.getImage().getImage();
 		currName=button.getName();
@@ -476,14 +482,29 @@ public class MapView extends StackPane {
 
 	@Override
 	public void handle(MouseEvent e) {
+		
 	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
 		mousePos.setLocation(e.getX(), e.getY());
 	  }
+	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
-		  towerPlacement=false;
-		ControllerMain.towers.add(new DemoTower(
-				                  new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize))));
+		towerPlacement=false;
+		Tower newTower=null;
+		
+		if(currName.equals("Marine")) {
+			newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+		}
+		else if( currName.equals("Depot")){
+			newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+		}
+		else if(currName.equals("Tank")) {
+			newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+		}
+		
+		ControllerMain.towers.add(newTower);
 		System.out.println("Mouse Clicked");
 	  }
     }
