@@ -12,7 +12,7 @@ import model.Mobs.Mob;
 public class DemoTower extends Tower {
   
   public DemoTower(Point loc) {
-    super(0, "Library", loc, Range.demoRange, "file:assets/images/Slime.png");
+    super(0, "Library", loc, Range.demoRange, "file:assets/images/marine.png");
   }
 
   @Override
