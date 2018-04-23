@@ -132,7 +132,7 @@ public abstract class Tower {
 
   
 
-  abstract public void shoot(Set<Mob> nearbyMobs);
+  abstract protected void shoot(Set<Mob> nearbyMobs);
 
   private Set getNearbyMobs() {
     Set nearbyMobs = new HashSet();
@@ -168,6 +168,11 @@ public abstract class Tower {
   
   public double getY() {
     return location.getY();
+  }
+  
+  public int getCost()
+  {
+	  return cost;
   }
   
 }

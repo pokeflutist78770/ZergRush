@@ -5,18 +5,27 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import javafx.application.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Player;
 import model.Projectile;
 import model.Maps.DemoMap;
@@ -89,9 +98,12 @@ public class ControllerMain extends Application {
   public final static int TILE_SIZE= GUI_SIZE/MOBS_PER_SCREEN;
   public static final int UPDATE_FREQUENCY = 17;
   
-  public static HashSet mobs = new HashSet<Mob>();
-  public static HashSet projectiles = new HashSet<Projectile>(); 
-  public static ArrayList<Tower> towers = new ArrayList<Tower>();
+
+  private static Random random = new Random();
+  
+  public static HashSet<Mob> mobs = new HashSet<Mob>();
+  public static HashSet<Projectile> projectiles = new HashSet<Projectile>(); 
+  public static HashSet<Tower> towers = new HashSet<Tower>();
   public static Player thePlayer;
   public static Thread playingNow;
   public static Pane currentView;
@@ -118,6 +130,13 @@ public class ControllerMain extends Application {
 	public static final int height = 880;
     private static HashMap<String,Image> imageMap;
 	
+    // For testing
+    public ControllerMain() {
+      initializeAssets();
+      thePlayer = new Player();
+      isPlaying=false;
+      theMap = new DemoMap();
+    }
     
     /* initializeAssets
      * Initializes all images and sound, allowing for a flyweight design pattern
@@ -146,10 +165,6 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		thePlayer = new Player();
 	    
-		towers = new ArrayList<Tower>();
-		mobs = new HashSet<Mob>();
-		projectiles = new HashSet<Projectile>();
-		
 		
 		//Tower theTower = new DemoTower();
 		theScoreView = new ScoreView();
@@ -163,22 +178,23 @@ public class ControllerMain extends Application {
 		instrButton = new Button("Instructions");
 		backButtonMap = new Button("Back");
 		backButtonInstr = new Button("Back");
-		
+
+    // Initialize Menu View
+    theMenuView = new MenuView(startButton, instrButton);
+    this.setViewTo(theMenuView); 
+    
 		menuButtonListener menuHandler = new menuButtonListener();
 		startButton.setOnAction(menuHandler);
 		instrButton.setOnAction(menuHandler);
 		backButtonMap.setOnAction(menuHandler);
 		backButtonInstr.setOnAction(menuHandler);
 		
-		// Initialize Menu View
-		theMenuView = new MenuView(startButton, instrButton);
-		this.setViewTo(theMenuView);
 		
 		// Initialize Instruction View
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
-		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
+		theMapView = new MapView(backButtonMap);
 		isPlaying=false;
 		
 	    Scene scene = new Scene(window, width, height);
@@ -225,27 +241,62 @@ public class ControllerMain extends Application {
 				return;
 			
 			isPlaying = true;
+			theMap = null;
+			
+			// Get difficulty
+			String difficultyStr = theMenuView.getModeSelection();
+			int difficulty = 0;
+			if (difficultyStr.equals("Easy")) {
+			  difficulty = 1;
+			} else if (difficultyStr.equals("Medium")) {
+			  difficulty = 2;
+			} else if (difficultyStr.equals("Hard")) {
+			  difficulty = 3;
+			} else {
+			  difficulty = 2;
+			}
+			Map.setWaveIntensity(3);
 			
 			// Set background for MapView based on Map Selection
 			if (mapSelection.equals("Terran"))
-				theMap = new TerranMap();
+				theMap = new TerranMap(difficulty);
 			else if (mapSelection.equals("Protoss"))
-				theMap = new ProtossMap();
+				theMap = new ProtossMap(difficulty);
 			else
-				theMap = new ZergMap();
-			
+				theMap = new ZergMap(difficulty);
 			theMapView.setMapSelection(theMap.imageFilePath);
+			
+			// Set Wave Difficulty
+			theMapView.setWaveNum(theMenuView.getModeSelection());
+			
+			// Set Kills
+			theMapView.setKillsNum(0);
+			
+			// Set Cash
+			theMapView.setCashNum(100);
+			
+			// Pass Player to MapView
+			theMapView.setPlayer(thePlayer);
+			
 			setViewTo(theMapView);
 		    
 
 		    
 		    //gotta start with a fresh new game :)
 		    thePlayer.resetStats();
-		    //towers.clear();
+		    towers.clear();
 		    mobs.clear();
 		    projectiles.clear();
+
 		    
 		    //thread to show a playing game
+			
+			  try {
+          Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY/2);
+        } catch (InterruptedException e1) {
+          e1.printStackTrace();
+        }
+			
 		    playingNow = new Thread(new Runnable() {
 	          @Override
 	          public void run() {
@@ -301,4 +352,47 @@ public class ControllerMain extends Application {
 	public static Stage getStage() {
 		return stage;
 	}
+
+  public static Random getRandom() {
+    return random;
+  }
+
+  public static void dealWithDeadPlayer() {
+    System.out.println("Player lost");
+    //ControllerMain.playingNow.interrupt();%here
+    
+    //display loss screen
+    
+    ControllerMain.isPlaying=false;
+    
+    Platform.runLater(() -> {
+      //This code will be moved to when a player reaches a set amount of waves, 
+      //but for the demo this will suffice
+      ControllerMain.currentView.setEffect(new GaussianBlur());
+      
+      VBox pauseRoot = new VBox(5);
+            pauseRoot.getChildren().add(new Label("You lost!"));
+            pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+            pauseRoot.setAlignment(Pos.CENTER);
+            pauseRoot.setPadding(new Insets(20));
+
+            Button resume = new Button("Main Menu");
+            pauseRoot.getChildren().add(resume);
+            
+      Stage popupStage = new Stage(StageStyle.TRANSPARENT);
+            popupStage.initOwner(ControllerMain.getStage());
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setScene(new Scene(pauseRoot, Color.TRANSPARENT));
+            
+            resume.setOnAction(event -> {
+                ControllerMain.currentView.setEffect(null);
+                ControllerMain.resetMainMenu();
+                popupStage.hide();
+            });
+            
+            popupStage.show();
+    });
+    
+  }
+
 }

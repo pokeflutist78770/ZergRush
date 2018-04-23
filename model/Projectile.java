@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.util.Vector;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
@@ -31,8 +32,8 @@ abstract public class Projectile {
   
   public Projectile(Point startLocation, SpeedAttribute spd,
                     double radius, double baseDamage,  ElementalAttribute ea,
-                    String imgFilePath
-                    ) {
+                    String imgFilePath,
+                    int testing) {
 		
     currentLocation = startLocation;
     speed = spd;
@@ -42,7 +43,9 @@ abstract public class Projectile {
 
     imageFilePath = imgFilePath;
 		
-    initializeProjectile();
+    if (testing == 0) {
+      initializeProjectile();
+    }
   }
 	
 
@@ -58,19 +61,16 @@ abstract public class Projectile {
     kamakaziImperative = new Thread(new Runnable() {
       @Override
       public void run() {
-    	while(!Thread.interrupted()) {
+    	while(!hasReachedTarget()) {
           try {
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
             
-            if (!hasReachedTarget()) { //projectile still hasnt reached mob yet
-              updateLocation();
-            } else {
-              terminate();
-            }
+            updateLocation();
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
         }
+    	    terminate();
       }
     });
     
@@ -88,10 +88,10 @@ abstract public class Projectile {
     double oldY = currentLocation.getY();
     
     double spd = this.speed.getSpeed();
-    Point unitV = getDirectionVector();
+    Vector<Double> unitV = getDirectionVector();
     
-    double newX = oldX + spd * unitV.getX();
-    double newY = oldY + spd * unitV.getY();
+    double newX = oldX + spd * unitV.get(0);
+    double newY = oldY + spd * unitV.get(1);
     
     currentLocation.setLocation(newX, newY);  
   }
@@ -117,7 +117,7 @@ abstract public class Projectile {
   /*----------     Getters/Setters      ----------*/
   
   
-  public Point getDirectionVector() {
+  public Vector<Double> getDirectionVector() {
     return Metric.getDirectionVector(currentLocation, getTargetLocation());
   }
 	  

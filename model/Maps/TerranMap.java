@@ -13,63 +13,15 @@ import model.Towers.DemoTower;
 
 public class TerranMap extends Map {
 
-  private long spawnFreq = 750;
   private String soundtrack;;
   
-  public TerranMap() {
-    super("file:assets/images/map/terran_map.jpg");
+  public TerranMap(int difficulty) {
+    super("file:assets/images/map/terran_map.jpg", difficulty);
     soundtrack = "terranSoundtrack";
     initializeTowers();
-    initializeSpawnCycle();
+    initializeSpawnCycle(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
+    name = "Terran"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
-  }
- 
-  
-  /* initializeSpawnCycle
-   * Starts the spawn cycle for the gameplay
-   * Parameters: None
-   * Returns: None
-  */
-  private void initializeSpawnCycle() {
-    Thread spawnCycle = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        do {
-          try {
-            
-            //Zergling mob=new Zergling(paths.get(1));
-            //Hydralisk mob2=new Hydralisk(paths.get(1));
-            //Ultralisk mob3=new Ultralisk(paths.get(1));
-            //DemoMob mob=new DemoMob(paths.get(1));
-            
-            //System.out.println("Protoss Map is spawning: "+mob.toString());
-            
-            //ControllerMain.mobs.add(mob);
-            //ControllerMain.mobs.add(mob2);
-            //ControllerMain.mobs.add(mob3);
-            
-            if(!ControllerMain.isPlaying) {
-              break;
-            }
-            
-            Thread.sleep(spawnFreq);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          } 
-        } while(true);
-        
-      }
-    });
-    
-    spawnCycle.start();
-  }
-
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
   
@@ -103,7 +55,7 @@ public class TerranMap extends Map {
     }
     
     
-    this.paths.put(1, pathOne);
+    this.getPaths().put(1, pathOne);
   }
 
 }

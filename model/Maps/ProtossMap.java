@@ -13,63 +13,15 @@ import model.Towers.DemoTower;
 
 public class ProtossMap extends Map {
 
-  private long spawnFreq = 750;
   private String soundtrack;;
   
-  public ProtossMap() {
-    super("file:assets/images/map/protoss_map.jpg");
+  public ProtossMap(int difficulty) {
+    super("file:assets/images/map/protoss_map.jpg", difficulty);
     soundtrack = "protossSoundtrack";
     initializeTowers();
-    initializeSpawnCycle();
+    initializeSpawnCycle(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
+    name = "Protoss"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
-  }
- 
-  
-  /* initializeSpawnCycle
-   * Starts the spawn cycle for the gameplay
-   * Parameters: None
-   * Returns: None
-  */
-  private void initializeSpawnCycle() {
-    Thread spawnCycle = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        do {
-          try {
-            
-            Zergling mob=new Zergling(paths.get(1));
-            Hydralisk mob2=new Hydralisk(paths.get(1));
-            Ultralisk mob3=new Ultralisk(paths.get(1));
-           // DemoMob mob=new DemoMob(paths.get(1));
-            
-            System.out.println("Protoss Map is spawning: "+mob.toString());
-            
-            ControllerMain.mobs.add(mob);
-            ControllerMain.mobs.add(mob2);
-            ControllerMain.mobs.add(mob3);
-            
-            if(!ControllerMain.isPlaying) {
-              break;
-            }
-            
-            Thread.sleep(spawnFreq);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          } 
-        } while(true);
-        
-      }
-    });
-    
-    spawnCycle.start();
-  }
-
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
   
@@ -120,8 +72,8 @@ public class ProtossMap extends Map {
     }
     
     
-    this.paths.put(1, pathOne);
-    this.paths.put(2, pathTwo);
+    this.getPaths().put(1, pathOne);
+    this.getPaths().put(2, pathTwo);
   }
 
 }
