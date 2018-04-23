@@ -19,7 +19,7 @@ public class Hydralisk extends Mob {
 						                           ResistanceAttribute.POISON)), 
 				"Hydralisk"+Mob.IDNumber++,
 
-				"file:assets/images/mob/zerg/hydralisk.png",
+				"file:assets/images/mob/zerg/hydralisk.png", "hydra_death",
 				2.0,
 				2.0,
 				42.0,

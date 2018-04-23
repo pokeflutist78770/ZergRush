@@ -20,7 +20,7 @@ public DarkTemplar(List<Point> movementPath) {
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.POISON)), 
 				"DarkTemplar"+Mob.IDNumber++,
-				"file:assets/images/mob/protoss/dark_templar.png",
+				"file:assets/images/mob/protoss/dark_templar.png", "dt_death",
         5.0,
         2.0,
         54.0,

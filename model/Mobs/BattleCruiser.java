@@ -28,7 +28,7 @@ public class BattleCruiser extends Mob{
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"BattleCruiser"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/battlecruiser.png",
+				"file:assets/images/mob/terran/battlecruiser.png", "bc_death",
         265.0,
         209.0,
         78.0,

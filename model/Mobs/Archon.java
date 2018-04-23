@@ -19,7 +19,7 @@ public Archon(List<Point> movementPath) {
 				new ArrayList<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"Archon"+Mob.IDNumber++,
-				"file:assets/images/mob/protoss/archon.png",
+				"file:assets/images/mob/protoss/archon.png", "archon_death",
         213.0,
         595.0,
         82.0,

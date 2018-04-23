@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -80,14 +81,18 @@ public abstract class Mob {
   private int stepCount;
   private int animationSteps;
   
+  // For audio
+  
 
   // String data of the mob.
   private String name;
   private String imageFilePath;
+  private String deathSound;
 
   public Mob(List<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
       DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances, String name,
-      String imageFP, double sx, double sy, double sw, double sh, double delX, double delY, int animationSteps) {
+      String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY, 
+      int animationSteps) {
     
     
     // Animation Attributes
@@ -99,6 +104,8 @@ public abstract class Mob {
     this.delX = delX;
     this.delY = delY;
     this.animationSteps = animationSteps;
+    
+    this.deathSound = deathSound;
     
     // Initialize Attributes
     this.movementPath = movementPath;
@@ -409,6 +416,7 @@ public abstract class Mob {
   }
   
   public void kill() {
+    ControllerMain.soundEffects.get(deathSound).play();
     wasKilled = true;
     ControllerMain.mobs.remove(this);
     MapView.incrKills();
