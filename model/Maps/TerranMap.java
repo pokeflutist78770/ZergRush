@@ -15,8 +15,8 @@ public class TerranMap extends Map {
 
   private String soundtrack;;
   
-  public TerranMap() {
-    super("file:assets/images/map/terran_map.jpg");
+  public TerranMap(int difficulty) {
+    super("file:assets/images/map/terran_map.jpg", difficulty);
     soundtrack = "terranSoundtrack";
     initializeTowers();
     initializeSpawnCycle(Arrays.asList("Marine", "Wraith", "BattleCruiser"));

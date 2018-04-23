@@ -163,16 +163,17 @@ public class ControllerMain extends Application {
 		instrButton = new Button("Instructions");
 		backButtonMap = new Button("Back");
 		backButtonInstr = new Button("Back");
-		
+
+    // Initialize Menu View
+    theMenuView = new MenuView(startButton, instrButton);
+    this.setViewTo(theMenuView); 
+    
 		menuButtonListener menuHandler = new menuButtonListener();
 		startButton.setOnAction(menuHandler);
 		instrButton.setOnAction(menuHandler);
 		backButtonMap.setOnAction(menuHandler);
 		backButtonInstr.setOnAction(menuHandler);
 		
-		// Initialize Menu View
-		theMenuView = new MenuView(startButton, instrButton);
-		this.setViewTo(theMenuView);
 		
 		// Initialize Instruction View
 		theInstrView = new InstructionView(backButtonInstr);
@@ -226,15 +227,28 @@ public class ControllerMain extends Application {
 			
 			isPlaying = true;
 			theMap = null;
+			
+			// Get difficulty
+			String difficultyStr = theMenuView.getModeSelection();
+			int difficulty = 0;
+			if (difficultyStr.equals("Easy")) {
+			  difficulty = 1;
+			} else if (difficultyStr.equals("Medium")) {
+			  difficulty = 2;
+			} else if (difficultyStr.equals("Hard")) {
+			  difficulty = 3;
+			} else {
+			  difficulty = 2;
+			}
 			Map.setWaveIntensity(3);
 			
 			// Set background for MapView based on Map Selection
 			if (mapSelection.equals("Terran"))
-				theMap = new TerranMap();
+				theMap = new TerranMap(difficulty);
 			else if (mapSelection.equals("Protoss"))
-				theMap = new ProtossMap();
+				theMap = new ProtossMap(difficulty);
 			else
-				theMap = new ZergMap();
+				theMap = new ZergMap(difficulty);
 			theMapView.setMapSelection(theMap.imageFilePath);
 			
 			// Set Wave Difficulty

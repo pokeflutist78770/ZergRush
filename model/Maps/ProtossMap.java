@@ -15,8 +15,8 @@ public class ProtossMap extends Map {
 
   private String soundtrack;;
   
-  public ProtossMap() {
-    super("file:assets/images/map/protoss_map.jpg");
+  public ProtossMap(int difficulty) {
+    super("file:assets/images/map/protoss_map.jpg", difficulty);
     soundtrack = "protossSoundtrack";
     initializeTowers();
     initializeSpawnCycle(Arrays.asList("Zealot", "DarkTemplar", "Archon"));

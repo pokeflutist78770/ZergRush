@@ -15,8 +15,8 @@ public class ZergMap extends Map {
 
   private String soundtrack;
   
-  public ZergMap() {
-    super("file:assets/images/map/zerg_map.jpg");
+  public ZergMap(int difficulty) {
+    super("file:assets/images/map/zerg_map.jpg", difficulty);
     soundtrack = "zergSoundtrack";
     initializeTowers();
     initializeSpawnCycle(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));

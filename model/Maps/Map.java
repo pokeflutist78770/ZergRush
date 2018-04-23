@@ -49,13 +49,14 @@ public abstract class Map {
   public static long SPAWN_FREQUENCY =   10* 1000;
 
   private static int waveIntensity;
-  private int waveRatio = 3;
+  private int waveRatio;
   
-  public Map (String imgFp) {
+  public Map (String imgFp, int difficulty) {
     paths = new HashMap<Integer, List<Point>>();
     constructMobRoute();
     imageFilePath = imgFp;
     waveIntensity = 3;
+    waveRatio = difficulty;
     
   }
   

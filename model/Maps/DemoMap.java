@@ -26,7 +26,7 @@ public class DemoMap extends Map {
   private long spawnFreq = 750; 
   
   public DemoMap() {
-    super("file:assets/images/map/demoMap.png");
+    super("file:assets/images/map/demoMap.png",2);
     
     
     initializeTowers();
