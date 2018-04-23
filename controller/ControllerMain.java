@@ -93,9 +93,9 @@ public class ControllerMain extends Application {
 
   private static Random random = new Random();
   
-  public static HashSet mobs = new HashSet<Mob>();
-  public static HashSet projectiles = new HashSet<Projectile>(); 
-  public static ArrayList<Tower> towers = new ArrayList<Tower>();
+  public static HashSet<Mob> mobs = new HashSet<Mob>();
+  public static HashSet<Projectile> projectiles = new HashSet<Projectile>(); 
+  public static HashSet<Tower> towers = new HashSet<Tower>();
   public static Player thePlayer;
   public static Thread playingNow;
   public static Pane currentView;
@@ -150,10 +150,6 @@ public class ControllerMain extends Application {
 		initializeAssets();
 		thePlayer = new Player();
 	    
-		towers = new ArrayList<Tower>();
-		mobs = new HashSet<Mob>();
-		projectiles = new HashSet<Projectile>();
-		
 		
 		//Tower theTower = new DemoTower();
 		theScoreView = new ScoreView();
@@ -182,7 +178,7 @@ public class ControllerMain extends Application {
 		theInstrView = new InstructionView(backButtonInstr);
 		
 		// Initialize Map View
-		theMapView = new MapView(backButtonMap, mobs, projectiles, towers);
+		theMapView = new MapView(backButtonMap);
 		isPlaying=false;
 		
 	    Scene scene = new Scene(window, width, height);
@@ -229,6 +225,8 @@ public class ControllerMain extends Application {
 				return;
 			
 			isPlaying = true;
+			theMap = null;
+			Map.setWaveIntensity(3);
 			
 			// Set background for MapView based on Map Selection
 			if (mapSelection.equals("Terran"))
@@ -237,17 +235,30 @@ public class ControllerMain extends Application {
 				theMap = new ProtossMap();
 			else
 				theMap = new ZergMap();
-			
 			theMapView.setMapSelection(theMap.imageFilePath);
+			
+			// Set Wave Difficulty
+			theMapView.setWaveNum(theMenuView.getModeSelection());
+			
+			// Set Kills
+			theMapView.setKillsNum(0);
+			
+			// Set Cash
+			theMapView.setCashNum(100);
+			
+			// Pass Player to MapView
+			theMapView.setPlayer(thePlayer);
+			
+			
 			setViewTo(theMapView);
 		    
 
-		    /**
+		    
 		    //gotta start with a fresh new game :)
 		    thePlayer.resetStats();
-		    //towers.clear();
+		    towers.clear();
 		    mobs.clear();
-		    projectiles.clear();*/
+		    projectiles.clear();
 		    
 		    //thread to show a playing game
 			

@@ -11,7 +11,7 @@ public class DemoProjectile extends Projectile {
 
   public DemoProjectile(Point startLocation, Mob targetMob) {
     super(startLocation, 
-        SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 5.0, 
+        SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
         ElementalAttribute.DEMO_ELEMENT, "file:assets/images/Goop.png");
     
     this.setMob(targetMob);

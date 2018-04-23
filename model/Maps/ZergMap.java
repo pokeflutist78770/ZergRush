@@ -13,7 +13,6 @@ import model.Towers.DemoTower;
 
 public class ZergMap extends Map {
 
-  private long spawnFreq = 750;
   private String soundtrack;
   
   public ZergMap() {
@@ -21,15 +20,8 @@ public class ZergMap extends Map {
     soundtrack = "zergSoundtrack";
     initializeTowers();
     initializeSpawnCycle(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
+    name = "Zerg"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
-  }
-
-  
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
   }
 
   

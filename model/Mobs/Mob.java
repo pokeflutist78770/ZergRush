@@ -149,7 +149,13 @@ public abstract class Mob {
       @Override
       public void run() {
         try {
-          while (ControllerMain.isPlaying && !isDead()) {
+          while (ControllerMain.isPlaying) {
+            if (isDead()) {
+              break;
+            }
+            if (Thread.interrupted()) {
+              break;
+            }
 
             Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
 
@@ -164,10 +170,10 @@ public abstract class Mob {
           }
         } catch (InterruptedException e) {
           System.out.println("Mobwalk is failing.");
+          Thread.currentThread().interrupt();
           // e.printStackTrace();
+          
         }
-        ControllerMain.mobs.remove(this);
-
         System.out.println("Mob Thread: Ended");
       }
     });
@@ -264,11 +270,10 @@ public abstract class Mob {
     double newDamage = calculateNewDamage(damage, element);
 
     if (newDamage >= hp) {
-      hp = 0; // in case of some weird random bugs with oveflow, or underflow in this case
+      hp = -1; // in case of some weird random bugs with oveflow, or underflow in this case
 
       System.out.println("Mob Dead"); // Only for debugging o=purposes
-
-      mobWalk.interrupt();
+      kill();
       /*
        * //ControllerMain.isPlaying=false;
        * 
@@ -333,10 +338,7 @@ public abstract class Mob {
    * representing if dead
    */
   public boolean isDead() {
-    if (wasKilled) {
-      return true;
-    }
-    return hp <= 0;
+    return wasKilled;
   }
 
   /*----------    Getters/Setters     -------------*/
@@ -407,5 +409,7 @@ public abstract class Mob {
   
   public void kill() {
     wasKilled = true;
+    ControllerMain.mobs.remove(this);
+    MapView.incrKills();
   }
 }

@@ -84,14 +84,6 @@ public class DemoMap extends Map {
   }
 
   
-  /* initializeTowers
-   * initializes the towers for the map
-  */
-  private void initializeTowers() {
-    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
-  }
-
-  
   /* constructMobRoute
    * Creates the route for each mob to walk through
    * Parameters: None

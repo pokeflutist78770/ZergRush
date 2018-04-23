@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import views.MapView;
 
 // Players can buy towers through some form of currency (money, points, mana 
 // power, life-force, etc.).
@@ -34,7 +35,7 @@ public class Player {
 	//just a default for now until mob attacks and balances are sorted out
 	//Maybe even when difficulties are added, decrease health as such, 
 	private final double BASE_HP=10000;
-	private double CURRENT_HP=BASE_HP;   
+	private double CURRENT_HP=BASE_HP;
 	
 	
 	/* takeDamage
@@ -87,6 +88,10 @@ public class Player {
 		
 	}
 	
+	public double getHP()
+	{
+		return CURRENT_HP;
+	}
 	
 	//resets HP for a new game
 	public void resetStats() {

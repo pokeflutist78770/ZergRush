@@ -13,6 +13,7 @@ import model.Mobs.Hydralisk;
 import model.Mobs.Mob;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
+import model.Towers.DemoTower;
 
 // You should have at least 3 maps.
 
@@ -42,10 +43,12 @@ import model.Mobs.Zergling;
 public abstract class Map {
   
   public String imageFilePath;
+  public static int idNo = 0;
+  protected String name;
   protected HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
   public static long SPAWN_FREQUENCY =   10* 1000;
 
-  private int waveIntensity;
+  private static int waveIntensity;
   private int waveRatio = 3;
   
   public Map (String imgFp) {
@@ -53,6 +56,7 @@ public abstract class Map {
     constructMobRoute();
     imageFilePath = imgFp;
     waveIntensity = 3;
+    
   }
   
   
@@ -73,6 +77,15 @@ public abstract class Map {
   }
 
   abstract void constructMobRoute();
+  
+
+  
+  /* initializeTowers
+   * initializes the towers for the map
+  */
+  protected void initializeTowers() {
+    ControllerMain.towers.add(new DemoTower(new Point(651*800/1000, 839*800/1000)));
+  }
   
 
   protected void initializeSpawnCycle(List<String> mobTypes) {
@@ -96,22 +109,22 @@ public abstract class Map {
 
       @Override
       public void run() {
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e1) {
+          // e1.printStackTrace();
+        }
         do {
           try {
             
             spawnWave(mobConstructors, waveIntensity);
             updateWaveIntensity();
             
-            
-            if(!ControllerMain.isPlaying) {
-              break;
-            }
-            
             Thread.sleep(SPAWN_FREQUENCY );
           } catch (InterruptedException | IllegalArgumentException e) {
             e.printStackTrace();
           } 
-        } while(true);
+        } while(ControllerMain.isPlaying);
         
       }
     });
@@ -144,6 +157,16 @@ public abstract class Map {
       }
     }
     
+  }
+
+
+  public static int getWaveIntensity() {
+    return waveIntensity;
+  }
+
+
+  public static void setWaveIntensity(int input) {
+    waveIntensity = input;
   }
 	
 }
