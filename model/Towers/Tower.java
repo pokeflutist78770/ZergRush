@@ -73,7 +73,6 @@ public abstract class Tower {
   protected Point location;
   protected Range range;
 
-
   private String imageFilePath;
 	
   public Tower(int cost, String name,
