@@ -92,7 +92,6 @@ public class MapView extends StackPane {
   
   private boolean towerPlacement;
   private Point mousePos;
-  private Color rangeColor;
   private boolean isValidPos;
   
 
@@ -105,7 +104,7 @@ public class MapView extends StackPane {
 
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
-	rangeColor=Color.color(1,0,0, .5);
+
     vBox = new VBox();
     towerBox = new HBox();
     backButton = back;
@@ -455,9 +454,12 @@ public class MapView extends StackPane {
   
   public void drawGhostTower() {
 	  if(isValidPos) {
-		  
+		  gc.setFill(Color.color(0, .5, 0, .5));
 	  }
-	  gc.setFill(rangeColor);
+	  else {
+		  gc.setFill(Color.color(.75, 0, 0, .5));
+	  }
+	  
 	  gc.fillOval(mousePos.getX(), mousePos.getY(), 200, 200);
   }
   

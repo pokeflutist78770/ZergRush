@@ -179,9 +179,9 @@ public class ControllerMain extends Application {
 		backButtonMap = new Button("Back");
 		backButtonInstr = new Button("Back");
 
-    // Initialize Menu View
-    theMenuView = new MenuView(startButton, instrButton);
-    this.setViewTo(theMenuView); 
+		// Initialize Menu View
+		theMenuView = new MenuView(startButton, instrButton);
+		this.setViewTo(theMenuView); 
     
 		menuButtonListener menuHandler = new menuButtonListener();
 		startButton.setOnAction(menuHandler);
