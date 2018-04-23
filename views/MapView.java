@@ -25,7 +25,6 @@ import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
-import model.Towers.DemoTower;
 import model.Towers.Depot;
 import model.Towers.Marine;
 import model.Towers.Range;
@@ -388,8 +387,6 @@ public class MapView extends StackPane {
   public void drawMap() {
 	gc.drawImage(background, 0, 0);
     gc.strokeLine(0, 800, 800, 800);
-    sde56y7uk,
-
     if(towerPlacement) {
     	drawGhostTower();
     }
