@@ -149,6 +149,10 @@ abstract public class Projectile {
     this.imageFilePath = imgStr;
   }
   
+  public void setSpeed(SpeedAttribute s) {
+	  this.speed = s;
+  }
+  
   public Image getImage() {
     return ControllerMain.getGraphic(this.getImageFilePath());
   }

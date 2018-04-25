@@ -25,7 +25,7 @@ import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
-
+import model.Mobs.SpeedAttribute;
 import model.Towers.Depot;
 import model.Towers.Marine;
 import model.Towers.Range;
@@ -51,11 +51,13 @@ public class MapView extends StackPane {
   private GraphicsContext gc;
   private VBox vBox;
   private HBox towerBox;
+  private HBox pauseBox;
   private Button tower1;
   private Button tower2;
   private Button tower3;
   private Button upgradeButton;
   private Button upgrade;
+  private Button pause;
   private GridPane gameGrid;
   private Label wave;
   private Label health;
@@ -75,6 +77,8 @@ public class MapView extends StackPane {
   private Label attr5;
   private Label attr6;
   private int updateCount = 0;
+  private boolean gamePaused;
+  private double gameSpeed;
   
   private boolean towerPlacement;
   private Point mousePos;
@@ -130,6 +134,20 @@ public class MapView extends StackPane {
     gcCommand.fillRect(0, 0, commandCanvas.getWidth(), commandCanvas.getHeight());
 
     EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
+    EventHandler<ActionEvent> pauseButtonHandler = new pauseButtonHandler();
+    
+    // Pause Button
+    gamePaused = false;
+    pause = new Button("Pause");
+    pause.setStyle("-fx-font: 14 serif; -fx-base: #000000;");
+    pause.setMinWidth(50);
+    pause.setMinHeight(10);
+    pause.setOnAction(pauseButtonHandler);
+    
+    pauseBox = new HBox();
+    pauseBox.getChildren().add(pause);
+    pauseBox.setPadding(new Insets(767,0,0,5));
+    pauseBox.setPickOnBounds(false);
     
     // Tower1 Button
     Image tower1Image = new Image("file:assets/images/tower/marine.png", false);
@@ -296,6 +314,7 @@ public class MapView extends StackPane {
     pane.getChildren().add(gameGrid);
     pane.getChildren().add(updateGrid);
     pane.getChildren().add(statusBox);
+    pane.getChildren().add(pauseBox);
     
     this.getChildren().add(pane);
     this.setOnMouseClicked(mouseHandler);
@@ -379,6 +398,20 @@ public class MapView extends StackPane {
   */
   public void setWaveNum(String difficulty) {
     waveNum.setText(difficulty);
+  }
+  
+  /**
+  * Get the current game speed selected from
+  * Menu View slider.
+  * 
+  * @param s
+  * 	- A double [0-1] representing game speed
+  * 
+  * @return None
+  */
+  public void setGameSpeed(Double s)
+  {
+	  gameSpeed = s;
   }
   
   /**
@@ -491,10 +524,37 @@ public class MapView extends StackPane {
     }
     towersCpy.clear();
 
+    
+    // Update Mobs' speed attribute if
+    // Game Speed slider adjusted from MenuView
+    // Game Speed slider set as default to 0%
+    
+    // ***Don't use SLOW speed as mobs will freeze***
+    
+    // 0% - NO CHANGE
+    // 0-33% - NORMAL
+    // 33-66% - FAST
+    // 66-100% - VERY_FAST
+    
+    SpeedAttribute mobSpeed = SpeedAttribute.NORMAL;
+    if (gameSpeed > 0.33 && gameSpeed < 0.66)
+    {
+    	mobSpeed = SpeedAttribute.FAST;
+    }
+    else if (gameSpeed > 0.66)
+    {
+    	mobSpeed = SpeedAttribute.VERY_FAST;
+    }
+    
     // draws every mob
     HashSet<Mob> mobsCpy = new HashSet(ControllerMain.mobs);
+    Mob temp;
     for (Mob m: mobsCpy) {
-      drawMob(m);
+    	temp = m;
+    	// Only adjust when game speed slider adjusted
+    	if (gameSpeed > 0)
+    		temp.setSpeed(mobSpeed);
+    	drawMob(temp);
     }
     mobsCpy.clear();
     
@@ -563,6 +623,37 @@ public class MapView extends StackPane {
 		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 	} 
   } 
+  
+  /**
+  * Button handler to pause the game.
+  * Text in button will turn red when game is paused.
+  * Text will change to white when game is not paused.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
+  private class pauseButtonHandler implements EventHandler<ActionEvent>{
+
+	@Override
+	public void handle(ActionEvent e) {
+		
+		// Set button to red text
+    	if (gamePaused == false)
+    	{
+    		pause.setStyle("-fx-text-fill: #ff0000; -fx-font: 14 serif; -fx-base: #000000;");
+    		gamePaused = true;
+    	}
+    	// Set button to white text
+    	else
+    	{
+    		pause.setStyle("-fx-text-fill: #ffffff; -fx-font: 14 serif; -fx-base: #000000;");
+    		gamePaused = false;
+    	}
+		
+	} 
+  } 
+  
   
   /**
   * Mouse handler to place a Tower on click or hover with Tower for placement.

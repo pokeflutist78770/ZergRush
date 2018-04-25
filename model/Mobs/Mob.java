@@ -431,6 +431,10 @@ public abstract class Mob {
   public void setName(String name) {
     this.name = name;
   }
+  
+  public void setSpeed(SpeedAttribute s) {
+	  this.speed = s;
+  }
 
   /**
    * If a mob's HP reaches zero, it's death sound clip will trigger, and the

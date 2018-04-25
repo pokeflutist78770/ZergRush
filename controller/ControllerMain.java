@@ -245,6 +245,9 @@ public class ControllerMain extends Application {
 
         // Pass Player to MapView
         theMapView.setPlayer(thePlayer);
+        
+        // Pass Game Speed from MenuView to MapView
+        theMapView.setGameSpeed(theMenuView.getGameSpeed());
 
         setViewTo(theMapView);
 

@@ -162,7 +162,7 @@ public class MenuView extends StackPane {
 	    
 	    // Game Speed Slider
 	    VBox slideBox = new VBox();
-	    speedSlider = new Slider(0, 1, 0.53);
+	    speedSlider = new Slider(0, 1, 0.0);
 	    speedSlider.setMaxWidth(150);
 	    speedSlider.setStyle("-fx-font: 16 serif; -fx-base: #000000;");
 	    Label sliderLabel = new Label("Game Speed");
@@ -296,6 +296,11 @@ public class MenuView extends StackPane {
 			  return mode;
 	  }
 	
+	  public double getGameSpeed()
+	  {
+		  return speedSlider.getValue();
+	  }
+	  
 	  public String getMapSelection()
 	  {
 		  if (map.equals(""))
