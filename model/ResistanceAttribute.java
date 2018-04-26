@@ -14,7 +14,7 @@ public enum ResistanceAttribute {
 	
 	private double resistance;
 	
-	ResistanceAttribute(double value) {
+	private ResistanceAttribute(double value) {
 		resistance=value;
 	}
 	

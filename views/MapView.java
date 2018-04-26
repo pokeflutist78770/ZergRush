@@ -31,7 +31,7 @@ import model.MarineTower;
 import model.Mob;
 import model.Player;
 import model.Projectile;
-import model.Range;
+import model.RangeAttribute;
 import model.SpeedAttribute;
 import model.TankTower;
 import model.Tower;
@@ -106,7 +106,7 @@ public class MapView extends StackPane implements Observer {
   private boolean towerPlacement;
   private Point mousePos;
   private boolean isValidPos;
-  private Range currRange;
+  private RangeAttribute currRange;
   private Image currTower;
   private String currName;
   
@@ -133,7 +133,7 @@ public class MapView extends StackPane implements Observer {
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
 	isValidPos=true;
-	currRange=Range.DEMO_RANGE;
+	currRange=RangeAttribute.DEMO_RANGE;
 	currName="";
 	
 	// variables for tower selection
@@ -184,7 +184,7 @@ public class MapView extends StackPane implements Observer {
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
-    tower1 = new TowerButton("", iv1, "Marine", Range.MEDIUM_RANGE, MarineTower.COST);
+    tower1 = new TowerButton("", iv1, "Marine", RangeAttribute.MEDIUM_RANGE, MarineTower.COST);
     tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
@@ -193,7 +193,7 @@ public class MapView extends StackPane implements Observer {
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new TowerButton("", iv2, "Depot", Range.LARGE_RANGE, DepotTower.COST);
+    tower2 = new TowerButton("", iv2, "Depot", RangeAttribute.LARGE_RANGE, DepotTower.COST);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
@@ -202,7 +202,7 @@ public class MapView extends StackPane implements Observer {
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new TowerButton("", iv3, "Tank", Range.DEMO_RANGE, TankTower.COST);
+    tower3 = new TowerButton("", iv3, "Tank", RangeAttribute.DEMO_RANGE, TankTower.COST);
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 

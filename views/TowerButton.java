@@ -2,7 +2,7 @@ package views;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import model.Range;
+import model.RangeAttribute;
 
 /**
  * This class represents the Button Towers on the Command Panel.
@@ -13,7 +13,7 @@ import model.Range;
  */
 
 public class TowerButton extends Button {
-	private Range range;
+	private RangeAttribute range;
 	private ImageView image;
 	private String name;
 	private double cost;
@@ -30,7 +30,7 @@ public class TowerButton extends Button {
 	* 
 	* @return None
 	*/
-	public TowerButton(String buttonText, ImageView buttonImage, String name, Range range,
+	public TowerButton(String buttonText, ImageView buttonImage, String name, RangeAttribute range,
 			           double cashThreshold) {
 		super(buttonText, buttonImage);
 		this.name=name;
@@ -40,7 +40,7 @@ public class TowerButton extends Button {
 	}
 	
 	// Getter - Tower Range
-	public Range getRange() {
+	public RangeAttribute getRange() {
 		return range;
 	}
 	

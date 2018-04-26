@@ -28,7 +28,7 @@ public abstract class Tower {
   protected String name;
   protected int cost;
   protected Point location;
-  protected Range range;
+  protected RangeAttribute range;
   protected String imageFilePath;
   protected TowerGame theGame;
   
@@ -40,7 +40,7 @@ public abstract class Tower {
    * @param range - the radius around which a tower can detect and fire at mobs.
    * @param imageFP - the file path to the image representing the tower, images are retrieved by flyweight
    */
-  public Tower(int cost, String name, Point location, Range range, String imageFP, TowerGame game, int fireRate) {
+  public Tower(int cost, String name, Point location, RangeAttribute range, String imageFP, TowerGame game, int fireRate) {
 
     this.cost = cost;
     this.name = name;
