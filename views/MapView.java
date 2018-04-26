@@ -92,6 +92,7 @@ public class MapView extends StackPane {
   private boolean towerSelected;
   private double towerX;
   private double towerY;
+  private Tower currentTower;
   
   private boolean towerPlacement;
   private Point mousePos;
@@ -838,16 +839,15 @@ public class MapView extends StackPane {
 			for (Tower t : ControllerMain.towers)
 			{
 				towerSelected = false;
-				if (t.getX() >= mousePosX-10 && t.getX() <= mousePosX+10)
+				if (t.getX() >= mousePosX-20 && t.getX() <= mousePosX+20)
 				{
-					if (t.getY() >= mousePosY-10 && t.getY() <= mousePosY+10)
+					if (t.getY() >= mousePosY-20 && t.getY() <= mousePosY+20)
 					{
 						setTowerSelected(t, t.getX(), t.getY());
 						break;
 					}
 				}	
 			}
-			
 		}
 		
 		System.out.println("MOUSE X: "+mousePos.getX());
