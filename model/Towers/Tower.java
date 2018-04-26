@@ -30,9 +30,6 @@ public abstract class Tower {
   
   protected int firing_frequencey;
   protected int fire_counter = 0;
-
-  protected int firingFrequency = 60;
-  protected int firingCount = 0;
   
   protected String name;
   protected int cost;
@@ -60,6 +57,11 @@ public abstract class Tower {
     firing_frequencey = fireRate;
   }
 
+  /**
+   * The shoot method is implemented by each tower class. 
+   * It is called whenever at least one mob is sufficiently close to the tower.
+   * @param nearbyMobs A set of mobs. They are assumed to be close to the tower.
+   */
   abstract protected void shoot(Set<Mob> nearbyMobs);
 
   /**
@@ -120,6 +122,38 @@ public abstract class Tower {
     return Metric.closeEnough(nextMob.getCurrentLocation(), location, range.toDouble());
   }
 
+  /**
+   * Answers the question: Is it ok to remove this tower from the game?
+   * One reason we may want to ask this question: If we implement the ability to sell towers, 
+   *   then wherever in the program the tower is sold, 
+   *   some (not yet implemented) boolean attribute of the tower can be toggled.
+   *   isDone will then tell the main game loop to remove the tower in the next iteration.
+   * @return Whether or not the main game loop is in the clear to remove this tower.
+   */
+  public boolean isDone() {
+    return false;
+  }
+
+  /**
+   * A single update step for the tower.
+   * For most updates, nothing happens.
+   * Every time the fire_counter exceeds the firing_frequency, 
+   *   the tower shoots and the fire_counter is reset.
+   */
+  public void update() {
+    fire_counter++;
+    
+    Set<Mob> nearbyMobs = getNearbyMobs();
+    if (!nearbyMobs.isEmpty() && theGame.getProjectiles().size() < 5000) {
+      if (fire_counter < firing_frequencey) {
+        return;
+      }
+      fire_counter = 0;
+
+      shoot(nearbyMobs);
+    }
+  }
+
   /** GETTERS AND SETTERS FOLLOW */
   public String getImageFilePath() {
     return imageFilePath;
@@ -147,24 +181,6 @@ public abstract class Tower {
   
   public int getCost() {
     return cost;
-  }
-
-  public boolean isDone() {
-    return false;
-  }
-
-  public void update() {
-    fire_counter++;
-    if (fire_counter < firing_frequencey) {
-      return;
-    }
-    fire_counter = 0;
-    
-    Set<Mob> nearbyMobs = getNearbyMobs();
-    if (!nearbyMobs.isEmpty() && theGame.getProjectiles().size() < 5000) {
-
-      shoot(nearbyMobs);
-    }
   }
 
 }
