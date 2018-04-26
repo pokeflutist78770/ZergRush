@@ -27,6 +27,9 @@ import model.Mobs.Mob;
  */
 
 public abstract class Tower {
+  
+  protected int firing_frequencey;
+  protected int fire_counter = 0;
 
   protected int firingFrequency = 60;
   protected int firingCount = 0;
@@ -46,7 +49,7 @@ public abstract class Tower {
    * @param range - the radius around which a tower can detect and fire at mobs.
    * @param imageFP - the file path to the image representing the tower, images are retrieved by flyweight
    */
-  public Tower(int cost, String name, Point location, Range range, String imageFP, TowerGame game) {
+  public Tower(int cost, String name, Point location, Range range, String imageFP, TowerGame game, int fireRate) {
 
     this.cost = cost;
     this.name = name;
@@ -54,6 +57,7 @@ public abstract class Tower {
     this.range = range;
     imageFilePath = imageFP;
     theGame = game;
+    firing_frequencey = fireRate;
   }
 
   abstract protected void shoot(Set<Mob> nearbyMobs);
@@ -150,14 +154,15 @@ public abstract class Tower {
   }
 
   public void update() {
-    firingCount++;
-    if (firingCount < firingFrequency) {
+    fire_counter++;
+    if (fire_counter < firing_frequencey) {
       return;
     }
-    firingCount = 0;
-    Set<Mob> nearbyMobs = getNearbyMobs();
+    fire_counter = 0;
     
-    if (!nearbyMobs.isEmpty() && theGame.getProjectiles().size() < 5000 ) {
+    Set<Mob> nearbyMobs = getNearbyMobs();
+    if (!nearbyMobs.isEmpty() && theGame.getProjectiles().size() < 5000) {
+
       shoot(nearbyMobs);
     }
   }

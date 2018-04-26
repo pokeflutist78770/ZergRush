@@ -144,7 +144,8 @@ public abstract class Mob {
 
     attackTime = 0;
     this.theGame = game;
-    targetPlayer = theGame.getPlayer();
+    targetPlayer = game.getPlayer();
+
   }
 
   private void initializeSoundAttributes(String deathSound) {
@@ -193,6 +194,12 @@ public abstract class Mob {
     double newX = oldX + spd * unitV.get(0);
     double newY = oldY + spd * unitV.get(1);
 
+    if (name.contains("Battle")) {
+      System.out.println("Velocity: " + unitV.toString());
+      System.out.println("Old position: " + oldX + "," + oldY);
+      System.out.println("New position: " + newX + "," + newY);
+      
+    }
     currentLocation.setLocation(newX, newY);
   }
 
@@ -257,6 +264,7 @@ public abstract class Mob {
    */
   private boolean reachedTarget() {
     return Metric.closeEnough(currentLocation, targetLocation, radius);
+    
   }
 
   /**

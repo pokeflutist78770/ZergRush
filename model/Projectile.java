@@ -28,7 +28,8 @@ abstract public class Projectile {
  
   protected String imageFilePath;
   protected TowerGame theGame;
-  protected boolean reachedTarget = false;
+  private boolean hit = false;
+
 
   
   
@@ -79,7 +80,7 @@ abstract public class Projectile {
   private boolean hasReachedTarget() {
 	//area of effect projectile
     if (targetMob == null) {
-       return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
+       return Metric.closeEnough(currentLocation, targetLocation, speed.getSpeed()/2);
     
     //target is a mob
     } else {
@@ -92,11 +93,11 @@ abstract public class Projectile {
   
   
   public Vector<Double> getDirectionVector() {
-    return Metric.getDirectionVector(currentLocation, getTargetLocation());
+    return Metric.getDirectionVector(currentLocation, targetLocation);
   }
 	  
   public double getDirectionAngle() {
-    return Metric.getDirectionAngle(currentLocation, getTargetLocation());
+    return Metric.getDirectionAngle(currentLocation, targetLocation);
   }
 	  
   protected Mob getMob() {
@@ -105,14 +106,6 @@ abstract public class Projectile {
 
   protected void setMob(Mob mob) {
     this.targetMob = mob;
-  }
-
-  private Point getTargetLocation() {
-    return targetLocation;
-  }
-
-  private void setTargetLocation(Point targetLocation) {
-    this.targetLocation = targetLocation;
   }
 
   public String getImageFilePath() {
@@ -142,15 +135,16 @@ abstract public class Projectile {
 
   public void update() {
     if (hasReachedTarget()) {
-      reachedTarget = true;
       terminate();
+      hit = true;
+    } else {
+      updateLocation();
     }
-    updateLocation();
-    
+
   }
 
 
   public boolean isDone() {
-    return reachedTarget;
+    return hit;
   }
 }

@@ -42,7 +42,7 @@ import model.Mobs.Zergling;
 
 public abstract class Map {
 
-  public final static int DEFAULT_SPAWN_FREQUENCY =   10* 100;
+  public final static int DEFAULT_SPAWN_FREQUENCY =   1000;
   public final static int DEFAULT_SPAWN_INTENSITY = 3;
   
   private static int waveIntensity;
@@ -141,8 +141,13 @@ public abstract class Map {
 
   public void update() {
     mapClock++;
-    if (mapClock > DEFAULT_SPAWN_FREQUENCY && theGame.getMobs().size() < 5000) {
+    if (theGame.getMobs().size() > 5000) {
       mapClock = 0;
+      return;
+    }
+    if (mapClock > DEFAULT_SPAWN_FREQUENCY) {
+      mapClock = 0;
+      
       spawnWave(mobConstructors, waveIntensity);
       updateWaveIntensity();  //allows waves to get harder as time goes on
     }

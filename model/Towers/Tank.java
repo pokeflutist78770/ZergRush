@@ -20,7 +20,7 @@ public class Tank  extends Tower{
   public static final double COST=350;
   
 	 public Tank(Point loc, TowerGame game) {
-		 super(350, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/tank.png", game);
+		 super(350, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/tank.png", game, 120);
 
 	 }
 

@@ -118,7 +118,7 @@ public class TowerGame extends Observable {
     return !gameOver;
   }
 
-  private void updateGameState() {
+  private synchronized void updateGameState() {
     updateMap();
     updateMobs();
     updateProjectiles();
@@ -175,71 +175,75 @@ public class TowerGame extends Observable {
     theMap.update();
   }
 
-  public boolean isPaused() {
+  public synchronized boolean isPaused() {
     return paused;
   }
 
-  public void pause() {
+  public synchronized void pause() {
     paused = true;
   }
 
-  public void unPause() {
+  public synchronized void unPause() {
     paused = false;
   }
 
-  public String getBackgroundImageFP() {
+  public synchronized String getBackgroundImageFP() {
     return backgroundImageFilePath;
   }
 
-  public Player getPlayer() {
+  public synchronized Player getPlayer() {
     return thePlayer;
   }
   
-  public List<Mob> getMobs() {
+  public synchronized List<Mob> getMobs() {
     return new ArrayList<Mob>(mobs);
   }
   
-  public void add(Mob m) {
+  public synchronized void add(Mob m) {
     mobs.add(m);
   }
   
-  public void remove(Mob m) {
+  public synchronized void remove(Mob m) {
     mobs.remove(m);
   }
   
-  public List<Projectile> getProjectiles() {
+  public synchronized List<Projectile> getProjectiles() {
     return new ArrayList<Projectile>(projectiles);
   }
   
-  public void add(Projectile p) {
+  public synchronized void add(Projectile p) {
     projectiles.add(p);
   }
   
-  public void remove(Projectile p) {
+  public synchronized void remove(Projectile p) {
     mobs.remove(p);
   }
   
-  public List<Tower> getTowers() {
+  public synchronized List<Tower> getTowers() {
     return new ArrayList<Tower>(towers);
   }
   
-  public void add(Tower t) {
+  public synchronized void add(Tower t) {
     towers.add(t);
   }
   
-  public void remove(Tower t) {
+  public synchronized void remove(Tower t) {
     mobs.remove(t);
   }
 
-  public void addCash(int i) {
+  public synchronized void addCash(int i) {
     thePlayer.addCash(i);
   }
   
-  public double getCash() {
+  public synchronized double getCash() {
     return thePlayer.getCash();
   }
   
-  public int getKillCount() {
+  public synchronized void decrementCash(int cost) {
+    thePlayer.decrementCash(cost);
+  }
+  
+  public synchronized int getKillCount() {
     return deadMobs;
   }
 

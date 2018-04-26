@@ -19,7 +19,8 @@ public class Marine extends Tower{
   public static final double COST=100;
 
 	 public Marine(Point loc, TowerGame game) {
-		 super(100, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/marine.png", game);
+		 super(100, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/marine.png", game, 120);
+
 	 }
 
 	@Override

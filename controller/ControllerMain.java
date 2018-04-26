@@ -249,7 +249,8 @@ System.out.println("map selection set");
    */
   public static Image getGraphic(String imgfp) {
     if (!imageMap.containsKey(imgfp)) {
-      imageMap.put(imgfp, new Image(imgfp, 100, 0, true, false));
+    //TODO: Ben, will you figure out the appropriate resolution?
+      imageMap.put(imgfp, new Image(imgfp, 100, 0, true, false)); 
     }
     return imageMap.get(imgfp);
   }
@@ -305,6 +306,8 @@ System.out.println("map selection set");
         ControllerMain.currentView.setEffect(null);
         ControllerMain.resetMainMenu();
         popupStage.hide();
+        theGame = null;
+        theMapView = null;
       });
 
       popupStage.show();

@@ -19,7 +19,7 @@ public class Depot extends Tower {
   public static final double COST=150;
   
   public Depot(Point loc, TowerGame game) {
-    super(150, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/depot.png", game);
+    super(150, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/depot.png", game, 120);
   }
 
   @Override

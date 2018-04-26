@@ -502,17 +502,23 @@ public class MapView extends StackPane implements Observer {
   * 
   * @return: None
   */
+  
   public void drawMap() {
-    Platform.runLater(new Runnable() {
+    gc.drawImage(background, 0, 0);
+    Platform.runLater(new Runnable() {//TODO: fix this
       @Override
-      public void run() {
-        gc.drawImage(background, 0, 0);
-        drawTowers();
-        drawMobs();
-        drawProjectiles();
-        
-      }
-    });
+        public void run() {
+          gc.drawImage(background, 0, 0);
+          drawTowers();
+          drawMobs();
+          drawProjectiles();
+  
+          if(towerPlacement) {
+            drawGhostTower();
+          }
+        }
+      });
+
   }
 
   private void drawProjectiles() {
@@ -674,6 +680,8 @@ public class MapView extends StackPane implements Observer {
 		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
 			return;
+		} else if (theGame.getCash() < 50){
+		  return;
 		}
 		if(button.canBeBought(theGame.getCash())) {
 			towerPlacement=true;
@@ -818,7 +826,7 @@ public class MapView extends StackPane implements Observer {
           healthNum.setText(healthStr);
           killsNum.setText(String.valueOf(theGame.getKillCount()));
           cashNum.setText("$"+cashStr);
-        }//TODO see if I can change this.
+        }
     });
     
     
