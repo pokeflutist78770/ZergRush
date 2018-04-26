@@ -7,12 +7,6 @@ import java.util.List;
 import java.util.Observable;
 
 import controller.ControllerMain;
-import model.Maps.Map;
-import model.Maps.ProtossMap;
-import model.Maps.TerranMap;
-import model.Maps.ZergMap;
-import model.Mobs.Mob;
-import model.Towers.Tower;
 
 /**
  * A TowerGame is a model of the game. 

@@ -2,7 +2,7 @@ package views;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import model.Towers.Range;
+import model.Range;
 
 /**
  * This class represents the Button Towers on the Command Panel.

@@ -3,9 +3,6 @@ package model;
 import java.awt.Point;
 
 import controller.ControllerMain;
-import model.Mobs.Mob;
-import model.Mobs.SpeedAttribute;
-import model.Towers.ElementalAttribute;
 
 
 /*============================================================================*

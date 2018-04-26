@@ -5,10 +5,6 @@ import java.util.Vector;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
-import model.Maps.Metric;
-import model.Mobs.Mob;
-import model.Mobs.SpeedAttribute;
-import model.Towers.ElementalAttribute;
 
 /**
  * This is the object that is instantiated when the tower shoots. 

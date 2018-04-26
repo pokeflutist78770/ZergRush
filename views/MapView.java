@@ -25,17 +25,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import model.Archon;
+import model.DepotTower;
+import model.MarineTower;
+import model.Mob;
 import model.Player;
 import model.Projectile;
+import model.Range;
+import model.SpeedAttribute;
+import model.TankTower;
+import model.Tower;
 import model.TowerGame;
-import model.Mobs.Archon;
-import model.Mobs.Mob;
-import model.Mobs.SpeedAttribute;
-import model.Towers.Depot;
-import model.Towers.Marine;
-import model.Towers.Range;
-import model.Towers.Tank;
-import model.Towers.Tower;
 
 //A player can view information about an enemy by clicking one that has been 
 //placed. Information should include the characteristics of that enemy.
@@ -183,7 +183,7 @@ public class MapView extends StackPane implements Observer {
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
-    tower1 = new TowerButton("", iv1, "Marine", Range.MEDIUM_RANGE, Marine.COST);
+    tower1 = new TowerButton("", iv1, "Marine", Range.MEDIUM_RANGE, MarineTower.COST);
     tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
@@ -192,7 +192,7 @@ public class MapView extends StackPane implements Observer {
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new TowerButton("", iv2, "Depot", Range.LARGE_RANGE, Depot.COST);
+    tower2 = new TowerButton("", iv2, "Depot", Range.LARGE_RANGE, DepotTower.COST);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
@@ -201,7 +201,7 @@ public class MapView extends StackPane implements Observer {
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new TowerButton("", iv3, "Tank", Range.DEMO_RANGE, Tank.COST);
+    tower3 = new TowerButton("", iv3, "Tank", Range.DEMO_RANGE, TankTower.COST);
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
@@ -662,12 +662,12 @@ public class MapView extends StackPane implements Observer {
 	  // Update Command Panel
 	  attr1Text = "Tower";
 	  
-	  if (t instanceof Marine)
+	  if (t instanceof MarineTower)
 	  {
 		  attr2Text = "Marine";
 		  upgradeCost = 100;
 	  }
-	  else if (t instanceof Depot)
+	  else if (t instanceof DepotTower)
 	  {
 		  attr2Text = "Depot";
 		  upgradeCost = 150;
@@ -785,17 +785,17 @@ public class MapView extends StackPane implements Observer {
 			//the different buttons
 			if(currName.equals("Marine")) {
 				cost=tower1.getCost();
-				newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
 			else if( currName.equals("Depot")){
 				cost=tower2.getCost();
-				newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				newTower=new DepotTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
 			else if(currName.equals("Tank")) {
 				cost=tower3.getCost();
-				newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				newTower=new TankTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
 			theGame.add(newTower);
