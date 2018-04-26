@@ -5,18 +5,18 @@ import java.util.Vector;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
-import model.Maps.Metric;
-import model.Mobs.Mob;
-import model.Mobs.SpeedAttribute;
-import model.Towers.ElementalAttribute;
 
-
-
-// This is the object that is instantiated when the tower shoots. 
-//It keeps track of its location and it moves along until it reaches its target.
+/**
+ * This is the object that is instantiated when the tower shoots. 
+ * It keeps track of its location and it moves along until it reaches its target.
+ * The code allows two types of projectiles: 
+ *   projectiles that target specific mobs, 
+ *   and projectiles that target locations. 
+ * @author J. David Taylor
+ *
+ */
 abstract public class Projectile {
   
-  protected Thread kamakaziImperative;
   protected SpeedAttribute speed;
   protected Point currentLocation;
   protected Point targetLocation = null;
@@ -30,9 +30,16 @@ abstract public class Projectile {
   protected TowerGame theGame;
   private boolean hit = false;
 
-
-  
-  
+  /**
+   * 
+   * @param startLocation Where the projectile spawns
+   * @param spd The speed attribute of the projectile
+   * @param radius The radius of the projectile. This argument determines how close the projectile needs to be to a mob to hit it.
+   * @param baseDamage How much damage the projectile does, not taking resistance or armor into account.
+   * @param ea What type of elemental damage the projectile does, if any.
+   * @param imgFilePath The filepath of the image to display for the projectile.
+   * @param game The game the projectile came from.
+   */
   public Projectile(Point startLocation, SpeedAttribute spd,
                     double radius, double baseDamage,  ElementalAttribute ea,
                     String imgFilePath,
@@ -50,6 +57,11 @@ abstract public class Projectile {
   }
 	
 
+  /**
+   * This method should fill in the details of how a specific projectile reacts to reaching its target.
+   * It does NOT need to handle cleanup. It does not need to remove the projectile from the game.
+   * It ONLY needs to specify how the projectile affects the mob or mobs that it hits when it reaches its target.
+   */
   abstract protected void terminate();
 
   
@@ -86,6 +98,29 @@ abstract public class Projectile {
     } else {
       return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius+speed.getSpeed()/2);
     }
+  }
+
+
+  /**
+   * Updates the state of this projectile.
+   */
+  public void update() {
+    if (hasReachedTarget()) {
+      terminate();
+      hit = true;
+    } else {
+      updateLocation();
+    }
+
+  }
+
+
+  /**
+   * Is this projectile done with everything it should do in the game?
+   * @return True, if the projectile has done everything it should and is ready for removal. False, otherwise.
+   */
+  public boolean isDone() {
+    return hit;
   }
 
   
@@ -130,21 +165,5 @@ abstract public class Projectile {
 	
   public double getY() {
     return currentLocation.getY();
-  }
-
-
-  public void update() {
-    if (hasReachedTarget()) {
-      terminate();
-      hit = true;
-    } else {
-      updateLocation();
-    }
-
-  }
-
-
-  public boolean isDone() {
-    return hit;
   }
 }

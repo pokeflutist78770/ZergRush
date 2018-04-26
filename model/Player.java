@@ -1,19 +1,6 @@
 package model;
 
 import controller.ControllerMain; 
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import views.MapView;
 
 // Players can buy towers through some form of currency (money, points, mana 
 // power, life-force, etc.).
@@ -82,10 +69,11 @@ public class Player {
 	public double getCash() {
 		return CURRENT_CASH;
 	}
-	
-	public void decrementCash(int amount) {
-	  CURRENT_CASH -= amount;
-	}
+
+  public void decrementCash(double cost) {
+    CURRENT_CASH -= cost;
+    
+  }
 	
 	//resets HP for a new game
 	public void resetStats() {
@@ -97,10 +85,4 @@ public class Player {
 	public boolean isDead() {
 		return CURRENT_HP<=0;
 	}
-
-
-  public void decrementCash(double cost) {
-    CURRENT_CASH -= cost;
-    
-  }
 }
