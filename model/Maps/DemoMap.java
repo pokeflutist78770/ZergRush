@@ -28,7 +28,7 @@ public class DemoMap extends Map {
     
     
     //ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.GUI_SIZE/2, ControllerMain.GUI_SIZE/2)));
-    initializeSpawnCycle(Arrays.asList("Zergling"));
+    initializeSpawnConstructors(Arrays.asList("Zergling"));
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
   

@@ -25,7 +25,7 @@ public class ZergMap extends Map {
   public ZergMap(String difficulty, TowerGame game) {
     super("file:assets/images/map/zerg_map.jpg", difficulty, game);
     soundtrack = "zergSoundtrack";
-    initializeSpawnCycle(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
+    initializeSpawnConstructors(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
     name = "Zerg"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }

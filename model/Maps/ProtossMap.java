@@ -25,7 +25,7 @@ public class ProtossMap extends Map {
   public ProtossMap(String difficulty, TowerGame game) {
     super("file:assets/images/map/protoss_map.jpg", difficulty, game);
     soundtrack = "protossSoundtrack";
-    initializeSpawnCycle(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
+    initializeSpawnConstructors(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
     name = "Protoss"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }

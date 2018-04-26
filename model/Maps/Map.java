@@ -39,13 +39,18 @@ import model.Mobs.Zergling;
 
 
 
-
+/**
+ * The map contains the data and methods used to carry out spawning of mobs. 
+ * It also contains the image of the play space.
+ * @author J. David Taylor
+ *
+ */
 public abstract class Map {
-
+  
   public final static int DEFAULT_SPAWN_FREQUENCY =   1000;
   public final static int DEFAULT_SPAWN_INTENSITY = 3;
   
-  private static int waveIntensity;
+  private static int waveIntensity; 
   private int waveRatio;
   private List<Constructor<Mob>> mobConstructors;
   private static Random rng = new Random();
@@ -59,17 +64,27 @@ public abstract class Map {
   protected TowerGame theGame;
   private int mapClock;
   
+  /**
+   * Create a map with the given difficulty, game, and image filepath.
+   * @param imgFp The filepath for the background image.
+   * @param difficulty "Easy", "Medium", "Hard", or "Meme"
+   * @param game The game instantiating this map.
+   */
   public Map (String imgFp, String difficulty, TowerGame game) {
     initializePathing();
     setBackground(imgFp);
-    initializeSpawning(difficulty);
+    setWaveRatio(difficulty);
     theGame = game;
     mapClock = DEFAULT_SPAWN_FREQUENCY;
     
   }
 
 
-  private void initializeSpawning(String difficulty) {
+  /**
+   * Sets the waveRatio. The Wave Ratio is the rate at which each wave is larger than the last. 
+   * @param difficulty 
+   */
+  private void setWaveRatio(String difficulty) {
     waveIntensity =  DEFAULT_SPAWN_INTENSITY;
     if (difficulty.equals("Easy")) {
       waveRatio = 1;
@@ -83,11 +98,18 @@ public abstract class Map {
   }
 
 
+  /**
+   * Set the background image.
+   * @param imgFp The filepath of the new image.
+   */
   private void setBackground(String imgFp) {
     backgroundImageFilePath = imgFp;
   }
 
 
+  /**
+   * Get all the paths constructed and bundled into a Map<Integer,List<Point>>.
+   */
   public void initializePathing() {
     paths = new HashMap<Integer, List<Point>>();
     constructMobRoute();
@@ -96,7 +118,7 @@ public abstract class Map {
   
   /* scalePoint
    * scales a given x and y position to the screen resolution
-   * Parameters: p: a gien Point object
+   * Parameters: p: a given Point object
    * Returns: None
   */
   public static void scalePoint(Point p) {
@@ -110,15 +132,21 @@ public abstract class Map {
     return ControllerMain.getGraphic(backgroundImageFilePath);
   }
 
+  /**
+   * Each map should handle this differently.
+   * It should configure the HashMap "paths" to hold 1 or more paths of 2 or more vertices.
+   */
   abstract void constructMobRoute();
   
 
   /** initializeSpawnCycle
-   *  Starts the spawn cycle for the given mmap, periodiclaly creating new mob objects
-   *  Parameters: mobTypes: list containing all the mob types fortge map represented as Strings
+   *  Starts the spawn cycle for the given mmap, periodicaly creating new mob objects
+   *  After running this method, the map can spawn waves from the list of constructors this method initializes.
+   *  Parameters: mobTypes: list containing all the mob types for the map represented as Strings
+   *    e.g. "Zergling" translates into the constructor for Zergline.java
    *  Returns: None
   */
-  protected void initializeSpawnCycle(List<String> mobTypes) {
+  protected void initializeSpawnConstructors(List<String> mobTypes) {
     
     List<Class> mobClasses = new ArrayList<Class>();
     
@@ -139,6 +167,11 @@ public abstract class Map {
   }
 
 
+  /**
+   * A single update of the game state.
+   * The mapClock increments. Whenever it passes the spawn frequency, mobs are spawned and the mapClock is reset to 0.
+   * If there are more than 5000 mobs, nothing happens.
+   */
   public void update() {
     mapClock++;
     if (theGame.getMobs().size() > 5000) {
