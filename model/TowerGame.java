@@ -63,12 +63,12 @@ public class TowerGame extends Observable {
   }
   
   
-/**
- * Creates a map of type mapSelection with the given difficulty.
- * @param mapSelection
- * @param difficulty
- * @return
- */
+ /**
+  * Creates a map of type mapSelection with the given difficulty.
+  * @param mapSelection
+  * @param difficulty
+  * @return
+  */
   private Map createMap(String mapSelection, String difficulty) {
     if (mapSelection.equals("Protoss")) {
       return new ProtossMap(difficulty, this);
