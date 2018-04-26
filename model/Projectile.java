@@ -26,14 +26,17 @@ abstract public class Projectile {
   protected ElementalAttribute dmgType;
   protected double blastRadius;
  
-  private String imageFilePath;
+  protected String imageFilePath;
+  protected TowerGame theGame;
+  private boolean hit = false;
+
 
   
   
   public Projectile(Point startLocation, SpeedAttribute spd,
                     double radius, double baseDamage,  ElementalAttribute ea,
                     String imgFilePath,
-                    int testing) {
+                    TowerGame game) {
 		
     currentLocation = startLocation;
     speed = spd;
@@ -42,40 +45,12 @@ abstract public class Projectile {
     dmgType = ea;
 
     imageFilePath = imgFilePath;
-		
-    if (testing == 0) {
-      initializeProjectile();
-    }
+    
+    theGame = game;
   }
 	
 
   abstract protected void terminate();
-	
-  /* initializeProjectile
-   * starts a thread for a new projectile and shows an animation
-   * Parameters: None
-   * Returns: None
-  */
-  private void initializeProjectile() {
-	  
-    kamakaziImperative = new Thread(new Runnable() {
-      @Override
-      public void run() {
-    	while(!hasReachedTarget()) {
-          try {
-            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
-            
-            updateLocation();
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-        }
-    	    terminate();
-      }
-    });
-    
-    kamakaziImperative.start();
-  }
 
   
   /* updateLocation
@@ -105,11 +80,11 @@ abstract public class Projectile {
   private boolean hasReachedTarget() {
 	//area of effect projectile
     if (targetMob == null) {
-       return Metric.closeEnough(currentLocation, targetLocation, blastRadius);
+       return Metric.closeEnough(currentLocation, targetLocation, speed.getSpeed()/2);
     
     //target is a mob
     } else {
-      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius);
+      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius+speed.getSpeed()/2);
     }
   }
 
@@ -118,11 +93,11 @@ abstract public class Projectile {
   
   
   public Vector<Double> getDirectionVector() {
-    return Metric.getDirectionVector(currentLocation, getTargetLocation());
+    return Metric.getDirectionVector(currentLocation, targetLocation);
   }
 	  
   public double getDirectionAngle() {
-    return Metric.getDirectionAngle(currentLocation, getTargetLocation());
+    return Metric.getDirectionAngle(currentLocation, targetLocation);
   }
 	  
   protected Mob getMob() {
@@ -131,14 +106,6 @@ abstract public class Projectile {
 
   protected void setMob(Mob mob) {
     this.targetMob = mob;
-  }
-
-  private Point getTargetLocation() {
-    return targetLocation;
-  }
-
-  private void setTargetLocation(Point targetLocation) {
-    this.targetLocation = targetLocation;
   }
 
   public String getImageFilePath() {
@@ -163,5 +130,21 @@ abstract public class Projectile {
 	
   public double getY() {
     return currentLocation.getY();
+  }
+
+
+  public void update() {
+    if (hasReachedTarget()) {
+      terminate();
+      hit = true;
+    } else {
+      updateLocation();
+    }
+
+  }
+
+
+  public boolean isDone() {
+    return hit;
   }
 }

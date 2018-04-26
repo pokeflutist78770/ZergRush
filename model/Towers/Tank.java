@@ -5,6 +5,7 @@ import java.util.Set;
 
 import controller.ControllerMain;
 import model.DemoProjectile;
+import model.TowerGame;
 import model.Mobs.Mob;
 import views.MapView;
 
@@ -15,19 +16,21 @@ import views.MapView;
  *
  */
 public class Tank  extends Tower{
-	public static final double COST=350;
-	
-	 public Tank(Point loc) {
-		 super(0, "Library", loc, Range.LARGE_RANGE, "file:assets/images/tower/tank.png");
+  
+  public static final double COST=350;
+  
+	 public Tank(Point loc, TowerGame game) {
+		 super(350, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/tank.png", game, 120);
+
 	 }
 
 	@Override
 	protected void shoot(Set<Mob> nearbyMobs) {
 		Mob closest = getClosestMob(nearbyMobs);
-	    ControllerMain.projectiles.add(new DemoProjectile(
+	    theGame.add(new DemoProjectile(
 	    		                       new Point(
 	    		                    	   (int)(location.getX()+.5*MapView.ghostTowerSize),
 	    		                    	   (int)(location.getY()+.5*MapView.ghostTowerSize)), 
-	    		                       closest,0));
+	    		                       closest,theGame));
 	}
 }

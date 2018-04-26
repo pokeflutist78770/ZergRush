@@ -29,11 +29,12 @@ public class MapTest {
 
   @Test
   public void test() {
-    
-	Map protossMap = new ProtossMap(1);
-	Map terranMap = new TerranMap(1);
-	Map zergmap = new ZergMap(1);
-	Map demoMap = new DemoMap();
+  
+  
+	//Map protossMap = new ProtossMap(1);
+	//Map terranMap = new TerranMap(1);
+	//Map zergmap = new ZergMap(1);
+	//Map demoMap = new DemoMap();
 	Metric metric = new Metric();
 	
 	Point p1 = new Point(876,890);

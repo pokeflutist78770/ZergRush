@@ -3,6 +3,10 @@ package views;
 import java.awt.Point;
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
+
 import controller.ControllerMain;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -23,6 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Player;
 import model.Projectile;
+import model.TowerGame;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
 import model.Mobs.SpeedAttribute;
@@ -41,7 +46,7 @@ import model.Towers.Tower;
 // When the game begins in the map, it should be animated. That includes all
 // sprites moving.
 
-public class MapView extends StackPane {
+public class MapView extends StackPane implements Observer {
   public static final double ghostTowerSize=60;
   private GraphicsContext gcCommand;
   private Button backButton;
@@ -86,7 +91,6 @@ public class MapView extends StackPane {
   private String attr5Text;
   private String attr6Text;
   private int updateCount = 0;
-  private boolean gamePaused;
   private double gameSpeed;
   
   private boolean towerSelected;
@@ -103,7 +107,7 @@ public class MapView extends StackPane {
   
   private Player thePlayer;
   private DecimalFormat formatter;
-  private static int deadMobs;
+  private TowerGame theGame;
   
   
   /**
@@ -111,11 +115,15 @@ public class MapView extends StackPane {
   * state. HUD includes a Command Panel for game stats (Player HP, Cash, Kills, Difficulty),
   * tower purchases, tower upgrades, and status updates (click on an item in game, warning
   * messages) Takes a Button for implementation of a Back Button to Main Menu.
+   * @param tg 
   * 
   * @param Button back
   *          - Back Button returns to Main Menu
   */
-  public MapView(Button back) {
+  public MapView(Button back, TowerGame tg) {
+    
+    theGame = tg;
+    
     //variables for towewr placement
 	mousePos=new Point(0,0);	
 	towerPlacement=false;
@@ -140,7 +148,6 @@ public class MapView extends StackPane {
     StackPane.setAlignment(canvas, Pos.TOP_CENTER);
     background = new Image("file:assets/images/map/demoMap.png", false);
     formatter = new DecimalFormat("#,###");
-    deadMobs = 0;
 
     // Command Panel - Black Background
     Canvas commandCanvas = new Canvas(800, 880);
@@ -156,7 +163,6 @@ public class MapView extends StackPane {
     EventHandler<ActionEvent> pauseButtonHandler = new pauseButtonHandler();
     
     // Pause Button
-    gamePaused = false;
     pause = new Button("Pause");
     pause.setStyle("-fx-font: 14 serif; -fx-base: #000000;");
     pause.setMinWidth(50);
@@ -362,32 +368,6 @@ public class MapView extends StackPane {
   
 
   /**
-  * Set the number of kills for Player.
-  * 
-  * @param num
-  *          - Integer representing number of enemy kills
-  * @return None
-  */
-  public void setKillsNum(int num) {
-    deadMobs = num;
-  }
-  
-  
-  /**
-  * Increment the number of Player kills by one.
-  * 
-  * @param None
-  * 
-  * @return None
-  */
-  public static void incrKills()
-  {
-	  deadMobs++;
-	  ControllerMain.thePlayer.addCash(50);
-  }
-
-  
-  /**
   * Set the amount of Cash for Player.
   * cashEarned is int instance variable.
   * cashNum is Label on Command Panel.
@@ -399,7 +379,7 @@ public class MapView extends StackPane {
   */
   public void setCashNum(int num) {
 	// Sets the Player Cash Label
-    cashNum.setText("$" + String.valueOf(ControllerMain.thePlayer.getCash()));
+    cashNum.setText("$" + String.valueOf(theGame.getCash()));
   }
 
   
@@ -523,63 +503,34 @@ public class MapView extends StackPane {
   * 
   * @return: None
   */
+  
   public void drawMap() {
-	gc.drawImage(background, 0, 0);
-    gc.strokeLine(0, 800, 800, 800);
-
-    if(towerPlacement) {
-    	drawGhostTower();
-    }
-    
-    if(towerSelected) {
-    	drawTowerSelected();
-    }
-
-    
-    checkTowers();
-    
-    if(ControllerMain.thePlayer.getCash()>=tower1.getCost()) {
-    	tower1.setOpacity(1);
-    }
-    else {
-    	tower1.setOpacity(.5);
-    }
-    
-    double health = thePlayer.getHP() / 100;
-    String healthStr = formatter.format(health);
-    
-    String cashStr = formatter.format(ControllerMain.thePlayer.getCash());
-    
-    // UI can't be updated on a non-application thread
-    // Since drawMap() is called from a non-application thread,
-    // add this thread to the event queue to be called later 
-    Platform.runLater(new Runnable() {
-        @Override
+    gc.drawImage(background, 0, 0);
+    Platform.runLater(new Runnable() {//TODO: fix this
+      @Override
         public void run() {
-            // if you change the UI, do it here !
-        	
-        	// Game Stats
-        	healthNum.setText(healthStr);
-        	killsNum.setText(String.valueOf(deadMobs));
-        	cashNum.setText("$"+cashStr);
-        	
-        	// Update Grid
-        	attr1.setText(attr1Text);
-        	attr2.setText(attr2Text);
-        	attr3.setText(attr3Text);
-        	attr4.setText(attr4Text);
-        	attr5.setText(attr5Text);
-        	attr6.setText(attr6Text);
+          gc.drawImage(background, 0, 0);
+          drawTowers();
+          drawMobs();
+          drawProjectiles();
+  
+          if(towerPlacement) {
+            drawGhostTower();
+          }
         }
-    });
+      });
 
-    // draws all current towers
-    HashSet<Tower> towersCpy = new HashSet(ControllerMain.towers);
-    for (Tower t: towersCpy) {
-      gc.drawImage(t.getImage(), t.getX(), t.getY(),
-    		  	   ghostTowerSize, ghostTowerSize); // TODO: Ben, center this graphic.
+  }
+
+  private void drawProjectiles() {
+    for (Iterator<Projectile> itr = theGame.getProjectiles().iterator(); itr.hasNext(); ) {
+      Projectile p  = itr.next();
+      gc.drawImage(p.getImage(), 0,0, 1001, 1001, p.getX() - 15, p.getY() -15, 30, 30);
     }
-    towersCpy.clear();
+  }
+
+
+  private void drawMobs() {
 
     
     // Update Mobs' speed attribute if
@@ -596,50 +547,46 @@ public class MapView extends StackPane {
     SpeedAttribute mobSpeed = SpeedAttribute.NORMAL;
     if (gameSpeed > 0.33 && gameSpeed < 0.66)
     {
-    	mobSpeed = SpeedAttribute.FAST;
+      mobSpeed = SpeedAttribute.FAST;
     }
     else if (gameSpeed > 0.66)
     {
-    	mobSpeed = SpeedAttribute.VERY_FAST;
+      mobSpeed = SpeedAttribute.VERY_FAST;
     }
     
-    // draws every mob
-    HashSet<Mob> mobsCpy = new HashSet(ControllerMain.mobs);
-    Mob temp;
-    for (Mob m: mobsCpy) {
-    	temp = m;
-    	// Only adjust when game speed slider adjusted
-    	if (gameSpeed > 0)
-    		temp.setSpeed(mobSpeed);
-    	drawMob(temp);
+    for (Iterator<Mob> itr = theGame.getMobs().iterator(); itr.hasNext(); ) {
+      Mob m = itr.next();
+      m.setSpeed(mobSpeed);
+      drawMob(m);
+
     }
-    mobsCpy.clear();
-    
-    // draws any current projectiles
-    HashSet<Projectile> projectilesCpy = new HashSet(ControllerMain.projectiles);
-    for (Projectile p: projectilesCpy) {
-      gc.drawImage(p.getImage(), 0,0, 1001, 1001, p.getX() - 15, p.getY() -15, 30, 30);
+  }
+
+  private void drawTowers() {
+    for (Iterator<Tower> itr = theGame.getTowers().iterator(); itr.hasNext(); ) {
+      Tower t = itr.next();
+      gc.drawImage(t.getImage(), t.getX(), t.getY(),
+          ghostTowerSize, ghostTowerSize); // TODO: Ben, will you center this graphic?
     }
-    projectilesCpy.clear();
   }
   
   
   public void checkTowers() {
-	  if(ControllerMain.thePlayer.getCash()>=tower1.getCost()) {
+	  if(theGame.getCash()>=tower1.getCost()) {
 	    	tower1.setOpacity(1);
 	    }
 	  else {
 	    tower1.setOpacity(.5);
 	  }
 	  
-	  if(ControllerMain.thePlayer.getCash()>=tower2.getCost()) {
+	  if(theGame.getCash()>=tower2.getCost()) {
 	    tower2.setOpacity(1);
 	  }
 	  else {
 	    tower2.setOpacity(.5);
 	  }
 	 
-	  if(ControllerMain.thePlayer.getCash()>=tower3.getCost()) {
+	  if(theGame.getCash()>=tower3.getCost()) {
 		  tower3.setOpacity(1);
 	  }
 	  else {
@@ -734,8 +681,10 @@ public class MapView extends StackPane {
 		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
 			return;
+		} else if (theGame.getCash() < 50){
+		  return;
 		}
-		if(button.canBeBought(ControllerMain.thePlayer.getCash())) {
+		if(button.canBeBought(theGame.getCash())) {
 			towerPlacement=true;
 			currRange=button.getRange();
 			currTower=button.getImage().getImage();
@@ -760,16 +709,16 @@ public class MapView extends StackPane {
 	public void handle(ActionEvent e) {
 		
 		// Set button to red text
-    	if (gamePaused == false)
+    	if (!theGame.isPaused())
     	{
     		pause.setStyle("-fx-text-fill: #ff0000; -fx-font: 14 serif; -fx-base: #000000;");
-    		gamePaused = true;
+    		theGame.pause();
     	}
     	// Set button to white text
     	else
     	{
     		pause.setStyle("-fx-text-fill: #ffffff; -fx-font: 14 serif; -fx-base: #000000;");
-    		gamePaused = false;
+    		theGame.unPause();
     	}
 		
 	} 
@@ -813,21 +762,20 @@ public class MapView extends StackPane {
 			if(currName.equals("Marine")) {
 				cost=tower1.getCost();
 				newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
 			else if( currName.equals("Depot")){
 				cost=tower2.getCost();
 				newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
 			else if(currName.equals("Tank")) {
 				cost=tower3.getCost();
 				newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
+					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
-			
-			ControllerMain.thePlayer.addCash(-cost);
-			ControllerMain.towers.add(newTower);
+			theGame.add(newTower);
+			theGame.decrementCash(cost);
 
 		}
 		else {
@@ -836,7 +784,7 @@ public class MapView extends StackPane {
 			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
 			double mousePosY = mousePos.getY()-.5*ghostTowerSize;
 			
-			for (Tower t : ControllerMain.towers)
+			for (Tower t : theGame.getTowers())
 			{
 				towerSelected = false;
 				if (t.getX() >= mousePosX-20 && t.getX() <= mousePosX+20)
@@ -855,6 +803,33 @@ public class MapView extends StackPane {
 		System.out.println("Mouse Clicked");
 	  }
     }
+  }
+
+  @Override
+  public void update(Observable o, Object arg) {
+    drawMap();
+
+    double health = thePlayer.getHP() / 100;
+    String healthStr = formatter.format(health);
+    
+    String cashStr = formatter.format(theGame.getCash());
+
+    
+    // UI can't be updated on a non-application thread
+    // Since drawMap() is called from a non-application thread,
+    // add this thread to the event queue to be called later
+    
+    Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+            // if you change the UI, do it here !
+          healthNum.setText(healthStr);
+          killsNum.setText(String.valueOf(theGame.getKillCount()));
+          cashNum.setText("$"+cashStr);
+        }
+    });
+    
+    
   }
 }
 

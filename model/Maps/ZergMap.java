@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import controller.ControllerMain;
+import model.TowerGame;
 import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
@@ -21,8 +22,8 @@ public class ZergMap extends Map {
 
   private String soundtrack;
   
-  public ZergMap(int difficulty) {
-    super("file:assets/images/map/zerg_map.jpg", difficulty);
+  public ZergMap(String difficulty, TowerGame game) {
+    super("file:assets/images/map/zerg_map.jpg", difficulty, game);
     soundtrack = "zergSoundtrack";
     initializeSpawnCycle(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
     name = "Zerg"+ idNo;

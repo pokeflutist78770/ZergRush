@@ -13,13 +13,13 @@ import model.Mobs.Zergling;
 
 public class ProjectileTest {
   
-  private DemoMap map = new DemoMap();
+  //private DemoMap map = new DemoMap();
 
   @Test
   public void testProjectile() {
 
     //Projectile proj1 = new DemoProjectile(new Point(0,0), new Zergling(map.getPaths().get(1)),0);
-    Projectile proj2 = new DemoProjectile(new Point(0,0), new Zergling(map.getPaths().get(1)),1);
+    //Projectile proj2 = new DemoProjectile(new Point(0,0), new Zergling(map.getPaths().get(1)),1);
     
     
   }

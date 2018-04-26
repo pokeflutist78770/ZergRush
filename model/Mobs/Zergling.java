@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.Player;
+import model.TowerGame;
 
 /**
  * Zerglings are the tier one unit of the Zerg army.  They are relatively fast with low HP and damage.
@@ -14,11 +16,9 @@ import controller.ControllerMain;
  */
 public class Zergling extends Mob{
 
-	public Zergling(List<Point> movementPath) {
-		super(movementPath, ControllerMain.TILE_SIZE/3, 
-				ArmorAttribute.NONE, 
-				AttackAttribute.WEAK_ATTACK, 
-				DefenseAttribute.SMALL, 
+	public Zergling(List<Point> movementPath, TowerGame game) {
+		super(movementPath, ControllerMain.TILE_SIZE/3, ArmorAttribute.NONE, 
+				AttackAttribute.WEAK_ATTACK, DefenseAttribute.SMALL, 
 				SpeedAttribute.FAST, 
 				new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Zergling"+Mob.IDNumber++,
@@ -30,6 +30,7 @@ public class Zergling extends Mob{
 				43.0,
 				42.0,
 				7,
-				5);
+				game
+				);
 	}
 }

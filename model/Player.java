@@ -83,6 +83,10 @@ public class Player {
 		return CURRENT_CASH;
 	}
 	
+	public void decrementCash(int amount) {
+	  CURRENT_CASH -= amount;
+	}
+	
 	//resets HP for a new game
 	public void resetStats() {
 		CURRENT_HP=BASE_HP;
@@ -93,4 +97,10 @@ public class Player {
 	public boolean isDead() {
 		return CURRENT_HP<=0;
 	}
+
+
+  public void decrementCash(double cost) {
+    CURRENT_CASH -= cost;
+    
+  }
 }

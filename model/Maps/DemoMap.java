@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.TowerGame;
 import model.Mobs.Archon;
 import model.Mobs.BattleCruiser;
 import model.Mobs.DarkTemplar;
@@ -22,8 +23,8 @@ import model.Mobs.Zergling;
 public class DemoMap extends Map {
   
   
-  public DemoMap() {
-    super("file:assets/images/map/demoMap.png",2);
+  public DemoMap(TowerGame game) {
+    super("file:assets/images/map/demoMap.png","Easy", game);
     
     
     //ControllerMain.towers.add(new DemoTower(new Point(ControllerMain.GUI_SIZE/2, ControllerMain.GUI_SIZE/2)));

@@ -9,6 +9,7 @@ import java.lang.reflect.*;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
+import model.TowerGame;
 import model.Mobs.Hydralisk;
 import model.Mobs.Mob;
 import model.Mobs.Ultralisk;
@@ -40,23 +41,56 @@ import model.Mobs.Zergling;
 
 
 public abstract class Map {
-  
-  public String imageFilePath;
-  public static int idNo = 0;
-  protected String name;
-  private HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
-  public static long SPAWN_FREQUENCY =   10* 1000;
 
+  public final static int DEFAULT_SPAWN_FREQUENCY =   1000;
+  public final static int DEFAULT_SPAWN_INTENSITY = 3;
+  
   private static int waveIntensity;
   private int waveRatio;
+  private List<Constructor<Mob>> mobConstructors;
+  private static Random rng = new Random();
   
-  public Map (String imgFp, int difficulty) {
+  public String backgroundImageFilePath;
+  public static int idNo = 0;
+  protected String name;
+  
+  private HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
+
+  protected TowerGame theGame;
+  private int mapClock;
+  
+  public Map (String imgFp, String difficulty, TowerGame game) {
+    initializePathing();
+    setBackground(imgFp);
+    initializeSpawning(difficulty);
+    theGame = game;
+    mapClock = DEFAULT_SPAWN_FREQUENCY;
+    
+  }
+
+
+  private void initializeSpawning(String difficulty) {
+    waveIntensity =  DEFAULT_SPAWN_INTENSITY;
+    if (difficulty.equals("Easy")) {
+      waveRatio = 1;
+    } else if (difficulty.equals("Medium")) {
+      waveRatio = 2;
+    } else if (difficulty.equals("Hard")) {
+      waveRatio = 3;
+    } else {
+      waveRatio = 2;
+    }
+  }
+
+
+  private void setBackground(String imgFp) {
+    backgroundImageFilePath = imgFp;
+  }
+
+
+  public void initializePathing() {
     paths = new HashMap<Integer, List<Point>>();
     constructMobRoute();
-    imageFilePath = imgFp;
-    waveIntensity = 3;
-    waveRatio = difficulty;
-    
   }
   
   
@@ -73,7 +107,7 @@ public abstract class Map {
   
   //gets the map image
   public Image getImage() {
-    return ControllerMain.getGraphic(imageFilePath);
+    return ControllerMain.getGraphic(backgroundImageFilePath);
   }
 
   abstract void constructMobRoute();
@@ -93,41 +127,30 @@ public abstract class Map {
       try {
         mobClasses.add(Class.forName("model.Mobs." + mType));
       } catch (ClassNotFoundException e) {
-        e.printStackTrace();
         System.out.println("mobTypes to mobClasses conversion in model.Map failed.");
+        e.printStackTrace();
       }
     }
     
-    //now adds all the constructors
-    List<Constructor<Mob>> mobConstructors = new ArrayList<Constructor<Mob>>();
+    mobConstructors = new ArrayList<Constructor<Mob>>();
     for (Class cls: mobClasses) {
       mobConstructors.add(cls.getConstructors()[0]);
     }
-    
-    Thread spawnCycle = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          Thread.sleep(500);
-        } catch (InterruptedException e1) {
-          // e1.printStackTrace();
-        }
-        do {
-          try {
-            
-            spawnWave(mobConstructors, waveIntensity);
-            updateWaveIntensity();  //allows waves to get harder as time goes on
-            
-            Thread.sleep(SPAWN_FREQUENCY );
-          } catch (InterruptedException | IllegalArgumentException e) {
-            e.printStackTrace();
-          } 
-        } while(ControllerMain.isPlaying);
-        
-      }
-    });
-    
-    spawnCycle.start();
+  }
+
+
+  public void update() {
+    mapClock++;
+    if (theGame.getMobs().size() > 5000) {
+      mapClock = 0;
+      return;
+    }
+    if (mapClock > DEFAULT_SPAWN_FREQUENCY) {
+      mapClock = 0;
+      
+      spawnWave(mobConstructors, waveIntensity);
+      updateWaveIntensity();  //allows waves to get harder as time goes on
+    }
   }
 
 
@@ -153,8 +176,8 @@ public abstract class Map {
     for (int i = 0; i < numberOfMobTypes; i++) {
       try {
         for (int j = 0; j < spawnCount; j++) {
-          ControllerMain.mobs.add(mobConstructors.get(i).newInstance(
-        		                  paths.get(1+ ControllerMain.getRandom().nextInt(numberOfPaths))));
+          theGame.add(mobConstructors.get(i).newInstance(
+        		                  paths.get(1+ rng.nextInt(numberOfPaths)), theGame));
         }
         spawnCount = spawnCount / waveRatio;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
