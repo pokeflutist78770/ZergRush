@@ -9,6 +9,8 @@ import org.junit.Test;
 import model.Metric;
 
 public class MetricTest {
+  
+  Metric testMetric = new Metric();
 
   @Test
   public void testGetDirection() {

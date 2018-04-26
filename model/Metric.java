@@ -10,7 +10,7 @@ import java.util.Vector;
  * @author J. David Taylor
  *
  */
-public class Metric {
+public final class Metric {
 
 	/**
 	 * This method determines when two points are sufficiently close.

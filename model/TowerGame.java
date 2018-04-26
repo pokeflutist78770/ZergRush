@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -329,6 +330,11 @@ public class TowerGame extends Observable {
   public void decrementCash(double cost) {
     thePlayer.decrementCash(cost);
     
+  }
+
+
+  public Map getMap() {
+    return theMap;
   }
   
 }
