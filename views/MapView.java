@@ -76,9 +76,19 @@ public class MapView extends StackPane {
   private Label attr4;
   private Label attr5;
   private Label attr6;
+  private String attr1Text;
+  private String attr2Text;
+  private String attr3Text;
+  private String attr4Text;
+  private String attr5Text;
+  private String attr6Text;
   private int updateCount = 0;
   private boolean gamePaused;
   private double gameSpeed;
+  
+  private boolean towerSelected;
+  private double towerX;
+  private double towerY;
   
   private boolean towerPlacement;
   private Point mousePos;
@@ -108,6 +118,11 @@ public class MapView extends StackPane {
 	isValidPos=true;
 	currRange=Range.DEMO_RANGE;
 	currName="";
+	
+	// variables for tower selection
+	towerSelected = false;
+	towerX = 0;
+	towerY = 0;
 	
     vBox = new VBox();
     towerBox = new HBox();
@@ -265,33 +280,39 @@ public class MapView extends StackPane {
      */
 
     // attr1 Update Grid
+    attr1Text = "";
     attr1 = new Label();
     attr1.setStyle("-fx-font: 15 serif; -fx-text-fill: #ff0000;");
     updateGrid.add(attr1, 0, 0);
 
     // attr2 Update Grid
+    attr2Text = "";
     attr2 = new Label();
     attr2.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr2.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr2, 1, 0);
 
     // attr3 Update Grid
+    attr3Text = "";
     attr3 = new Label();
     attr3.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     updateGrid.add(attr3, 0, 1);
 
     // attr4 Update Grid
+    attr4Text = "";
     attr4 = new Label();
     attr4.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr4.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr4, 1, 1);
 
     // attr5 Update Grid
+    attr5Text = "";
     attr5 = new Label();
     attr5.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     updateGrid.add(attr5, 0, 2);
 
     // attr6 Update Grid
+    attr6Text = "";
     attr6 = new Label();
     attr6.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr6.setPadding(new Insets(0, 0, 0, 40));
@@ -497,6 +518,10 @@ public class MapView extends StackPane {
     if(towerPlacement) {
     	drawGhostTower();
     }
+    
+    if(towerSelected) {
+    	drawTowerSelected();
+    }
 
     double health = thePlayer.getHP() / 100;
     String healthStr = formatter.format(health);
@@ -510,9 +535,19 @@ public class MapView extends StackPane {
         @Override
         public void run() {
             // if you change the UI, do it here !
+        	
+        	// Game Stats
         	healthNum.setText(healthStr);
         	killsNum.setText(String.valueOf(deadMobs));
         	cashNum.setText("$"+cashStr);
+        	
+        	// Update Grid
+        	attr1.setText(attr1Text);
+        	attr2.setText(attr2Text);
+        	attr3.setText(attr3Text);
+        	attr4.setText(attr4Text);
+        	attr5.setText(attr5Text);
+        	attr6.setText(attr6Text);
         }
     });
 
@@ -594,6 +629,44 @@ public class MapView extends StackPane {
 			       ghostTowerSize, ghostTowerSize);
   }
   
+  public void drawTowerSelected()
+  {
+	  gc.setFill(Color.color(0, .5, 0, .5));
+	  gc.fillOval(towerX-5, towerY-5, 70, 70);
+  }
+  
+  public void setTowerSelected(Tower t, double x, double y)
+  {
+	  int upgradeCost;
+	  String range;
+	  towerSelected = true;
+	  towerX = x;
+	  towerY = y;
+	  
+	  // Update Command Panel
+	  attr1Text = "Tower";
+	  
+	  if (t instanceof Marine)
+	  {
+		  attr2Text = "Marine";
+		  upgradeCost = 100;
+	  }
+	  else if (t instanceof Depot)
+	  {
+		  attr2Text = "Depot";
+		  upgradeCost = 150;
+	  }
+	  else
+	  {
+		  attr2Text = "Tank";
+		  upgradeCost = 200;
+	  }
+	  
+	  attr3Text = "Upgrade Cost:";
+	  attr4Text = "$"+String.valueOf(t.getCost()+upgradeCost);
+	  attr5Text = "Range:";
+	  attr6Text = String.valueOf(formatter.format(t.getRange()));
+  }
 
   /**
   * Button handler to place either Tower1, Tower2, or Tower3 on Map.
@@ -609,6 +682,8 @@ public class MapView extends StackPane {
 	@Override
 	public void handle(ActionEvent e) {
 		TowerButton button=(TowerButton) e.getSource();
+		
+		towerSelected = false;
 		
 		//user clicks on the same button
 		if(currName.equals(button.getName())) {
@@ -675,6 +750,13 @@ public class MapView extends StackPane {
 	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
 
+		  attr1Text = "";
+		  attr2Text = "";
+		  attr3Text = "";
+		  attr4Text = "";
+		  attr5Text = "";
+		  attr6Text = "";
+		  
 		if(towerPlacement) {
 			towerPlacement=false;
 			Tower newTower=null;
@@ -696,6 +778,29 @@ public class MapView extends StackPane {
 			ControllerMain.towers.add(newTower);
 
 		}
+		else {
+			// Determine if any Towers in ControllerMain match MouseClick coordinates
+			
+			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
+			double mousePosY = mousePos.getY()-.5*ghostTowerSize;
+			
+			for (Tower t : ControllerMain.towers)
+			{
+				towerSelected = false;
+				if (t.getX() >= mousePosX-10 && t.getX() <= mousePosX+10)
+				{
+					if (t.getY() >= mousePosY-10 && t.getY() <= mousePosY+10)
+					{
+						setTowerSelected(t, t.getX(), t.getY());
+						break;
+					}
+				}	
+			}
+			
+		}
+		
+		System.out.println("MOUSE X: "+mousePos.getX());
+		System.out.println("MOUSE Y: "+mousePos.getY());
 		System.out.println("Mouse Clicked");
 	  }
     }

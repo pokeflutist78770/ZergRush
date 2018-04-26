@@ -16,7 +16,7 @@ import views.MapView;
 public class Marine extends Tower{
 
 	 public Marine(Point loc) {
-		 super(0, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/marine.png");
+		 super(0, "Library", loc, Range.SMALL_RANGE, "file:assets/images/tower/marine.png");
 	 }
 
 	@Override
