@@ -19,8 +19,8 @@ import model.Mobs.Mob;
  * individual towers. There are three basic tower types, each of which can be
  * upgraded into two different towers, for a total of nine unique towers.
  * 
- * Towers detect enemies in range and instantiated projectiles to deal damage to
- * the nearest Mob.
+ * Each tower may be configured to shoot any type of projectile, possibly more than one.
+ * Projectiles may have location targets or mob targets.
  * 
  * @author Ben Walters
  *

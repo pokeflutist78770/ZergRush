@@ -12,9 +12,8 @@ import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
 
 /**
- * Mob is an abstract class modeling an active mob on the map. For each mob,
- * there is a thread handling it's movement along a path given in its
- * constructor. Each mob has unique attributes, animations, and audio clips.
+ * Mob is an abstract class modeling an active mob on the map. 
+ * Each mob has unique attributes, animations, and audio clips.
  * 
  * @author Ben Walters
  *
@@ -27,11 +26,9 @@ public abstract class Mob {
   
   public static int IDNumber = 0;
 
-  private boolean wasKilled = false;
   private int movementPerturbation = 3;
 
   // Movement related fields
-  private Thread mobWalk;
   private Point currentLocation;
 
   private Point targetLocation;
@@ -123,6 +120,7 @@ public abstract class Mob {
     initializeOtherAttributes(movementPath, radius, armor, attack, defense, speed, resistances, name, game);
   }
 
+  // This method is an encapsulation of all the non-media business of the constructor.
   private void initializeOtherAttributes(List<Point> movementPath, double radius, ArmorAttribute armor,
       AttackAttribute attack, DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances,
       String name, TowerGame game) {
@@ -148,10 +146,12 @@ public abstract class Mob {
 
   }
 
+  // This method is an encapsulation of all audio logic of the constructor.
   private void initializeSoundAttributes(String deathSound) {
     this.deathSound = deathSound;
   }
 
+  // This method is an encapsulation of all visual logic of the constructor.
   private void initializeAnimationAttributes(double sx, double sy, double sw, double sh, double delX, double delY,
       int animationSteps, String imageFP) {
     this.stepCount = 0;
@@ -165,13 +165,43 @@ public abstract class Mob {
     this.imageFilePath = imageFP;
   }
 
-  /*
-   * Takes a current point on the mob's path and determines the next point it
-   * should move to.
+  /**
+   * Updates the game state of the mob.
+   * If the mob has reached where it was headed, change its target location to the next one.
+   * Otherwise, take a step toward its target.
+   * If the mob has reached the end of its path, then updateTarget makes the mob attack.
+   */
+  public void update() {
+    // reached the next place, need to change direction
+    if (reachedTarget()) {
+      updateTarget();
+    }
+    // move closer to target location
+    else {
+      takeStep();
+    }
+  }
+  
+  /**
+   * Tells if the mob is ready for cleanup.
+   * @return True, if the mob is ready to be removed from the game. False, if otherwise.
+   */
+  public boolean isDone() {
+    return hp <= 0;
+  }
+  
+  /**
+   * This method randomly perturbs a point it was fed. 
+   * The use of this is to allow mobs to follow fuzzy paths.
+   * In particular, a given mob doesn't follow the path given to it.
+   * Rather, if you perturb all the vertices of the path given to the mob, 
+   * then the mob walks linearly along this perturbed path.
    * 
-   * @param inPoint
-   *          - current point location of mob
-   * @return Point - next point in mobs movement path
+   * In practice, what happens, is that each point is perturbed on an "as need" basis.
+   * A consequence of this: if a mob were to walk backward along the path, 
+   *   it wouldn't actually walk the same linear path.
+   * @param inPoint The point to perturb
+   * @return The perturbed point.
    */
   private Point perturbPoint(Point inPoint) {
     return new Point((int) (inPoint.getX()
@@ -232,7 +262,7 @@ public abstract class Mob {
   }
 
   /*
-   * Updates the mob to have the next target, if there is one. If the mob arrived
+   * Updates the mob to have the next target point, if there is one. If the mob arrived
    * at the End-Zone, then it calls the cleanup method.
    */
   private void updateTarget() {
@@ -399,17 +429,6 @@ public abstract class Mob {
   public String getName() {
     return name;
   }
-
-  public void update() {
-    // reached the next place, need to change direction
-    if (reachedTarget()) {
-      updateTarget();
-    }
-    // move closer to target location
-    else {
-      takeStep();
-    }
-  }
   
   public double getCashPayout() {
 	  return cashPayout;
@@ -417,10 +436,6 @@ public abstract class Mob {
 
   public void setSpeed(SpeedAttribute s) {
 	  this.speed = s;
-  }
-  
-  public boolean isDone() {
-    return hp <= 0;
   }
 
   public String getDeathSoundStr() {
