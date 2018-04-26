@@ -46,6 +46,11 @@ import model.Towers.Tower;
 // When the game begins in the map, it should be animated. That includes all
 // sprites moving.
 
+/**
+ * The MapView class gives the view of the map. It is displayed when the user is playing a game.
+ * @author J. David Taylor
+ *
+ */
 public class MapView extends StackPane implements Observer {
   public static final double ghostTowerSize=60;
   private GraphicsContext gcCommand;
@@ -521,6 +526,9 @@ public class MapView extends StackPane implements Observer {
 
   }
 
+  /**
+   * Iterates through the set of projectiles and draws each one.
+   */
   private void drawProjectiles() {
     for (Iterator<Projectile> itr = theGame.getProjectiles().iterator(); itr.hasNext(); ) {
       Projectile p  = itr.next();
@@ -529,6 +537,9 @@ public class MapView extends StackPane implements Observer {
   }
 
 
+  /**
+   * Iterates through the set of mobs and draws each one.
+   */
   private void drawMobs() {
 
     
@@ -561,6 +572,9 @@ public class MapView extends StackPane implements Observer {
     }
   }
 
+  /** 
+   * Iterates through the set of towers and draws each one.
+   */
   private void drawTowers() {
     for (Iterator<Tower> itr = theGame.getTowers().iterator(); itr.hasNext(); ) {
       Tower t = itr.next();
@@ -569,7 +583,9 @@ public class MapView extends StackPane implements Observer {
     }
   }
   
-  
+  /**
+   * Changes the opacity of tower buttons to represent whether or not they are affordable.
+   */
   public void checkTowers() {
 	  if(theGame.getCash()>=tower1.getCost()) {
 	    	tower1.setOpacity(1);
@@ -620,12 +636,21 @@ public class MapView extends StackPane implements Observer {
 			       ghostTowerSize, ghostTowerSize);
   }
   
+  /**
+   * Draws the green oval around a tower to be placed.
+   */
   public void drawTowerSelected()
   {
 	  gc.setFill(Color.color(0, .5, 0, .5));
 	  gc.fillOval(towerX-5, towerY-5, 70, 70);
   }
   
+  /**
+   * TODO: this needs to be written by whomever wrote this method.
+   * @param t
+   * @param x
+   * @param y
+   */
   public void setTowerSelected(Tower t, double x, double y)
   {
 	  int upgradeCost;
@@ -805,6 +830,9 @@ public class MapView extends StackPane implements Observer {
     }
   }
 
+  /**
+   * The update method is called by notify observers in the TowerGame when the main loop iterates.
+   */
   @Override
   public void update(Observable o, Object arg) {
     drawMap();
