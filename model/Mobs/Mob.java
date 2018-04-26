@@ -439,7 +439,11 @@ public abstract class Mob {
   public double getCashPayout() {
 	  return cashPayout;
   }
-  
+
+  public void setSpeed(SpeedAttribute s) {
+	  this.speed = s;
+  }
+
   /**
    * If a mob's HP reaches zero, it's death sound clip will trigger, and the
    * player's score will be incremented. After that point, the mob is removed from

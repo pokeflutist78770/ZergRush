@@ -25,7 +25,7 @@ import model.Player;
 import model.Projectile;
 import model.Mobs.Archon;
 import model.Mobs.Mob;
-
+import model.Mobs.SpeedAttribute;
 import model.Towers.Depot;
 import model.Towers.Marine;
 import model.Towers.Range;
@@ -51,11 +51,16 @@ public class MapView extends StackPane {
   private GraphicsContext gc;
   private VBox vBox;
   private HBox towerBox;
+
+ 
+  private HBox pauseBox;
   private TowerButton tower1;
   private TowerButton tower2;
   private TowerButton tower3;
+
   private Button upgradeButton;
   private Button upgrade;
+  private Button pause;
   private GridPane gameGrid;
   private Label wave;
   private Label health;
@@ -74,7 +79,19 @@ public class MapView extends StackPane {
   private Label attr4;
   private Label attr5;
   private Label attr6;
+  private String attr1Text;
+  private String attr2Text;
+  private String attr3Text;
+  private String attr4Text;
+  private String attr5Text;
+  private String attr6Text;
   private int updateCount = 0;
+  private boolean gamePaused;
+  private double gameSpeed;
+  
+  private boolean towerSelected;
+  private double towerX;
+  private double towerY;
   
   private boolean towerPlacement;
   private Point mousePos;
@@ -105,6 +122,11 @@ public class MapView extends StackPane {
 	currRange=Range.DEMO_RANGE;
 	currName="";
 	
+	// variables for tower selection
+	towerSelected = false;
+	towerX = 0;
+	towerY = 0;
+	
     vBox = new VBox();
     towerBox = new HBox();
     backButton = back;
@@ -130,6 +152,20 @@ public class MapView extends StackPane {
     gcCommand.fillRect(0, 0, commandCanvas.getWidth(), commandCanvas.getHeight());
 
     EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
+    EventHandler<ActionEvent> pauseButtonHandler = new pauseButtonHandler();
+    
+    // Pause Button
+    gamePaused = false;
+    pause = new Button("Pause");
+    pause.setStyle("-fx-font: 14 serif; -fx-base: #000000;");
+    pause.setMinWidth(50);
+    pause.setMinHeight(10);
+    pause.setOnAction(pauseButtonHandler);
+    
+    pauseBox = new HBox();
+    pauseBox.getChildren().add(pause);
+    pauseBox.setPadding(new Insets(767,0,0,5));
+    pauseBox.setPickOnBounds(false);
     
     // Tower1 Button
     Image tower1Image = new Image("file:assets/images/tower/marine.png", false);
@@ -247,33 +283,39 @@ public class MapView extends StackPane {
      */
 
     // attr1 Update Grid
+    attr1Text = "";
     attr1 = new Label();
     attr1.setStyle("-fx-font: 15 serif; -fx-text-fill: #ff0000;");
     updateGrid.add(attr1, 0, 0);
 
     // attr2 Update Grid
+    attr2Text = "";
     attr2 = new Label();
     attr2.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr2.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr2, 1, 0);
 
     // attr3 Update Grid
+    attr3Text = "";
     attr3 = new Label();
     attr3.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     updateGrid.add(attr3, 0, 1);
 
     // attr4 Update Grid
+    attr4Text = "";
     attr4 = new Label();
     attr4.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr4.setPadding(new Insets(0, 0, 0, 40));
     updateGrid.add(attr4, 1, 1);
 
     // attr5 Update Grid
+    attr5Text = "";
     attr5 = new Label();
     attr5.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     updateGrid.add(attr5, 0, 2);
 
     // attr6 Update Grid
+    attr6Text = "";
     attr6 = new Label();
     attr6.setStyle("-fx-font: 15 serif; -fx-text-fill: #ffffff;");
     attr6.setPadding(new Insets(0, 0, 0, 40));
@@ -296,6 +338,7 @@ public class MapView extends StackPane {
     pane.getChildren().add(gameGrid);
     pane.getChildren().add(updateGrid);
     pane.getChildren().add(statusBox);
+    pane.getChildren().add(pauseBox);
     
     this.getChildren().add(pane);
     this.setOnMouseClicked(mouseHandler);
@@ -388,6 +431,20 @@ public class MapView extends StackPane {
   
   
   /**
+  * Get the current game speed selected from
+  * Menu View slider.
+  * 
+  * @param s
+  * 	- A double [0-1] representing game speed
+  * 
+  * @return None
+  */
+  public void setGameSpeed(Double s)
+  {
+	  gameSpeed = s;
+  }
+  
+  /**
   * Get the current Player as established in ControllerMain.
   * Set the passed in player to thePlayer.
   * 
@@ -472,6 +529,10 @@ public class MapView extends StackPane {
     if(towerPlacement) {
     	drawGhostTower();
     }
+    
+    if(towerSelected) {
+    	drawTowerSelected();
+    }
 
     
     checkTowers();
@@ -495,9 +556,19 @@ public class MapView extends StackPane {
         @Override
         public void run() {
             // if you change the UI, do it here !
+        	
+        	// Game Stats
         	healthNum.setText(healthStr);
         	killsNum.setText(String.valueOf(deadMobs));
         	cashNum.setText("$"+cashStr);
+        	
+        	// Update Grid
+        	attr1.setText(attr1Text);
+        	attr2.setText(attr2Text);
+        	attr3.setText(attr3Text);
+        	attr4.setText(attr4Text);
+        	attr5.setText(attr5Text);
+        	attr6.setText(attr6Text);
         }
     });
 
@@ -509,10 +580,37 @@ public class MapView extends StackPane {
     }
     towersCpy.clear();
 
+    
+    // Update Mobs' speed attribute if
+    // Game Speed slider adjusted from MenuView
+    // Game Speed slider set as default to 0%
+    
+    // ***Don't use SLOW speed as mobs will freeze***
+    
+    // 0% - NO CHANGE
+    // 0-33% - NORMAL
+    // 33-66% - FAST
+    // 66-100% - VERY_FAST
+    
+    SpeedAttribute mobSpeed = SpeedAttribute.NORMAL;
+    if (gameSpeed > 0.33 && gameSpeed < 0.66)
+    {
+    	mobSpeed = SpeedAttribute.FAST;
+    }
+    else if (gameSpeed > 0.66)
+    {
+    	mobSpeed = SpeedAttribute.VERY_FAST;
+    }
+    
     // draws every mob
     HashSet<Mob> mobsCpy = new HashSet(ControllerMain.mobs);
+    Mob temp;
     for (Mob m: mobsCpy) {
-      drawMob(m);
+    	temp = m;
+    	// Only adjust when game speed slider adjusted
+    	if (gameSpeed > 0)
+    		temp.setSpeed(mobSpeed);
+    	drawMob(temp);
     }
     mobsCpy.clear();
     
@@ -575,6 +673,44 @@ public class MapView extends StackPane {
 			       ghostTowerSize, ghostTowerSize);
   }
   
+  public void drawTowerSelected()
+  {
+	  gc.setFill(Color.color(0, .5, 0, .5));
+	  gc.fillOval(towerX-5, towerY-5, 70, 70);
+  }
+  
+  public void setTowerSelected(Tower t, double x, double y)
+  {
+	  int upgradeCost;
+	  String range;
+	  towerSelected = true;
+	  towerX = x;
+	  towerY = y;
+	  
+	  // Update Command Panel
+	  attr1Text = "Tower";
+	  
+	  if (t instanceof Marine)
+	  {
+		  attr2Text = "Marine";
+		  upgradeCost = 100;
+	  }
+	  else if (t instanceof Depot)
+	  {
+		  attr2Text = "Depot";
+		  upgradeCost = 150;
+	  }
+	  else
+	  {
+		  attr2Text = "Tank";
+		  upgradeCost = 200;
+	  }
+	  
+	  attr3Text = "Upgrade Cost:";
+	  attr4Text = "$"+String.valueOf(t.getCost()+upgradeCost);
+	  attr5Text = "Range:";
+	  attr6Text = String.valueOf(formatter.format(t.getRange()));
+  }
 
   /**
   * Button handler to place either Tower1, Tower2, or Tower3 on Map.
@@ -591,6 +727,8 @@ public class MapView extends StackPane {
 	public void handle(ActionEvent e) {
 		TowerButton button=(TowerButton) e.getSource();
 		
+		towerSelected = false;
+		
 		//user clicks on the same button
 		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
@@ -605,6 +743,37 @@ public class MapView extends StackPane {
 		}
 	} 
   } 
+  
+  /**
+  * Button handler to pause the game.
+  * Text in button will turn red when game is paused.
+  * Text will change to white when game is not paused.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
+  private class pauseButtonHandler implements EventHandler<ActionEvent>{
+
+	@Override
+	public void handle(ActionEvent e) {
+		
+		// Set button to red text
+    	if (gamePaused == false)
+    	{
+    		pause.setStyle("-fx-text-fill: #ff0000; -fx-font: 14 serif; -fx-base: #000000;");
+    		gamePaused = true;
+    	}
+    	// Set button to white text
+    	else
+    	{
+    		pause.setStyle("-fx-text-fill: #ffffff; -fx-font: 14 serif; -fx-base: #000000;");
+    		gamePaused = false;
+    	}
+		
+	} 
+  } 
+  
   
   /**
   * Mouse handler to place a Tower on click or hover with Tower for placement.
@@ -626,6 +795,13 @@ public class MapView extends StackPane {
 	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
 
+		  attr1Text = "";
+		  attr2Text = "";
+		  attr3Text = "";
+		  attr4Text = "";
+		  attr5Text = "";
+		  attr6Text = "";
+		  
 		if(towerPlacement) {
 			towerPlacement=false;
 			Tower newTower=null;
@@ -653,6 +829,29 @@ public class MapView extends StackPane {
 			ControllerMain.towers.add(newTower);
 
 		}
+		else {
+			// Determine if any Towers in ControllerMain match MouseClick coordinates
+			
+			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
+			double mousePosY = mousePos.getY()-.5*ghostTowerSize;
+			
+			for (Tower t : ControllerMain.towers)
+			{
+				towerSelected = false;
+				if (t.getX() >= mousePosX-10 && t.getX() <= mousePosX+10)
+				{
+					if (t.getY() >= mousePosY-10 && t.getY() <= mousePosY+10)
+					{
+						setTowerSelected(t, t.getX(), t.getY());
+						break;
+					}
+				}	
+			}
+			
+		}
+		
+		System.out.println("MOUSE X: "+mousePos.getX());
+		System.out.println("MOUSE Y: "+mousePos.getY());
 		System.out.println("Mouse Clicked");
 	  }
     }

@@ -14,7 +14,6 @@ import controller.ControllerMain;
 import model.Mobs.ArmorAttribute;
 import model.Mobs.AttackAttribute;
 import model.Mobs.DefenseAttribute;
-import model.Mobs.DemoMob;
 import model.Mobs.Mob;
 import model.Mobs.ResistanceAttribute;
 import model.Mobs.SpeedAttribute;

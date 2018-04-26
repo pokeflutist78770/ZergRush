@@ -169,6 +169,10 @@ public abstract class Tower {
     return location.getY();
   }
 
+  public double getRange() {
+	  return range.toDouble();
+  }
+  
   public int getCost() {
     return cost;
   }
