@@ -16,10 +16,10 @@ import model.Towers.ElementalAttribute;
 public class DemoProjectile extends Projectile {
 
   
-  public DemoProjectile(Point startLocation, Mob targetMob, int testing) {
+  public DemoProjectile(Point startLocation, Mob targetMob, TowerGame game) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/proj.png",testing);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/proj.png", game);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();
@@ -28,6 +28,5 @@ public class DemoProjectile extends Projectile {
   @Override
   protected void terminate() {
     targetMob.takeDamage(baseDmg, dmgType);
-    ControllerMain.projectiles.remove(this);
   }
 }

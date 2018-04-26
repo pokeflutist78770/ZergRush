@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.TowerGame;
 import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
@@ -23,8 +24,8 @@ public class TerranMap extends Map {
 
   private String soundtrack;;
   
-  public TerranMap(int difficulty) {
-    super("file:assets/images/map/terran_map.jpg", difficulty);
+  public TerranMap(String difficulty, TowerGame game) {
+    super("file:assets/images/map/terran_map.jpg", difficulty, game);
     soundtrack = "terranSoundtrack";
     initializeSpawnCycle(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
     name = "Terran"+ idNo;

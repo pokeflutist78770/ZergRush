@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.Player;
+import model.TowerGame;
 
 /**
  * Hydralisks are the tier two unit of the zerg army. They have very high damage output with relatively slow movement
@@ -16,7 +18,7 @@ import controller.ControllerMain;
  */
 public class Hydralisk extends Mob {
 	
-	public Hydralisk(List<Point> movementPath) {
+	public Hydralisk(List<Point> movementPath, TowerGame game) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
@@ -34,6 +36,7 @@ public class Hydralisk extends Mob {
 				45.0,
 				58.0, 
 				7,
-				35);
+				game
+				);
 	}
 }

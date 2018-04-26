@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.Player;
+import model.TowerGame;
 
 public class Zealot extends Mob{
 
@@ -15,7 +17,7 @@ public class Zealot extends Mob{
  * 	
  * @param movementPath
  */
-public Zealot(List<Point> movementPath) {
+public Zealot(List<Point> movementPath, TowerGame game) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.LIGHT_ARMOR, 
@@ -33,7 +35,8 @@ public Zealot(List<Point> movementPath) {
         42.0,
         44.0, 
         8,
-        7);
+        game
+        );
 	}
 }
 

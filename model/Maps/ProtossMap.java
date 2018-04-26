@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import controller.ControllerMain;
+import model.TowerGame;
 import model.Mobs.Hydralisk;
 import model.Mobs.Ultralisk;
 import model.Mobs.Zergling;
@@ -21,8 +22,8 @@ public class ProtossMap extends Map {
 
   private String soundtrack;;
   
-  public ProtossMap(int difficulty) {
-    super("file:assets/images/map/protoss_map.jpg", difficulty);
+  public ProtossMap(String difficulty, TowerGame game) {
+    super("file:assets/images/map/protoss_map.jpg", difficulty, game);
     soundtrack = "protossSoundtrack";
     initializeSpawnCycle(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
     name = "Protoss"+ idNo;

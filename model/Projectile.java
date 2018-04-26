@@ -26,14 +26,16 @@ abstract public class Projectile {
   protected ElementalAttribute dmgType;
   protected double blastRadius;
  
-  private String imageFilePath;
+  protected String imageFilePath;
+  protected TowerGame theGame;
+  protected boolean reachedTarget = false;
 
   
   
   public Projectile(Point startLocation, SpeedAttribute spd,
                     double radius, double baseDamage,  ElementalAttribute ea,
                     String imgFilePath,
-                    int testing) {
+                    TowerGame game) {
 		
     currentLocation = startLocation;
     speed = spd;
@@ -42,40 +44,12 @@ abstract public class Projectile {
     dmgType = ea;
 
     imageFilePath = imgFilePath;
-		
-    if (testing == 0) {
-      initializeProjectile();
-    }
+    
+    theGame = game;
   }
 	
 
   abstract protected void terminate();
-	
-  /* initializeProjectile
-   * starts a thread for a new projectile and shows an animation
-   * Parameters: None
-   * Returns: None
-  */
-  private void initializeProjectile() {
-	  
-    kamakaziImperative = new Thread(new Runnable() {
-      @Override
-      public void run() {
-    	while(!hasReachedTarget()) {
-          try {
-            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
-            
-            updateLocation();
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-        }
-    	    terminate();
-      }
-    });
-    
-    kamakaziImperative.start();
-  }
 
   
   /* updateLocation
@@ -109,7 +83,7 @@ abstract public class Projectile {
     
     //target is a mob
     } else {
-      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius);
+      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius+speed.getSpeed()/2);
     }
   }
 
@@ -163,5 +137,20 @@ abstract public class Projectile {
 	
   public double getY() {
     return currentLocation.getY();
+  }
+
+
+  public void update() {
+    if (hasReachedTarget()) {
+      reachedTarget = true;
+      terminate();
+    }
+    updateLocation();
+    
+  }
+
+
+  public boolean isDone() {
+    return reachedTarget;
   }
 }

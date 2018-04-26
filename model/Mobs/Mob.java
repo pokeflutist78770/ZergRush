@@ -1,28 +1,15 @@
 package model.Mobs;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 import controller.ControllerMain;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import model.Player;
+import model.TowerGame;
 import model.Maps.Metric;
 import model.Towers.ElementalAttribute;
-import views.MapView;
 
 /**
  * Mob is an abstract class modeling an active mob on the map. For each mob,
@@ -33,6 +20,11 @@ import views.MapView;
  *
  */
 public abstract class Mob {
+  
+  private static Random rng = new Random();
+  
+  protected TowerGame theGame;
+  
   public static int IDNumber = 0;
 
   private boolean wasKilled = false;
@@ -46,6 +38,7 @@ public abstract class Mob {
   private List<Point> movementPath;
   private int pathIndex;
   private int attackTime;
+  private Player targetPlayer;
 
   private double radius;
   private ArmorAttribute armor;
@@ -72,6 +65,7 @@ public abstract class Mob {
   // String data of the mob.
   private String name;
   private String imageFilePath;
+
 
   /**
    * Constructor for Mobs
@@ -116,9 +110,49 @@ public abstract class Mob {
   public Mob(List<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
       DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances, String name,
       String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY,
-      int animationSteps, double cash) {
+      int animationSteps, TowerGame game) {
+
 
     // Animation Attributes
+    initializeAnimationAttributes(sx, sy, sw, sh, delX, delY, animationSteps, imageFP);
+
+    // Sound Attributes
+    initializeSoundAttributes(deathSound);
+
+    // Initialize Attributes
+    initializeOtherAttributes(movementPath, radius, armor, attack, defense, speed, resistances, name, game);
+  }
+
+  private void initializeOtherAttributes(List<Point> movementPath, double radius, ArmorAttribute armor,
+      AttackAttribute attack, DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances,
+      String name, TowerGame game) {
+    
+    this.movementPath = movementPath;
+    this.pathIndex = 0;
+    this.currentLocation = perturbPoint(movementPath.get(0));
+    this.pathIndex++;
+    this.targetLocation = movementPath.get(pathIndex);
+    this.pathIndex++;
+    
+    this.radius = radius;
+    this.armor = armor;
+    this.attack = attack;
+    this.hp = new Double(defense.getDefense());
+    this.speed = speed;
+    this.resistances = resistances;
+    this.name = name;
+
+    attackTime = 0;
+    this.theGame = game;
+    targetPlayer = theGame.getPlayer();
+  }
+
+  private void initializeSoundAttributes(String deathSound) {
+    this.deathSound = deathSound;
+  }
+
+  private void initializeAnimationAttributes(double sx, double sy, double sw, double sh, double delX, double delY,
+      int animationSteps, String imageFP) {
     this.stepCount = 0;
     this.sx = sx;
     this.sy = sy;
@@ -127,27 +161,7 @@ public abstract class Mob {
     this.delX = delX;
     this.delY = delY;
     this.animationSteps = animationSteps;
-
-    // Sound Attributes
-    this.deathSound = deathSound;
-
-    // Initialize Attributes
-    this.movementPath = movementPath;
-    this.pathIndex = 0;
-    this.currentLocation = perturbPoint(movementPath.get(0));
-    this.pathIndex++;
-    this.radius = radius;
-    this.armor = armor;
-    this.attack = attack;
-    this.hp = new Double(defense.getDefense());
-    this.speed = speed;
-    this.resistances = resistances;
-    this.setName(name);
     this.imageFilePath = imageFP;
-    this.cashPayout=cash;
-    
-    attackTime = 0;
-    initializeMovement();
   }
 
   /*
@@ -160,54 +174,9 @@ public abstract class Mob {
    */
   private Point perturbPoint(Point inPoint) {
     return new Point((int) (inPoint.getX()
-        + (ControllerMain.TILE_SIZE * (ControllerMain.getRandom().nextInt(movementPerturbation * 100) / 100.0 - 1))),
+        + (ControllerMain.TILE_SIZE * (rng.nextInt(movementPerturbation * 100) / 100.0 - 1))),
         (int) (inPoint.getY() + (ControllerMain.TILE_SIZE
-            * (ControllerMain.getRandom().nextInt(movementPerturbation * 100) / 100.0 - 1))));
-  }
-
-  /*
-   * This method gets the mob walking from its spawn location to the End-Zone.
-   * Each mob runs its movement on its own thread and will tell you where it is,
-   * if asked.
-   */
-  private void initializeMovement() {
-
-    targetLocation = movementPath.get(pathIndex);
-    pathIndex++;
-
-    // tracks and moves the mob
-    mobWalk = new Thread(new Runnable() {
-
-      @Override
-      public void run() {
-        try {
-          while (ControllerMain.isPlaying) {
-            if (isDead() || Thread.interrupted()) {
-              break;
-            }
-
-            Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
-
-            // reached the next place, need to chnge direction
-            if (reachedTarget()) {
-              updateTarget();
-            }
-            // move closer to targete location
-            else {
-              takeStep();
-            }
-          }
-        } catch (InterruptedException e) {
-          System.out.println("Mobwalk is failing.");
-          Thread.currentThread().interrupt();
-          // e.printStackTrace();
-
-        }
-        System.out.println("Mob Thread: Ended");
-      }
-    });
-
-    mobWalk.start();
+            * (rng.nextInt(movementPerturbation * 100) / 100.0 - 1))));
   }
 
   /*
@@ -276,7 +245,7 @@ public abstract class Mob {
     attackTime++;
 
     if (attackTime % 60 == 0) {
-      attack(ControllerMain.thePlayer);
+      attack(targetPlayer);
     }
   }
 
@@ -300,9 +269,6 @@ public abstract class Mob {
 
     if (newDamage >= hp) {
       hp = -1; // in case of some weird random bugs with oveflow, or underflow in this case
-
-      System.out.println("Mob Dead"); // Only for debugging o=purposes
-      kill();
       /*
        * //ControllerMain.isPlaying=false;
        * 
@@ -327,9 +293,11 @@ public abstract class Mob {
        * 
        * popupStage.show(); });
        */
+    } else {
+      hp -= newDamage;
     }
+      
 
-    hp -= newDamage;
 
     // cue animation of stuff for getting hurt
   }
@@ -360,14 +328,6 @@ public abstract class Mob {
     newDamage *= (1 - armor.getArmor());
 
     return newDamage;
-  }
-
-  /**
-   * isDead returns if mob is dead or not Parameters: None Returns: boolean
-   * representing if dead
-   */
-  public boolean isDead() {
-    return wasKilled;
   }
 
   /*----------    Getters/Setters     -------------*/
@@ -432,8 +392,15 @@ public abstract class Mob {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void update() {
+    // reached the next place, need to change direction
+    if (reachedTarget()) {
+      updateTarget();
+    }
+    // move closer to target location
+    else {
+      takeStep();
+    }
   }
   
   public double getCashPayout() {
@@ -443,17 +410,15 @@ public abstract class Mob {
   public void setSpeed(SpeedAttribute s) {
 	  this.speed = s;
   }
-
-  /**
-   * If a mob's HP reaches zero, it's death sound clip will trigger, and the
-   * player's score will be incremented. After that point, the mob is removed from
-   * the current state of the game.
-   */
-  public void kill() {
-    ControllerMain.soundEffects.get(deathSound).play();
-    wasKilled = true;
-    ControllerMain.mobs.remove(this);
-    ControllerMain.thePlayer.addCash(cashPayout);
-    MapView.incrKills();
+  
+  public boolean isDone() {
+    return hp <= 0;
   }
+
+  public String getDeathSoundStr() {
+    return deathSound;
+
+  }
+  
+  
 }

@@ -1,10 +1,6 @@
 package controller;
 
-import java.awt.Point;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
 
 import javafx.application.*;
 import javafx.event.ActionEvent;
@@ -21,20 +17,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Player;
-import model.Projectile;
-import model.Maps.DemoMap;
-import model.Maps.Map;
-import model.Maps.ProtossMap;
-import model.Maps.TerranMap;
-import model.Maps.ZergMap;
-import model.Mobs.Mob;
-import model.Towers.Tower;
+import model.TowerGame;
 import views.InstructionView;
 import views.MapView;
 import views.MenuView;
@@ -52,57 +39,58 @@ import views.ScoreView;
  */
 
 public class ControllerMain extends Application {
+  
+  // Global Constants
   public final static int GUI_SIZE = 800;
   public final static int MOBS_PER_SCREEN = 50; // How many 1x1 sprites should fit on an axis of the gui.
   public final static int TILE_SIZE = GUI_SIZE / MOBS_PER_SCREEN;
-  public static final int UPDATE_FREQUENCY = 17;
+  public final static int UPDATE_FREQUENCY = 17;
+  public final static int GUI_WIDTH = GUI_SIZE;
+  public final static int GUI_HEIGHT = (int) Math.round(GUI_SIZE * 1.1);
 
-  private static Random random = new Random();
-
-  public static HashSet<Mob> mobs = new HashSet<Mob>();
-  public static HashSet<Projectile> projectiles = new HashSet<Projectile>();
-  public static HashSet<Tower> towers = new HashSet<Tower>();
+  // Media data
   public static HashMap<String, AudioClip> soundEffects = new HashMap<>();
-  public static Player thePlayer;
-  public static Thread playingNow;
-  public static Pane currentView;
-  public static Stage stage;
-  public static boolean isPlaying;
+  public static HashMap<String, Image> imageMap;
 
-  private Map theMap;
-  private Tower theTower;
-  private Mob theMob;
-  private MapView theMapView;
-  private static MenuView theMenuView;
-  private InstructionView theInstrView;
+  // Buttons
   private Button startButton;
   private Button instrButton;
   private Button backButtonInstr;
   private Button backButtonMap;
-  private ScoreView theScoreView;
 
-  // private HashMap<Integer, Projectile> projectiles;
-  private HashMap<String, Media> audio;
-
+  // Views and windows
+  private static Pane currentView;
+  private static ScoreView theScoreView;
+  private static MapView theMapView;
+  private static MenuView theMenuView;
+  private static InstructionView theInstrView;
   private static BorderPane window;
-  public static final int width = 800;
-  public static final int height = 880;
-  private static HashMap<String, Image> imageMap;
+  private static Stage stage;
+  
+  // Model data
+  private static TowerGame theGame;
 
-  // For testing
-  // public ControllerMain() {
-  // initializeAssets();
-  // thePlayer = new Player();
-  // isPlaying = false;
-  // theMap = new DemoMap();
-  // }
+
+  /* Launch the JavaFX application */
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+  
+  public void start(Stage stage) throws Exception {
+    initializeAssets();
+    initializeViews(stage);
+
+    Scene scene = new Scene(window, GUI_WIDTH, GUI_HEIGHT);
+    stage.setScene(scene);
+    stage.show();
+  }
 
   /*
    * initializeAssets Initializes all images and sound, allowing for a flyweight
    * design pattern Parameters: None Returns: None
    */
   private void initializeAssets() {
-    imageMap = new HashMap<String, Image>();
     initializeImages();
     initializeAudio();
   }
@@ -129,24 +117,18 @@ public class ControllerMain extends Application {
    * Initializes and stores images for flyweight retrieval.
    */
   private void initializeImages() {
-
+    imageMap = new HashMap<String, Image>();
   }
 
-  /* Launch the JavaFX application */
-  public static void main(String[] args) {
-    launch(args);
-  }
-
-  public void start(Stage stage) throws Exception {
-    initializeAssets();
-    thePlayer = new Player();
-
-    // Tower theTower = new DemoTower();
+  /*
+   * Initializes the views.
+   */
+  private void initializeViews(Stage stage) {
     theScoreView = new ScoreView();
 
     // Initialize window
     window = new BorderPane();
-    this.stage = stage;
+    ControllerMain.stage = stage;
 
     // Initialize menu buttons
     startButton = new Button("Start");
@@ -156,7 +138,7 @@ public class ControllerMain extends Application {
 
     // Initialize Menu View
     theMenuView = new MenuView(startButton, instrButton);
-    this.setViewTo(theMenuView);
+    ControllerMain.setViewTo(theMenuView);
     soundEffects.get("terran_soundtrack").play();
 
     menuButtonListener menuHandler = new menuButtonListener();
@@ -167,14 +149,6 @@ public class ControllerMain extends Application {
 
     // Initialize Instruction View
     theInstrView = new InstructionView(backButtonInstr);
-
-    // Initialize Map View
-    theMapView = new MapView(backButtonMap);
-    isPlaying = false;
-
-    Scene scene = new Scene(window, width, height);
-    stage.setScene(scene);
-    stage.show();
   }
 
   /*
@@ -199,89 +173,7 @@ public class ControllerMain extends Application {
 
       // User wishes to start a game
       if (buttonText.equals("Start")) {
-        // No difficulty selected
-        if (theMenuView.getModeSelection() == null)
-          return;
-
-        // No map selected
-        String mapSelection = theMenuView.getMapSelection();
-        if (mapSelection == null)
-          return;
-
-        isPlaying = true;
-        theMap = null;
-
-        // Get difficulty
-        String difficultyStr = theMenuView.getModeSelection();
-        int difficulty = 0;
-        if (difficultyStr.equals("Easy")) {
-          difficulty = 1;
-        } else if (difficultyStr.equals("Medium")) {
-          difficulty = 2;
-        } else if (difficultyStr.equals("Hard")) {
-          difficulty = 3;
-        } else {
-          difficulty = 2;
-        }
-        Map.setWaveIntensity(3);
-
-        // Set background for MapView based on Map Selection
-        if (mapSelection.equals("Terran"))
-          theMap = new TerranMap(difficulty);
-        else if (mapSelection.equals("Protoss"))
-          theMap = new ProtossMap(difficulty);
-        else
-          theMap = new ZergMap(difficulty);
-        theMapView.setMapSelection(theMap.imageFilePath);
-
-        // Set Wave Difficulty
-        theMapView.setWaveNum(theMenuView.getModeSelection());
-
-        // Set Kills
-        theMapView.setKillsNum(0);
-
-        // Set Cash
-        theMapView.setCashNum(100);
-
-        // Pass Player to MapView
-        theMapView.setPlayer(thePlayer);
-        
-        // Pass Game Speed from MenuView to MapView
-        theMapView.setGameSpeed(theMenuView.getGameSpeed());
-
-        setViewTo(theMapView);
-
-        // gotta start with a fresh new game :)
-        thePlayer.resetStats();
-        towers.clear();
-        mobs.clear();
-        projectiles.clear();
-
-        // thread to show a playing game
-
-        try {
-          Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY / 2);
-        } catch (InterruptedException e1) {
-          e1.printStackTrace();
-        }
-
-        playingNow = new Thread(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              while (isPlaying) {
-
-                Thread.sleep((long) ControllerMain.UPDATE_FREQUENCY);
-                theMapView.drawMap();
-              }
-
-              System.out.println("Gameplay Thread: Ended");
-            } catch (InterruptedException e) {
-            }
-          }
-        });
-
-        playingNow.start();
+        runSelectedGame();
       }
 
       // user wants to access instructions
@@ -291,9 +183,63 @@ public class ControllerMain extends Application {
 
       // button to go back from the gameplay (might be a optional button)
       else if (buttonText.equals("Back")) {
-        isPlaying = false;
         setViewTo(theMenuView);
       }
+    }
+
+    /*
+     * This method is self-descriptive. 
+     * It handles what should happen when someone clicks 'start' from the main menu.
+     */
+    private void runSelectedGame() {
+      System.out.println("runSelectedGame() is called.");
+      // No difficulty selected
+      String difficulty = theMenuView.getModeSelection();
+      if (difficulty == null)
+        return;
+
+      // No map selected
+      String mapSelection = theMenuView.getMapSelection();
+      if (mapSelection == null)
+        return;
+
+      System.out.println("This was selected: " + difficulty + ", " + mapSelection);
+      theGame = null;
+      theGame = new TowerGame(difficulty, mapSelection);
+      System.out.println("The game was initialized without issue.");
+      theMapView = new MapView(backButtonMap, theGame);
+      System.out.println("The mapView was initialized without issue.");
+      theGame.addObserver(theMapView);
+      System.out.println("Observers have been set.");
+      theGame.start();
+      
+      initializeMapView();
+      System.out.println("MapView has been configured.");
+      
+      theGame.unPause(); //The mapview needs to be initialized before the game unpauses.
+    }
+
+    /*
+     * Initializes the map after a game has been started.
+     */
+    private void initializeMapView() {
+      //TODO: probably can refactor this.
+      theMapView.setMapSelection(theGame.getBackgroundImageFP());
+System.out.println("map selection set");
+      // Set Wave Difficulty
+      theMapView.setWaveNum(theMenuView.getModeSelection());
+      System.out.println("wave difficulty set");
+
+      // Set Cash
+      theMapView.setCashNum(100);
+      System.out.println("can set");
+
+      // Pass Player to MapView
+      theMapView.setPlayer(theGame.getPlayer());
+      System.out.println("player set");
+
+      setViewTo(theMapView);
+      System.out.println("view successfully swapped.");
     }
   }
 
@@ -303,7 +249,7 @@ public class ControllerMain extends Application {
    */
   public static Image getGraphic(String imgfp) {
     if (!imageMap.containsKey(imgfp)) {
-      imageMap.put(imgfp, new Image(imgfp));
+      imageMap.put(imgfp, new Image(imgfp, 100, 0, true, false));
     }
     return imageMap.get(imgfp);
   }
@@ -320,26 +266,21 @@ public class ControllerMain extends Application {
     return stage;
   }
 
-  // For when you just need Random
-  public static Random getRandom() {
-    return random;
-  }
-
   /*
    * Handles loss conditions for the player, terminating active mob threads and
    * resetting the game state.
    */
   public static void dealWithDeadPlayer() {
+    //TODO: clean this method
+    theGame.pause();
     if(soundEffects.get("terran_soundtrack").isPlaying()) {
       soundEffects.get("terran_soundtrack").stop();
     }
     soundEffects.get("defeat").play();
     System.out.println("Player lost");
-    // ControllerMain.playingNow.interrupt();%here
 
     // display loss screen
 
-    ControllerMain.isPlaying = false;
 
     Platform.runLater(() -> {
       // This code will be moved to when a player reaches a set amount of waves,
