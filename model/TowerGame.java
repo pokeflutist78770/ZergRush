@@ -51,7 +51,7 @@ public class TowerGame extends Observable {
     paused = true;
   }
   
-  
+
 /**
  * Creates a map with of the given type with the given difficulty.
  * @param mapSelection The type of map to create. "Terran", "Protoss", or "Zerg"

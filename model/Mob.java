@@ -229,33 +229,7 @@ public abstract class Mob {
     currentLocation.setLocation(newX, newY);
   }
 
-  /**
-   * A getter method
-   * 
-   * @return The current X-coordinate
-   */
-  public double getX() {
-    return currentLocation.getX();
-  }
-
-  /**
-   * A getter method
-   * 
-   * @return The current Y-coordinate
-   */
-  public double getY() {
-    return currentLocation.getY();
-  }
-
-  // getter for the direction vector
-  public Vector<Double> getDirectionVector() {
-    return Metric.getDirectionVector(currentLocation, targetLocation);
-  }
-
-  // direction angle for the mob
-  public double getDirectionAngle() {
-    return Metric.getDirectionAngle(currentLocation, targetLocation);
-  }
+  
 
   /*
    * Updates the mob to have the next target point, if there is one. If the mob arrived
@@ -366,6 +340,35 @@ public abstract class Mob {
 
   /*----------    Getters/Setters     -------------*/
 
+  
+  /**
+   * A getter method
+   * 
+   * @return The current X-coordinate
+   */
+  public double getX() {
+    return currentLocation.getX();
+  }
+
+  /**
+   * A getter method
+   * 
+   * @return The current Y-coordinate
+   */
+  public double getY() {
+    return currentLocation.getY();
+  }
+
+  // getter for the direction vector
+  public Vector<Double> getDirectionVector() {
+    return Metric.getDirectionVector(currentLocation, targetLocation);
+  }
+
+  // direction angle for the mob
+  public double getDirectionAngle() {
+    return Metric.getDirectionAngle(currentLocation, targetLocation);
+  }
+  
   public double getRadius() {
     return radius;
   }

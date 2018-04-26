@@ -101,6 +101,7 @@ public class MapView extends StackPane implements Observer {
   private boolean towerSelected;
   private double towerX;
   private double towerY;
+  private Tower currentTower;
   
   private boolean towerPlacement;
   private Point mousePos;
@@ -517,7 +518,8 @@ public class MapView extends StackPane implements Observer {
           drawTowers();
           drawMobs();
           drawProjectiles();
-  
+          checkTowers();
+          
           if(towerPlacement) {
             drawGhostTower();
           }
@@ -525,6 +527,7 @@ public class MapView extends StackPane implements Observer {
       });
 
   }
+
 
   /**
    * Iterates through the set of projectiles and draws each one.
@@ -583,9 +586,16 @@ public class MapView extends StackPane implements Observer {
     }
   }
   
+  
   /**
-   * Changes the opacity of tower buttons to represent whether or not they are affordable.
-   */
+   * checkTowers
+   * Compares Player cash with the cost to buy specific towers and updates the
+   * button GUI in order to directly show a user if a tower is buyable, greyed out if
+   * player does not have enough cash
+   * 
+   * @param None
+   * @return None
+  */
   public void checkTowers() {
 	  if(theGame.getCash()>=tower1.getCost()) {
 	    	tower1.setOpacity(1);
@@ -609,6 +619,7 @@ public class MapView extends StackPane implements Observer {
 	  }
   }
 
+  
   /**
   * Draw a representation of Tower with green circle surrounding
   * to allow Player to choose a placement of Tower on Map.
@@ -645,12 +656,17 @@ public class MapView extends StackPane implements Observer {
 	  gc.fillOval(towerX-5, towerY-5, 70, 70);
   }
   
+  
   /**
-   * TODO: this needs to be written by whomever wrote this method.
-   * @param t
-   * @param x
-   * @param y
-   */
+   * setTowerSelected
+   * Sets a currently selected tower for the user, displaying stats and range of the tower
+   * 
+   * @param t: Tower representing tower to be selected
+   * @param x: double representing x position of the tower
+   * @param y: double representing y position of the tower
+   * 
+   * @return None
+  */
   public void setTowerSelected(Tower t, double x, double y)
   {
 	  int upgradeCost;
@@ -684,6 +700,7 @@ public class MapView extends StackPane implements Observer {
 	  attr6Text = String.valueOf(formatter.format(t.getRange()));
   }
 
+  
   /**
   * Button handler to place either Tower1, Tower2, or Tower3 on Map.
   * Get Tower image according to Button clicked.
@@ -811,16 +828,15 @@ public class MapView extends StackPane implements Observer {
 			for (Tower t : theGame.getTowers())
 			{
 				towerSelected = false;
-				if (t.getX() >= mousePosX-10 && t.getX() <= mousePosX+10)
+				if (t.getX() >= mousePosX-20 && t.getX() <= mousePosX+20)
 				{
-					if (t.getY() >= mousePosY-10 && t.getY() <= mousePosY+10)
+					if (t.getY() >= mousePosY-20 && t.getY() <= mousePosY+20)
 					{
 						setTowerSelected(t, t.getX(), t.getY());
 						break;
 					}
 				}	
 			}
-			
 		}
 		
 		System.out.println("MOUSE X: "+mousePos.getX());
