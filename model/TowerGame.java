@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
-import java.util.Random;
 
 import controller.ControllerMain;
 import model.Maps.Map;
@@ -14,7 +13,6 @@ import model.Maps.TerranMap;
 import model.Maps.ZergMap;
 import model.Mobs.Mob;
 import model.Towers.Tower;
-import views.MapView;
 
 /**
  * A TowerGame is a model of the game. 
@@ -23,8 +21,6 @@ import views.MapView;
  * @author J. David Taylor
  *
  */
-
-//TODO: make sure that everything is commented
 public class TowerGame extends Observable {
   
   private Player thePlayer;
@@ -35,15 +31,13 @@ public class TowerGame extends Observable {
   private HashSet<Projectile> projectiles;
   private HashSet<Tower> towers;
 
-  private int deadMobs;
+  private int mobsKilled;
   
   private String backgroundImageFilePath;
   
   /**
-   * The difficulty is a string, either "Easy", "Medium", "Hard", or "Meme"
-   * The mapSelection is a string, either "Terran", "Protoss", or "Zerg"
-   * @param difficulty
-   * @param mapSelection
+   * @param difficulty The difficulty is a string, either "Easy", "Medium", "Hard", or "Meme"
+   * @param mapSelection The mapSelection is a string, either "Terran", "Protoss", or "Zerg"
    */
   
   public TowerGame(String difficulty, String mapSelection) {
@@ -56,7 +50,7 @@ public class TowerGame extends Observable {
     projectiles = new HashSet<Projectile>();
     towers = new HashSet<Tower>();
     
-    deadMobs = 0;
+    mobsKilled = 0;
     
     gameOver = false;
     paused = true;
@@ -64,9 +58,9 @@ public class TowerGame extends Observable {
   
   
 /**
- * Creates a map of type mapSelection with the given difficulty.
- * @param mapSelection
- * @param difficulty
+ * Creates a map with of the given type with the given difficulty.
+ * @param mapSelection The type of map to create. "Terran", "Protoss", or "Zerg"
+ * @param difficulty The difficulty of map to create. "Easy", "Medium", "Hard", or "Meme"
  * @return
  */
   private Map createMap(String mapSelection, String difficulty) {
@@ -81,12 +75,20 @@ public class TowerGame extends Observable {
     }
     return null;
   }
-
+  
+/**
+ * This method starts the game. The game is a loop that can be paused, unpaused, or ended.
+ */
   public void start() {
     Thread mainLoop = new Thread(new TheLoop(this));
     mainLoop.start();
   }
   
+  /**
+   * TheLoop is the main loop of the game logic.
+   * @author J. David Taylor
+   *
+   */
   private class TheLoop implements Runnable {
     
     private TowerGame tg;
@@ -114,10 +116,17 @@ public class TowerGame extends Observable {
     }
   }
 
+  /**
+   * Tells if the game is still going.
+   * @return True, if the game is not over. False, otherwise.
+   */
   private boolean gameInProgress() {
     return !gameOver;
   }
 
+  /**
+   * This method is a single update step of the game state.
+   */
   private synchronized void updateGameState() {
     updateMap();
     updateMobs();
@@ -126,6 +135,9 @@ public class TowerGame extends Observable {
   }
 
 
+  /**
+   * Update all the towers. Any towers that are done are removed from the game.
+   */
   private void updateTowers() {
     for (Iterator<Tower> itr = towers.iterator(); itr.hasNext(); ) {
       Tower t = itr.next();
@@ -138,6 +150,9 @@ public class TowerGame extends Observable {
   }
 
 
+  /**
+   * Update all the projectiles. Any projectile that is done is removed from the game.
+   */
   private void updateProjectiles() {
     for (Iterator<Projectile> itr = projectiles.iterator(); itr.hasNext(); ) {
       Projectile p = itr.next();
@@ -152,16 +167,15 @@ public class TowerGame extends Observable {
 
 
   /**
-   * If a mob's HP reaches zero, it's death sound clip will trigger, and the
-   * player's score will be incremented. After that point, the mob is removed from
-   * the current state of the game.
+   * Update all the mobs. If a mob is done, play its death sound, 
+   * increment the kill count, add cash to the player, and remove the mob from the game.
    */
   private void updateMobs() {
     for (Iterator<Mob> itr = mobs.iterator(); itr.hasNext(); ) {
       Mob m = itr.next();
       if (m.isDone()) {
         ControllerMain.soundEffects.get(m.getDeathSoundStr()).play();
-        deadMobs++;
+        mobsKilled++;
         thePlayer.addCash(50);
         itr.remove();
       } else {
@@ -171,83 +185,153 @@ public class TowerGame extends Observable {
   }
 
 
+  /**
+   * Update the state of the map.
+   */
   private void updateMap() {
     theMap.update();
   }
 
+  /**
+   * Is the game paused?
+   * @return True, if the game is on pause. False, otherwise.
+   */
   public synchronized boolean isPaused() {
     return paused;
   }
 
+  /**
+   * Pause the game.
+   */
   public synchronized void pause() {
     paused = true;
   }
 
+  /**
+   * Unpause the game.
+   */
   public synchronized void unPause() {
     paused = false;
   }
 
+  /**
+   * Get the filepath of the background image
+   * @return The desired filepath.
+   */
   public synchronized String getBackgroundImageFP() {
     return backgroundImageFilePath;
   }
 
+  /**
+   * Get a pointer to the player.
+   * @return The player.
+   */
   public synchronized Player getPlayer() {
     return thePlayer;
   }
   
+  /**
+   * Get a pointer to a list of all current mobs.
+   * @return A list of the current mobs.
+   */
   public synchronized List<Mob> getMobs() {
     return new ArrayList<Mob>(mobs);
   }
   
+  /**
+   * Add a mob to the game.
+   * @param m The mob to add.
+   */
   public synchronized void add(Mob m) {
     mobs.add(m);
   }
   
+  /**
+   * Remove a mob from the game
+   * @param m The mob to remove.
+   */
   public synchronized void remove(Mob m) {
     mobs.remove(m);
   }
+
   
+  /**
+   * Get a pointer to a list of all current projectiles.
+   * @return A list of the current projectiles.
+   */
   public synchronized List<Projectile> getProjectiles() {
     return new ArrayList<Projectile>(projectiles);
   }
   
+  /**
+   * Add a projectile to the game.
+   * @param p The projectile to add.
+   */
   public synchronized void add(Projectile p) {
     projectiles.add(p);
   }
   
+  /**
+   * Remove a projectile from the game.
+   * @param p The projectile to remove.
+   */
   public synchronized void remove(Projectile p) {
     mobs.remove(p);
   }
+
   
+  /**
+   * Get a pointer to a list of all current towers.
+   * @return A list of the current towers.
+   */
   public synchronized List<Tower> getTowers() {
     return new ArrayList<Tower>(towers);
   }
   
+  /**
+   * Add a tower to the game.
+   * @param t The tower to add.
+   */
   public synchronized void add(Tower t) {
     towers.add(t);
   }
   
+  /** 
+   * Remove a tower from the game.
+   * @param t The tower to remove.
+   */
   public synchronized void remove(Tower t) {
     mobs.remove(t);
   }
 
+  /**
+   * Increase the player's cash.
+   * @param i The amount to increase the player's cash by.
+   */
   public synchronized void addCash(int i) {
     thePlayer.addCash(i);
   }
   
+  /**
+   * Get the current cash of the player.
+   * @return The current cash of the player.
+   */
   public synchronized double getCash() {
     return thePlayer.getCash();
   }
   
-  public synchronized void decrementCash(int cost) {
-    thePlayer.decrementCash(cost);
+  /**
+   * Get the number of mobs killed.
+   * @return The number of mobs killed in the current game.
+   */
+  public synchronized int getKillCount() {
+    return mobsKilled;
   }
   
-  public synchronized int getKillCount() {
-    return deadMobs;
-  }
-
-
+  /**
+   * Reduce the player's cash.
+   * @param cost The amount to decrement the players cash by.
+   */
   public void decrementCash(double cost) {
     thePlayer.decrementCash(cost);
     
