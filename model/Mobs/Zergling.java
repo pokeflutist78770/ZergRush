@@ -15,8 +15,10 @@ import controller.ControllerMain;
 public class Zergling extends Mob{
 
 	public Zergling(List<Point> movementPath) {
-		super(movementPath, ControllerMain.TILE_SIZE/3, ArmorAttribute.NONE, 
-				AttackAttribute.WEAK_ATTACK, DefenseAttribute.SMALL, 
+		super(movementPath, ControllerMain.TILE_SIZE/3, 
+				ArmorAttribute.NONE, 
+				AttackAttribute.WEAK_ATTACK, 
+				DefenseAttribute.SMALL, 
 				SpeedAttribute.FAST, 
 				new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Zergling"+Mob.IDNumber++,
@@ -27,7 +29,7 @@ public class Zergling extends Mob{
 				39.0,
 				43.0,
 				42.0,
-				7
-				);
+				7,
+				5);
 	}
 }

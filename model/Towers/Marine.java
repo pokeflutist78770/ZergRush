@@ -14,7 +14,9 @@ import views.MapView;
  *
  */
 public class Marine extends Tower{
-
+	
+	public static final double COST=100;
+	
 	 public Marine(Point loc) {
 		 super(0, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/marine.png");
 	 }

@@ -63,7 +63,9 @@ public abstract class Mob {
   private double delY;
   private int stepCount;
   private int animationSteps;
-
+  
+  private double cashPayout;
+  
   // For audio
   private String deathSound;
 
@@ -114,7 +116,7 @@ public abstract class Mob {
   public Mob(List<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
       DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances, String name,
       String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY,
-      int animationSteps) {
+      int animationSteps, double cash) {
 
     // Animation Attributes
     this.stepCount = 0;
@@ -142,6 +144,8 @@ public abstract class Mob {
     this.resistances = resistances;
     this.setName(name);
     this.imageFilePath = imageFP;
+    this.cashPayout=cash;
+    
     attackTime = 0;
     initializeMovement();
   }
@@ -431,7 +435,11 @@ public abstract class Mob {
   public void setName(String name) {
     this.name = name;
   }
-
+  
+  public double getCashPayout() {
+	  return cashPayout;
+  }
+  
   /**
    * If a mob's HP reaches zero, it's death sound clip will trigger, and the
    * player's score will be incremented. After that point, the mob is removed from
@@ -441,7 +449,7 @@ public abstract class Mob {
     ControllerMain.soundEffects.get(deathSound).play();
     wasKilled = true;
     ControllerMain.mobs.remove(this);
-
+    ControllerMain.thePlayer.addCash(cashPayout);
     MapView.incrKills();
   }
 }

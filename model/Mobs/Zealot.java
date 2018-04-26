@@ -32,8 +32,8 @@ public Zealot(List<Point> movementPath) {
         41.0,
         42.0,
         44.0, 
-        8
-        );
+        8,
+        7);
 	}
 }
 

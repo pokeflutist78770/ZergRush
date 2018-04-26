@@ -35,7 +35,7 @@ public class BattleCruiser extends Mob{
         77.0,
         0.0,
         0.0, 
-        1
-        );
+        1,
+        100);
 	}
 }

@@ -15,6 +15,8 @@ import views.MapView;
  *
  */
 public class Tank  extends Tower{
+	public static final double COST=350;
+	
 	 public Tank(Point loc) {
 		 super(0, "Library", loc, Range.DEMO_RANGE, "file:assets/images/tower/tank.png");
 	 }

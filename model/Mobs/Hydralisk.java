@@ -33,7 +33,7 @@ public class Hydralisk extends Mob {
 				55.0,
 				45.0,
 				58.0, 
-				7
-				);
+				7,
+				35);
 	}
 }

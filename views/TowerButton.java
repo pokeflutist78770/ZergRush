@@ -16,6 +16,7 @@ public class TowerButton extends Button {
 	private Range range;
 	private ImageView image;
 	private String name;
+	private double cost;
 	
 	/**
 	* Constructor for TowerButton. Create a new Tower Button to represent
@@ -29,14 +30,13 @@ public class TowerButton extends Button {
 	* 
 	* @return None
 	*/
-	public TowerButton(String buttonText, ImageView buttonImage, String name, Range range) {
+	public TowerButton(String buttonText, ImageView buttonImage, String name, Range range,
+			           double cashThreshold) {
 		super(buttonText, buttonImage);
 		this.name=name;
 		this.image=buttonImage;
-		/*image.setFitHeight(50);
-		image.setFitWidth(50);
-		image.setPreserveRatio(true); */
 		this.range=range;
+		cost=cashThreshold;
 	}
 	
 	// Getter - Tower Range
@@ -52,5 +52,13 @@ public class TowerButton extends Button {
 	// Getter - Tower Name
 	public String getName() {
 		return name;
+	}
+	
+	public double getCost() {
+		return cost;
+	}
+	
+	public boolean canBeBought(double cash) {
+		return cash>=cost;
 	}
 }

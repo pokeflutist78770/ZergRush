@@ -51,9 +51,9 @@ public class MapView extends StackPane {
   private GraphicsContext gc;
   private VBox vBox;
   private HBox towerBox;
-  private Button tower1;
-  private Button tower2;
-  private Button tower3;
+  private TowerButton tower1;
+  private TowerButton tower2;
+  private TowerButton tower3;
   private Button upgradeButton;
   private Button upgrade;
   private GridPane gameGrid;
@@ -136,7 +136,7 @@ public class MapView extends StackPane {
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
-    tower1 = new TowerButton("", iv1, "Marine", Range.MEDIUM_RANGE);
+    tower1 = new TowerButton("", iv1, "Marine", Range.MEDIUM_RANGE, Marine.COST);
     tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
@@ -145,7 +145,7 @@ public class MapView extends StackPane {
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new TowerButton("", iv2, "Depot", Range.LARGE_RANGE);
+    tower2 = new TowerButton("", iv2, "Depot", Range.LARGE_RANGE, Depot.COST);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
@@ -154,7 +154,7 @@ public class MapView extends StackPane {
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new TowerButton("", iv3, "Tank", Range.DEMO_RANGE);
+    tower3 = new TowerButton("", iv3, "Tank", Range.DEMO_RANGE, Tank.COST);
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
@@ -473,6 +473,16 @@ public class MapView extends StackPane {
     	drawGhostTower();
     }
 
+    
+    checkTowers();
+    
+    if(ControllerMain.thePlayer.getCash()>=tower1.getCost()) {
+    	tower1.setOpacity(1);
+    }
+    else {
+    	tower1.setOpacity(.5);
+    }
+    
     double health = thePlayer.getHP() / 100;
     String healthStr = formatter.format(health);
     
@@ -514,6 +524,29 @@ public class MapView extends StackPane {
     projectilesCpy.clear();
   }
   
+  
+  public void checkTowers() {
+	  if(ControllerMain.thePlayer.getCash()>=tower1.getCost()) {
+	    	tower1.setOpacity(1);
+	    }
+	  else {
+	    tower1.setOpacity(.5);
+	  }
+	  
+	  if(ControllerMain.thePlayer.getCash()>=tower2.getCost()) {
+	    tower2.setOpacity(1);
+	  }
+	  else {
+	    tower2.setOpacity(.5);
+	  }
+	 
+	  if(ControllerMain.thePlayer.getCash()>=tower3.getCost()) {
+		  tower3.setOpacity(1);
+	  }
+	  else {
+		  tower3.setOpacity(.5);
+	  }
+  }
 
   /**
   * Draw a representation of Tower with green circle surrounding
@@ -559,16 +592,17 @@ public class MapView extends StackPane {
 		TowerButton button=(TowerButton) e.getSource();
 		
 		//user clicks on the same button
-		if(currName.equals(button.getName())) {
+		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
 			return;
 		}
-		
-		towerPlacement=true;
-		currRange=button.getRange();
-		currTower=button.getImage().getImage();
-		currName=button.getName();
-		System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
+		if(button.canBeBought(ControllerMain.thePlayer.getCash())) {
+			towerPlacement=true;
+			currRange=button.getRange();
+			currTower=button.getImage().getImage();
+			currName=button.getName();
+			System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
+		}
 	} 
   } 
   
@@ -595,21 +629,27 @@ public class MapView extends StackPane {
 		if(towerPlacement) {
 			towerPlacement=false;
 			Tower newTower=null;
+			//currName="";
+			double cost=0;
 			
 			//the different buttons
 			if(currName.equals("Marine")) {
+				cost=tower1.getCost();
 				newTower=new Marine(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
 			}
 			else if( currName.equals("Depot")){
+				cost=tower2.getCost();
 				newTower=new Depot(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
 			}
 			else if(currName.equals("Tank")) {
+				cost=tower3.getCost();
 				newTower=new Tank(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
 					                		    (int)(mousePos.getY()-.5*ghostTowerSize)));
 			}
 			
+			ControllerMain.thePlayer.addCash(-cost);
 			ControllerMain.towers.add(newTower);
 
 		}

@@ -22,6 +22,6 @@ public class DarkTemplar extends Mob {
         DefenseAttribute.MEDIUM, SpeedAttribute.SLOW,
         new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.POISON)),
         "DarkTemplar" + Mob.IDNumber++, "file:assets/images/mob/protoss/dark_templar.png", "dt_death", 5.0, 2.0, 54.0,
-        59.0, 57.0, 62.0, 8);
+        59.0, 57.0, 62.0, 8, 20);
   }
 }
