@@ -225,7 +225,7 @@ public class ControllerMain extends Application {
     private void initializeMapView() {
       //TODO: probably can refactor this.
       theMapView.setMapSelection(theGame.getBackgroundImageFP());
-System.out.println("map selection set");
+      System.out.println("map selection set");
       // Set Wave Difficulty
       theMapView.setWaveNum(theMenuView.getModeSelection());
       System.out.println("wave difficulty set");

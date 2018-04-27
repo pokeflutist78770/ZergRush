@@ -825,6 +825,8 @@ public class MapView extends StackPane implements Observer {
 			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
 			double mousePosY = mousePos.getY()-.5*ghostTowerSize;
 			
+			Point mousePoint=new Point((int) mousePosX, (int) mousePosY);
+			
 			for (Tower t : theGame.getTowers())
 			{
 				towerSelected = false;
