@@ -90,14 +90,7 @@ abstract public class Projectile {
    * Returns: None
   */
   private boolean hasReachedTarget() {
-	//area of effect projectile
-    if (targetMob == null) {
-       return Metric.closeEnough(currentLocation, targetLocation, speed.getSpeed()/2);
-    
-    //target is a mob
-    } else {
       return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius+speed.getSpeed()/2);
-    }
   }
 
 

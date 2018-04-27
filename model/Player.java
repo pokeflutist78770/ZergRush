@@ -40,11 +40,6 @@ public class Player {
 	*/
 	public void takeDamage(double damage) {
 	  CURRENT_HP -= damage;
-      
-		
-	  if(CURRENT_HP<=0) {
-		ControllerMain.dealWithDeadPlayer();
-      }
 		
 	}
 	

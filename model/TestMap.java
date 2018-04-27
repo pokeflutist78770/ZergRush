@@ -12,11 +12,13 @@ public class TestMap extends Map {
   public TestMap(TowerGame game, int i) throws ClassNotFoundException {
     super("file:assets/images/map/terran_map.jpg", "Easy", game);
     soundtrack = "terranSoundtrack";
+    List<String> listOfMobs = new ArrayList<String>();
     if (i==0) {
-      initializeSpawnConstructors(Arrays.asList("Belch", "Wraith", "BattleCruiser"));
+      listOfMobs = new ArrayList<String>(Arrays.asList("Belch", "Wraith", "BattleCruiser"));
     } else {
-      initializeSpawnConstructors(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
+      listOfMobs = new ArrayList<String>(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
     }
+    initializeSpawnConstructors(listOfMobs);
     name = "Terran"+ idNo;
   }
 

@@ -64,16 +64,6 @@ public class TowerTest {
   }
 
   @Test
-  public void testShoot() {
-    // TODO
-  }
-
-  @Test
-  public void testGetClosestMob() {
-    // TODO
-  }
-
-  @Test
   public void testIsDone() {
     assertFalse(depotTowerTest.isDone());
   }
@@ -98,24 +88,9 @@ public class TowerTest {
   }
 
   @Test
-  public void testSetImageFilePath() {
-    // TODO
-  }
-
-  @Test
-  public void testGetImage() {
-    // TODO
-  }
-
-  @Test
   public void testGetXY() {
     assertTrue(depotTowerTest.getX() == path.get(0).getX());
     assertTrue(depotTowerTest.getY() == path.get(0).getY());
-  }
-
-  @Test
-  public void testGetY() {
-    // TODO
   }
 
   @Test

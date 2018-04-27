@@ -42,7 +42,6 @@ public class TowerGame extends Observable {
     try {
       theMap = createMap(mapSelection,difficulty);
     } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     backgroundImageFilePath = theMap.backgroundImageFilePath;
@@ -101,7 +100,7 @@ public class TowerGame extends Observable {
 
     @Override
     public void run() {
-      System.out.println("The loop started.");
+      
       while(tg.gameInProgress()) {
         if (!tg.isPaused()) {
           tg.updateGameState();
@@ -122,8 +121,12 @@ public class TowerGame extends Observable {
    * Tells if the game is still going.
    * @return True, if the game is not over. False, otherwise.
    */
-  private boolean gameInProgress() {
+  public boolean gameInProgress() {
     return !gameOver;
+  }
+  
+  public void gameOver() {
+    gameOver = true;
   }
 
   /**
@@ -134,6 +137,10 @@ public class TowerGame extends Observable {
     updateMobs();
     updateProjectiles();
     updateTowers();
+    
+    if(thePlayer.getHP()<=0) {
+      ControllerMain.dealWithDeadPlayer();
+    }
   }
 
 
@@ -278,7 +285,7 @@ public class TowerGame extends Observable {
    * @param p The projectile to remove.
    */
   public synchronized void remove(Projectile p) {
-    mobs.remove(p);
+    projectiles.remove(p);
   }
 
   
@@ -303,7 +310,7 @@ public class TowerGame extends Observable {
    * @param t The tower to remove.
    */
   public synchronized void remove(Tower t) {
-    mobs.remove(t);
+    towers.remove(t);
   }
 
   /**

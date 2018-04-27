@@ -54,13 +54,6 @@ public class ProjectileTest {
     tg.add(testZergling);
     tg.add(demoProj);
   }
-  
-  
-
-  @Test
-  public void testProjectile() {
-    // TODO
-  }
 
   @Test
   public void testTerminate() {
@@ -73,38 +66,8 @@ public class ProjectileTest {
   }
 
   @Test
-  public void testUpdateLocation() {
-    // TODO
-  }
-
-  @Test
-  public void testUpdate() {
-    // TODO
-  }
-
-  @Test
-  public void testIsDone() {
-    // TODO
-  }
-
-  @Test
-  public void testGetDirectionVector() {
-    // TODO
-  }
-
-  @Test
-  public void testGetDirectionAngle() {
-    // TODO
-  }
-
-  @Test
   public void testGetMob() {
     assertTrue(demoProj.getMob().equals(testArchon));
-  }
-
-  @Test
-  public void testSetMob() {
-    // TODO
   }
 
   @Test
@@ -116,11 +79,6 @@ public class ProjectileTest {
   }
 
   @Test
-  public void testSetImageFilePath() {
-    // TODO
-  }
-
-  @Test
   public void testSetSpeed() {
     SpeedAttribute speed = demoProj.getSpeed();
     demoProj.setSpeed(SpeedAttribute.SLOW);
@@ -129,19 +87,9 @@ public class ProjectileTest {
   }
 
   @Test
-  public void testGetImage() {
-    // TODO
-  }
-
-  @Test
   public void testGetXY() {
     assertTrue(demoProj.getX() == 0);
     assertTrue(demoProj.getY() == 1);
-  }
-
-  @Test
-  public void testGetY() {
-    // TODO
   }
 
 }
