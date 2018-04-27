@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import model.Archon;
-import model.DemoMap;
 import model.Map;
 import model.TowerGame;
 
