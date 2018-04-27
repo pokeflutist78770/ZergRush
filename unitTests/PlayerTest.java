@@ -20,16 +20,6 @@ public class PlayerTest {
   }
 
   @Test
-  public void testTakeDamage() {
-    // TODO
-  }
-
-  @Test
-  public void testAddCash() {
-    // TODO
-  }
-
-  @Test
   public void testGetHP() {
     double hp = player.getHP();
     player.takeDamage(10);
@@ -39,26 +29,6 @@ public class PlayerTest {
     player.resetStats();
     assertTrue(player.getHP() == hp);
     assertFalse(player.isDead());
-  }
-
-  @Test
-  public void testGetCash() {
-    // TODO
-  }
-
-  @Test
-  public void testDecrementCash() {
-    // TODO
-  }
-
-  @Test
-  public void testResetStats() {
-    // TODO
-  }
-
-  @Test
-  public void testIsDead() {
-    // TODO
   }
 
 }

@@ -104,11 +104,6 @@ public class TowerGameTest {
   }
 
   @Test
-  public void testTowerGame() {
-    // TODO
-  }
-
-  @Test
   public void testStart() throws InterruptedException {
     addMobsToGAme();
     addProjectilesToGame();
@@ -126,73 +121,8 @@ public class TowerGameTest {
   }
 
   @Test
-  public void testIsPaused() {
-    // TODO
-  }
-
-  @Test
-  public void testPause() {
-    // TODO
-  }
-
-  @Test
-  public void testUnPause() {
-    // TODO
-  }
-
-  @Test
   public void testGetBackgroundImageFP() {
     assertTrue(tg.getBackgroundImageFP().equals("file:assets/images/map/protoss_map.jpg"));
-  }
-
-  @Test
-  public void testGetPlayer() {
-    // TODO
-  }
-
-  @Test
-  public void testGetMobs() {
-    // TODO
-  }
-
-  @Test
-  public void testAddMob() {
-    // TODO
-  }
-
-  @Test
-  public void testRemoveMob() {
-    // TODO
-  }
-
-  @Test
-  public void testGetProjectiles() {
-    // TODO
-  }
-
-  @Test
-  public void testAddProjectile() {
-    // TODO
-  }
-
-  @Test
-  public void testRemoveProjectile() {
-    // TODO
-  }
-
-  @Test
-  public void testGetTowers() {
-    // TODO 
-  }
-
-  @Test
-  public void testAddTower() {
-    // TODO
-  }
-
-  @Test
-  public void testRemoveTower() {
-    // TODO
   }
 
   @Test
@@ -202,11 +132,6 @@ public class TowerGameTest {
     assertTrue(cash + 200 == tg.getCash());
     tg.decrementCash(200);
     assertTrue(tg.getCash() == cash);
-  }
-
-  @Test
-  public void testGetCash() {
-    // TODO
   }
 
   @Test
@@ -220,11 +145,6 @@ public class TowerGameTest {
     assertTrue(tg.gameInProgress());
     tg.gameOver();
     assertFalse(tg.gameInProgress());
-  }
-
-  @Test
-  public void testGetMap() {
-    // TODO
   }
 
 }
