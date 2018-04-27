@@ -14,12 +14,12 @@ import views.MapView;
  */
 public class TankTower  extends Tower{
   
-  public static final double COST=350;
-  
-	 public TankTower(Point loc, TowerGame game) {
-		 super(350, "Library", loc, RangeAttribute.DEMO_RANGE, "file:assets/images/tower/tank.png", game, 120);
-
-	 }
+	public static final double COST=350;
+	public static final RangeAttribute BASE_RANGE=RangeAttribute.MEDIUM_RANGE;
+	
+	public TankTower(Point loc, TowerGame game) {
+		super(350, "Library", loc, RangeAttribute.MEDIUM_RANGE, "file:assets/images/tower/tank.png", game, 120);
+	}
 
 	@Override
 	protected void shoot(Set<Mob> nearbyMobs) {

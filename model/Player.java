@@ -65,14 +65,14 @@ public class Player {
 		return CURRENT_CASH;
 	}
 
-  public void decrementCash(double cost) {
-    CURRENT_CASH -= cost;
-    
-  }
+	public void decrementCash(double cost) {
+		CURRENT_CASH -= cost;
+	}
 	
 	//resets HP for a new game
 	public void resetStats() {
 		CURRENT_HP=BASE_HP;
+		CURRENT_CASH=BASE_CASH;
 	}
 	
 	

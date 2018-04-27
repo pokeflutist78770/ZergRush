@@ -14,9 +14,10 @@ import views.MapView;
 public class DepotTower extends Tower {
   
   public static final double COST=150;
+  public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
   
   public DepotTower(Point loc, TowerGame game) {
-    super(150, "Library", loc, RangeAttribute.DEMO_RANGE, "file:assets/images/tower/depot.png", game, 120);
+    super(150, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/depot.png", game, 120);
   }
 
   @Override

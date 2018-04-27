@@ -13,12 +13,12 @@ import views.MapView;
  */
 public class MarineTower extends Tower{
   
-  public static final double COST=100;
-
-	 public MarineTower(Point loc, TowerGame game) {
-		 super(100, "Library", loc, RangeAttribute.DEMO_RANGE, "file:assets/images/tower/marine.png", game, 120);
-
-	 }
+	public static final double COST=100;
+	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
+	
+	public MarineTower(Point loc, TowerGame game) {
+		super(100, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/marine.png", game, 120);
+	}
 
 	@Override
 	protected void shoot(Set<Mob> nearbyMobs) {
