@@ -7,7 +7,7 @@ package model;
  *
  */
 public enum RangeAttribute {
-  DEMO_RANGE(200), SMALL_RANGE(75), MEDIUM_RANGE(125), LARGE_RANGE(200);
+  DEMO_RANGE(200), SMALL_RANGE(100), MEDIUM_RANGE(150), LARGE_RANGE(200);
   
   private final double distance;
   

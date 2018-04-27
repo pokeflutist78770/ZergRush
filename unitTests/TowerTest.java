@@ -95,7 +95,7 @@ public class TowerTest {
 
   @Test
   public void testGetRange() {
-    assertTrue(depotTowerTest.getRange() == RangeAttribute.DEMO_RANGE.toDouble());
+    assertTrue(depotTowerTest.getRange() == RangeAttribute.SMALL_RANGE.toDouble());
   }
 
   @Test

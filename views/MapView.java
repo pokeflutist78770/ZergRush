@@ -184,7 +184,9 @@ public class MapView extends StackPane implements Observer {
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
-    tower1 = new TowerButton("", iv1, "Marine", RangeAttribute.MEDIUM_RANGE, MarineTower.COST);
+    tower1 = new TowerButton("", iv1, "Marine", 
+    		                 MarineTower.BASE_RANGE, 
+    		                 MarineTower.COST);
     tower1.setOnAction(towerButtonHandler);
     tower1.setStyle("-fx-base: #808080;");
 
@@ -193,7 +195,9 @@ public class MapView extends StackPane implements Observer {
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);
-    tower2 = new TowerButton("", iv2, "Depot", RangeAttribute.LARGE_RANGE, DepotTower.COST);
+    tower2 = new TowerButton("", iv2, "Depot", 
+    		                 DepotTower.BASE_RANGE, 
+    		                 DepotTower.COST);
     tower2.setOnAction(towerButtonHandler);
     tower2.setStyle("-fx-base: #808080;");
     
@@ -202,7 +206,10 @@ public class MapView extends StackPane implements Observer {
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
-    tower3 = new TowerButton("", iv3, "Tank", RangeAttribute.DEMO_RANGE, TankTower.COST);
+    tower3 = new TowerButton("", iv3, "Tank", 
+    		                 TankTower.BASE_RANGE, 
+    		                 TankTower.COST);
+    
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
@@ -510,11 +517,15 @@ public class MapView extends StackPane implements Observer {
   */
   
   public void drawMap() {
-    gc.drawImage(background, 0, 0);
     Platform.runLater(new Runnable() {//TODO: fix this
       @Override
         public void run() {
           gc.drawImage(background, 0, 0);
+          
+          if(towerSelected) {
+        	  drawTowerSelected();
+          }
+          
           drawTowers();
           drawMobs();
           drawProjectiles();
@@ -653,7 +664,9 @@ public class MapView extends StackPane implements Observer {
   public void drawTowerSelected()
   {
 	  gc.setFill(Color.color(0, .5, 0, .5));
-	  gc.fillOval(towerX-5, towerY-5, 70, 70);
+	  gc.fillOval(towerX-currentTower.getRange()+.5*ghostTowerSize, 
+			      towerY-currentTower.getRange()+.5*ghostTowerSize, 
+			      currentTower.getRange()*2, currentTower.getRange()*2);
   }
   
   
@@ -674,6 +687,7 @@ public class MapView extends StackPane implements Observer {
 	  towerSelected = true;
 	  towerX = x;
 	  towerY = y;
+	  currentTower=t;
 	  
 	  // Update Command Panel
 	  attr1Text = "Tower";
@@ -698,6 +712,7 @@ public class MapView extends StackPane implements Observer {
 	  attr4Text = "$"+String.valueOf(t.getCost()+upgradeCost);
 	  attr5Text = "Range:";
 	  attr6Text = String.valueOf(formatter.format(t.getRange()));
+	  
   }
 
   
@@ -792,6 +807,7 @@ public class MapView extends StackPane implements Observer {
 		  attr4Text = "";
 		  attr5Text = "";
 		  attr6Text = "";
+		  towerSelected=false;
 		  
 		if(towerPlacement) {
 			towerPlacement=false;
@@ -821,19 +837,22 @@ public class MapView extends StackPane implements Observer {
 		}
 		else {
 			// Determine if any Towers in ControllerMain match MouseClick coordinates
-			
+			//towerSelected = false;
 			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
 			double mousePosY = mousePos.getY()-.5*ghostTowerSize;
 			
 			Point mousePoint=new Point((int) mousePosX, (int) mousePosY);
+			Point towerPoint=null;
 			
 			for (Tower t : theGame.getTowers())
 			{
-				towerSelected = false;
+				System.out.println("Tower: "+t.getX()+" "+t.getY());
+				System.out.println("Mouse: "+mousePoint);
 				if (t.getX() >= mousePosX-20 && t.getX() <= mousePosX+20)
 				{
 					if (t.getY() >= mousePosY-20 && t.getY() <= mousePosY+20)
 					{
+						System.out.println("Found tower");
 						setTowerSelected(t, t.getX(), t.getY());
 						break;
 					}

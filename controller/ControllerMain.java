@@ -1,6 +1,6 @@
 package controller;
 
-import java.util.HashMap;
+import java.util.HashMap; 
 
 import javafx.application.*;
 import javafx.event.ActionEvent;
@@ -212,7 +212,7 @@ public class ControllerMain extends Application {
       theGame.addObserver(theMapView);
       System.out.println("Observers have been set.");
       theGame.start();
-      
+      theGame.getPlayer().resetStats();
       initializeMapView();
       System.out.println("MapView has been configured.");
       
