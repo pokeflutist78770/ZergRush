@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,12 +33,17 @@ public class TowerGame extends Observable {
   /**
    * @param difficulty The difficulty is a string, either "Easy", "Medium", "Hard", or "Meme"
    * @param mapSelection The mapSelection is a string, either "Terran", "Protoss", or "Zerg"
+   * @throws ClassNotFoundException 
    */
   
   public TowerGame(String difficulty, String mapSelection) {
     
     thePlayer = new Player();
-    theMap = createMap(mapSelection,difficulty);
+    try {
+      theMap = createMap(mapSelection,difficulty);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
     backgroundImageFilePath = theMap.backgroundImageFilePath;
     gameOver = false;
     mobs = new HashSet<Mob>();
@@ -56,8 +62,9 @@ public class TowerGame extends Observable {
  * @param mapSelection The type of map to create. "Terran", "Protoss", or "Zerg"
  * @param difficulty The difficulty of map to create. "Easy", "Medium", "Hard", or "Meme"
  * @return
+ * @throws ClassNotFoundException 
  */
-  private Map createMap(String mapSelection, String difficulty) {
+  private Map createMap(String mapSelection, String difficulty) throws ClassNotFoundException {
     if (mapSelection.equals("Protoss")) {
       return new ProtossMap(difficulty, this);
     }
@@ -93,7 +100,7 @@ public class TowerGame extends Observable {
 
     @Override
     public void run() {
-      System.out.println("The loop started.");
+      
       while(tg.gameInProgress()) {
         if (!tg.isPaused()) {
           tg.updateGameState();
@@ -114,8 +121,12 @@ public class TowerGame extends Observable {
    * Tells if the game is still going.
    * @return True, if the game is not over. False, otherwise.
    */
-  private boolean gameInProgress() {
+  public boolean gameInProgress() {
     return !gameOver;
+  }
+  
+  public void gameOver() {
+    gameOver = true;
   }
 
   /**
@@ -126,6 +137,10 @@ public class TowerGame extends Observable {
     updateMobs();
     updateProjectiles();
     updateTowers();
+    
+    if(thePlayer.getHP()<=0) {
+      ControllerMain.dealWithDeadPlayer();
+    }
   }
 
 
@@ -270,7 +285,7 @@ public class TowerGame extends Observable {
    * @param p The projectile to remove.
    */
   public synchronized void remove(Projectile p) {
-    mobs.remove(p);
+    projectiles.remove(p);
   }
 
   
@@ -295,7 +310,7 @@ public class TowerGame extends Observable {
    * @param t The tower to remove.
    */
   public synchronized void remove(Tower t) {
-    mobs.remove(t);
+    towers.remove(t);
   }
 
   /**
@@ -329,6 +344,11 @@ public class TowerGame extends Observable {
   public void decrementCash(double cost) {
     thePlayer.decrementCash(cost);
     
+  }
+
+
+  public Map getMap() {
+    return theMap;
   }
   
 }

@@ -3,106 +3,70 @@ package unitTests;
 import static org.junit.Assert.*;
 
 import java.awt.Point;
-import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-
-import model.AttackAttribute;
-import model.DemoMap;
-import model.Map;
-import model.Metric;
-import model.Mob;
-import model.ProtossMap;
-import model.TerranMap;
-import model.ZergMap;
 
 import org.junit.Test;
 
-import controller.ControllerMain;
-import javafx.scene.image.Image;
+import model.Map;
+import model.TerranMap;
+import model.TestMap;
+import model.TowerGame;
 
 public class MapTest {
+  
 
-  private HashMap<Integer, List<Point>> paths = 
-      new HashMap<Integer, List<Point>>();
+  TowerGame tg = new TowerGame("Medium", "Protoss");
+  
+  int numberOfTries = 1000;
+  HashMap<List<String>,Map> maps = initializeMaps();
+
+  
+  private HashMap<List<String>,Map> initializeMaps() {
+    HashMap<List<String>,Map> maps = new HashMap<List<String>,Map>();
+    List<String> difficulties = new ArrayList(Arrays.asList("Easy", "Medium", "Hard", "Meme"));
+    List<String> mapTypes = new ArrayList(Arrays.asList("Terran", "Protoss", "Zerg"));
+    
+    for (String d: difficulties) {
+      for (String t: mapTypes) {
+        TowerGame tg = new TowerGame(d,t);
+        maps.put(Arrays.asList(t, d), tg.getMap());
+      }
+    }
+    return maps;
+  }
+  
+  @Test(expected = ClassNotFoundException.class)
+  public void testClassNotFoundException() throws ClassNotFoundException {
+    Map dummyMap01 = new TestMap(tg,1);
+    Map dummyMap02 = new TestMap(tg,0);
+  }
 
   @Test
-  public void test() {
-  
-  
-	//Map protossMap = new ProtossMap(1);
-	//Map terranMap = new TerranMap(1);
-	//Map zergmap = new ZergMap(1);
-	//Map demoMap = new DemoMap();
-	Metric metric = new Metric();
-	
-	Point p1 = new Point(876,890);
-	Point p2 = new Point(762, 834);
-	
-	Point p3 = new Point(0,0);
-	
-	metric.closeEnough(p1, p2, 10000000);
-	metric.closeEnough(p1, p2, .00001);
-	
-	metric.getDirectionVector(p1, p2);
-	metric.getDirectionAngle(p1, p2);
-	
-	metric.getDirectionAngle(p3, p3);
-	metric.getDirectionAngle(p3, p2);
-	metric.getDirectionAngle(p2, p3);
-	
-
-
-    List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
-        new Point(876, 890), 
-        new Point(762, 834),
-        new Point(684, 883),
-        new Point(566, 756),
-        new Point(466, 633),
-        new Point(521, 403),
-        new Point(674, 256),
-        new Point(653, 173),
-        new Point(562, 130),
-        new Point(402, 204),
-        new Point(358, 166),
-        new Point(316, 89),
-        new Point(201, 168),
-        new Point(147, 119)
-        ));
-    
-    
-    //DemoMob demoMob = new DemoMob(pathOne);
-    
-    AttackAttribute attack = AttackAttribute.DEMO_ATTACK;
-    attack.getAttack();
-    attack = AttackAttribute.MEDIUM_ATTACK;
-    attack.getAttack();
-    attack = AttackAttribute.STRONG_ATTACK;
-    attack.getAttack();
-    attack = AttackAttribute.WEAK_ATTACK;
-    attack.getAttack();
-    
-    for(Point p: pathOne) {
-      Map.scalePoint(p);
+  public void testUpdate() {
+    Map map = maps.get(Arrays.asList("Terran", "Easy"));
+    for (int i = 0; i < numberOfTries; i++) {
+      map.update();
     }
-    
-    
-    this.paths.put(1, pathOne);
-    
-    try {
-      Class cls = Class.forName("model.Mobs." + "Ultralisk");
-      
-      Constructor<Mob> ctor[] = cls.getConstructors();
-      Mob ulty = ctor[0].newInstance(paths.get(1));
-      System.out.println(ulty.getName());
-    } catch (  InvocationTargetException | ClassNotFoundException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException e) {
-      // 
-      e.printStackTrace();
-      System.out.println("Didn't work.");
-    }
-    
+  }
+
+  @Test
+  public void testUpdateWaveIntensity() {
+    Map map = maps.get(Arrays.asList("Terran", "Easy"));
+    int WI = map.getWaveIntensity();
+    map.setWaveIntensity(500);
+    assertFalse(map.getWaveIntensity() == WI);
+  }
+
+  @Test
+  public void testSetPaths() {
+    Map map = maps.get(Arrays.asList("Terran", "Easy"));
+    HashMap<Integer, List<Point>> paths = new HashMap<Integer, List<Point>>(map.getPaths());
+    map.setPaths(null);
+    assertFalse(paths.equals(map.getPaths()));
   }
 
 }

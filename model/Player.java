@@ -40,11 +40,6 @@ public class Player {
 	*/
 	public void takeDamage(double damage) {
 	  CURRENT_HP -= damage;
-      System.out.println("Player HP: "+CURRENT_HP);
-		
-	  if(CURRENT_HP<=0) {
-		ControllerMain.dealWithDeadPlayer();
-      }
 		
 	}
 	

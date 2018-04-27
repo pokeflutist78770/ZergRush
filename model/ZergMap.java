@@ -18,7 +18,7 @@ public class ZergMap extends Map {
 
   private String soundtrack;
   
-  public ZergMap(String difficulty, TowerGame game) {
+  public ZergMap(String difficulty, TowerGame game) throws ClassNotFoundException {
     super("file:assets/images/map/zerg_map.jpg", difficulty, game);
     soundtrack = "zergSoundtrack";
     initializeSpawnConstructors(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));

@@ -90,14 +90,7 @@ abstract public class Projectile {
    * Returns: None
   */
   private boolean hasReachedTarget() {
-	//area of effect projectile
-    if (targetMob == null) {
-       return Metric.closeEnough(currentLocation, targetLocation, speed.getSpeed()/2);
-    
-    //target is a mob
-    } else {
       return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius+speed.getSpeed()/2);
-    }
   }
 
 
@@ -135,7 +128,7 @@ abstract public class Projectile {
     return Metric.getDirectionAngle(currentLocation, targetLocation);
   }
 	  
-  protected Mob getMob() {
+  public Mob getMob() {
     return targetMob;
   }
 
@@ -153,6 +146,10 @@ abstract public class Projectile {
   
   public void setSpeed(SpeedAttribute s) {
 	  this.speed = s;
+  }
+  
+  public SpeedAttribute getSpeed() {
+    return speed;
   }
   
   public Image getImage() {

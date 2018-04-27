@@ -4,36 +4,31 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import controller.ControllerMain;
 import model.Player;
 
 public class PlayerTest {
   
-  private Player player1 = new Player();
-  private ControllerMain cm = new ControllerMain();
+  Player player = new Player();
+
+  @Test
+  public void testPlayer() {
+    double cash = player.getCash();
+    player.decrementCash(100);
+    assertFalse(player.getCash() == cash);
+    player.addCash(100);
+    assertTrue(player.getCash() == cash);
+  }
 
   @Test
   public void testGetHP() {
-    player1.takeDamage(500);
-    assertTrue(player1.getHP() == 9500);
-  }
-
-  @Test
-  public void testResetStats() {
-    player1.takeDamage(500);
-    assertTrue(player1.getHP() != 10000);
-    player1.resetStats();
-    assertTrue(player1.getHP() == 10000);
-  }
-
-  @Test
-  public void testIsDead() {
-    assertFalse(player1.isDead());
-    /**
-     * Cannot test the following because of the lambda in dealWithDeadPlayer in ControllerMain 
-    player1.takeDamage(2*player1.getHP());
-    assertTrue(player1.isDead());
-    */
+    double hp = player.getHP();
+    player.takeDamage(10);
+    assertFalse(player.getHP() == hp);
+    player.takeDamage(player.getHP());
+    assertTrue(player.isDead());
+    player.resetStats();
+    assertTrue(player.getHP() == hp);
+    assertFalse(player.isDead());
   }
 
 }
