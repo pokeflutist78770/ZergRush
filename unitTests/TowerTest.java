@@ -82,13 +82,12 @@ public class TowerTest {
   public void testUpdate() {
     addMobsToGame();
     
-    for (int j = 0; j < numberOfTries; j++) {
-    for (int i = 0; i < numberOfTries/3; i++) {
+    for (int i = 0; i < numberOfTries; i++) {
       marineTowerTest.update();
       depotTowerTest.update();
       tankTowerTest.update();
     }
-  }}
+  }
 
   @Test
   public void testGetImageFilePath() {
