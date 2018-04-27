@@ -140,19 +140,15 @@ public abstract class Map {
    *  Parameters: mobTypes: list containing all the mob types for the map represented as Strings
    *    e.g. "Zergling" translates into the constructor for Zergline.java
    *  Returns: None
+   * @throws ClassNotFoundException 
   */
-  protected void initializeSpawnConstructors(List<String> mobTypes) {
+  protected void initializeSpawnConstructors(List<String> mobTypes) throws ClassNotFoundException {
     
     List<Class> mobClasses = new ArrayList<Class>();
     
     //attempts to add all mob classes to a new list
     for (String mType: mobTypes) {
-      try {
-        mobClasses.add(Class.forName("model." + mType));
-      } catch (ClassNotFoundException e) {
-        System.out.println("mobTypes to mobClasses conversion in model.Map failed.");
-        e.printStackTrace();
-      }
+      mobClasses.add(Class.forName("model." + mType));
     }
     
     mobConstructors = new ArrayList<Constructor<Mob>>();

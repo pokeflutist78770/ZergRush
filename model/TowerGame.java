@@ -33,12 +33,18 @@ public class TowerGame extends Observable {
   /**
    * @param difficulty The difficulty is a string, either "Easy", "Medium", "Hard", or "Meme"
    * @param mapSelection The mapSelection is a string, either "Terran", "Protoss", or "Zerg"
+   * @throws ClassNotFoundException 
    */
   
   public TowerGame(String difficulty, String mapSelection) {
     
     thePlayer = new Player();
-    theMap = createMap(mapSelection,difficulty);
+    try {
+      theMap = createMap(mapSelection,difficulty);
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     backgroundImageFilePath = theMap.backgroundImageFilePath;
     gameOver = false;
     mobs = new HashSet<Mob>();
@@ -57,8 +63,9 @@ public class TowerGame extends Observable {
  * @param mapSelection The type of map to create. "Terran", "Protoss", or "Zerg"
  * @param difficulty The difficulty of map to create. "Easy", "Medium", "Hard", or "Meme"
  * @return
+ * @throws ClassNotFoundException 
  */
-  private Map createMap(String mapSelection, String difficulty) {
+  private Map createMap(String mapSelection, String difficulty) throws ClassNotFoundException {
     if (mapSelection.equals("Protoss")) {
       return new ProtossMap(difficulty, this);
     }

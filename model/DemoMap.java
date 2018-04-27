@@ -12,7 +12,7 @@ import controller.ControllerMain;
 public class DemoMap extends Map {
   
   
-  public DemoMap(TowerGame game) {
+  public DemoMap(TowerGame game) throws ClassNotFoundException {
     super("file:assets/images/map/demoMap.png","Easy", game);
     
     

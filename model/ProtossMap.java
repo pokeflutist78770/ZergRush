@@ -18,7 +18,7 @@ public class ProtossMap extends Map {
 
   private String soundtrack;;
   
-  public ProtossMap(String difficulty, TowerGame game) {
+  public ProtossMap(String difficulty, TowerGame game) throws ClassNotFoundException {
     super("file:assets/images/map/protoss_map.jpg", difficulty, game);
     soundtrack = "protossSoundtrack";
     initializeSpawnConstructors(Arrays.asList("Zealot", "DarkTemplar", "Archon"));

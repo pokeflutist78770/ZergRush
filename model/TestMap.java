@@ -5,25 +5,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import controller.ControllerMain;
-
-
-
-
-/*============================================================================*
- * 	TerranMap                                                                 *
- * 	Serves as the Terran map, one simple path with Terran enemies             *
- *============================================================================*/
-
-
-public class TerranMap extends Map {
+public class TestMap extends Map {
 
   private String soundtrack;;
   
-  public TerranMap(String difficulty, TowerGame game) throws ClassNotFoundException {
-    super("file:assets/images/map/terran_map.jpg", difficulty, game);
+  public TestMap(TowerGame game, int i) throws ClassNotFoundException {
+    super("file:assets/images/map/terran_map.jpg", "Easy", game);
     soundtrack = "terranSoundtrack";
-    initializeSpawnConstructors(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
+    if (i==0) {
+      initializeSpawnConstructors(Arrays.asList("Belch", "Wraith", "BattleCruiser"));
+    } else {
+      initializeSpawnConstructors(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
+    }
     name = "Terran"+ idNo;
   }
 
