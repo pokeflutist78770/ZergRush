@@ -50,7 +50,7 @@ public abstract class Mob {
   private int stepCount;
   private int animationSteps;
   
-  private double cashPayout;
+  private double cashPayout = 0;
   
   // For audio
   private String deathSound;
@@ -219,13 +219,6 @@ public abstract class Mob {
 
     double newX = oldX + spd * unitV.get(0);
     double newY = oldY + spd * unitV.get(1);
-
-    if (name.contains("Battle")) {
-      System.out.println("Velocity: " + unitV.toString());
-      System.out.println("Old position: " + oldX + "," + oldY);
-      System.out.println("New position: " + newX + "," + newY);
-      
-    }
     currentLocation.setLocation(newX, newY);
   }
 
@@ -436,6 +429,10 @@ public abstract class Mob {
   public void setSpeed(SpeedAttribute s) {
 	  this.speed = s;
   }
+
+public SpeedAttribute getSpeed() {
+  return this.speed;
+}
 
   public String getDeathSoundStr() {
     return deathSound;
