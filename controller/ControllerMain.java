@@ -250,7 +250,7 @@ public class ControllerMain extends Application {
   public static Image getGraphic(String imgfp) {
     if (!imageMap.containsKey(imgfp)) {
     //TODO: Ben, will you figure out the appropriate resolution?
-      imageMap.put(imgfp, new Image(imgfp, 100, 0, true, false)); 
+      imageMap.put(imgfp, new Image(imgfp)); 
     }
     return imageMap.get(imgfp);
   }
