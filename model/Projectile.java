@@ -135,7 +135,7 @@ abstract public class Projectile {
     return Metric.getDirectionAngle(currentLocation, targetLocation);
   }
 	  
-  protected Mob getMob() {
+  public Mob getMob() {
     return targetMob;
   }
 
@@ -153,6 +153,10 @@ abstract public class Projectile {
   
   public void setSpeed(SpeedAttribute s) {
 	  this.speed = s;
+  }
+  
+  public SpeedAttribute getSpeed() {
+    return speed;
   }
   
   public Image getImage() {
