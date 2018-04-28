@@ -35,6 +35,13 @@ public class MarineTower extends Tower{
 	public void upgrade() {
 		if(rank==0) {
 			setImageFilePath("file:assets/images/tower/thick.png");
+			
 		}
+		
+		else if(rank==1) {
+			setImageFilePath("file:assets/images/tower/ghost.png");
+		}
+		
+		rank++;
 	}
 }

@@ -34,6 +34,13 @@ public class TankTower  extends Tower{
 	
 	
 	public void upgrade() {
-		setImageFilePath("file:assets/images/tower/siege.png");
+		if(rank==0) {
+			setImageFilePath("file:assets/images/tower/siege.png");
+		}
+		else if(rank==1) {
+			setImageFilePath("file:assets/images/tower/thor.png");
+		}
+		
+		rank++;
 	}
 }
