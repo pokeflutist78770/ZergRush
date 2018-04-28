@@ -85,6 +85,19 @@ public class ControllerMain extends Application {
     stage.setScene(scene);
     stage.show();
   }
+  
+  /*
+   * initializeAssets Initializes all images and sound, allowing for a flyweight
+   * design pattern Parameters: None Returns: None
+   */
+  private static void play(AudioClip ac) {
+    for(AudioClip a: soundEffects.values()) {
+      if(a.isPlaying()) {
+        a.stop();
+      }
+      ac.play();
+    }
+  }
 
   /*
    * initializeAssets Initializes all images and sound, allowing for a flyweight
@@ -108,7 +121,10 @@ public class ControllerMain extends Application {
     soundEffects.put("marine_death", new AudioClip("file:assets/audio/mob/terran/marine_death.wav"));
     soundEffects.put("wraith_death", new AudioClip("file:assets/audio/mob/terran/wraith_death.wav"));
     soundEffects.put("bc_death", new AudioClip("file:assets/audio/mob/terran/bc_death.wav"));
-    soundEffects.put("terran_soundtrack", new AudioClip("file:assets/audio/map/terran.mp3"));
+    soundEffects.put("Terran", new AudioClip("file:assets/audio/map/terran.mp3"));
+    soundEffects.put("Protoss", new AudioClip("file:assets/audio/map/protoss.mp3"));
+    soundEffects.put("Zerg", new AudioClip("file:assets/audio/map/zerg.mp3"));
+    soundEffects.put("menu_soundtrack", new AudioClip("file:assets/audio/map/menu.mp3"));
     soundEffects.put("defeat", new AudioClip("file:assets/audio/map/defeat.mp3"));
 
   }
@@ -139,7 +155,7 @@ public class ControllerMain extends Application {
     // Initialize Menu View
     theMenuView = new MenuView(startButton, instrButton);
     ControllerMain.setViewTo(theMenuView);
-    soundEffects.get("terran_soundtrack").play();
+    play(soundEffects.get("menu_soundtrack"));
 
     menuButtonListener menuHandler = new menuButtonListener();
     startButton.setOnAction(menuHandler);
@@ -215,7 +231,7 @@ public class ControllerMain extends Application {
       theGame.getPlayer().resetStats();
       initializeMapView();
       System.out.println("MapView has been configured.");
-      
+      play(soundEffects.get(mapSelection));
       theGame.unPause(); //The mapview needs to be initialized before the game unpauses.
     }
 
@@ -274,10 +290,7 @@ public class ControllerMain extends Application {
   public static void dealWithDeadPlayer() {
     //TODO: clean this method
     theGame.pause();
-    if(soundEffects.get("terran_soundtrack").isPlaying()) {
-      soundEffects.get("terran_soundtrack").stop();
-    }
-    soundEffects.get("defeat").play();
+    play(soundEffects.get("defeat"));
     System.out.println("Player lost");
 
     // display loss screen
