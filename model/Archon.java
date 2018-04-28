@@ -20,6 +20,6 @@ public class Archon extends Mob {
         DefenseAttribute.LARGE, SpeedAttribute.SLOW,
         new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.ELECTRIC)),
         "Archon" + Mob.IDNumber++, "file:assets/images/mob/protoss/archon.png", "archon_death", 213.0, 595.0, 82.0,
-        89.0, 85.0, 92.0, 4, game);
+        89.0, 85.0, 92.0, 3, game);
   }
 }
