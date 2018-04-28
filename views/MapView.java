@@ -865,8 +865,9 @@ public class MapView extends StackPane implements Observer {
 			System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 		}
 		
-		if(button.getText().equals("Upgrade")) {
-			
+		//user wants to upgrade a currently selected tower
+		if(button.getText().equals("Upgrade") && towerSelected) {
+			currentTower.upgrade();
 		}
 	} 
   } 
@@ -975,8 +976,7 @@ public class MapView extends StackPane implements Observer {
 			//the different buttons
 			if(currName.equals("Marine")) {
 				cost=tower1.getCost();
-				newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+				newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 		                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
 			}
 			else if( currName.equals("Depot")){
 				cost=tower2.getCost();
@@ -1019,7 +1019,6 @@ public class MapView extends StackPane implements Observer {
 					closestTower=t;
 					closestTowerDistance=tempDist;
 					System.out.println("Found tower");
-					
 				}
 			}
 			

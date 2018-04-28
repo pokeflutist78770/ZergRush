@@ -17,7 +17,8 @@ public class MarineTower extends Tower{
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
 	
 	public MarineTower(Point loc, TowerGame game) {
-		super(100, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/marine.png", game, 120);
+		super(100, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/marine.png", 
+			  game, 120);
 	}
 
 	@Override
@@ -28,5 +29,10 @@ public class MarineTower extends Tower{
 	    		                    	   (int)(location.getX()+.5*MapView.ghostTowerSize),
 		    		                       (int)(location.getY()+.5*MapView.ghostTowerSize)),
 	    		                       closest,theGame));
+	}
+	
+	
+	protected void upgrade() {
+		
 	}
 }
