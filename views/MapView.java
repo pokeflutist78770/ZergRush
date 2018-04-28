@@ -570,7 +570,6 @@ public class MapView extends StackPane implements Observer {
           }
         }
       });
-
   }
 
 
@@ -865,6 +864,10 @@ public class MapView extends StackPane implements Observer {
 			currName=button.getName();
 			System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
 		}
+		
+		if(button.getText().equals("Upgrade")) {
+			
+		}
 	} 
   } 
   
@@ -1068,6 +1071,10 @@ public class MapView extends StackPane implements Observer {
 	}
   }
 
+  
+  
+  
+  
   /**
    * The update method is called by notify observers in the TowerGame when the main loop iterates.
    */
