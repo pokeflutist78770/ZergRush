@@ -850,13 +850,14 @@ public class MapView extends StackPane implements Observer {
 		mobSelected=false;
 		towerSelected = false;
 		
-		//user clicks on the same button
+		//user clicks on the same button as previously clicked, so cancel
 		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
 			return;
 		} else if (theGame.getCash() < 50){
 		  return;
 		}
+		//user can buy the tower
 		if(button.canBeBought(theGame.getCash())) {
 			towerPlacement=true;
 			currRange=button.getRange();
