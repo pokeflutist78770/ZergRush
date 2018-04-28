@@ -33,11 +33,10 @@ public class TankTower  extends Tower{
 	protected void shoot(Set<Mob> nearbyMobs) {
 		Mob closest = getClosestMob(nearbyMobs);
 		
-		Projectile projectile=new FireProjectile(
-                new Point(
-                 	   (int)(location.getX()+.5*MapView.ghostTowerSize),
-                 	   (int)(location.getY()+.5*MapView.ghostTowerSize)), 
-                    closest,theGame);
+		Projectile projectile=new FireProjectile(new Point(
+                 	                                       (int)(location.getX()+.5*MapView.ghostTowerSize),
+                 	                                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
+                                                 closest,theGame);
 				
 	    theGame.add(projectile);
 	}

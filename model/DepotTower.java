@@ -21,30 +21,43 @@ public class DepotTower extends Tower {
           game, 120);
   }
 
+  
+  /**
+	 * shoot
+	 * allows the tower to shoot at a mob
+	 * @param nearbyMobs: a collection of all nearby mobs
+	 * @return None
+	*/
   @Override
   protected void shoot(Set<Mob> nearbyMobs) {
     Mob closest = getClosestMob(nearbyMobs);
     
     Projectile projectile=null;
     
+    //towewr is at the base stage
     if(rank==0) {
     	projectile=new NormalProjectile(new Point(
-      	      (int)(location.getX()+.5*MapView.ghostTowerSize),
-                (int)(location.getY()+.5*MapView.ghostTowerSize)),
-              closest,theGame);
+      	                                          (int)(location.getX()+.5*MapView.ghostTowerSize),
+                                                  (int)(location.getY()+.5*MapView.ghostTowerSize)),
+                                        closest,theGame);
     }
-    else if(rank==1) {
-    	projectile=new IceProjectile(
-				   new Point(
-						(int)(location.getX()+.5*MapView.ghostTowerSize),
-						(int)(location.getY()+.5*MapView.ghostTowerSize)), 
-				   closest, theGame);
+    
+    //tower is upgraded, give a better projectile
+    else if(rank>=1) {
+    	projectile=new IceProjectile(new Point(
+					                       	   (int)(location.getX()+.5*MapView.ghostTowerSize),
+						                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
+				                     closest, theGame);
     }
     
     theGame.add(projectile);
   }
   
   
+  /**
+	 * upgrade
+	 * allows the tower to upgrade and gain better stats
+	*/
   public void upgrade() {
     if(rank==0) {
 		setImageFilePath("file:assets/images/tower/tower.png");
