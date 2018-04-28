@@ -33,7 +33,7 @@ public class Marine extends Mob{
         33.0,
         26.0,
         36.0, 
-        9,
+        8,
         game
         );
 
