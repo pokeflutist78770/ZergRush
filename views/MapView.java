@@ -874,6 +874,13 @@ public class MapView extends StackPane implements Observer {
    }
    
   
+   
+  /**
+   * upgradeHandler
+   * handles all upgrade procedures for the given tower
+   * @author aagua
+   *
+  */
   private class upgradeHandler implements EventHandler<ActionEvent>{
 	@Override
 	public void handle(ActionEvent e) {
@@ -882,6 +889,7 @@ public class MapView extends StackPane implements Observer {
 		//user wants to upgrade a currently selected tower
 		if(button.getText().equals("Upgrade") && towerSelected) {
 			currentTower.upgrade();
+			thePlayer.decrementCash(currentTower.getCost());
 		}
 	}
   }

@@ -32,14 +32,15 @@ public class DepotTower extends Tower {
   }
   
   
-	public void upgrade() {
-		if(rank==0) {
-			setImageFilePath("file:assets/images/tower/tower.png");
-		}
-		else if(rank==1) {
-			setImageFilePath("file:assets/images/tower/bunker.png");
-		}
-		
-		rank++;
+  public void upgrade() {
+    if(rank==0) {
+		setImageFilePath("file:assets/images/tower/tower.png");
+			
 	}
+	else if(rank==1) {
+		setImageFilePath("file:assets/images/tower/bunker.png");
+	}
+		
+	rank++;
+  }
 }
