@@ -556,7 +556,7 @@ public class MapView extends StackPane implements Observer {
           if(towerSelected) {
         	  drawTowerSelected();
           }
-          if(mobSelected) {
+          if(mobSelected && !currentMob.isDone()) {
         	  drawMobSelected();
           }
           
