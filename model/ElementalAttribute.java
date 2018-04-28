@@ -8,7 +8,7 @@ package model;
  *
  */
 public enum ElementalAttribute {
-	DEMO_ELEMENT(2), NONE(1), FIRE(1.25), WATER(1.25), EARTH(1.25), AIR(1.25);
+	DEMO_ELEMENT(2), NONE(1), FIRE(1.25), ICE(1.25), POISON(1.25), AIR(1.25);
 	
 	private double multiplier;
 	
