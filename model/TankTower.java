@@ -33,7 +33,7 @@ public class TankTower  extends Tower{
 	}
 	
 	
-	protected void upgrade() {
-		
+	public void upgrade() {
+		setImageFilePath("file:assets/images/tower/siege.png");
 	}
 }

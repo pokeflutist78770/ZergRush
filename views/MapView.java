@@ -182,6 +182,7 @@ public class MapView extends StackPane implements Observer {
     gcCommand.fillRect(0, 0, commandCanvas.getWidth(), commandCanvas.getHeight());
 
     EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
+    EventHandler<ActionEvent> upgradeButtonHandler=new upgradeHandler();
     EventHandler<ActionEvent> pauseButtonHandler = new pauseButtonHandler();
     EventHandler<ActionEvent> saveButtonHandler = new saveButtonHandler();
     
@@ -246,6 +247,7 @@ public class MapView extends StackPane implements Observer {
 
     // Purchase Button
     upgradeButton = new Button("Upgrade");
+    upgradeButton.setOnAction(upgradeButtonHandler);
     upgradeButton.setMinWidth(30);
     upgradeButton.setMinHeight(10);
     upgradeButton.setStyle("-fx-font: 14 serif; -fx-base: #808080;");
@@ -832,6 +834,60 @@ public class MapView extends StackPane implements Observer {
   
   
   /**
+   * Display tower properties when button is hovered over with mouse.
+   * Tower properties will show tower name, cost and attack type.
+   * Update command panel with tower hover.
+   * 
+   * @param int towerNum
+   * 1 - Marine
+   * 2 - Depot
+   * 3 - Tank
+   * 
+   * @return None
+   */
+   private void towerHover(int towerNum)
+   {  
+ 	  	  attr1Text = "Tower";
+ 		  attr3Text = "Cost:";
+ 		  attr5Text = "Type:";
+ 	  	  
+ 		  if (towerNum == 1)
+ 		  {
+ 			  attr2Text = "Marine";
+ 			  attr4Text = "$100";
+ 			  attr6Text = "Poison";
+ 		  }
+ 		  else if (towerNum == 2)
+ 		  {
+ 			  attr2Text = "Depot";
+ 			  attr4Text = "$150";
+ 			  attr6Text = "Ice";
+ 		  }
+ 		  else
+ 		  {
+ 			  attr2Text = "Tank";
+ 			  attr4Text = "$350";
+ 			  attr6Text = "Fire";
+ 		  }
+ 		  
+ 		  updateLabels();
+   }
+   
+  
+  private class upgradeHandler implements EventHandler<ActionEvent>{
+	@Override
+	public void handle(ActionEvent e) {
+		Button button=(Button) e.getSource();
+			
+		//user wants to upgrade a currently selected tower
+		if(button.getText().equals("Upgrade") && towerSelected) {
+			currentTower.upgrade();
+		}
+	}
+  }
+   
+   
+  /**
   * Button handler to place either Tower1, Tower2, or Tower3 on Map.
   * Get Tower image according to Button clicked.
   * Update instance variables currRange, currTower and currName.
@@ -856,6 +912,7 @@ public class MapView extends StackPane implements Observer {
 		} else if (theGame.getCash() < 50){
 		  return;
 		}
+		
 		//user can buy the tower
 		if(button.canBeBought(theGame.getCash())) {
 			towerPlacement=true;
@@ -863,11 +920,6 @@ public class MapView extends StackPane implements Observer {
 			currTower=button.getImage().getImage();
 			currName=button.getName();
 			System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
-		}
-		
-		//user wants to upgrade a currently selected tower
-		if(button.getText().equals("Upgrade") && towerSelected) {
-			currentTower.upgrade();
 		}
 	} 
   } 
@@ -937,45 +989,6 @@ public class MapView extends StackPane implements Observer {
 	} 
   }
   
-  /**
-  * Display tower properties when button is hovered over with mouse.
-  * Tower properties will show tower name, cost and attack type.
-  * Update command panel with tower hover.
-  * 
-  * @param int towerNum
-  * 1 - Marine
-  * 2 - Depot
-  * 3 - Tank
-  * 
-  * @return None
-  */
-  private void towerHover(int towerNum)
-  {  
-	  	  attr1Text = "Tower";
-		  attr3Text = "Cost:";
-		  attr5Text = "Type:";
-	  	  
-		  if (towerNum == 1)
-		  {
-			  attr2Text = "Marine";
-			  attr4Text = "$100";
-			  attr6Text = "Poison";
-		  }
-		  else if (towerNum == 2)
-		  {
-			  attr2Text = "Depot";
-			  attr4Text = "$150";
-			  attr6Text = "Ice";
-		  }
-		  else
-		  {
-			  attr2Text = "Tank";
-			  attr4Text = "$350";
-			  attr6Text = "Fire";
-		  }
-		  
-		  updateLabels();
-  }
   
   /**
   * Mouse handler to place a Tower on click or hover with Tower for placement.

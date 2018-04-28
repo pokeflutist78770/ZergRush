@@ -32,7 +32,7 @@ public class DepotTower extends Tower {
   }
   
   
-	protected void upgrade() {
-		
+	public void upgrade() {
+		setImageFilePath("file:assets/images/tower/tower.png");
 	}
 }

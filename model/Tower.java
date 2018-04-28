@@ -65,7 +65,7 @@ public abstract class Tower {
    * Upgrade
    * method to be implemented for each tower in order to upgrade to the next 
   */
-  abstract protected void upgrade();
+  abstract public void upgrade();
   
   
   /**
