@@ -54,13 +54,13 @@ public class ZergMap extends Map {
         new Point(898, 101), 
         new Point(725, 102),
         new Point(642, 209),
-        new Point(557, 480),
+        new Point(557, 179),
         new Point(459, 263),
         new Point(354, 295),
         new Point(236, 363),
         new Point(166, 341),
         new Point(88, 257),
-        new Point(192, 236)
+        new Point(192, 136)
        ));
     
     
