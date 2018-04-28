@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -14,15 +15,15 @@ import controller.ControllerMain;
  * @author Ben
  *
  */
-public class Hydralisk extends Mob {
+public class Hydralisk extends Mob implements Serializable {
 	
-	public Hydralisk(List<Point> movementPath, TowerGame game) {
+	public Hydralisk(Vector<Point> movementPath, TowerGame game) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
 				DefenseAttribute.MEDIUM, 
 				SpeedAttribute.NORMAL, 
-				new ArrayList<ResistanceAttribute>(Collections.singletonList(
+				new Vector<ResistanceAttribute>(Collections.singletonList(
 						                           ResistanceAttribute.POISON)), 
 				"Hydralisk"+Mob.IDNumber++,
 

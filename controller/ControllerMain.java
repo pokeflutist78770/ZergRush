@@ -1,6 +1,8 @@
 package controller;
 
-import java.util.HashMap; 
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Vector;
 
 import javafx.application.*;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Mob;
 import model.TowerGame;
 import views.InstructionView;
 import views.MapView;
@@ -69,6 +72,8 @@ public class ControllerMain extends Application {
   
   // Model data
   private static TowerGame theGame;
+  
+  public static Vector<Constructor<Mob>> mobConstructors;
 
 
   /* Launch the JavaFX application */

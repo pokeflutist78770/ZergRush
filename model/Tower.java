@@ -1,9 +1,9 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Set;
 import controller.ControllerMain;
 import javafx.scene.image.Image;
@@ -20,10 +20,10 @@ import javafx.scene.image.Image;
  *
  */
 
-public abstract class Tower {
+public abstract class Tower implements Serializable {
   
   protected int firing_frequencey;
-  protected int fire_counter = firing_frequencey;
+  protected int fire_counter = 2*firing_frequencey;
   
   protected String name;
   protected int cost;
@@ -61,7 +61,7 @@ public abstract class Tower {
   /**
    * Tower iterates over all mobs represented in the state of the game, determining which is closes to it at a given
    * instant
-   * @param nearbyMobs - a list of the nearest mobs on the map to the tower
+   * @param nearbyMobs - a Vector of the nearest mobs on the map to the tower
    * @return the closest mob to the Tower
    */
   protected Mob getClosestMob(Set<Mob> nearbyMobs) {

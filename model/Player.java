@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import controller.ControllerMain; 
 
 // Players can buy towers through some form of currency (money, points, mana 
@@ -18,7 +20,7 @@ import controller.ControllerMain;
 
 // Players should largely use the mouse as device to play the game.
 
-public class Player {
+public class Player implements Serializable {
 	//just a default for now until mob attacks and balances are sorted out
 	//Maybe even when difficulties are added, decrease health as such, 
 	private final double BASE_HP=10000;

@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -14,15 +15,15 @@ import controller.ControllerMain;
  * @author Ben Walters
  *
  */
-public class Ultralisk extends Mob {
+public class Ultralisk extends Mob implements Serializable {
 
-	public Ultralisk(List<Point> movementPath, TowerGame game) {
+	public Ultralisk(Vector<Point> movementPath, TowerGame game) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
 				AttackAttribute.STRONG_ATTACK, 
 				DefenseAttribute.LARGE, 
 				SpeedAttribute.SLOW, 
-				new ArrayList<ResistanceAttribute>(Collections.singletonList(
+				new Vector<ResistanceAttribute>(Collections.singletonList(
 						                           ResistanceAttribute.POISON)), 
 				"Ultralisk"+Mob.IDNumber++,
 				"file:assets/images/mob/zerg/ultralisk.png", "ultra_death",

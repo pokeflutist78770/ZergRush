@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Set;
 import controller.ControllerMain;
 import views.MapView;
@@ -11,7 +12,7 @@ import views.MapView;
  * 
  * @author Ben Walters
  */
-public class DepotTower extends Tower {
+public class DepotTower extends Tower implements Serializable {
   
   public static final double COST=150;
   public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
