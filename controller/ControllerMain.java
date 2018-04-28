@@ -131,6 +131,7 @@ public class ControllerMain extends Application {
     soundEffects.put("underattack", new AudioClip("file:assets/audio/map/notenoughminerals.mp3"));
     soundEffects.put("resumed", new AudioClip("file:assets/audio/map/Alert_TerranGameResumed.mp3"));
     soundEffects.put("paused", new AudioClip("file:assets/audio/map/Alert_TerranGamePaused.mp3"));
+    soundEffects.put("upgrade", new AudioClip("file:assets/audio/map/Alert_TerranUpgradeComplete.mp3"));
 
   }
 

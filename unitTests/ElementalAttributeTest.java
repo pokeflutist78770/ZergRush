@@ -12,8 +12,8 @@ public class ElementalAttributeTest {
   public void testGetElementalMultiplier() {
     assertTrue(ElementalAttribute.NONE.getElementalMultiplier() == 1);
     assertTrue(ElementalAttribute.FIRE.getElementalMultiplier() == 1.25);
-    assertTrue(ElementalAttribute.WATER.getElementalMultiplier() == 1.25);
-    assertTrue(ElementalAttribute.EARTH.getElementalMultiplier() == 1.25);
+    assertTrue(ElementalAttribute.ICE.getElementalMultiplier() == 1.25);
+    assertTrue(ElementalAttribute.POISON.getElementalMultiplier() == 1.25);
     assertTrue(ElementalAttribute.AIR.getElementalMultiplier() == 1.25);
   }
 
