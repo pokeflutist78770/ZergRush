@@ -689,9 +689,9 @@ public class MapView extends StackPane implements Observer {
    * draws a shape around the selected mob
    */
   public void drawMobSelected() {
-	  gc.setFill(Color.color(1,1,1,.5));
-	  gc.fillOval(currentMob.getX()-.5*currentMob.getSW(), 
-			      currentMob.getY()-.5*currentMob.getSH(),
+	  gc.setFill(Color.color(.5,.5,0,.5));
+	  gc.fillOval(currentMob.getX()-.5*currentMob.getSW()-10, 
+			      currentMob.getY()-.5*currentMob.getSH()-10,
 			      currentMob.getSW()+20, currentMob.getSH()+20);
   }
   
@@ -980,9 +980,12 @@ public class MapView extends StackPane implements Observer {
 				}
 			}
 			
+			//user clicked on a tower
 			if(closestTowerDistance<=closestMobDistance && closestTower!=null) {
 				setTowerSelected(closestTower, closestTower.getX(), closestTower.getY());
 			}
+			
+			//user clicked on a mob
 			else if(closestMobDistance<closestTowerDistance) {
 				setMobSelected(closestMob, closestMob.getX(), closestMob.getY());
 			}
@@ -995,8 +998,17 @@ public class MapView extends StackPane implements Observer {
 	  }
     }
 	
+	
+	/**
+	 * isClosest
+	 * Checks if a given distance beats the closest distance while maintaining a boundary
+	 * in distances
+	 * @param currDistance: double representing distance to be checked
+	 * @param closestDistance: the best (closest) distance
+	 * @return boolean representing
+	 */
 	private boolean isClosest(double currDistance, double closestDistance) {
-		return currDistance<=2500 && currDistance<closestDistance;
+		return currDistance<=5000 && currDistance<closestDistance;
 	}
   }
 
