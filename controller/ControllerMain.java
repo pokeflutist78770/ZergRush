@@ -133,7 +133,7 @@ public class ControllerMain extends Application {
     // Initialize menu buttons
     startButton = new Button("Start");
     instrButton = new Button("Instructions");
-    backButtonMap = new Button("Back");
+    backButtonMap = new Button("Quit");
     backButtonInstr = new Button("Back");
 
     // Initialize Menu View
@@ -182,8 +182,9 @@ public class ControllerMain extends Application {
       }
 
       // button to go back from the gameplay (might be a optional button)
-      else if (buttonText.equals("Back")) {
+      else if (buttonText.equals("Quit")) {
         setViewTo(theMenuView);
+        theGame.pause();
       }
     }
 
@@ -238,6 +239,9 @@ public class ControllerMain extends Application {
       theMapView.setPlayer(theGame.getPlayer());
       System.out.println("player set");
 
+      // Pass Game Speed to MapView
+      theMapView.setGameSpeed(theMenuView.getSpeedSelection());
+      
       setViewTo(theMapView);
       System.out.println("view successfully swapped.");
     }

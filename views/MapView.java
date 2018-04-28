@@ -932,6 +932,45 @@ public class MapView extends StackPane implements Observer {
 	} 
   }
   
+  /**
+  * Display tower properties when button is hovered over with mouse.
+  * Tower properties will show tower name, cost and attack type.
+  * Update command panel with tower hover.
+  * 
+  * @param int towerNum
+  * 1 - Marine
+  * 2 - Depot
+  * 3 - Tank
+  * 
+  * @return None
+  */
+  private void towerHover(int towerNum)
+  {  
+	  	  attr1Text = "Tower";
+		  attr3Text = "Cost:";
+		  attr5Text = "Type:";
+	  	  
+		  if (towerNum == 1)
+		  {
+			  attr2Text = "Marine";
+			  attr4Text = "$100";
+			  attr6Text = "Poison";
+		  }
+		  else if (towerNum == 2)
+		  {
+			  attr2Text = "Depot";
+			  attr4Text = "$150";
+			  attr6Text = "Ice";
+		  }
+		  else
+		  {
+			  attr2Text = "Tank";
+			  attr4Text = "$350";
+			  attr6Text = "Fire";
+		  }
+		  
+		  updateLabels();
+  }
   
   /**
   * Mouse handler to place a Tower on click or hover with Tower for placement.
@@ -946,13 +985,28 @@ public class MapView extends StackPane implements Observer {
 
 	@Override
 	public void handle(MouseEvent e) {
+		
+	  // Tower Button - Mouse Hover
+	  if (e.getY() >= 815 && e.getY() <= 865)
+	  {
+		  // Tower 1 - Marine
+		  if (e.getX() >= 260 && e.getX() <= 315)
+			  towerHover(1);
+		  // Tower 2 - Depot
+		  else if (e.getX() >= 330 && e.getX() <= 380)
+			  towerHover(2);
+		  // Tower 3 - Tank
+		  else if (e.getX() >= 395 && e.getX() <= 450)
+			  towerHover(3);
+	  }
+	  
 	  //need to update current mouse position
 	  if(e.getEventType()==MouseEvent.MOUSE_MOVED) {
 		mousePos.setLocation(e.getX(), e.getY());
 	  }
 	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
-
+		  
 		attr1Text = "";
 		attr2Text = "";
 		attr3Text = "";
