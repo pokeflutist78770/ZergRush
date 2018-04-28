@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import controller.ControllerMain;
 import javafx.application.Platform;
@@ -80,6 +82,7 @@ public class MapView extends StackPane implements Observer {
   private Button upgradeButton;
   private Button upgrade;
   private Button pause;
+  private Button save;
   private GridPane gameGrid;
   private Label wave;
   private Label health;
@@ -98,6 +101,7 @@ public class MapView extends StackPane implements Observer {
   private Label attr4;
   private Label attr5;
   private Label attr6;
+  private String statusText;
   private String attr1Text;
   private String attr2Text;
   private String attr3Text;
@@ -107,6 +111,7 @@ public class MapView extends StackPane implements Observer {
   private int updateCount = 0;
   private double gameSpeed;
   
+  private boolean saveSelected;
   private boolean towerSelected;
   private boolean mobSelected;
   private double selectedX;
@@ -178,6 +183,12 @@ public class MapView extends StackPane implements Observer {
 
     EventHandler<ActionEvent> towerButtonHandler=new towerButtonHandler();
     EventHandler<ActionEvent> pauseButtonHandler = new pauseButtonHandler();
+    EventHandler<ActionEvent> saveButtonHandler = new saveButtonHandler();
+    
+    // Back Button
+    backButton.setStyle("-fx-font: 14 serif; -fx-base: #000000;");
+    backButton.setMinWidth(50);
+    backButton.setMinHeight(10);
     
     // Pause Button
     pause = new Button("Pause");
@@ -186,9 +197,17 @@ public class MapView extends StackPane implements Observer {
     pause.setMinHeight(10);
     pause.setOnAction(pauseButtonHandler);
     
+    // Save Button
+    save = new Button("Save");
+    save.setStyle("-fx-font: 14 serif; -fx-base: #000000;");
+    save.setMinWidth(50);
+    save.setMinHeight(10);
+    save.setOnAction(saveButtonHandler);
+    
     pauseBox = new HBox();
-    pauseBox.getChildren().add(pause);
-    pauseBox.setPadding(new Insets(767,0,0,5));
+    pauseBox.getChildren().addAll(pause, save, backButton);
+    pauseBox.setPadding(new Insets(770,0,0,5));
+    pauseBox.setSpacing(5);
     pauseBox.setPickOnBounds(false);
     
     // Tower1 Button
@@ -354,6 +373,7 @@ public class MapView extends StackPane implements Observer {
 
     // Status Label
     status = new Label();
+    statusText = "";
     status.setStyle("-fx-font: 15 serif; -fx-text-fill: #32cd32;");
 
     // Status Box
@@ -877,6 +897,41 @@ public class MapView extends StackPane implements Observer {
 	} 
   } 
   
+  /**
+  * Button handler to save the game.
+  * Game status label will notify user that game has been saved.
+  * Status label will clear after 3 seconds.
+  * 
+  * @param None
+  * 
+  * @return None
+  */
+  private class saveButtonHandler implements EventHandler<ActionEvent>{
+
+	@Override
+	public void handle(ActionEvent e) {
+		
+		// Set status text to Saved
+		statusText = "Game saved.";
+		
+		// After 3 seconds, clear status text
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+		        @Override
+		        public void run() {
+		            Platform.runLater(new Runnable() {
+		                @Override
+		                public void run() {
+		                    statusText = "";
+		                }
+		            });
+
+		        }
+		    }, 3000);
+	} 
+  }
+  
   
   /**
   * Mouse handler to place a Tower on click or hover with Tower for placement.
@@ -1036,6 +1091,7 @@ public class MapView extends StackPane implements Observer {
           healthNum.setText(healthStr);
           killsNum.setText(String.valueOf(theGame.getKillCount()));
           cashNum.setText("$"+cashStr);
+          status.setText(statusText);
         }
     });
     
