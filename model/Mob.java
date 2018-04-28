@@ -430,14 +430,20 @@ public abstract class Mob {
 	  this.speed = s;
   }
 
-public SpeedAttribute getSpeed() {
-  return this.speed;
-}
+  public SpeedAttribute getSpeed() {
+	return this.speed;
+  }
 
   public String getDeathSoundStr() {
     return deathSound;
 
   }
   
+  public double getAttack() {
+	return attack.getAttack();  
+  }
   
+  public double getHP() {
+	  return hp;
+  }
 }

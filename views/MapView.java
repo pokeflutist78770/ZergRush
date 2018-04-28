@@ -26,8 +26,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Archon;
+import model.BattleCruiser;
+import model.DarkTemplar;
 import model.DepotTower;
+import model.Hydralisk;
+import model.Marine;
 import model.MarineTower;
+import model.Metric;
 import model.Mob;
 import model.Player;
 import model.Projectile;
@@ -36,6 +41,10 @@ import model.SpeedAttribute;
 import model.TankTower;
 import model.Tower;
 import model.TowerGame;
+import model.Ultralisk;
+import model.Wraith;
+import model.Zealot;
+import model.Zergling;
 
 //A player can view information about an enemy by clicking one that has been 
 //placed. Information should include the characteristics of that enemy.
@@ -99,9 +108,11 @@ public class MapView extends StackPane implements Observer {
   private double gameSpeed;
   
   private boolean towerSelected;
-  private double towerX;
-  private double towerY;
+  private boolean mobSelected;
+  private double selectedX;
+  private double selectedY;
   private Tower currentTower;
+  private Mob currentMob;
   
   private boolean towerPlacement;
   private Point mousePos;
@@ -136,10 +147,11 @@ public class MapView extends StackPane implements Observer {
 	currRange=RangeAttribute.DEMO_RANGE;
 	currName="";
 	
-	// variables for tower selection
+	// variables for tower/mob selection
 	towerSelected = false;
-	towerX = 0;
-	towerY = 0;
+	mobSelected=false;
+	selectedX = 0;
+	selectedY = 0;
 	
     vBox = new VBox();
     towerBox = new HBox();
@@ -515,7 +527,6 @@ public class MapView extends StackPane implements Observer {
   * 
   * @return: None
   */
-  
   public void drawMap() {
     Platform.runLater(new Runnable() {//TODO: fix this
       @Override
@@ -524,6 +535,9 @@ public class MapView extends StackPane implements Observer {
           
           if(towerSelected) {
         	  drawTowerSelected();
+          }
+          if(mobSelected) {
+        	  drawMobSelected();
           }
           
           drawTowers();
@@ -664,11 +678,31 @@ public class MapView extends StackPane implements Observer {
   public void drawTowerSelected()
   {
 	  gc.setFill(Color.color(0, .5, 0, .5));
-	  gc.fillOval(towerX-currentTower.getRange()+.5*ghostTowerSize, 
-			      towerY-currentTower.getRange()+.5*ghostTowerSize, 
+	  gc.fillOval(selectedX-currentTower.getRange()+.5*ghostTowerSize, 
+			      selectedY-currentTower.getRange()+.5*ghostTowerSize, 
 			      currentTower.getRange()*2, currentTower.getRange()*2);
   }
   
+  
+  /**
+   * drawMobSelected
+   * draws a shape around the selected mob
+   */
+  public void drawMobSelected() {
+	  gc.setFill(Color.color(1,1,1,.5));
+	  gc.fillOval(currentMob.getX()-.5*currentMob.getSW(), 
+			      currentMob.getY()-.5*currentMob.getSH(),
+			      currentMob.getSW()+20, currentMob.getSH()+20);
+  }
+  
+  private void updateLabels() {
+	  attr1.setText(attr1Text);
+	  attr2.setText(attr2Text);
+	  attr3.setText(attr3Text);
+	  attr4.setText(attr4Text);
+	  attr5.setText(attr5Text);
+	  attr6.setText(attr6Text);
+  }
   
   /**
    * setTowerSelected
@@ -685,8 +719,8 @@ public class MapView extends StackPane implements Observer {
 	  int upgradeCost;
 	  String range;
 	  towerSelected = true;
-	  towerX = x;
-	  towerY = y;
+	  selectedX = x;
+	  selectedY = y;
 	  currentTower=t;
 	  
 	  // Update Command Panel
@@ -717,6 +751,68 @@ public class MapView extends StackPane implements Observer {
 
   
   /**
+   * setMobSelected
+   * Sets the current selected mob to highlight and show stats
+   * @param mob: Mob object selected by the user
+   * @param x: x position of the mob
+   * @param y: y position of the mob
+   */
+  public void setMobSelected(Mob mob, double x, double y) {
+	  double hp=mob.getHP();
+	  String range;
+	  mobSelected = true;
+	  selectedX = x;
+	  selectedY = y;
+	  currentMob=mob;
+	  
+	  // Update Command Panel
+	  attr1Text = "Mob";
+	  
+	  if (mob instanceof Marine) {
+		  attr2Text = "Marine";
+	  }
+	  
+	  else if (mob instanceof Archon) {
+		  attr2Text = "Archon";
+	  }
+	  
+	  else if(mob instanceof BattleCruiser){
+		  attr2Text = "BattleCruiser";
+	  }
+	  
+	  else if(mob instanceof DarkTemplar) {
+		  attr2Text="DarkTemplar";
+	  }
+	  
+	  else if(mob instanceof Hydralisk){
+		  attr2Text = "Hydralisk";
+	  }
+	  
+	  else if(mob instanceof Ultralisk){
+		  attr2Text = "Ultralisk";
+	  }
+	  
+	  else if(mob instanceof Wraith){
+		  attr2Text = "Wraith";
+	  }
+	  
+	  else if(mob instanceof Zealot){
+		  attr2Text = "Zealot";
+	  }
+	  
+	  else if(mob instanceof Zergling){
+		  attr2Text = "Zergling";
+	  }
+	  
+	  
+	  attr3Text = "Health Points:";
+	  attr4Text = ""+hp;
+	  attr5Text = "Attack:";
+	  attr6Text = String.valueOf(formatter.format(mob.getAttack()));
+  }
+  
+  
+  /**
   * Button handler to place either Tower1, Tower2, or Tower3 on Map.
   * Get Tower image according to Button clicked.
   * Update instance variables currRange, currTower and currName.
@@ -731,6 +827,7 @@ public class MapView extends StackPane implements Observer {
 	public void handle(ActionEvent e) {
 		TowerButton button=(TowerButton) e.getSource();
 		
+		mobSelected=false;
 		towerSelected = false;
 		
 		//user clicks on the same button
@@ -801,13 +898,14 @@ public class MapView extends StackPane implements Observer {
 	  
 	  else if(e.getEventType()==MouseEvent.MOUSE_CLICKED) {
 
-		  attr1Text = "";
-		  attr2Text = "";
-		  attr3Text = "";
-		  attr4Text = "";
-		  attr5Text = "";
-		  attr6Text = "";
-		  towerSelected=false;
+		attr1Text = "";
+		attr2Text = "";
+		attr3Text = "";
+		attr4Text = "";
+		attr5Text = "";
+		attr6Text = "";
+		towerSelected=false;
+		mobSelected=false;
 		  
 		if(towerPlacement) {
 			towerPlacement=false;
@@ -841,30 +939,65 @@ public class MapView extends StackPane implements Observer {
 			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
 			double mousePosY = mousePos.getY()-.5*ghostTowerSize;
 			
+			Tower closestTower=null;
+			double tempDist=0;
+			double closestTowerDistance=Double.MAX_VALUE;
+			
 			Point mousePoint=new Point((int) mousePosX, (int) mousePosY);
 			Point towerPoint=null;
 			
+			//find the closest tower to the users click
 			for (Tower t : theGame.getTowers())
 			{
 				System.out.println("Tower: "+t.getX()+" "+t.getY());
 				System.out.println("Mouse: "+mousePoint);
-				if (t.getX() >= mousePosX-20 && t.getX() <= mousePosX+20)
-				{
-					if (t.getY() >= mousePosY-20 && t.getY() <= mousePosY+20)
-					{
-						System.out.println("Found tower");
-						setTowerSelected(t, t.getX(), t.getY());
-						break;
-					}
-				}	
+				
+				towerPoint=new Point((int) t.getX(), (int) t.getY());
+				tempDist=Metric.distanceSquared(mousePoint,  towerPoint);
+				
+				//Compares it to the square of what we want as the click radius
+				if(isClosest(tempDist, closestTowerDistance)) {
+					closestTower=t;
+					closestTowerDistance=tempDist;
+					System.out.println("Found tower");
+					
+				}
+			}
+			
+			Mob closestMob=null;
+			double closestMobDistance=Double.MAX_VALUE;
+			Point mobPoint=null;
+			
+			//find the closest mob to the user click
+			for(Mob mob: theGame.getMobs()) {
+				mobPoint=new Point((int) mob.getX(), (int) mob.getY());
+				
+				tempDist=Metric.distanceSquared(mousePoint, mobPoint);
+				
+				if(isClosest(tempDist, closestMobDistance)) {
+					closestMob=mob;
+					closestMobDistance=tempDist;
+				}
+			}
+			
+			if(closestTowerDistance<=closestMobDistance && closestTower!=null) {
+				setTowerSelected(closestTower, closestTower.getX(), closestTower.getY());
+			}
+			else if(closestMobDistance<closestTowerDistance) {
+				setMobSelected(closestMob, closestMob.getX(), closestMob.getY());
 			}
 		}
 		
+		updateLabels();
 		System.out.println("MOUSE X: "+mousePos.getX());
 		System.out.println("MOUSE Y: "+mousePos.getY());
 		System.out.println("Mouse Clicked");
 	  }
     }
+	
+	private boolean isClosest(double currDistance, double closestDistance) {
+		return currDistance<=2500 && currDistance<closestDistance;
+	}
   }
 
   /**
