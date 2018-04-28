@@ -23,7 +23,7 @@ import javafx.scene.image.Image;
 public abstract class Tower {
   
   protected int firing_frequencey;
-  protected int fire_counter = 0;
+  protected int fire_counter = firing_frequencey;
   
   protected String name;
   protected int cost;

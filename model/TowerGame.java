@@ -82,6 +82,7 @@ public class TowerGame extends Observable {
  */
   public void start() {
     Thread mainLoop = new Thread(new TheLoop(this));
+    mainLoop.setDaemon(true);
     mainLoop.start();
   }
   

@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -14,7 +15,7 @@ import javafx.scene.image.Image;
  * @author Ben Walters
  *
  */
-public abstract class Mob {
+public abstract class Mob implements Serializable {
   
   private static Random rng = new Random();
   
