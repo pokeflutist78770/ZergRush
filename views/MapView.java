@@ -579,7 +579,7 @@ public class MapView extends StackPane implements Observer {
   private void drawProjectiles() {
     for (Iterator<Projectile> itr = theGame.getProjectiles().iterator(); itr.hasNext(); ) {
       Projectile p  = itr.next();
-      gc.drawImage(p.getImage(), 0,0, 1001, 1001, p.getX() - 15, p.getY() -15, 30, 30);
+      gc.drawImage(p.getImage(), 0,0, 400, 400, p.getX() - 15, p.getY() -15, 30, 30);
     }
   }
 
@@ -863,6 +863,8 @@ public class MapView extends StackPane implements Observer {
 			currTower=button.getImage().getImage();
 			currName=button.getName();
 			System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
+		} else {
+		  ControllerMain.soundEffects.get("mins").play();
 		}
 		
 		if(button.getText().equals("Upgrade")) {

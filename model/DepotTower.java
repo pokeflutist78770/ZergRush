@@ -23,7 +23,7 @@ public class DepotTower extends Tower {
   @Override
   protected void shoot(Set<Mob> nearbyMobs) {
     Mob closest = getClosestMob(nearbyMobs);
-    theGame.add(new DemoProjectile(
+    theGame.add(new IceProjectile(
     							   new Point(
     									(int)(location.getX()+.5*MapView.ghostTowerSize),
     									(int)(location.getY()+.5*MapView.ghostTowerSize)), 
