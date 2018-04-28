@@ -952,12 +952,14 @@ public class MapView extends StackPane implements Observer {
     	if (!theGame.isPaused())
     	{
     		pause.setStyle("-fx-text-fill: #ff0000; -fx-font: 14 serif; -fx-base: #000000;");
+    		ControllerMain.soundEffects.get("paused").play();
     		theGame.pause();
     	}
     	// Set button to white text
     	else
     	{
     		pause.setStyle("-fx-text-fill: #ffffff; -fx-font: 14 serif; -fx-base: #000000;");
+        ControllerMain.soundEffects.get("resumed").play();
     		theGame.unPause();
     	}
 		
