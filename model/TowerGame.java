@@ -82,6 +82,7 @@ public class TowerGame extends Observable {
  */
   public void start() {
     Thread mainLoop = new Thread(new TheLoop(this));
+    mainLoop.setDaemon(true);
     mainLoop.start();
   }
   
@@ -133,10 +134,11 @@ public class TowerGame extends Observable {
    * This method is a single update step of the game state.
    */
   private synchronized void updateGameState() {
+    updateTowers();
     updateMap();
     updateMobs();
     updateProjectiles();
-    updateTowers();
+    
     
     if(thePlayer.getHP()<=0) {
       ControllerMain.dealWithDeadPlayer();

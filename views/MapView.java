@@ -556,7 +556,7 @@ public class MapView extends StackPane implements Observer {
           if(towerSelected) {
         	  drawTowerSelected();
           }
-          if(mobSelected) {
+          if(mobSelected && !currentMob.isDone()) {
         	  drawMobSelected();
           }
           
@@ -570,7 +570,6 @@ public class MapView extends StackPane implements Observer {
           }
         }
       });
-
   }
 
 
@@ -850,19 +849,24 @@ public class MapView extends StackPane implements Observer {
 		mobSelected=false;
 		towerSelected = false;
 		
-		//user clicks on the same button
+		//user clicks on the same button as previously clicked, so cancel
 		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
 			return;
 		} else if (theGame.getCash() < 50){
 		  return;
 		}
+		//user can buy the tower
 		if(button.canBeBought(theGame.getCash())) {
 			towerPlacement=true;
 			currRange=button.getRange();
 			currTower=button.getImage().getImage();
 			currName=button.getName();
 			System.out.println("BUTTON CLICKED\n"+"TP: "+towerPlacement);
+		}
+		
+		if(button.getText().equals("Upgrade")) {
+			
 		}
 	} 
   } 
@@ -1121,6 +1125,10 @@ public class MapView extends StackPane implements Observer {
 	}
   }
 
+  
+  
+  
+  
   /**
    * The update method is called by notify observers in the TowerGame when the main loop iterates.
    */
