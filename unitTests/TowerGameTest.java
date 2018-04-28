@@ -10,7 +10,7 @@ import org.junit.Test;
 import model.Archon;
 import model.BattleCruiser;
 import model.DarkTemplar;
-import model.DemoProjectile;
+import model.NormalProjectile;
 import model.DepotTower;
 import model.Hydralisk;
 import model.Marine;
@@ -54,7 +54,7 @@ public class TowerGameTest {
   TankTower tankTowerTest = new TankTower(path.get(0), tg);
 
   // Projectile for testing
-  Projectile demoProj = new DemoProjectile(new Point(0,1), testArchon, tg);
+  Projectile demoProj = new NormalProjectile(new Point(0,1), testArchon, tg);
   
   private void addMobsToGAme() {
     tg.add(testArchon);

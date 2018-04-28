@@ -131,6 +131,12 @@ public class ControllerMain extends Application {
     soundEffects.put("Zerg", new AudioClip("file:assets/audio/map/zerg.mp3"));
     soundEffects.put("menu_soundtrack", new AudioClip("file:assets/audio/map/menu.mp3"));
     soundEffects.put("defeat", new AudioClip("file:assets/audio/map/defeat.mp3"));
+    soundEffects.put("victory", new AudioClip("file:assets/audio/map/victory.mp3"));
+    soundEffects.put("mins", new AudioClip("file:assets/audio/map/notenoughminerals.mp3"));
+    soundEffects.put("underattack", new AudioClip("file:assets/audio/map/notenoughminerals.mp3"));
+    soundEffects.put("resumed", new AudioClip("file:assets/audio/map/Alert_TerranGameResumed.mp3"));
+    soundEffects.put("paused", new AudioClip("file:assets/audio/map/Alert_TerranGamePaused.mp3"));
+    soundEffects.put("upgrade", new AudioClip("file:assets/audio/map/Alert_TerranUpgradeComplete.mp3"));
 
   }
 
@@ -154,7 +160,7 @@ public class ControllerMain extends Application {
     // Initialize menu buttons
     startButton = new Button("Start");
     instrButton = new Button("Instructions");
-    backButtonMap = new Button("Back");
+    backButtonMap = new Button("Quit");
     backButtonInstr = new Button("Back");
 
     // Initialize Menu View
@@ -203,8 +209,9 @@ public class ControllerMain extends Application {
       }
 
       // button to go back from the gameplay (might be a optional button)
-      else if (buttonText.equals("Back")) {
+      else if (buttonText.equals("Quit")) {
         setViewTo(theMenuView);
+        theGame.pause();
       }
     }
 
@@ -259,6 +266,9 @@ public class ControllerMain extends Application {
       theMapView.setPlayer(theGame.getPlayer());
       System.out.println("player set");
 
+      // Pass Game Speed to MapView
+      theMapView.setGameSpeed(theMenuView.getSpeedSelection());
+      
       setViewTo(theMapView);
       System.out.println("view successfully swapped.");
     }

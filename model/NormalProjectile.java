@@ -11,13 +11,17 @@ import controller.ControllerMain;
  *  Serves as a basic projectile, normal speed as well as damage, nothing     *
  *  special                                                                   *
  *============================================================================*/
+<<<<<<< HEAD:model/DemoProjectile.java
 public class DemoProjectile extends Projectile implements Serializable {
+=======
+public class NormalProjectile extends Projectile {
+>>>>>>> e1375cfa1d4858906a0a32e0823536f59f50c8fd:model/NormalProjectile.java
 
   
-  public DemoProjectile(Point startLocation, Mob targetMob, TowerGame game) {
+  public NormalProjectile(Point startLocation, Mob targetMob, TowerGame game) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/proj.png", game);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/normal.png", game);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();

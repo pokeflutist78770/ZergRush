@@ -10,7 +10,7 @@ import org.junit.Test;
 import model.Archon;
 import model.BattleCruiser;
 import model.DarkTemplar;
-import model.DemoProjectile;
+import model.NormalProjectile;
 import model.Hydralisk;
 import model.Marine;
 import model.Projectile;
@@ -40,7 +40,7 @@ public class ProjectileTest {
   Zealot testZealot = new Zealot(path, tg);
   Zergling testZergling = new Zergling(path, tg);
 
-  Projectile demoProj = new DemoProjectile(new Point(0,1), testArchon, tg);
+  Projectile demoProj = new NormalProjectile(new Point(0,1), testArchon, tg);
   
   private void objectsToGame() {
     tg.add(testArchon);
