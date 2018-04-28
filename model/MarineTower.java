@@ -24,11 +24,23 @@ public class MarineTower extends Tower{
 	@Override
 	protected void shoot(Set<Mob> nearbyMobs) {
 		Mob closest = getClosestMob(nearbyMobs);
-	    theGame.add(new PoisonProjectile(
-	    		                       new Point(
-	    		                    	   (int)(location.getX()+.5*MapView.ghostTowerSize),
-		    		                       (int)(location.getY()+.5*MapView.ghostTowerSize)),
-	    		                       closest,theGame));
+		
+		Projectile projectile=null;
+		
+		if(rank==0) {
+			projectile=new NormalProjectile(new Point(
+	    		                    	      (int)(location.getX()+.5*MapView.ghostTowerSize),
+		    		                          (int)(location.getY()+.5*MapView.ghostTowerSize)),
+	    		                            closest,theGame);
+		}
+		else if(rank==1 || rank==2) {
+			projectile=new PoisonProjectile(new Point(
+          	      (int)(location.getX()+.5*MapView.ghostTowerSize),
+                    (int)(location.getY()+.5*MapView.ghostTowerSize)),
+                  closest,theGame);
+		}
+
+	    theGame.add(projectile);
 	}
 	
 	
