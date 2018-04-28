@@ -2,21 +2,19 @@ package model;
 
 import java.awt.Point;
 
-import controller.ControllerMain;
-
 
 /*============================================================================*
- * 	DemoProjectile                                                            *
+ *  PoisonProjectile                                                            *
  *  Serves as a basic projectile, normal speed as well as damage, nothing     *
  *  special                                                                   *
  *============================================================================*/
-public class DemoProjectile extends Projectile {
+public class PoisonProjectile extends Projectile {
 
   
-  public DemoProjectile(Point startLocation, Mob targetMob, TowerGame game) {
+  public PoisonProjectile(Point startLocation, Mob targetMob, TowerGame game) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/proj.png", game);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/poison.png", game);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();

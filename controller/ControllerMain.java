@@ -126,6 +126,12 @@ public class ControllerMain extends Application {
     soundEffects.put("Zerg", new AudioClip("file:assets/audio/map/zerg.mp3"));
     soundEffects.put("menu_soundtrack", new AudioClip("file:assets/audio/map/menu.mp3"));
     soundEffects.put("defeat", new AudioClip("file:assets/audio/map/defeat.mp3"));
+    soundEffects.put("victory", new AudioClip("file:assets/audio/map/victory.mp3"));
+    soundEffects.put("mins", new AudioClip("file:assets/audio/map/notenoughminerals.mp3"));
+    soundEffects.put("underattack", new AudioClip("file:assets/audio/map/notenoughminerals.mp3"));
+    soundEffects.put("resumed", new AudioClip("file:assets/audio/map/Alert_TerranGameResumed.mp3"));
+    soundEffects.put("paused", new AudioClip("file:assets/audio/map/Alert_TerranGamePaused.mp3"));
+    soundEffects.put("upgrade", new AudioClip("file:assets/audio/map/Alert_TerranUpgradeComplete.mp3"));
 
   }
 
