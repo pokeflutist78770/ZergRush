@@ -31,6 +31,7 @@ public abstract class Tower {
   protected RangeAttribute range;
   protected String imageFilePath;
   protected TowerGame theGame;
+  protected int rank;
   
   /**
    * 
@@ -46,6 +47,7 @@ public abstract class Tower {
     this.name = name;
     this.location = location;
     this.range = range;
+    rank=0;
     imageFilePath = imageFP;
     theGame = game;
     firing_frequencey = fireRate;
@@ -58,6 +60,14 @@ public abstract class Tower {
    */
   abstract protected void shoot(Set<Mob> nearbyMobs);
 
+  
+  /**
+   * Upgrade
+   * method to be implemented for each tower in order to upgrade to the next 
+  */
+  abstract public void upgrade();
+  
+  
   /**
    * Tower iterates over all mobs represented in the state of the game, determining which is closes to it at a given
    * instant
@@ -149,6 +159,8 @@ public abstract class Tower {
   }
 
   /** GETTERS AND SETTERS FOLLOW */
+  
+  
   public String getImageFilePath() {
     return imageFilePath;
   }

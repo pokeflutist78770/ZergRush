@@ -18,7 +18,8 @@ public class TankTower  extends Tower{
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.MEDIUM_RANGE;
 	
 	public TankTower(Point loc, TowerGame game) {
-		super(350, "Library", loc, RangeAttribute.MEDIUM_RANGE, "file:assets/images/tower/tank.png", game, 120);
+		super(350, "Library", loc, RangeAttribute.MEDIUM_RANGE, "file:assets/images/tower/tank.png",
+		      game, 120);
 	}
 
 	@Override
@@ -29,5 +30,10 @@ public class TankTower  extends Tower{
 	    		                    	   (int)(location.getX()+.5*MapView.ghostTowerSize),
 	    		                    	   (int)(location.getY()+.5*MapView.ghostTowerSize)), 
 	    		                       closest,theGame));
+	}
+	
+	
+	public void upgrade() {
+		setImageFilePath("file:assets/images/tower/siege.png");
 	}
 }
