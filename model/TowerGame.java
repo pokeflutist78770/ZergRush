@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Observable;
 
 import controller.ControllerMain;
+import views.MenuView;
 
 /**
  * A TowerGame is a model of the game. 
@@ -27,6 +28,12 @@ public class TowerGame extends Observable {
   private HashSet<Tower> towers;
 
   private int mobsKilled;
+  
+  // Cash required to win at each difficulty
+  final public static int easyCash = 500;
+  final public static int medCash = 1000;
+  final public static int hardCash = 1500;
+  final public static int dankCash = 5000;
   
   private String backgroundImageFilePath;
   
@@ -139,10 +146,21 @@ public class TowerGame extends Observable {
     updateMobs();
     updateProjectiles();
     
+    String difficulty = MenuView.getModeSelection();
     
     if(thePlayer.getHP()<=0) {
-      ControllerMain.dealWithDeadPlayer();
+      ControllerMain.dealWithDeadPlayer(true);
     }
+    
+    // Win Conditions
+    if(difficulty.equals("Easy") && thePlayer.getCash() >= easyCash)
+    	ControllerMain.dealWithDeadPlayer(false);
+    else if (difficulty.equals("Medium") && thePlayer.getCash() >= medCash)
+    	ControllerMain.dealWithDeadPlayer(false);
+    else if (difficulty.equals("Hard") && thePlayer.getCash() >= hardCash)
+    	ControllerMain.dealWithDeadPlayer(false);
+    else if (difficulty.equals("Fun") && thePlayer.getCash() >= dankCash)
+    	ControllerMain.dealWithDeadPlayer(false);
   }
 
 
