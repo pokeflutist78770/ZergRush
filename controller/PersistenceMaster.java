@@ -147,39 +147,4 @@ public class PersistenceMaster {
     }
   }
 
-  private static void loadMap(TowerGame output) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void loadPlayer(TowerGame output) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void loadMobsKilled(TowerGame output) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void loadTowers(TowerGame output) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void loadProjectiles(TowerGame output) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static String loadDifficulty() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  private static String loadMapSelection() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 }
