@@ -110,6 +110,16 @@ abstract public class Projectile implements Serializable {
 
 
   /**
+   * addDamageBonus
+   * adds a bonus to the damage for when a tower is more upgraded
+   * @param moreDamage: the increased amount to add to damage
+   */
+  public void addDamageBonus(double moreDamage) {
+	  baseDmg+=moreDamage;
+  }
+
+
+  /**
    * Is this projectile done with everything it should do in the game?
    * @return True, if the projectile has done everything it should and is ready for removal. False, otherwise.
    */

@@ -51,6 +51,7 @@ public class DepotTower extends Tower implements Serializable {
 				                     closest, theGame);
     }
     
+    projectile.addDamageBonus(25*rank);
     theGame.add(projectile);
   }
   
@@ -63,7 +64,7 @@ public class DepotTower extends Tower implements Serializable {
     if(rank==0) {
 		setImageFilePath("file:assets/images/tower/tower.png");
 		setRange(RangeAttribute.MEDIUM_RANGE);
-		increaseFrequency(20);	
+		increaseFrequency(40);	
 	}
 	else if(rank==1) {
 		setImageFilePath("file:assets/images/tower/bunker.png");
