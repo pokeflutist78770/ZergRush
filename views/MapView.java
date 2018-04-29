@@ -1,6 +1,6 @@
 package views;
 
-import java.awt.Point;
+import java.awt.Point; 
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -724,6 +724,7 @@ public class MapView extends StackPane implements Observer {
 	  attr5.setText(attr5Text);
 	  attr6.setText(attr6Text);
   }
+  
   
   /**
    * setTowerSelected
