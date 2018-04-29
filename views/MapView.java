@@ -888,9 +888,16 @@ public class MapView extends StackPane implements Observer {
 		Button button=(Button) e.getSource();
 			
 		//user wants to upgrade a currently selected tower
-		if(button.getText().equals("Upgrade") && towerSelected) {
-			currentTower.upgrade();
-			thePlayer.decrementCash(currentTower.getCost());
+		if(button.getText().equals("Upgrade")) {
+			//user can actually upgrade
+			if(towerSelected  && thePlayer.getCash()>=currentTower.getCost()) {
+				currentTower.upgrade();
+				thePlayer.decrementCash(currentTower.getCost());
+				ControllerMain.soundEffects.get("upgrade").play();
+			}
+			else if(thePlayer.getCash()<currentTower.getCost()) {
+				  ControllerMain.soundEffects.get("mins").play();
+			}
 		}
 	}
   }

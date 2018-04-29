@@ -61,10 +61,12 @@ public class DepotTower extends Tower {
   public void upgrade() {
     if(rank==0) {
 		setImageFilePath("file:assets/images/tower/tower.png");
+		setRange(RangeAttribute.MEDIUM_RANGE);
 			
 	}
 	else if(rank==1) {
 		setImageFilePath("file:assets/images/tower/bunker.png");
+		setRange(RangeAttribute.LARGE_RANGE);
 	}
 		
 	rank++;

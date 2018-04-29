@@ -204,9 +204,10 @@ public class ControllerMain extends Application {
       }
 
       // button to go back from the gameplay (might be a optional button)
-      else if (buttonText.equals("Quit")) {
+      else if (buttonText.equals("Quit") || buttonText.equals("Back")) {
         setViewTo(theMenuView);
-        theGame.pause();
+        if (buttonText.equals("Quit"))
+        	theGame.pause();
       }
     }
 
@@ -297,22 +298,34 @@ public class ControllerMain extends Application {
    * Handles loss conditions for the player, terminating active mob threads and
    * resetting the game state.
    */
-  public static void dealWithDeadPlayer() {
+  public static void dealWithDeadPlayer(boolean playerLost) {
     //TODO: clean this method
     theGame.pause();
-    play(soundEffects.get("defeat"));
+    //play(soundEffects.get("defeat"));
     System.out.println("Player lost");
 
-    // display loss screen
-
-
+    // Label - Win or Loss
+    Label gameStatus = new Label();
+    
+    if (playerLost)
+    {
+    	gameStatus.setText("You lost!");
+    	play(soundEffects.get("defeat"));
+    }
+    else
+    {
+    	gameStatus.setText("You win!");
+    	//play(soundEffects.get("victory"));
+    }
+    
+    // display win or loss screen
     Platform.runLater(() -> {
       // This code will be moved to when a player reaches a set amount of waves,
       // but for the demo this will suffice
       ControllerMain.currentView.setEffect(new GaussianBlur());
 
       VBox pauseRoot = new VBox(5);
-      pauseRoot.getChildren().add(new Label("You lost!"));
+      pauseRoot.getChildren().add(gameStatus);
       pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
       pauseRoot.setAlignment(Pos.CENTER);
       pauseRoot.setPadding(new Insets(20));

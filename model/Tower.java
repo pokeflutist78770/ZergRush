@@ -188,4 +188,8 @@ public abstract class Tower {
   public int getCost() {
     return cost;
   }
+  
+  public void setRange(RangeAttribute newRange) {
+	  range=newRange;
+  }
 }
