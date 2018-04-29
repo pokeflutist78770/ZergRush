@@ -18,7 +18,7 @@ public class MarineTower extends Tower implements Serializable {
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
 	
 	public MarineTower(Point loc, TowerGame game) {
-		super(100, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/marine.png", 
+		super(100, 100, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/marine.png", 
 			  game, 120);
 	}
 
