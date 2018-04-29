@@ -28,6 +28,7 @@ public abstract class Tower implements Serializable {
   
   protected String name;
   protected int cost;
+  protected int upgradeCost;
   protected Point location;
   protected RangeAttribute range;
   protected String imageFilePath;
@@ -43,9 +44,11 @@ public abstract class Tower implements Serializable {
    * @param range - the radius around which a tower can detect and fire at mobs.
    * @param imageFP - the file path to the image representing the tower, images are retrieved by flyweight
    */
-  public Tower(int cost, String name, Point location, RangeAttribute range, String imageFP, TowerGame game, int fireRate) {
+  public Tower(int cost, int upgrade, String name, Point location, RangeAttribute range, 
+		       String imageFP, TowerGame game, int fireRate) {
 	
     this.cost = cost;
+    this.upgradeCost=upgrade;
     this.name = name;
     this.location = location;
     this.range = range;
@@ -210,5 +213,9 @@ public abstract class Tower implements Serializable {
   
   public void setRange(RangeAttribute newRange) {
 	  range=newRange;
+  }
+  
+  public int getUpgradeCost() {
+	  return upgradeCost;
   }
 }

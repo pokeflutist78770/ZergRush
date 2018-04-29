@@ -248,7 +248,13 @@ public class MapView extends StackPane implements Observer {
     tower3.setStyle("-fx-base: #808080;");
 
     // Purchase Button
-    upgradeButton = new Button("Upgrade");
+    Image upgradeImage = new Image("file:assets/images/tower/upgrade.png", false);
+    ImageView iv4 = new ImageView(upgradeImage);
+    iv4.setFitHeight(35);
+    iv4.setFitWidth(35);
+    upgradeButton = new Button("", iv4);
+    
+    //upgradeButton = new Button("Upgrade");
     upgradeButton.setOnAction(upgradeButtonHandler);
     upgradeButton.setVisible(false);
     upgradeButton.setMinWidth(30);
@@ -266,7 +272,7 @@ public class MapView extends StackPane implements Observer {
     // Add upgrade button
     backButton.setMaxWidth(100);
     vBox.getChildren().add(upgradeButton);
-    vBox.setPadding(new Insets(828, 0, 0, 460));
+    vBox.setPadding(new Insets(818, 0, 0, 458));
 
     // Add Tower Buttons
     towerBox.getChildren().add(tower1);
@@ -668,7 +674,7 @@ public class MapView extends StackPane implements Observer {
 	  }
   }
 
-  
+
   /**
   * Draw a representation of Tower with green circle surrounding
   * to allow Player to choose a placement of Tower on Map.
@@ -695,7 +701,8 @@ public class MapView extends StackPane implements Observer {
 			       mousePos.getY()-.5*ghostTowerSize,
 			       ghostTowerSize, ghostTowerSize);
   }
-  
+
+
   /**
    * Draws the green oval around a tower to be placed.
    */
@@ -706,8 +713,8 @@ public class MapView extends StackPane implements Observer {
 			      selectedY-currentTower.getRange()+.5*ghostTowerSize, 
 			      currentTower.getRange()*2, currentTower.getRange()*2);
   }
-  
-  
+
+
   /**
    * drawMobSelected
    * draws a shape around the selected mob
@@ -718,7 +725,12 @@ public class MapView extends StackPane implements Observer {
 			      currentMob.getY()-.5*currentMob.getSH()-10,
 			      currentMob.getSW()+20, currentMob.getSH()+20);
   }
-  
+
+
+  /*
+   * updteLabels
+   * updates labels to display the current text 
+  */
   private void updateLabels() {
 	  attr1.setText(attr1Text);
 	  attr2.setText(attr2Text);
@@ -727,8 +739,8 @@ public class MapView extends StackPane implements Observer {
 	  attr5.setText(attr5Text);
 	  attr6.setText(attr6Text);
   }
-  
-  
+
+
   /**
    * setTowerSelected
    * Sets a currently selected tower for the user, displaying stats and range of the tower
@@ -835,7 +847,6 @@ public class MapView extends StackPane implements Observer {
 		  attr2Text = "Zergling";
 	  }
 	  
-	  
 	  attr3Text = "Health Points:";
 	  attr4Text = ""+hp;
 	  attr5Text = "Attack:";
@@ -896,7 +907,7 @@ public class MapView extends StackPane implements Observer {
 		Button button=(Button) e.getSource();
 			
 		//user wants to upgrade a currently selected tower
-		if(button.getText().equals("Upgrade")) {
+		//if(button.getText().equals("Upgrade")) {
 			
 			//user can actually upgrade
 			if(towerSelected  && thePlayer.getCash()>=currentTower.getCost()) {
@@ -912,7 +923,7 @@ public class MapView extends StackPane implements Observer {
 			else if(thePlayer.getCash()<currentTower.getCost()) {
 				  ControllerMain.soundEffects.get("mins").play();
 			}
-		}
+		//}
 	}
   }
 
@@ -1072,31 +1083,10 @@ public class MapView extends StackPane implements Observer {
 		upgradeButton.setVisible(false);
 		  
 		if(towerPlacement) {
-			towerPlacement=false;
-			Tower newTower=null;
-			//currName="";
-			double cost=0;
-			
-			//the different buttons
-			if(currName.equals("Marine")) {
-				cost=tower1.getCost();
-				newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 		                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
-			}
-			else if( currName.equals("Depot")){
-				cost=tower2.getCost();
-				newTower=new DepotTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
-			}
-			else if(currName.equals("Tank")) {
-				cost=tower3.getCost();
-				newTower=new TankTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-					                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
-			}
-			theGame.add(newTower);
-			theGame.decrementCash(cost);
-
+			placeTower();
 		}
 		else {
+			
 			// Determine if any Towers in ControllerMain match MouseClick coordinates
 			//towerSelected = false;
 			double mousePosX = mousePos.getX()-.5*ghostTowerSize;
@@ -1110,8 +1100,7 @@ public class MapView extends StackPane implements Observer {
 			Point towerPoint=null;
 			
 			//find the closest tower to the users click
-			for (Tower t : theGame.getTowers())
-			{
+			for (Tower t : theGame.getTowers()) {
 				System.out.println("Tower: "+t.getX()+" "+t.getY());
 				System.out.println("Mouse: "+mousePoint);
 				
@@ -1159,6 +1148,37 @@ public class MapView extends StackPane implements Observer {
 		System.out.println("Mouse Clicked");
 	  }
     }
+	
+	
+	/*
+	 * placeTower
+	 * goes and places a tower on the mouse x and y position
+ 	 * Parameters: None
+ 	 * Returns: None
+	*/
+	private void placeTower() {
+		towerPlacement=false;
+		Tower newTower=null;
+		double cost=0;
+		
+		//the different buttons
+		if(currName.equals("Marine")) {
+			cost=tower1.getCost();
+			newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 		                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+		}
+		else if( currName.equals("Depot")){
+			cost=tower2.getCost();
+			newTower=new DepotTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+		}
+		else if(currName.equals("Tank")) {
+			cost=tower3.getCost();
+			newTower=new TankTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+		}
+		theGame.add(newTower);
+		theGame.decrementCash(cost);
+	}
 	
 	
 	/**

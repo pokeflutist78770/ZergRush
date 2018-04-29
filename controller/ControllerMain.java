@@ -221,7 +221,7 @@ public class ControllerMain extends Application {
         if (buttonText.equals("Quit"))
         	theGame.pause();
       }
-    }
+  }
 
     /*
      * This method is self-descriptive. 
@@ -324,12 +324,11 @@ public class ControllerMain extends Application {
 
   /*
    * Handles loss conditions for the player, terminating active mob threads and
-   * resetting the game state.
+   * resetting the game state. Display loss if playerLost true, otherwise display win.
    */
   public static void dealWithDeadPlayer(boolean playerLost) {
     theGame.pause();
-    //play(soundEffects.get("defeat"));
-    System.out.println("Player lost");
+    System.out.println("Game over");
 
     // Label - Win or Loss
     Label gameStatus = new Label();
@@ -342,7 +341,7 @@ public class ControllerMain extends Application {
     else
     {
     	gameStatus.setText("You win!");
-    	//play(soundEffects.get("victory"));
+    	play(soundEffects.get("victory"));
     }
     
     // display win or loss screen
