@@ -26,7 +26,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Archon;
 import model.BattleCruiser;
@@ -71,7 +70,6 @@ public class MapView extends StackPane implements Observer {
   private Image background;
   private Canvas canvas;
   private GraphicsContext gc;
-  private VBox vBox;
   private HBox towerBox;
 
  
@@ -160,7 +158,6 @@ public class MapView extends StackPane implements Observer {
 	selectedX = 0;
 	selectedY = 0;
 	
-    vBox = new VBox();
     towerBox = new HBox();
     backButton = back;
     pane = new StackPane();
@@ -259,9 +256,8 @@ public class MapView extends StackPane implements Observer {
     ImageView iv4 = new ImageView(upgradeImage);
     iv4.setFitHeight(35);
     iv4.setFitWidth(35);
-    upgradeButton = new Button("", iv4);
     
-    //upgradeButton = new Button("Upgrade");
+    upgradeButton = new Button("", iv4);
     upgradeButton.setOnAction(upgradeButtonHandler);
     upgradeButton.setVisible(false);
     upgradeButton.setMinWidth(30);
@@ -276,15 +272,11 @@ public class MapView extends StackPane implements Observer {
     // Draw background
     gc.drawImage(background, 0.0, 0.0);
 
-    // Add upgrade button
-    backButton.setMaxWidth(100);
-    vBox.getChildren().add(upgradeButton);
-    vBox.setPadding(new Insets(818, 0, 0, 458));
-
     // Add Tower Buttons
     towerBox.getChildren().add(tower1);
     towerBox.getChildren().add(tower2);
     towerBox.getChildren().add(tower3);
+    towerBox.getChildren().add(upgradeButton);
     towerBox.setPadding(new Insets(818, 0, 0, 265));
     towerBox.setSpacing(12);
     towerBox.setPickOnBounds(false);
@@ -402,7 +394,6 @@ public class MapView extends StackPane implements Observer {
 
     pane.getChildren().add(commandCanvas);
     pane.getChildren().add(canvas);
-    pane.getChildren().add(vBox);
     pane.getChildren().add(towerBox);
     pane.getChildren().add(gameGrid);
     pane.getChildren().add(updateGrid);
