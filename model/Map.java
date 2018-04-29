@@ -143,7 +143,7 @@ public abstract class Map implements Serializable {
    *  Returns: None
    * @throws ClassNotFoundException 
   */
-  protected Vector<Constructor<Mob>> initializeSpawnConstructors(Vector<String> mobTypes) throws ClassNotFoundException {
+  public static Vector<Constructor<Mob>> initializeSpawnConstructors(Vector<String> mobTypes) throws ClassNotFoundException {
     
     Vector<Class> mobClasses = new Vector<Class>();
     
@@ -182,7 +182,7 @@ public abstract class Map implements Serializable {
 
   /* updates the wave intensity, increasing it */
   protected void updateWaveIntensity() {
-    waveIntensity = 3*waveIntensity;
+    waveIntensity = waveRatio*waveIntensity;
   }
 
   
@@ -205,7 +205,7 @@ public abstract class Map implements Serializable {
           theGame.add(mobConstructors.get(i).newInstance(
         		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame));
         }
-        spawnCount = spawnCount / waveRatio;
+        spawnCount = spawnCount / 3;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
           | InvocationTargetException e) {
         System.out.println("Failure in spawnWave method of Map class");

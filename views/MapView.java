@@ -552,7 +552,7 @@ public class MapView extends StackPane implements Observer {
   * @return: None
   */
   public void drawMap() {
-    Platform.runLater(new Runnable() {//TODO: fix this
+    Platform.runLater(new Runnable() {
       @Override
         public void run() {
           gc.drawImage(background, 0, 0);
