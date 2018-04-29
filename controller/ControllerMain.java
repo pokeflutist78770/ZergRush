@@ -236,10 +236,11 @@ public class ControllerMain extends Application {
         if (theGame.getMap().getSoundTrackName().equals("Zerg")) {
           mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Zergling", "Hydralisk", "Ultralisk")));
         } else if (theGame.getMap().getSoundTrackName().equals("Terran")) {
-          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Marine", "Wraith", "Battlecruiser")));
+          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Marine", "Wraith", "BattleCruiser")));
         } else if (theGame.getMap().getSoundTrackName().equals("Protoss")) {
           mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
         }
+        
         
       } else {
         // No difficulty selected

@@ -56,6 +56,7 @@ public class TankTower  extends Tower implements Serializable {
 		else if(rank==1) {
 			setImageFilePath("file:assets/images/tower/thor.png");
 			increaseFrequency(30);
+			isFullyUpgraded=true;
 		}
 		
 		rank++;

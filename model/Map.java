@@ -46,18 +46,18 @@ public abstract class Map implements Serializable {
   public final static int DEFAULT_SPAWN_FREQUENCY =   1000;
   public final static int DEFAULT_SPAWN_INTENSITY = 3;
   
-  private static int waveIntensity; 
-  private int waveRatio;
+  protected int waveIntensity; 
+  protected int waveRatio;
   
   public String backgroundImageFilePath;
   public static int idNo = 0;
   protected String name;
-  private String soundTrackName;
+  protected String soundTrackName;
   
-  private HashMap<Integer, Vector<Point>> paths; // Each map class should have its own hardcoded path setup.
+  protected HashMap<Integer, Vector<Point>> paths; // Each map class should have its own hardcoded path setup.
 
   protected TowerGame theGame;
-  private int mapClock;
+  protected int mapClock;
   
   /**
    * Create a map with the given difficulty, game, and image filepath.
@@ -216,12 +216,12 @@ public abstract class Map implements Serializable {
 
   /*-------------------    Getters/Setters    ----------------*/
   
-  public static int getWaveIntensity() {
+  public int getWaveIntensity() {
     return waveIntensity;
   }
 
 
-  public static void setWaveIntensity(int input) {
+  public void setWaveIntensity(int input) {
     waveIntensity = input;
   }
 
