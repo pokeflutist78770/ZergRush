@@ -38,7 +38,7 @@ public class TankTower  extends Tower implements Serializable {
                  	                                       (int)(location.getX()+.5*MapView.ghostTowerSize),
                  	                                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
                                                  closest,theGame);
-				
+		projectile.addDamageBonus(25*rank);
 	    theGame.add(projectile);
 	}
 	
@@ -55,7 +55,7 @@ public class TankTower  extends Tower implements Serializable {
 		}
 		else if(rank==1) {
 			setImageFilePath("file:assets/images/tower/thor.png");
-			increaseFrequency(30);
+			increaseFrequency(60);
 			isFullyUpgraded=true;
 		}
 		
