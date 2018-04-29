@@ -2,7 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Vector;
 import java.util.Random;
 import java.util.Vector;
 import controller.ControllerMain;
@@ -29,7 +29,7 @@ public abstract class Mob implements Serializable {
   private Point currentLocation;
 
   private Point targetLocation;
-  private List<Point> movementPath;
+  private Vector<Point> movementPath;
   private int pathIndex;
   private int attackTime;
   private Player targetPlayer;
@@ -39,7 +39,7 @@ public abstract class Mob implements Serializable {
   private AttackAttribute attack;
   public double hp;
   private SpeedAttribute speed;
-  private List<ResistanceAttribute> resistances;
+  private Vector<ResistanceAttribute> resistances;
 
   // For animation
   private double sx;
@@ -101,8 +101,8 @@ public abstract class Mob implements Serializable {
    * @param animationSteps
    *          - the number of frames representing a cycle on the sprite sheet
    */
-  public Mob(List<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
-      DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances, String name,
+  public Mob(Vector<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
+      DefenseAttribute defense, SpeedAttribute speed, Vector<ResistanceAttribute> resistances, String name,
       String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY,
       int animationSteps, TowerGame game) {
 
@@ -118,8 +118,8 @@ public abstract class Mob implements Serializable {
   }
 
   // This method is an encapsulation of all the non-media business of the constructor.
-  private void initializeOtherAttributes(List<Point> movementPath, double radius, ArmorAttribute armor,
-      AttackAttribute attack, DefenseAttribute defense, SpeedAttribute speed, List<ResistanceAttribute> resistances,
+  private void initializeOtherAttributes(Vector<Point> movementPath, double radius, ArmorAttribute armor,
+      AttackAttribute attack, DefenseAttribute defense, SpeedAttribute speed, Vector<ResistanceAttribute> resistances,
       String name, TowerGame game) {
     
     this.movementPath = movementPath;

@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import controller.ControllerMain;
+import controller.PersistenceMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -991,6 +992,7 @@ public class MapView extends StackPane implements Observer {
 		
 		// Set status text to Saved
 		statusText = "Game saved.";
+		PersistenceMaster.saveGame(theGame);
 		
 		// After 3 seconds, clear status text
 		Timer timer = new Timer();

@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Vector;
 import controller.ControllerMain;
 
 
@@ -14,14 +15,14 @@ import controller.ControllerMain;
  *============================================================================*/
 
 
-public class ZergMap extends Map {
+public class ZergMap extends Map implements Serializable {
 
   private String soundtrack;
   
   public ZergMap(String difficulty, TowerGame game) throws ClassNotFoundException {
-    super("file:assets/images/map/zerg_map.jpg", difficulty, game);
+    super("Zerg", "file:assets/images/map/zerg_map.jpg", difficulty, game);
     soundtrack = "zergSoundtrack";
-    initializeSpawnConstructors(Arrays.asList("Zergling", "Hydralisk", "Ultralisk"));
+    ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Zergling", "Hydralisk", "Ultralisk")));
     name = "Zerg"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
@@ -34,7 +35,7 @@ public class ZergMap extends Map {
   */
   @Override
   void constructMobRoute() {
-    List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
+    Vector<Point> pathOne = new Vector<Point>(Arrays.asList(
         new Point(770, 894), 
         new Point(875, 772),
         new Point(856, 670),
@@ -50,7 +51,7 @@ public class ZergMap extends Map {
         new Point(88, 258),
         new Point(192, 136)));
     
-    List<Point> pathTwo = new ArrayList<Point>(Arrays.asList(
+    Vector<Point> pathTwo = new Vector<Point>(Arrays.asList(
         new Point(898, 101), 
         new Point(725, 102),
         new Point(642, 209),

@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -13,16 +14,16 @@ import controller.ControllerMain;
  * @author Ben Walters
  *
  */
-public class Wraith extends Mob{
+public class Wraith extends Mob implements Serializable {
 
-	public Wraith(List<Point> movementPath, TowerGame game) {
+	public Wraith(Vector<Point> movementPath, TowerGame game) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
 				DefenseAttribute.MEDIUM, 
 				SpeedAttribute.NORMAL, 
-				new ArrayList<ResistanceAttribute>(
+				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Wraith"+Mob.IDNumber++,
 				"file:assets/images/mob/terran/wraith.png", "wraith_death",

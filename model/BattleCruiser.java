@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -16,16 +17,16 @@ import controller.ControllerMain;
  *  Resistance:                                                               |
  *============================================================================*/
 
-public class BattleCruiser extends Mob{
+public class BattleCruiser extends Mob implements Serializable {
 
-	public BattleCruiser(List<Point> movementPath, TowerGame game) {
+	public BattleCruiser(Vector<Point> movementPath, TowerGame game) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.HEAVY_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
 				DefenseAttribute.LARGE, 
 				SpeedAttribute.SLOW, 
-				new ArrayList<ResistanceAttribute>(
+				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"BattleCruiser"+Mob.IDNumber++,
 				"file:assets/images/mob/terran/battlecruiser.png", "bc_death",

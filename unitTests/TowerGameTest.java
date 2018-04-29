@@ -4,17 +4,18 @@ import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Vector;
 
 import org.junit.Test;
 
 import model.Archon;
 import model.BattleCruiser;
 import model.DarkTemplar;
-import model.NormalProjectile;
 import model.DepotTower;
 import model.Hydralisk;
 import model.Marine;
 import model.MarineTower;
+import model.NormalProjectile;
 import model.Projectile;
 import model.TankTower;
 import model.TowerGame;
@@ -35,7 +36,7 @@ public class TowerGameTest {
   int numberOfTries = 1000;
 
   TowerGame tg = new TowerGame("Medium", "Protoss");
-  List<Point> path = tg.getMap().getPaths().get(1);
+  Vector<Point> path = tg.getMap().getPaths().get(1);
   
   // Mobs for testing
   Archon testArchon = new Archon(path, tg);
