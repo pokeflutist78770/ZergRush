@@ -114,6 +114,7 @@ public class MapView extends StackPane implements Observer {
   private boolean saveSelected;
   private boolean towerSelected;
   private boolean mobSelected;
+  private boolean firstAttack = true;
   private double selectedX;
   private double selectedY;
   private Tower currentTower;
@@ -1167,8 +1168,12 @@ public class MapView extends StackPane implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     drawMap();
-
+    
     double health = thePlayer.getHP() / 100;
+    if(firstAttack && health < 100) {
+        ControllerMain.soundEffects.get("underattack").play();
+        firstAttack = false;
+    }
     String healthStr = formatter.format(health);
     
     String cashStr = formatter.format(theGame.getCash());

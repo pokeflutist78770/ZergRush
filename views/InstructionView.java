@@ -3,6 +3,7 @@ package views;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import controller.ControllerMain;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -18,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import model.TowerGame;
 
 // You are required to have an instruction page. Treat this as a user-guide
 // to how to play your game. This guide should be found in the starting menu.
@@ -74,23 +76,33 @@ public class InstructionView extends StackPane {
 		this.getChildren().add(imv);
 		StackPane.setAlignment(imv, Pos.TOP_CENTER);
 		
+		String easy = String.valueOf(TowerGame.easyCash);
+		String medium = String.valueOf(TowerGame.medCash);
+		String hard = String.valueOf(TowerGame.hardCash);
+		String dank = String.valueOf(TowerGame.dankCash);
+		
 		// Set instruction text
 		Text instructions = new Text("OBJECTIVE\nThe objective of Tower Defense is to defend your command"
 				+ " center. Waves of enemies will spawn periodically, each wave stronger than the last.\n"
 				+ "In order to defend your command center, you will need to construct towers. Each tower costs"
 				+ " money. You will earn money after killing enemies.\nTowers may be upgraded as you "
-				+ "earn money. Survive all waves of enemies with your command center in tact, and you will have survived\n"
+				+ "earn money. Survive the wave and earn enough cash with your command center in tact, and you will have survived\n"
 				+ "Tower Defense!\n\n"
+				+ "DIFFICULTIES\n"
+				+ "Easy - $"+easy+"\n"
+				+ "Medium - $"+medium+"\n"
+				+ "Hard - $"+hard+"\n"
+				+ "Dank Memes - $"+dank+"\n\n"
 				+ "START NEW GAME\n"
-				+ "1) Choose Persistence (Save option)\n"
+				+ "1) Choose Difficulty\n"
 				+ "2) Choose Game Speed\n"
 				+ "3) Choose Map\n"
 				+ "4) Select Start\n\n"
 				+ "LOAD GAME\n"
-				+ "1) Select Load option\n"
+				+ "1) Select Load\n"
 				+ "2) Select Start\n\n"
 				+ "END GAME\n"
-				+ "1) Select the Back button to return to Main Menu");
+				+ "1) Select the Quit button to return to Main Menu");
 		instructions.setStyle("-fx-font: 13 serif;");
 		instructions.setFill(Color.WHITE);
 		
