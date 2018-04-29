@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Set;
 
 import controller.ControllerMain;
@@ -11,7 +12,7 @@ import views.MapView;
  * @author Ben Walters
  *
  */
-public class MarineTower extends Tower{
+public class MarineTower extends Tower implements Serializable {
   
 	public static final double COST=100;
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
@@ -62,11 +63,13 @@ public class MarineTower extends Tower{
 		if(rank==0) {
 			setImageFilePath("file:assets/images/tower/thick.png");
 			setRange(RangeAttribute.MEDIUM_RANGE);
+			increaseFrequency(50);
 		}
 		
 		else if(rank==1) {
 			setImageFilePath("file:assets/images/tower/ghost.png");
 			setRange(RangeAttribute.LARGE_RANGE);
+			increaseFrequency(60);
 		}
 		
 		rank++;

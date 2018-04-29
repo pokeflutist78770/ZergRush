@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Vector;
 import java.util.Random;
 import java.lang.reflect.*;
 
@@ -40,21 +41,20 @@ import javafx.scene.image.Image;
  * @author J. David Taylor
  *
  */
-public abstract class Map {
+public abstract class Map implements Serializable {
   
   public final static int DEFAULT_SPAWN_FREQUENCY =   1000;
   public final static int DEFAULT_SPAWN_INTENSITY = 3;
   
   private static int waveIntensity; 
   private int waveRatio;
-  private List<Constructor<Mob>> mobConstructors;
-  private static Random rng = new Random();
   
   public String backgroundImageFilePath;
   public static int idNo = 0;
   protected String name;
+  private String soundTrackName;
   
-  private HashMap<Integer, List<Point>> paths; // Each map class should have its own hardcoded path setup.
+  private HashMap<Integer, Vector<Point>> paths; // Each map class should have its own hardcoded path setup.
 
   protected TowerGame theGame;
   private int mapClock;
@@ -65,8 +65,9 @@ public abstract class Map {
    * @param difficulty "Easy", "Medium", "Hard", or "Meme"
    * @param game The game instantiating this map.
    */
-  public Map (String imgFp, String difficulty, TowerGame game) {
+  public Map (String soundTrack, String imgFp, String difficulty, TowerGame game) {
     initializePathing();
+    setSoundTrackName(soundTrack);
     setBackground(imgFp);
     setWaveRatio(difficulty);
     theGame = game;
@@ -103,10 +104,10 @@ public abstract class Map {
 
 
   /**
-   * Get all the paths constructed and bundled into a Map<Integer,List<Point>>.
+   * Get all the paths constructed and bundled into a Map<Integer,Vector<Point>>.
    */
   public void initializePathing() {
-    paths = new HashMap<Integer, List<Point>>();
+    paths = new HashMap<Integer, Vector<Point>>();
     constructMobRoute();
   }
   
@@ -136,25 +137,26 @@ public abstract class Map {
 
   /** initializeSpawnCycle
    *  Starts the spawn cycle for the given mmap, periodicaly creating new mob objects
-   *  After running this method, the map can spawn waves from the list of constructors this method initializes.
-   *  Parameters: mobTypes: list containing all the mob types for the map represented as Strings
+   *  After running this method, the map can spawn waves from the Vector of constructors this method initializes.
+   *  Parameters: mobTypes: Vector containing all the mob types for the map represented as Strings
    *    e.g. "Zergling" translates into the constructor for Zergline.java
    *  Returns: None
    * @throws ClassNotFoundException 
   */
-  protected void initializeSpawnConstructors(List<String> mobTypes) throws ClassNotFoundException {
+  protected Vector<Constructor<Mob>> initializeSpawnConstructors(Vector<String> mobTypes) throws ClassNotFoundException {
     
-    List<Class> mobClasses = new ArrayList<Class>();
+    Vector<Class> mobClasses = new Vector<Class>();
     
-    //attempts to add all mob classes to a new list
+    //attempts to add all mob classes to a new Vector
     for (String mType: mobTypes) {
       mobClasses.add(Class.forName("model." + mType));
     }
     
-    mobConstructors = new ArrayList<Constructor<Mob>>();
+    Vector<Constructor<Mob>> mobConstructors = new Vector<Constructor<Mob>>();
     for (Class cls: mobClasses) {
       mobConstructors.add(cls.getConstructors()[0]);
     }
+    return mobConstructors;
   }
 
 
@@ -172,7 +174,7 @@ public abstract class Map {
     if (mapClock > DEFAULT_SPAWN_FREQUENCY) {
       mapClock = 0;
       
-      spawnWave(mobConstructors, waveIntensity);
+      spawnWave(ControllerMain.mobConstructors, waveIntensity);
       updateWaveIntensity();  //allows waves to get harder as time goes on
     }
   }
@@ -186,11 +188,11 @@ public abstract class Map {
   
   /* spawnWave
    * Spawns a new wave of enemies for the player to fight
-   * Parameters: mobConstructors: list of mob constructors in order to spawn them
+   * Parameters: mobConstructors: Vector of mob constructors in order to spawn them
    *             intensity: the intensity of a wave, how hard it is
    * Returns: None
   */
-  protected void spawnWave(List<Constructor<Mob>> mobConstructors, int intensity) {
+  protected void spawnWave(Vector<Constructor<Mob>> mobConstructors, int intensity) {
 
     int numberOfPaths = paths.size();
     int numberOfMobTypes = mobConstructors.size();
@@ -201,7 +203,7 @@ public abstract class Map {
       try {
         for (int j = 0; j < spawnCount; j++) {
           theGame.add(mobConstructors.get(i).newInstance(
-        		                  paths.get(1+ rng.nextInt(numberOfPaths)), theGame));
+        		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame));
         }
         spawnCount = spawnCount / waveRatio;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -224,13 +226,23 @@ public abstract class Map {
   }
 
 
-  public HashMap<Integer, List<Point>> getPaths() {
+  public HashMap<Integer, Vector<Point>> getPaths() {
     return paths;
   }
 
 
-  public void setPaths(HashMap<Integer, List<Point>> paths) {
+  public void setPaths(HashMap<Integer, Vector<Point>> paths) {
     this.paths = paths;
+  }
+
+
+  public String getSoundTrackName() {
+    return soundTrackName;
+  }
+
+
+  public void setSoundTrackName(String soundTrackName) {
+    this.soundTrackName = soundTrackName;
   }
 	
 }

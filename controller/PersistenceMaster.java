@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
@@ -25,8 +26,15 @@ import model.TowerGame;
 public class PersistenceMaster {
   
   private static Vector saveData;
-  private static TowerGame theGame;
   private static Vector loadData;
+  
+  private static TowerGame theGame;
+  private static Vector<Mob> mobs;
+  private static Vector<Projectile> projectiles;
+  private static Vector<Tower> towers;
+  private static Integer deathCount;
+  private static Player thePlayer;
+  private static Map theMap;
 
   /**
    * Saves a TowerGame.
@@ -37,21 +45,51 @@ public class PersistenceMaster {
     tg.pause();
     theGame = tg;
     
-    saveData = new Vector();
     saveMobs();
     saveProjectiles();
     saveTowers();
-    
     saveMobsKilled();
-    
     savePlayer();
     saveMap();
-    
     writeData("THE_IMMORTAL_SPRITESHEET");
     
   }
+
+  /**
+   * Loads a TowerGame.
+   * @return
+   */
+  public static TowerGame loadGame() {
+    
+    readData();
+    
+    theGame = (TowerGame) loadData.get(0);
+    mobs = (Vector<Mob>) loadData.get(1);
+    towers = (Vector<Tower>) loadData.get(2);
+    deathCount = (Integer) loadData.get(3);
+    thePlayer = (Player) loadData.get(4);
+    theMap = (Map) loadData.get(5);
+    
+    theGame.setMobs(mobs);
+    theGame.setTowers(towers);
+    theGame.setProjectiles(projectiles);
+    theGame.setDeathCount(deathCount);
+    theGame.setPlayer(thePlayer);
+    theGame.setMap(theMap);
+    
+    return theGame;
+  }
   
   private static void writeData(String saveName) {
+    saveData = new Vector();
+    
+    saveData.add(theGame);
+    saveData.add(mobs);
+    saveData.add(towers);
+    saveData.add(deathCount);
+    saveData.add(thePlayer);
+    saveData.add(theMap);
+    
     try {
       FileOutputStream fileOutput = new FileOutputStream(saveName);
       ObjectOutputStream out = new ObjectOutputStream(fileOutput);
@@ -63,69 +101,50 @@ public class PersistenceMaster {
     
   }
 
-  private static void saveMap() {
-    
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void savePlayer() {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void saveMobsKilled() {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void saveTowers() {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void saveProjectiles() {
-    // TODO Auto-generated method stub
-    
-  }
-
-  private static void saveMobs() {
-    Vector<Mob> mobs = new Vector(theGame.getMobs());
-    saveData.add(mobs);
-  }
-
-  /**
-   * Loads a TowerGame.
-   * @return
-   */
-  public static TowerGame loadGame() {
-    
-    // create a new game
-    String mapSelection = loadMapSelection();
-    String difficulty = loadDifficulty();
-    TowerGame output = new TowerGame(difficulty, mapSelection);
-
+  private static void readData() {
     try {
       FileInputStream fileOutput = new FileInputStream("THE_IMMORTAL_SPRITESHEET");
       ObjectInputStream in = new ObjectInputStream(fileOutput);
       
-      loadData = (Vector) in.readObject().
+      loadData = (Vector) in.readObject();
       
-      // configure its parameters
-      loadMobs(output);
-      loadProjectiles(output);
-      loadTowers(output);
-      
-      loadMobsKilled(output);
-      
-      loadPlayer(output);
-      loadMap(output);
-      
-    } catch (IOException e) {
+    } catch (IOException | ClassNotFoundException e) {
       e.printStackTrace();
     }
+  }
+
+  private static void saveMap() {
+    theMap = theGame.getMap();
+  }
+
+  private static void savePlayer() {
+    thePlayer = theGame.getPlayer();
+  }
+
+  private static void saveMobsKilled() {
+    deathCount = theGame.getKillCount();
     
-    return output;
+  }
+
+  private static void saveTowers() {
+    towers = new Vector(theGame.getTowers());
+    
+  }
+
+  private static void saveProjectiles() {
+    projectiles = new Vector(theGame.getProjectiles());
+    
+  }
+
+  private static void saveMobs() {
+    mobs = new Vector(theGame.getMobs());
+  }
+
+  private static void loadMobs(TowerGame output) {
+    Vector<Mob> mobs = (Vector<Mob>) loadData.get(0);
+    for (Mob m: mobs) {
+      output.add(m);
+    }
   }
 
   private static void loadMap(TowerGame output) {
@@ -150,10 +169,6 @@ public class PersistenceMaster {
 
   private static void loadProjectiles(TowerGame output) {
     // TODO Auto-generated method stub
-    
-  }
-
-  private static void loadMobs(TowerGame output) {
     
   }
 

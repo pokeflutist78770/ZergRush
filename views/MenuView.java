@@ -281,4 +281,8 @@ public class MenuView extends StackPane {
 		  else
 			  return map;
 	  }
+
+    public void setLoadStatus(Boolean load) {
+      this.load = load;
+    }
 }

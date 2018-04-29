@@ -1,6 +1,6 @@
 package views;
 
-import java.awt.Point;
+import java.awt.Point; 
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import controller.ControllerMain;
+import controller.PersistenceMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -114,6 +115,7 @@ public class MapView extends StackPane implements Observer {
   private boolean saveSelected;
   private boolean towerSelected;
   private boolean mobSelected;
+  private boolean firstAttack = true;
   private double selectedX;
   private double selectedY;
   private Tower currentTower;
@@ -725,6 +727,7 @@ public class MapView extends StackPane implements Observer {
 	  attr6.setText(attr6Text);
   }
   
+  
   /**
    * setTowerSelected
    * Sets a currently selected tower for the user, displaying stats and range of the tower
@@ -989,6 +992,7 @@ public class MapView extends StackPane implements Observer {
 		
 		// Set status text to Saved
 		statusText = "Game saved.";
+		PersistenceMaster.saveGame(theGame);
 		
 		// After 3 seconds, clear status text
 		Timer timer = new Timer();
@@ -1166,8 +1170,12 @@ public class MapView extends StackPane implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     drawMap();
-
+    
     double health = thePlayer.getHP() / 100;
+    if(firstAttack && health < 100) {
+        ControllerMain.soundEffects.get("underattack").play();
+        firstAttack = false;
+    }
     String healthStr = formatter.format(health);
     
     String cashStr = formatter.format(theGame.getCash());

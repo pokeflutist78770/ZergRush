@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -14,16 +15,16 @@ import controller.ControllerMain;
  * @author Ben
  *
  */
-public class Marine extends Mob{
+public class Marine extends Mob implements Serializable {
 
-	public Marine(List<Point> movementPath, TowerGame game) {
+	public Marine(Vector<Point> movementPath, TowerGame game) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.LIGHT_ARMOR, 
 				AttackAttribute.WEAK_ATTACK,
 				DefenseAttribute.SMALL, 
 				SpeedAttribute.NORMAL, 
-				new ArrayList<ResistanceAttribute>(
+				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Marine"+Mob.IDNumber++,
 				"file:assets/images/mob/terran/marine.png", "marine_death",

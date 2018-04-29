@@ -1,9 +1,9 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -14,11 +14,11 @@ import controller.ControllerMain;
  */
 public class Zergling extends Mob{
 
-	public Zergling(List<Point> movementPath, TowerGame game) {
+	public Zergling(Vector<Point> movementPath, TowerGame game) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, ArmorAttribute.NONE, 
 				AttackAttribute.WEAK_ATTACK, DefenseAttribute.SMALL, 
 				SpeedAttribute.FAST, 
-				new ArrayList<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
+				new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Zergling"+Mob.IDNumber++,
 				"file:assets/images/mob/zerg/zergling.png", "zergling_death",
 				2.0,

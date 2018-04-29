@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import controller.ControllerMain;
 
@@ -10,7 +11,9 @@ import controller.ControllerMain;
  *  Serves as a basic projectile, normal speed as well as damage, nothing     *
  *  special                                                                   *
  *============================================================================*/
+
 public class NormalProjectile extends Projectile {
+
 
   
   public NormalProjectile(Point startLocation, Mob targetMob, TowerGame game) {
