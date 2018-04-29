@@ -90,8 +90,8 @@ abstract public class Projectile implements Serializable {
    * Parameters: None
    * Returns: None
   */
-  private boolean hasReachedTarget() {
-      return Metric.closeEnough(currentLocation, targetMob.getCurrentLocation(), blastRadius+speed.getSpeed()/2);
+  private boolean hasReachedTarget(Point targetLocation) {
+      return Metric.closeEnough(currentLocation, targetLocation, blastRadius+speed.getSpeed()/2);
   }
 
 
@@ -99,7 +99,11 @@ abstract public class Projectile implements Serializable {
    * Updates the state of this projectile.
    */
   public void update() {
-    if (hasReachedTarget()) {
+    if (targetMob != null) {
+      targetLocation = targetMob.getCurrentLocation();
+    }
+    
+    if (hasReachedTarget(targetLocation)) {
       terminate();
       hit = true;
     } else {
