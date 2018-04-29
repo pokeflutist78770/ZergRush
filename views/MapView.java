@@ -247,8 +247,15 @@ public class MapView extends StackPane implements Observer {
     tower3.setOnAction(towerButtonHandler);
     tower3.setStyle("-fx-base: #808080;");
 
-    // Purchase Button
-    Image upgradeImage = new Image("file:assets/images/tower/upgrade.png", false);
+    
+    String pic = "";
+    if (MenuView.getModeSelection().equals("Fun"))
+    	pic = "guy.jpeg";
+    else
+    	pic = "upgrade.png";
+    
+    // Upgrade Button
+    Image upgradeImage = new Image("file:assets/images/tower/"+pic, false);
     ImageView iv4 = new ImageView(upgradeImage);
     iv4.setFitHeight(35);
     iv4.setFitWidth(35);
@@ -787,7 +794,7 @@ public class MapView extends StackPane implements Observer {
 	  }
 	  
 	  attr3Text = "Upgrade Cost:";
-	  attr4Text = "$"+String.valueOf(t.getCost()+upgradeCost);
+	  attr4Text = "$"+String.valueOf(upgradeCost);
 	  attr5Text = "Range:";
 	  attr6Text = String.valueOf(formatter.format(t.getRange())); 
   }
