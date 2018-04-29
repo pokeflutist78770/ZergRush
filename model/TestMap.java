@@ -14,7 +14,7 @@ public class TestMap extends Map implements Serializable {
   private String soundtrack;;
   
   public TestMap(TowerGame game, int i) throws ClassNotFoundException {
-    super("file:assets/images/map/terran_map.jpg", "Easy", game);
+    super("Test", "file:assets/images/map/terran_map.jpg", "Easy", game);
     soundtrack = "terranSoundtrack";
     Vector<String> VectorOfMobs = new Vector<String>();
     if (i==0) {

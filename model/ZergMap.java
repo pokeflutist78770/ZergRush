@@ -20,7 +20,7 @@ public class ZergMap extends Map implements Serializable {
   private String soundtrack;
   
   public ZergMap(String difficulty, TowerGame game) throws ClassNotFoundException {
-    super("file:assets/images/map/zerg_map.jpg", difficulty, game);
+    super("Zerg", "file:assets/images/map/zerg_map.jpg", difficulty, game);
     soundtrack = "zergSoundtrack";
     ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Zergling", "Hydralisk", "Ultralisk")));
     name = "Zerg"+ idNo;

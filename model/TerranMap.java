@@ -22,7 +22,7 @@ public class TerranMap extends Map implements Serializable {
   private String soundtrack;;
   
   public TerranMap(String difficulty, TowerGame game) throws ClassNotFoundException {
-    super("file:assets/images/map/terran_map.jpg", difficulty, game);
+    super("Terran", "file:assets/images/map/terran_map.jpg", difficulty, game);
     soundtrack = "terranSoundtrack";
     ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Marine", "Wraith", "BattleCruiser")));
     name = "Terran"+ idNo;

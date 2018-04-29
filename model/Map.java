@@ -48,11 +48,11 @@ public abstract class Map implements Serializable {
   
   private static int waveIntensity; 
   private int waveRatio;
-  private static Random rng = new Random();
   
   public String backgroundImageFilePath;
   public static int idNo = 0;
   protected String name;
+  private String soundTrackName;
   
   private HashMap<Integer, Vector<Point>> paths; // Each map class should have its own hardcoded path setup.
 
@@ -65,8 +65,9 @@ public abstract class Map implements Serializable {
    * @param difficulty "Easy", "Medium", "Hard", or "Meme"
    * @param game The game instantiating this map.
    */
-  public Map (String imgFp, String difficulty, TowerGame game) {
+  public Map (String soundTrack, String imgFp, String difficulty, TowerGame game) {
     initializePathing();
+    setSoundTrackName(soundTrack);
     setBackground(imgFp);
     setWaveRatio(difficulty);
     theGame = game;
@@ -202,7 +203,7 @@ public abstract class Map implements Serializable {
       try {
         for (int j = 0; j < spawnCount; j++) {
           theGame.add(mobConstructors.get(i).newInstance(
-        		                  paths.get(1+ rng.nextInt(numberOfPaths)), theGame));
+        		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame));
         }
         spawnCount = spawnCount / waveRatio;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -232,6 +233,16 @@ public abstract class Map implements Serializable {
 
   public void setPaths(HashMap<Integer, Vector<Point>> paths) {
     this.paths = paths;
+  }
+
+
+  public String getSoundTrackName() {
+    return soundTrackName;
+  }
+
+
+  public void setSoundTrackName(String soundTrackName) {
+    this.soundTrackName = soundTrackName;
   }
 	
 }
