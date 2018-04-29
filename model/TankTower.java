@@ -34,10 +34,10 @@ public class TankTower  extends Tower implements Serializable {
 	protected void shoot(Set<Mob> nearbyMobs) {
 		Mob closest = getClosestMob(nearbyMobs);
 		
-		Projectile projectile=new FireProjectile(new Point(
+		Projectile projectile=new SiegeProjectile(new Point(
                  	                                       (int)(location.getX()+.5*MapView.ghostTowerSize),
                  	                                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
-                                                 closest,theGame);
+                                                 closest.getCurrentLocation(),theGame);
 		projectile.addDamageBonus(25*rank);
 	    theGame.add(projectile);
 	}
