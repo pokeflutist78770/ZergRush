@@ -1,6 +1,7 @@
 package controller;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -23,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Map;
 import model.Mob;
 import model.TowerGame;
 import views.InstructionView;
@@ -200,7 +202,11 @@ public class ControllerMain extends Application {
 
       // User wishes to start a game
       if (buttonText.equals("Start")) {
-        runSelectedGame(theMenuView.getLoadStatus());
+        try {
+          runSelectedGame(theMenuView.getLoadStatus());
+        } catch (ClassNotFoundException e1) {
+          e1.printStackTrace();
+        }
         theMenuView.setLoadStatus(false);
       }
 
@@ -221,12 +227,20 @@ public class ControllerMain extends Application {
      * This method is self-descriptive. 
      * It handles what should happen when someone clicks 'start' from the main menu.
      */
-    private void runSelectedGame(Boolean loading) {
+    private void runSelectedGame(Boolean loading) throws ClassNotFoundException {
       
       System.out.println("runSelectedGame() is called.");
       
       if (loading) {
         theGame = PersistenceMaster.loadGame();
+        if (theGame.getMap().getSoundTrackName().equals("Zerg")) {
+          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Zergling", "Hydralisk", "Ultralisk")));
+        } else if (theGame.getMap().getSoundTrackName().equals("Terran")) {
+          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Marine", "Wraith", "BattleCruiser")));
+        } else if (theGame.getMap().getSoundTrackName().equals("Protoss")) {
+          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
+        }
+        
         
       } else {
         // No difficulty selected
@@ -262,7 +276,6 @@ public class ControllerMain extends Application {
      * Initializes the map after a game has been started.
      */
     private void initializeMapView() {
-      //TODO: probably can refactor this.
       theMapView.setMapSelection(theGame.getBackgroundImageFP());
       System.out.println("map selection set");
       // Set Wave Difficulty
@@ -311,13 +324,11 @@ public class ControllerMain extends Application {
 
   /*
    * Handles loss conditions for the player, terminating active mob threads and
-   * resetting the game state.
+   * resetting the game state. Display loss if playerLost true, otherwise display win.
    */
   public static void dealWithDeadPlayer(boolean playerLost) {
-    //TODO: clean this method
     theGame.pause();
-    //play(soundEffects.get("defeat"));
-    System.out.println("Player lost");
+    System.out.println("Game over");
 
     // Label - Win or Loss
     Label gameStatus = new Label();
@@ -330,7 +341,7 @@ public class ControllerMain extends Application {
     else
     {
     	gameStatus.setText("You win!");
-    	//play(soundEffects.get("victory"));
+    	play(soundEffects.get("victory"));
     }
     
     // display win or loss screen

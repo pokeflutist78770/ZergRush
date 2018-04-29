@@ -248,7 +248,13 @@ public class MapView extends StackPane implements Observer {
     tower3.setStyle("-fx-base: #808080;");
 
     // Purchase Button
-    upgradeButton = new Button("Upgrade");
+    Image upgradeImage = new Image("file:assets/images/tower/upgrade.png", false);
+    ImageView iv4 = new ImageView(upgradeImage);
+    iv4.setFitHeight(35);
+    iv4.setFitWidth(35);
+    upgradeButton = new Button("", iv4);
+    
+    //upgradeButton = new Button("Upgrade");
     upgradeButton.setOnAction(upgradeButtonHandler);
     upgradeButton.setVisible(false);
     upgradeButton.setMinWidth(30);
@@ -266,7 +272,7 @@ public class MapView extends StackPane implements Observer {
     // Add upgrade button
     backButton.setMaxWidth(100);
     vBox.getChildren().add(upgradeButton);
-    vBox.setPadding(new Insets(828, 0, 0, 460));
+    vBox.setPadding(new Insets(818, 0, 0, 458));
 
     // Add Tower Buttons
     towerBox.getChildren().add(tower1);
@@ -553,7 +559,7 @@ public class MapView extends StackPane implements Observer {
   * @return: None
   */
   public void drawMap() {
-    Platform.runLater(new Runnable() {//TODO: fix this
+    Platform.runLater(new Runnable() {
       @Override
         public void run() {
           gc.drawImage(background, 0, 0);
@@ -901,7 +907,7 @@ public class MapView extends StackPane implements Observer {
 		Button button=(Button) e.getSource();
 			
 		//user wants to upgrade a currently selected tower
-		if(button.getText().equals("Upgrade")) {
+		//if(button.getText().equals("Upgrade")) {
 			
 			//user can actually upgrade
 			if(towerSelected  && thePlayer.getCash()>=currentTower.getCost()) {
@@ -917,7 +923,7 @@ public class MapView extends StackPane implements Observer {
 			else if(thePlayer.getCash()<currentTower.getCost()) {
 				  ControllerMain.soundEffects.get("mins").play();
 			}
-		}
+		//}
 	}
   }
 
