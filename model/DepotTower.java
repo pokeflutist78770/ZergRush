@@ -62,10 +62,13 @@ public class DepotTower extends Tower implements Serializable {
   public void upgrade() {
     if(rank==0) {
 		setImageFilePath("file:assets/images/tower/tower.png");
-			
+		setRange(RangeAttribute.MEDIUM_RANGE);
+		increaseFrequency(20);	
 	}
 	else if(rank==1) {
 		setImageFilePath("file:assets/images/tower/bunker.png");
+		setRange(RangeAttribute.LARGE_RANGE);
+		increaseFrequency(30);
 	}
 		
 	rank++;

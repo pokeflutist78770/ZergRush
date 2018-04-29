@@ -1,6 +1,6 @@
 package views;
 
-import java.awt.Point;
+import java.awt.Point; 
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -115,6 +115,7 @@ public class MapView extends StackPane implements Observer {
   private boolean saveSelected;
   private boolean towerSelected;
   private boolean mobSelected;
+  private boolean firstAttack = true;
   private double selectedX;
   private double selectedY;
   private Tower currentTower;
@@ -726,6 +727,7 @@ public class MapView extends StackPane implements Observer {
 	  attr6.setText(attr6Text);
   }
   
+  
   /**
    * setTowerSelected
    * Sets a currently selected tower for the user, displaying stats and range of the tower
@@ -888,9 +890,16 @@ public class MapView extends StackPane implements Observer {
 		Button button=(Button) e.getSource();
 			
 		//user wants to upgrade a currently selected tower
-		if(button.getText().equals("Upgrade") && towerSelected) {
-			currentTower.upgrade();
-			thePlayer.decrementCash(currentTower.getCost());
+		if(button.getText().equals("Upgrade")) {
+			//user can actually upgrade
+			if(towerSelected  && thePlayer.getCash()>=currentTower.getCost()) {
+				currentTower.upgrade();
+				thePlayer.decrementCash(currentTower.getCost());
+				ControllerMain.soundEffects.get("upgrade").play();
+			}
+			else if(thePlayer.getCash()<currentTower.getCost()) {
+				  ControllerMain.soundEffects.get("mins").play();
+			}
 		}
 	}
   }
@@ -1161,8 +1170,12 @@ public class MapView extends StackPane implements Observer {
   @Override
   public void update(Observable o, Object arg) {
     drawMap();
-
+    
     double health = thePlayer.getHP() / 100;
+    if(firstAttack && health < 100) {
+        ControllerMain.soundEffects.get("underattack").play();
+        firstAttack = false;
+    }
     String healthStr = formatter.format(health);
     
     String cashStr = formatter.format(theGame.getCash());

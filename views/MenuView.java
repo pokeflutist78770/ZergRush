@@ -44,11 +44,9 @@ public class MenuView extends StackPane {
 	private Button instrButton;
 	private HBox hBox;
 	private Label difficulty;
-	private String mode;
+	private static String mode;
 	private String map;
 	private Button loadButton;
-	private Button saveButton;
-	private Boolean save;
 	private Boolean load;
 	private Slider speedSlider;
 	
@@ -181,25 +179,6 @@ public class MenuView extends StackPane {
 	    comboVBox.setPadding(new Insets(515,0,0,322));
 		comboVBox.setPickOnBounds(false);
 	    this.getChildren().add(comboVBox);
-	    
-		// Save Button
-	    save = false;
-		saveButton = new Button("Save");
-		saveButton.setMinWidth(80);
-		saveButton.setMinHeight(10);
-		saveButton.setStyle("-fx-font: 15 serif; -fx-base: #000000;");
-	    saveButton.setOnAction((ActionEvent ev) -> {
-	    	if (save == false)
-	    	{
-	    		saveButton.setStyle("-fx-text-fill: #ff0000; -fx-font: 15 serif; -fx-base: #000000;");
-	    		save = true;
-	    	}
-	    	else
-	    	{
-	    		saveButton.setStyle("-fx-text-fill: #ffffff; -fx-font: 15 serif; -fx-base: #000000;");
-	    		save = false;
-	    	}
-	    });
 		
 		// Load Button
 	    load = false;
@@ -220,9 +199,8 @@ public class MenuView extends StackPane {
 	    	}
 	    });
 	    
-		// Add Save & Load Buttons
+		// Add Load Button
 		VBox loadSaveBox = new VBox();
-		loadSaveBox.getChildren().add(saveButton);
 		loadSaveBox.getChildren().add(loadButton);
 		loadSaveBox.setPickOnBounds(false);
 		loadSaveBox.setSpacing(2);
@@ -276,11 +254,6 @@ public class MenuView extends StackPane {
 		  return load;
 	  }
 	
-	  public Boolean getSaveStatus()
-	  {
-		  return save;
-	  }
-	
 	  public double getSpeedSelection()
 	  {
 		  // Returns 0.0 (min) to 1.0 (max) representing 
@@ -288,7 +261,7 @@ public class MenuView extends StackPane {
 		  return speedSlider.getValue();
 	  }
 	  
-	  public String getModeSelection()
+	  public static String getModeSelection()
 	  {
 		  if (mode.equals(""))
 			  return null;

@@ -19,7 +19,7 @@ public class NormalProjectile extends Projectile {
   public NormalProjectile(Point startLocation, Mob targetMob, TowerGame game) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/normal.png", game);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/normal.png", game);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();

@@ -22,8 +22,9 @@ import javafx.scene.image.Image;
 
 public abstract class Tower implements Serializable {
   
-  protected int firing_frequencey;
-  protected int fire_counter = 2*firing_frequencey;
+  protected int firing_frequency;
+  protected int fire_counter = firing_frequency;
+
   
   protected String name;
   protected int cost;
@@ -50,7 +51,7 @@ public abstract class Tower implements Serializable {
     rank=0;
     imageFilePath = imageFP;
     theGame = game;
-    firing_frequencey = fireRate;
+    firing_frequency = fireRate;
   }
 
   /**
@@ -149,7 +150,7 @@ public abstract class Tower implements Serializable {
     
     Set<Mob> nearbyMobs = getNearbyMobs();
     if (!nearbyMobs.isEmpty() && theGame.getProjectiles().size() < 5000) {
-      if (fire_counter < firing_frequencey) {
+      if (fire_counter < firing_frequency) {
         return;
       }
       fire_counter = 0;
@@ -158,6 +159,11 @@ public abstract class Tower implements Serializable {
     }
   }
 
+  
+  public void increaseFrequency(int amtIncrease) {
+	  firing_frequency-=amtIncrease;
+  }
+  
   /** GETTERS AND SETTERS FOLLOW */
   
   
@@ -187,5 +193,9 @@ public abstract class Tower implements Serializable {
   
   public int getCost() {
     return cost;
+  }
+  
+  public void setRange(RangeAttribute newRange) {
+	  range=newRange;
   }
 }

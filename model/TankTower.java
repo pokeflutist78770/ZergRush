@@ -50,9 +50,12 @@ public class TankTower  extends Tower implements Serializable {
 	public void upgrade() {
 		if(rank==0) {
 			setImageFilePath("file:assets/images/tower/siege.png");
+			setRange(RangeAttribute.LARGE_RANGE);
+			increaseFrequency(30);
 		}
 		else if(rank==1) {
 			setImageFilePath("file:assets/images/tower/thor.png");
+			increaseFrequency(30);
 		}
 		
 		rank++;
