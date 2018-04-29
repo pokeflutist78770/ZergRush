@@ -780,7 +780,7 @@ public class MapView extends StackPane implements Observer {
 	  attr6Text = String.valueOf(formatter.format(t.getRange())); 
   }
 
-  
+
   /**
    * setMobSelected
    * Sets the current selected mob to highlight and show stats
@@ -841,8 +841,8 @@ public class MapView extends StackPane implements Observer {
 	  attr5Text = "Attack:";
 	  attr6Text = String.valueOf(formatter.format(mob.getAttack()));
   }
-  
-  
+
+
   /**
    * Display tower properties when button is hovered over with mouse.
    * Tower properties will show tower name, cost and attack type.
@@ -882,9 +882,8 @@ public class MapView extends StackPane implements Observer {
  		  
  		  updateLabels();
    }
-   
-  
-   
+
+
   /**
    * upgradeHandler
    * handles all upgrade procedures for the given tower
@@ -916,8 +915,8 @@ public class MapView extends StackPane implements Observer {
 		}
 	}
   }
-   
-   
+
+
   /**
   * Button handler to place either Tower1, Tower2, or Tower3 on Map.
   * Get Tower image according to Button clicked.
