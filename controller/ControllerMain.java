@@ -221,7 +221,7 @@ public class ControllerMain extends Application {
         if (buttonText.equals("Quit"))
         	theGame.pause();
       }
-    }
+  }
 
     /*
      * This method is self-descriptive. 

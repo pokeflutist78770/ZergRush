@@ -19,7 +19,7 @@ public class TankTower  extends Tower implements Serializable {
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.MEDIUM_RANGE;
 	
 	public TankTower(Point loc, TowerGame game) {
-		super(350, "Library", loc, RangeAttribute.MEDIUM_RANGE, "file:assets/images/tower/tank.png",
+		super(350, 200, "Library", loc, RangeAttribute.MEDIUM_RANGE, "file:assets/images/tower/tank.png",
 		      game, 120);
 	}
 

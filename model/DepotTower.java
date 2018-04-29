@@ -18,7 +18,7 @@ public class DepotTower extends Tower implements Serializable {
   public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
   
   public DepotTower(Point loc, TowerGame game) {
-    super(150, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/depot.png", 
+    super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/depot.png", 
           game, 120);
   }
 
