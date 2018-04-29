@@ -249,6 +249,7 @@ public class MapView extends StackPane implements Observer {
     // Purchase Button
     upgradeButton = new Button("Upgrade");
     upgradeButton.setOnAction(upgradeButtonHandler);
+    upgradeButton.setVisible(false);
     upgradeButton.setMinWidth(30);
     upgradeButton.setMinHeight(10);
     upgradeButton.setStyle("-fx-font: 14 serif; -fx-base: #808080;");
@@ -765,11 +766,17 @@ public class MapView extends StackPane implements Observer {
 		  upgradeCost = 200;
 	  }
 	  
+	  if(!currentTower.isFullyUpgraded()) {
+		  upgradeButton.setVisible(true);
+	  }
+	  else {
+		  upgradeButton.setVisible(false);
+	  }
+	  
 	  attr3Text = "Upgrade Cost:";
 	  attr4Text = "$"+String.valueOf(t.getCost()+upgradeCost);
 	  attr5Text = "Range:";
-	  attr6Text = String.valueOf(formatter.format(t.getRange()));
-	  
+	  attr6Text = String.valueOf(formatter.format(t.getRange())); 
   }
 
   
@@ -890,12 +897,18 @@ public class MapView extends StackPane implements Observer {
 			
 		//user wants to upgrade a currently selected tower
 		if(button.getText().equals("Upgrade")) {
+			
 			//user can actually upgrade
 			if(towerSelected  && thePlayer.getCash()>=currentTower.getCost()) {
 				currentTower.upgrade();
 				thePlayer.decrementCash(currentTower.getCost());
 				ControllerMain.soundEffects.get("upgrade").play();
+				
+				if(currentTower.isFullyUpgraded()) {
+					upgradeButton.setVisible(false);
+				}
 			}
+			
 			else if(thePlayer.getCash()<currentTower.getCost()) {
 				  ControllerMain.soundEffects.get("mins").play();
 			}
@@ -942,6 +955,7 @@ public class MapView extends StackPane implements Observer {
 		}
 	} 
   } 
+  
   
   /**
   * Button handler to pause the game.
@@ -1054,6 +1068,7 @@ public class MapView extends StackPane implements Observer {
 		attr6Text = "";
 		towerSelected=false;
 		mobSelected=false;
+		upgradeButton.setVisible(false);
 		  
 		if(towerPlacement) {
 			towerPlacement=false;

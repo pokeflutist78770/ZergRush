@@ -69,6 +69,7 @@ public class MarineTower extends Tower{
 			setImageFilePath("file:assets/images/tower/ghost.png");
 			setRange(RangeAttribute.LARGE_RANGE);
 			increaseFrequency(60);
+			isFullyUpgraded=true;
 		}
 		
 		rank++;

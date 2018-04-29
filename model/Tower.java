@@ -32,6 +32,7 @@ public abstract class Tower {
   protected String imageFilePath;
   protected TowerGame theGame;
   protected int rank;
+  protected boolean isFullyUpgraded;
   
   /**
    * 
@@ -51,6 +52,7 @@ public abstract class Tower {
     imageFilePath = imageFP;
     theGame = game;
     firing_frequency = fireRate;
+    isFullyUpgraded=false;
   }
 
   /**
@@ -137,7 +139,18 @@ public abstract class Tower {
   public boolean isDone() {
     return false;
   }
+  
+  
+  /**
+   * isFullyUpgraded
+   * tells if a towwer is at its max rank or not
+   * @return boolean representing if a tower is fully upgraded
+   */
+  public boolean isFullyUpgraded() {
+	  return isFullyUpgraded;
+  }
 
+  
   /**
    * A single update step for the tower.
    * For most updates, nothing happens.

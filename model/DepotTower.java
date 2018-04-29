@@ -68,6 +68,7 @@ public class DepotTower extends Tower {
 		setImageFilePath("file:assets/images/tower/bunker.png");
 		setRange(RangeAttribute.LARGE_RANGE);
 		increaseFrequency(30);
+		isFullyUpgraded=true;
 	}
 		
 	rank++;
