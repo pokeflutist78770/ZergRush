@@ -1,6 +1,8 @@
 package controller;
 
-import java.util.HashMap; 
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Vector;
 
 import javafx.application.*;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Mob;
 import model.TowerGame;
 import views.InstructionView;
 import views.MapView;
@@ -69,6 +72,8 @@ public class ControllerMain extends Application {
   
   // Model data
   private static TowerGame theGame;
+  
+  public static Vector<Constructor<Mob>> mobConstructors;
 
 
   /* Launch the JavaFX application */
@@ -195,7 +200,8 @@ public class ControllerMain extends Application {
 
       // User wishes to start a game
       if (buttonText.equals("Start")) {
-        runSelectedGame();
+        runSelectedGame(theMenuView.getLoadStatus());
+        theMenuView.setLoadStatus(false);
       }
 
       // user wants to access instructions
@@ -215,21 +221,30 @@ public class ControllerMain extends Application {
      * This method is self-descriptive. 
      * It handles what should happen when someone clicks 'start' from the main menu.
      */
-    private void runSelectedGame() {
+    private void runSelectedGame(Boolean loading) {
+      
       System.out.println("runSelectedGame() is called.");
-      // No difficulty selected
-      String difficulty = theMenuView.getModeSelection();
-      if (difficulty == null)
-        return;
+      
+      if (loading) {
+        theGame = PersistenceMaster.loadGame();
+        
+      } else {
+        // No difficulty selected
+        String difficulty = theMenuView.getModeSelection();
+        if (difficulty == null)
+          return;
 
-      // No map selected
-      String mapSelection = theMenuView.getMapSelection();
-      if (mapSelection == null)
-        return;
+        // No map selected
+        String mapSelection = theMenuView.getMapSelection();
+        if (mapSelection == null)
+          return;
 
-      System.out.println("This was selected: " + difficulty + ", " + mapSelection);
-      theGame = null;
-      theGame = new TowerGame(difficulty, mapSelection);
+        System.out.println("This was selected: " + difficulty + ", " + mapSelection);
+        theGame = null;
+        theGame = new TowerGame(difficulty, mapSelection);
+        
+      }
+      
       System.out.println("The game was initialized without issue.");
       theMapView = new MapView(backButtonMap, theGame);
       System.out.println("The mapView was initialized without issue.");
@@ -239,7 +254,7 @@ public class ControllerMain extends Application {
       theGame.getPlayer().resetStats();
       initializeMapView();
       System.out.println("MapView has been configured.");
-      play(soundEffects.get(mapSelection));
+      play(soundEffects.get(theGame.getMap().getSoundTrackName()));
       theGame.unPause(); //The mapview needs to be initialized before the game unpauses.
     }
 

@@ -1,24 +1,28 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Vector;
 
-public class TestMap extends Map {
+import controller.ControllerMain;
+
+import java.util.Arrays;
+import java.util.Vector;
+
+public class TestMap extends Map implements Serializable {
 
   private String soundtrack;;
   
   public TestMap(TowerGame game, int i) throws ClassNotFoundException {
-    super("file:assets/images/map/terran_map.jpg", "Easy", game);
+    super("Test", "file:assets/images/map/terran_map.jpg", "Easy", game);
     soundtrack = "terranSoundtrack";
-    List<String> listOfMobs = new ArrayList<String>();
+    Vector<String> VectorOfMobs = new Vector<String>();
     if (i==0) {
-      listOfMobs = new ArrayList<String>(Arrays.asList("Belch", "Wraith", "BattleCruiser"));
+      VectorOfMobs = new Vector<String>(Arrays.asList("Belch", "Wraith", "BattleCruiser"));
     } else {
-      listOfMobs = new ArrayList<String>(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
+      VectorOfMobs = new Vector<String>(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
     }
-    initializeSpawnConstructors(listOfMobs);
+    ControllerMain.mobConstructors = initializeSpawnConstructors(VectorOfMobs);
     name = "Terran"+ idNo;
   }
 
@@ -30,7 +34,7 @@ public class TestMap extends Map {
   */
   @Override
   void constructMobRoute() {
-    List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
+    Vector<Point> pathOne = new Vector<Point>(Arrays.asList(
         new Point(876, 890), 
         new Point(762, 834),
         new Point(684, 883),

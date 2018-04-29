@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -16,14 +17,14 @@ import controller.ControllerMain;
  *============================================================================*/
 
 
-public class TerranMap extends Map {
+public class TerranMap extends Map implements Serializable {
 
   private String soundtrack;;
   
   public TerranMap(String difficulty, TowerGame game) throws ClassNotFoundException {
-    super("file:assets/images/map/terran_map.jpg", difficulty, game);
+    super("Terran", "file:assets/images/map/terran_map.jpg", difficulty, game);
     soundtrack = "terranSoundtrack";
-    initializeSpawnConstructors(Arrays.asList("Marine", "Wraith", "BattleCruiser"));
+    ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Marine", "Wraith", "BattleCruiser")));
     name = "Terran"+ idNo;
   }
 
@@ -35,7 +36,7 @@ public class TerranMap extends Map {
   */
   @Override
   void constructMobRoute() {
-    List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
+    Vector<Point> pathOne = new Vector<Point>(Arrays.asList(
         new Point(876, 890), 
         new Point(762, 834),
         new Point(684, 883),

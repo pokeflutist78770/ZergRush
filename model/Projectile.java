@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Vector;
 
 import controller.ControllerMain;
@@ -15,7 +16,7 @@ import javafx.scene.image.Image;
  * @author J. David Taylor
  *
  */
-abstract public class Projectile {
+abstract public class Projectile implements Serializable {
   
   protected SpeedAttribute speed;
   protected Point currentLocation;

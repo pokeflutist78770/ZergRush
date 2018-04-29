@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Vector;
 
 import controller.ControllerMain;
 
@@ -14,14 +15,14 @@ import controller.ControllerMain;
  * Serves as the main Protoss map, where the player will face protoss enemies *
  * As well as two separate paths for enemies!                                 *
  *============================================================================*/
-public class ProtossMap extends Map {
+public class ProtossMap extends Map implements Serializable {
 
   private String soundtrack;;
   
   public ProtossMap(String difficulty, TowerGame game) throws ClassNotFoundException {
-    super("file:assets/images/map/protoss_map.jpg", difficulty, game);
+    super("Protoss", "file:assets/images/map/protoss_map.jpg", difficulty, game);
     soundtrack = "protossSoundtrack";
-    initializeSpawnConstructors(Arrays.asList("Zealot", "DarkTemplar", "Archon"));
+    ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
     name = "Protoss"+ idNo;
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
@@ -34,7 +35,7 @@ public class ProtossMap extends Map {
   */
   @Override
   void constructMobRoute() {
-    List<Point> pathOne = new ArrayList<Point>(Arrays.asList(
+    Vector<Point> pathOne = new Vector<Point>(Arrays.asList(
         new Point(130, 893), 
         new Point(97, 773),
         new Point(178, 673),
@@ -48,7 +49,7 @@ public class ProtossMap extends Map {
         new Point(923, 135)
         ));
     
-    List<Point> pathTwo = new ArrayList<Point>(Arrays.asList(
+    Vector<Point> pathTwo = new Vector<Point>(Arrays.asList(
         new Point(130, 893), 
         new Point(97, 773),
         new Point(178, 673),

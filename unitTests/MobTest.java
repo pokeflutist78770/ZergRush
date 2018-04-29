@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Vector;
 
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class MobTest {
   int numberOfTries = 1000;
 
   TowerGame tg = new TowerGame("Easy", "Terran");
-  List<Point> path = tg.getMap().getPaths().get(1);
+  Vector<Point> path = tg.getMap().getPaths().get(1);
   
   
   Archon testArchon = new Archon(path, tg);

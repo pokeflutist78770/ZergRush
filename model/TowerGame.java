@@ -1,10 +1,11 @@
 package model;
 
-import java.awt.Point; 
-import java.util.ArrayList;
+import java.awt.Point;
+import java.io.Serializable;
+import java.util.Vector;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Vector;
 import java.util.Observable;
 
 import controller.ControllerMain;
@@ -17,7 +18,7 @@ import views.MenuView;
  * @author J. David Taylor
  *
  */
-public class TowerGame extends Observable {
+public class TowerGame extends Observable implements Serializable {
   
   private Player thePlayer;
   private Map theMap;
@@ -47,7 +48,7 @@ public class TowerGame extends Observable {
     
     thePlayer = new Player();
     try {
-      theMap = createMap(mapSelection,difficulty);
+      theMap = createMap(mapSelection, difficulty);
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
     }
@@ -260,11 +261,11 @@ public class TowerGame extends Observable {
   }
   
   /**
-   * Get a pointer to a list of all current mobs.
-   * @return A list of the current mobs.
+   * Get a pointer to a Vector of all current mobs.
+   * @return A Vector of the current mobs.
    */
-  public synchronized List<Mob> getMobs() {
-    return new ArrayList<Mob>(mobs);
+  public synchronized Vector<Mob> getMobs() {
+    return new Vector<Mob>(mobs);
   }
   
   /**
@@ -285,11 +286,11 @@ public class TowerGame extends Observable {
 
   
   /**
-   * Get a pointer to a list of all current projectiles.
-   * @return A list of the current projectiles.
+   * Get a pointer to a Vector of all current projectiles.
+   * @return A Vector of the current projectiles.
    */
-  public synchronized List<Projectile> getProjectiles() {
-    return new ArrayList<Projectile>(projectiles);
+  public synchronized Vector<Projectile> getProjectiles() {
+    return new Vector<Projectile>(projectiles);
   }
   
   /**
@@ -310,11 +311,11 @@ public class TowerGame extends Observable {
 
   
   /**
-   * Get a pointer to a list of all current towers.
-   * @return A list of the current towers.
+   * Get a pointer to a Vector of all current towers.
+   * @return A Vector of the current towers.
    */
-  public synchronized List<Tower> getTowers() {
-    return new ArrayList<Tower>(towers);
+  public synchronized Vector<Tower> getTowers() {
+    return new Vector<Tower>(towers);
   }
   
   /**
@@ -369,6 +370,38 @@ public class TowerGame extends Observable {
 
   public Map getMap() {
     return theMap;
+  }
+
+
+  public void setMobs(Vector<Mob> inputMobs) {
+    mobs = new HashSet(inputMobs);
+  }
+
+
+  public void setTowers(Vector<Tower> inputTowers) {
+    towers = new HashSet(inputTowers);
+    
+  }
+
+
+  public void setProjectiles(Vector<Projectile> inputProjectiles) {
+    projectiles = new HashSet(inputProjectiles);
+    
+  }
+
+
+  public void setDeathCount(Integer deathCount) {
+    mobsKilled = deathCount;
+  }
+
+
+  public void setPlayer(Player inputPlayer) {
+    thePlayer = inputPlayer;
+  }
+
+
+  public void setMap(Map inputMap) {
+    theMap = inputMap;
   }
   
 }
