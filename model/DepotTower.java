@@ -69,6 +69,7 @@ public class DepotTower extends Tower implements Serializable {
 		setImageFilePath("file:assets/images/tower/bunker.png");
 		setRange(RangeAttribute.LARGE_RANGE);
 		increaseFrequency(30);
+		isFullyUpgraded=true;
 	}
 		
 	rank++;
