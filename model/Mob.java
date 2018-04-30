@@ -146,7 +146,7 @@ public abstract class Mob implements Serializable {
     
 
     this.hp = new Double(defense.getDefense());
-    hp += Math.sqrt(theGame.getKillCount());
+    hp += theGame.getKillCount() / 5;
 
   }
 
