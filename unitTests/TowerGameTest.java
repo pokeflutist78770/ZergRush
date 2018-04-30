@@ -101,7 +101,7 @@ public class TowerGameTest {
     tg.add(demoProj);
     assertTrue(tg.getProjectiles().size() == 1);
     tg.remove(demoProj);
-    assertTrue(tg.getProjectiles().size() == 0);
+    assertTrue(tg.getProjectiles().size() == 0);   
   }
 
   @Test

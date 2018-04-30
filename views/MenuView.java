@@ -49,6 +49,7 @@ public class MenuView extends StackPane {
 	private Button loadButton;
 	private Boolean load;
 	private Slider speedSlider;
+	private ToggleGroup radioGroup;
 	
 	/**
 	* Constructor for MenuView. Adds the Start and Instruction buttons to bottom of page.
@@ -88,7 +89,7 @@ public class MenuView extends StackPane {
 		ImageView imv = new ImageView();
 		imv.setImage(background);
 		this.getChildren().add(imv);
-		StackPane.setAlignment(imv, Pos.TOP_CENTER);
+		StackPane.setAlignment(imv, Pos.TOP_CENTER);  
 		
 		// Set Title Text
 		title = new Image("file:assets/images/TitleText.png", false);
@@ -284,5 +285,9 @@ public class MenuView extends StackPane {
 
     public void setLoadStatus(Boolean load) {
       this.load = load;
+    }
+    
+    public static void setModeForTest(String newMode) {
+    	mode=newMode;
     }
 }

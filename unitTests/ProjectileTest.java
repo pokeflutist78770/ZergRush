@@ -64,7 +64,7 @@ public class ProjectileTest {
   public void testTerminate() {
     double hp = testArchon.hp;
     for (int i = 0; i < numberOfTries; i++) {
-      demoProj.update();
+      demoProj.update(); 
     }
     assertFalse(hp == testArchon.hp);
     assertTrue(demoProj.isDone());  

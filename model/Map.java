@@ -207,7 +207,7 @@ public abstract class Map implements Serializable {
       try {
         for (int j = 0; j < spawnCount; j++) {
           theGame.add(mobConstructors.get(i).newInstance(
-        		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame));
+        		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame, MenuView.getModeSelection().equals("Fun")));
         }
         spawnCount = spawnCount / 3;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -241,7 +241,7 @@ public abstract class Map implements Serializable {
 
 
   public String getSoundTrackName() {
-    if (MenuView.getModeSelection().equals("Fun")) {
+    if (MenuView.getModeSelection().equals("Fun")) {  
 	  return "marauder";
 	}
 	else {

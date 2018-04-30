@@ -143,7 +143,7 @@ public class TowerGame extends Observable implements Serializable {
    */
   private synchronized void updateGameState() {
     updateTowers();
-    updateMap();
+    updateMap();   
     updateMobs();
     updateProjectiles();
     
