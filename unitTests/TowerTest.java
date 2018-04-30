@@ -27,19 +27,19 @@ public class TowerTest {
   
   int numberOfTries = 1000;
 
-  TowerGame tg = new TowerGame("Medium", "Protoss");
+  TowerGame tg = new TowerGame("Medium", "Protoss");   
   Vector<Point> path = tg.getMap().getPaths().get(1);
   
   // Mobs for testing
-  Archon testArchon = new Archon(path, tg);
-  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg);
-  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg);
-  Hydralisk testHydralisk = new Hydralisk(path, tg);
-  Marine testMarine = new Marine(path, tg);
-  Ultralisk testUltralisk = new Ultralisk(path, tg);
-  Wraith testWraith = new Wraith(path, tg);
-  Zealot testZealot = new Zealot(path, tg);
-  Zergling testZergling = new Zergling(path, tg);
+  Archon testArchon = new Archon(path, tg, false);
+  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg, false);
+  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg, false);
+  Hydralisk testHydralisk = new Hydralisk(path, tg, false);
+  Marine testMarine = new Marine(path, tg, false);
+  Ultralisk testUltralisk = new Ultralisk(path, tg, false);
+  Wraith testWraith = new Wraith(path, tg, false);  
+  Zealot testZealot = new Zealot(path, tg, false);
+  Zergling testZergling = new Zergling(path, tg, false);
   
   private void addMobsToGame() {
     tg.add(testArchon);
@@ -54,9 +54,9 @@ public class TowerTest {
   }
   
   // Towers for testing
-  DepotTower depotTowerTest = new DepotTower(path.get(0), tg);
-  MarineTower marineTowerTest = new MarineTower(path.get(0), tg);
-  TankTower tankTowerTest = new TankTower(path.get(0), tg);
+  DepotTower depotTowerTest = new DepotTower(path.get(0), tg, false);
+  MarineTower marineTowerTest = new MarineTower(path.get(0), tg, false);
+  TankTower tankTowerTest = new TankTower(path.get(0), tg, false);
   
   private void addTowersToGame() {
     tg.add(depotTowerTest);

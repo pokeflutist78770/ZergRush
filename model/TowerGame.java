@@ -143,7 +143,7 @@ public class TowerGame extends Observable implements Serializable {
    */
   private synchronized void updateGameState() {
     updateTowers();
-    updateMap();
+    updateMap();   
     updateMobs();
     updateProjectiles();
     
@@ -382,7 +382,7 @@ public class TowerGame extends Observable implements Serializable {
   public void setTowers(Vector<Tower> inputTowers) {
     towers = new HashSet(inputTowers);
     
-  }
+  }  
 
 
   public void setProjectiles(Vector<Projectile> inputProjectiles) {

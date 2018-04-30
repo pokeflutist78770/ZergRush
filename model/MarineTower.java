@@ -18,16 +18,16 @@ public class MarineTower extends Tower implements Serializable {
 	public static final double COST=100;
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
 	
-	public MarineTower(Point loc, TowerGame game) {
-		super(100, 100, "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(), 
-			  game, 120);
+	public MarineTower(Point loc, TowerGame game, boolean isDank) {
+		super(100, 100, "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
+			  game, 120, isDank);
 	}
 
-	
-	protected static String getPicString() {
+	  
+	protected static String getPicString(boolean isDank) {
 		String pic="";
 			
-		if (MenuView.getModeSelection().equals("Fun")) {
+		if (isDank) {   
 			pic="file:assets/images/tower/cage.png";
 		}
 		else {
@@ -44,18 +44,18 @@ public class MarineTower extends Tower implements Serializable {
 	 * @param nearbyMobs: a collection of all nearby mobs
 	 * @return None
 	*/
-	@Override
+	@Override  
 	protected void shoot(Set<Mob> nearbyMobs) {
 		Mob closest = getClosestMob(nearbyMobs);
 		
 		Projectile projectile=null;
 		
 		//tower is at base stage
-		if(rank==0) {
+		if(rank==0) {  
 			projectile=new NormalProjectile(new Point(
 	    		                    	        (int)(location.getX()+.5*MapView.ghostTowerSize),
 		    		                            (int)(location.getY()+.5*MapView.ghostTowerSize)),
-	    		                            closest,theGame);
+	    		                            closest,theGame, isDank);
 		}
 		
 		//tower is upgraded fully
@@ -63,7 +63,7 @@ public class MarineTower extends Tower implements Serializable {
 			projectile=new PoisonProjectile(new Point(
           	                                    (int)(location.getX()+.5*MapView.ghostTowerSize),
                                                 (int)(location.getY()+.5*MapView.ghostTowerSize)),
-                                            closest,theGame);
+                                            closest,theGame, isDank);
 		}   
 		
 		projectile.addDamageBonus(25*rank);

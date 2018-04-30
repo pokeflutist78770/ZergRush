@@ -29,16 +29,16 @@ public class MobTest {
   TowerGame tg = new TowerGame("Easy", "Terran");
   Vector<Point> path = tg.getMap().getPaths().get(1);
   
-  
-  Archon testArchon = new Archon(path, tg);
-  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg);
-  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg);
-  Hydralisk testHydralisk = new Hydralisk(path, tg);
-  Marine testMarine = new Marine(path, tg);
-  Ultralisk testUltralisk = new Ultralisk(path, tg);
-  Wraith testWraith = new Wraith(path, tg);
-  Zealot testZealot = new Zealot(path, tg);
-  Zergling testZergling = new Zergling(path, tg);
+    
+  Archon testArchon = new Archon(path, tg, false);  
+  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg, false);
+  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg, false);
+  Hydralisk testHydralisk = new Hydralisk(path, tg, false);
+  Marine testMarine = new Marine(path, tg, false);
+  Ultralisk testUltralisk = new Ultralisk(path, tg, false);  
+  Wraith testWraith = new Wraith(path, tg, false);
+  Zealot testZealot = new Zealot(path, tg, false);
+  Zergling testZergling = new Zergling(path, tg, false);
 
   @Test
   public void testUpdate() {
@@ -65,16 +65,16 @@ public class MobTest {
 
   @Test
   public void testTakeDamage() {
-    assertTrue(testZealot.hp == (new Zealot(path, tg)).hp);
+    assertTrue(testZealot.hp == (new Zealot(path, tg, false)).hp);
     testZealot.takeDamage(1, ElementalAttribute.NONE);
-    assertFalse(testZealot.hp == (new Zealot(path, tg)).hp);
-    assertFalse(testZealot.hp+1 == (new Zealot(path, tg)).hp);
+    assertFalse(testZealot.hp == (new Zealot(path, tg, false)).hp);
+    assertFalse(testZealot.hp+1 == (new Zealot(path, tg, false)).hp);
   }
 
   @Test
   public void testGetX() {
     for (int i = 0; i < numberOfTries; i++) {
-      Marine nextMarine = new Marine(path, tg);
+      Marine nextMarine = new Marine(path, tg, false);
       assertTrue(Math.abs(nextMarine.getX() - path.get(0).getX()) < 2* ControllerMain.TILE_SIZE);
     }
   }
@@ -82,7 +82,7 @@ public class MobTest {
   @Test
   public void testGetY() {
     for (int i = 0; i < numberOfTries; i++) {
-      Marine nextMarine = new Marine(path, tg);
+      Marine nextMarine = new Marine(path, tg, false);
       assertTrue(Math.abs(nextMarine.getY() - path.get(0).getY()) < 2* ControllerMain.TILE_SIZE);
     }
   }
@@ -104,7 +104,7 @@ public class MobTest {
   public void testStep() {
     int initial = testZealot.getStepCount();
     testZealot.step();
-    assertTrue(initial + 1 == testZealot.getStepCount());
+    assertTrue(initial + 1 == testZealot.getStepCount()); 
   }
 
   @Test
@@ -114,7 +114,7 @@ public class MobTest {
 
   @Test
   public void testGetCashPayout() {
-    assertTrue(testZealot.getCashPayout() == 0);
+    assertTrue(testZealot.getCashPayout() == 12);  
   }
 
   @Test

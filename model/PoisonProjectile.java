@@ -11,10 +11,10 @@ import java.awt.Point;
 public class PoisonProjectile extends Projectile {
 
   
-  public PoisonProjectile(Point startLocation, Mob targetMob, TowerGame game) {
+  public PoisonProjectile(Point startLocation, Mob targetMob, TowerGame game, boolean isDank) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/poison.png", game);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/poison.png", game, isDank);
     
     this.setMob(targetMob);
     this.targetLocation = targetMob.getCurrentLocation();

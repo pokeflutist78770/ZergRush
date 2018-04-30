@@ -13,14 +13,14 @@ public class SiegeProjectile extends Projectile {
   
   
 
-  public SiegeProjectile(Point startLocation, Point targetLocation, TowerGame game) {
+  public SiegeProjectile(Point startLocation, Point targetLocation, TowerGame game, boolean isDank) {
     super(startLocation, 
         SpeedAttribute.PROJECTILE_SPEED, 5, 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/fire.png", game);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/fire.png", game, isDank);
     
     this.setMob(null);
     this.targetLocation = targetLocation;
-  }
+  }  
 
   /**
    * The siege projectile does damage to a every mob target in its area of effect when it terminates.

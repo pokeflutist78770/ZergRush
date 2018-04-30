@@ -31,7 +31,7 @@ import model.Zergling;
  *
  */
 
-public class TowerGameTest {
+public class TowerGameTest {  
   
   int numberOfTries = 1000;
 
@@ -39,23 +39,23 @@ public class TowerGameTest {
   Vector<Point> path = tg.getMap().getPaths().get(1);
   
   // Mobs for testing
-  Archon testArchon = new Archon(path, tg);
-  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg);
-  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg);
-  Hydralisk testHydralisk = new Hydralisk(path, tg);
-  Marine testMarine = new Marine(path, tg);
-  Ultralisk testUltralisk = new Ultralisk(path, tg);
-  Wraith testWraith = new Wraith(path, tg);
-  Zealot testZealot = new Zealot(path, tg);
-  Zergling testZergling = new Zergling(path, tg);
+  Archon testArchon = new Archon(path, tg, false);
+  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg, false);
+  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg, false);
+  Hydralisk testHydralisk = new Hydralisk(path, tg, false);
+  Marine testMarine = new Marine(path, tg, false);
+  Ultralisk testUltralisk = new Ultralisk(path, tg, false);
+  Wraith testWraith = new Wraith(path, tg, false);
+  Zealot testZealot = new Zealot(path, tg, false);
+  Zergling testZergling = new Zergling(path, tg, false);  
 
   // Towers for testing
-  DepotTower depotTowerTest = new DepotTower(path.get(0), tg);
-  MarineTower marineTowerTest = new MarineTower(path.get(0), tg);
-  TankTower tankTowerTest = new TankTower(path.get(0), tg);
+  DepotTower depotTowerTest = new DepotTower(path.get(0), tg, false);
+  MarineTower marineTowerTest = new MarineTower(path.get(0), tg, false);
+  TankTower tankTowerTest = new TankTower(path.get(0), tg, false);
 
   // Projectile for testing
-  Projectile demoProj = new NormalProjectile(new Point(0,1), testArchon, tg);
+  Projectile demoProj = new NormalProjectile(new Point(0,1), testArchon, tg, false);
   
   private void addMobsToGAme() {
     tg.add(testArchon);
@@ -101,7 +101,7 @@ public class TowerGameTest {
     tg.add(demoProj);
     assertTrue(tg.getProjectiles().size() == 1);
     tg.remove(demoProj);
-    assertTrue(tg.getProjectiles().size() == 0);
+    assertTrue(tg.getProjectiles().size() == 0);   
   }
 
   @Test

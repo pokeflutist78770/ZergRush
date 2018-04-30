@@ -17,16 +17,16 @@ import controller.ControllerMain;
  */
 public class Ultralisk extends Mob implements Serializable {
 
-	public Ultralisk(Vector<Point> movementPath, TowerGame game) {
+	public Ultralisk(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
-				AttackAttribute.STRONG_ATTACK, 
+				AttackAttribute.STRONG_ATTACK,   
 				DefenseAttribute.LARGE, 
 				SpeedAttribute.SLOW, 
 				new Vector<ResistanceAttribute>(Collections.singletonList(
 						                           ResistanceAttribute.POISON)), 
 				"Ultralisk"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/ultralisk.png", "ultra_death",
+				getPicString(isDank), "ultra_death",
 				2.0,
 				2.0,
 				98.0,
@@ -34,8 +34,17 @@ public class Ultralisk extends Mob implements Serializable {
 				101.0,
 				108.0, 
 				9, 
-				23,
+				23, 
 				game
         );
+	}
+	
+	private static String getPicString(boolean isDank) {
+		if(isDank){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/ultralisk.png";
+		}
 	}
 }

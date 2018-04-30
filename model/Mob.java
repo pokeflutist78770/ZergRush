@@ -89,7 +89,7 @@ public abstract class Mob implements Serializable {
    *          - x position of first mob image on sprite sheet
    * @param sy
    *          - y position of first mob image on sprite sheet
-   * @param sw
+   * @param sw  
    *          - width of a given frame on the sprite sheet
    * @param sh
    *          - height of a given frame on the sprite sheet

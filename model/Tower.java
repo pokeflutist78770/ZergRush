@@ -35,6 +35,7 @@ public abstract class Tower implements Serializable {
   protected TowerGame theGame;
   protected int rank;
   protected boolean isFullyUpgraded;
+  protected boolean isDank;
   
   /**
    * 
@@ -45,16 +46,18 @@ public abstract class Tower implements Serializable {
    * @param imageFP - the file path to the image representing the tower, images are retrieved by flyweight
    */
   public Tower(int cost, int upgrade, String name, Point location, RangeAttribute range, 
-		       String imageFP, TowerGame game, int fireRate) {
+		       String imageFP, TowerGame game, int fireRate, boolean isDank) {
 	
     this.cost = cost;
     this.upgradeCost=upgrade;
     this.name = name;
     this.location = location; 
     this.range = range;
+    this.isDank=isDank;
+    
     rank=0;
     imageFilePath = imageFP;
-    theGame = game;
+    theGame = game;  
     firing_frequency = fireRate;
     isFullyUpgraded=false;
   }

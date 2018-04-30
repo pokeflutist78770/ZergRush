@@ -239,8 +239,9 @@ private int queSize;
     for (int i = 0; i < numberOfMobTypes; i++) {
       try {
         for (int j = 0; j < spawnCount; j++) {
+
           unitQueue.add(mobConstructors.get(i).newInstance(
-        		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame));
+        		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame, MenuView.getModeSelection().equals("Fun")));
           queSize++; 
         }
         spawnCount = spawnCount / 3;
@@ -275,7 +276,7 @@ private int queSize;
 
 
   public String getSoundTrackName() {
-    if (MenuView.getModeSelection().equals("Fun")) {
+    if (MenuView.getModeSelection().equals("Fun")) {  
 	  return "marauder";
 	}
 	else {

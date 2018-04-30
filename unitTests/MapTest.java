@@ -15,6 +15,7 @@ import model.Map;
 import model.TerranMap;
 import model.TestMap;
 import model.TowerGame;
+import views.MenuView;
 
 public class MapTest {
   
@@ -48,8 +49,10 @@ public class MapTest {
   @Test
   public void testUpdate() {
     Map map = maps.get(Arrays.asList("Terran", "Easy"));
+    MenuView.setModeForTest("Easy");
     for (int i = 0; i < numberOfTries; i++) {
-      map.update();
+      
+      map.update();  
     }
   }
 

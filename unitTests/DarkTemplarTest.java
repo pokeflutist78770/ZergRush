@@ -13,7 +13,7 @@ public class DarkTemplarTest {
   @Test
   public void test() {
     TowerGame tg = new TowerGame("Easy", "Terran");
-    DarkTemplar testDarkTemplar = new DarkTemplar(tg.getMap().getPaths().get(1), tg);
+    DarkTemplar testDarkTemplar = new DarkTemplar(tg.getMap().getPaths().get(1), tg, false); 
   }
 
 }

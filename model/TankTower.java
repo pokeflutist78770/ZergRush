@@ -14,22 +14,22 @@ import views.MenuView;
  * @author Ben Walters
  *
  */
-public class TankTower  extends Tower implements Serializable {
+public class TankTower  extends Tower implements Serializable {  
   
 	public static final double COST=350;
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.MEDIUM_RANGE;
 	
-	public TankTower(Point loc, TowerGame game) {
+	public TankTower(Point loc, TowerGame game, boolean isDank) {
 		super(350, 200, "Library", loc, RangeAttribute.MEDIUM_RANGE, 
-			  getPicString(),
-		      game, 120);
+			  getPicString(isDank),
+		      game, 120, isDank);
 	}
 
 	
-	protected static String getPicString() {
+	protected static String getPicString(boolean isDank) {
 		String pic="";
-			
-		if (MenuView.getModeSelection().equals("Fun")) {
+			  
+		if (isDank) {
 			pic="file:assets/images/tower/shrek.png";
 		}
 		else {
@@ -53,7 +53,7 @@ public class TankTower  extends Tower implements Serializable {
 		Projectile projectile=new SiegeProjectile(new Point(
                  	                                       (int)(location.getX()+.5*MapView.ghostTowerSize),
                  	                                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
-                                                 closest.getCurrentLocation(),theGame);
+                                                 closest.getCurrentLocation(),theGame, isDank);
 		projectile.addDamageBonus(25*rank);
 	    theGame.add(projectile);
 	}

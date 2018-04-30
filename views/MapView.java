@@ -1198,17 +1198,21 @@ public class MapView extends StackPane implements Observer {
 		//the different buttons
 		if(currName.equals("Marine")) {
 			cost=tower1.getCost();
-			newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 		                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+			newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize),
+					                           (int)(mousePos.getY()-.5*ghostTowerSize)), 
+									 theGame, MenuView.getModeSelection().equals("Fun"));
 		}
 		else if( currName.equals("Depot")){
 			cost=tower2.getCost();
 			newTower=new DepotTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)), 
+					                theGame, MenuView.getModeSelection().equals("Fun"));
 		}
 		else if(currName.equals("Tank")) {
 			cost=tower3.getCost();
 			newTower=new TankTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize), 
-				                		    (int)(mousePos.getY()-.5*ghostTowerSize)), theGame);
+				                		    (int)(mousePos.getY()-.5*ghostTowerSize)), 
+					               theGame, MenuView.getModeSelection().equals("Fun"));
 		}
 		theGame.add(newTower);
 		theGame.decrementCash(cost);

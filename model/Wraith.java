@@ -17,7 +17,7 @@ import views.MenuView;
  */
 public class Wraith extends Mob implements Serializable {
 
-	public Wraith(Vector<Point> movementPath, TowerGame game) {
+	public Wraith(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
@@ -27,22 +27,22 @@ public class Wraith extends Mob implements Serializable {
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Wraith"+Mob.IDNumber++,
-				getPicString(), "wraith_death",
+				getPicString(isDank), "wraith_death",
 				688.0,
 				0.0,
 				49.0,
 				30.0,
 				0.0,
-				0.0, 
+				0.0,   
 				1,
 				12,
-				game
+				game  
         );
-	} 
+	}   
 	
 	
-	private static String getPicString() {
-		if(MenuView.getModeSelection().equals("Fun")){
+	private static String getPicString(boolean isDank) {
+		if(isDank){
 			return "file:assets/images/mob/terran/frank.png";
 		}
 		else {

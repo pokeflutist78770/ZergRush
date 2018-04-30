@@ -12,8 +12,8 @@ public class UltraliskTest {
 
   @Test
   public void test() {
-    TowerGame tg = new TowerGame("Easy", "Terran");
-    Ultralisk testUltralisk = new Ultralisk(tg.getMap().getPaths().get(1), tg);
+    TowerGame tg = new TowerGame("Easy", "Terran");  
+    Ultralisk testUltralisk = new Ultralisk(tg.getMap().getPaths().get(1), tg, false);
   }
 
 }

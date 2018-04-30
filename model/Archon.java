@@ -15,16 +15,16 @@ import controller.ControllerMain;
  */
 public class Archon extends Mob implements Serializable {
 
-  public Archon(Vector<Point> movementPath, TowerGame game) {
+  public Archon(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 
     super(movementPath, ControllerMain.TILE_SIZE / 3, 
-    		ArmorAttribute.HEAVY_ARMOR, 
-    		AttackAttribute.WEAK_ATTACK,
+    		ArmorAttribute.HEAVY_ARMOR,    
+    		AttackAttribute.WEAK_ATTACK,   
     		DefenseAttribute.LARGE, 
     		SpeedAttribute.SLOW,
     		new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.ELECTRIC)),
     		"Archon" + Mob.IDNumber++, 
-    		"file:assets/images/mob/protoss/archon.png", "archon_death", 
+    		getPicString(isDank), "archon_death", 
     		213.0, 
     		595.0,
     		82.0,
@@ -34,6 +34,15 @@ public class Archon extends Mob implements Serializable {
     		3, 
     		25,
     		game);
-  }
+  	}
+  
+	private static String getPicString(boolean isDank) {
+		if(isDank){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/archon.png";
+		}
+	}
 }
   

@@ -12,15 +12,15 @@ import controller.ControllerMain;
  * @author Ben
  *
  */
-public class Zergling extends Mob{
+public class Zergling extends Mob{  
 
-	public Zergling(Vector<Point> movementPath, TowerGame game) {
+	public Zergling(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, ArmorAttribute.NONE, 
 				AttackAttribute.WEAK_ATTACK, DefenseAttribute.SMALL, 
-				SpeedAttribute.FAST, 
+				SpeedAttribute.FAST,   
 				new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Zergling"+Mob.IDNumber++,
-				"file:assets/images/mob/zerg/zergling.png", "zergling_death",
+				getPicString(isDank), "zergling_death",
 				2.0,
 				2.0,
 				40.0,
@@ -30,6 +30,16 @@ public class Zergling extends Mob{
 				7,
 				5,
 				game 
-				);
+		);
+	}
+	
+	
+	private static String getPicString(boolean isDank) {
+		if(isDank){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/zergling.png";
+		}
 	}
 }

@@ -13,7 +13,7 @@ public class HydraliskTest {
   @Test
   public void test() {
     TowerGame tg = new TowerGame("Easy", "Terran");
-    Hydralisk testHydralisk = new Hydralisk(tg.getMap().getPaths().get(1), tg);
+    Hydralisk testHydralisk = new Hydralisk(tg.getMap().getPaths().get(1), tg, false); 
   }
 
 }

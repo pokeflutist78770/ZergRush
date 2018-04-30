@@ -112,7 +112,7 @@ public class ControllerMain extends Application {
    */
   private void initializeAssets() {
     initializeImages();
-    initializeAudio();
+    initializeAudio();  
   }
 
   /*
@@ -143,7 +143,7 @@ public class ControllerMain extends Application {
     soundEffects.put("time", new AudioClip("file:assets/audio/map/TimeToStop.mp3")); 
     soundEffects.put("swamp", new AudioClip("file:assets/audio/map/swamp.mp3"));
   }
-
+ 
   /*
    * Initializes and stores images for flyweight retrieval.
    */
