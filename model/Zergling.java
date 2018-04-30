@@ -28,7 +28,7 @@ public class Zergling extends Mob{
 				43.0,
 				42.0,
 				7,
-				5,
+				5, 
 				game 
 		);
 	}
@@ -39,7 +39,7 @@ public class Zergling extends Mob{
 			return "file:assets/images/mob/terran/debray.png";
 		}
 		else {
-			return "file:assets/images/mob/terran/zergling.png";
+			return "file:assets/images/mob/zerg/zergling.png";
 		}
 	}
 }

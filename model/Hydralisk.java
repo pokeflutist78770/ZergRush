@@ -34,7 +34,7 @@ public class Hydralisk extends Mob implements Serializable {
 				55.0,
 				45.0, 
 				58.0, 
-				7,
+				7, 
 				10,
 				game
 		);
@@ -46,7 +46,7 @@ public class Hydralisk extends Mob implements Serializable {
 			return "file:assets/images/mob/terran/debray.png";
 		}
 		else {
-			return "file:assets/images/mob/terran/hydralisk.png";
+			return "file:assets/images/mob/zerg/hydralisk.png";
 		}
 	}
 }

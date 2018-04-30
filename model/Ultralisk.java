@@ -36,7 +36,7 @@ public class Ultralisk extends Mob implements Serializable {
 				9, 
 				23, 
 				game
-        );
+        ); 
 	}
 	
 	private static String getPicString(boolean isDank) {
@@ -44,7 +44,7 @@ public class Ultralisk extends Mob implements Serializable {
 			return "file:assets/images/mob/terran/debray.png";
 		}
 		else {
-			return "file:assets/images/mob/terran/ultralisk.png";
+			return "file:assets/images/mob/zerg/ultralisk.png";
 		}
 	}
 }

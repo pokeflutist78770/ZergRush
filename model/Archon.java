@@ -34,14 +34,14 @@ public class Archon extends Mob implements Serializable {
     		3, 
     		25,
     		game);
-  	}
+  	} 
   
 	private static String getPicString(boolean isDank) {
 		if(isDank){
 			return "file:assets/images/mob/terran/debray.png";
 		}
 		else {
-			return "file:assets/images/mob/terran/archon.png";
+			return "file:assets/images/mob/protoss/archon.png";
 		}
 	}
 }

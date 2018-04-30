@@ -13,11 +13,17 @@ import model.BattleCruiser;
 import model.DarkTemplar;
 import model.DepotTower;
 import model.Hydralisk;
+import model.Map;
 import model.Marine;
 import model.MarineTower;
+import model.Mob;
 import model.NormalProjectile;
+import model.Player;
 import model.Projectile;
+import model.ProtossMap;
+import model.SiegeProjectile;
 import model.TankTower;
+import model.Tower;
 import model.TowerGame;
 import model.Ultralisk;
 import model.Wraith;
@@ -148,4 +154,68 @@ public class TowerGameTest {
     assertFalse(tg.gameInProgress());
   }
 
+  
+  @Test
+  public void KillCountTest() {
+	  tg.setDeathCount(20);
+	  assertTrue(tg.getKillCount()==20);
+  }
+  
+  @Test
+  public void testSetPlayer() {
+	  Player player=new Player();
+	  tg.setPlayer(player);
+	  assertTrue(tg.getPlayer().equals(player));
+  }
+  
+  @Test 
+  public void testMapSet() {
+	  Map map=null;
+	  
+	  try {
+		map=new ProtossMap("Easy", tg);
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  
+	tg.setMap(map);
+	assertTrue(tg.getMap().equals(map));
+  }  
+  
+  @Test
+  public void testSetProjetiles() {
+	  Vector<Projectile> newProjs=new Vector<Projectile>();
+	  newProjs.add((new SiegeProjectile(new Point(0,0), new Point(0,0), tg, false)));
+	  
+	  tg.setProjectiles(newProjs);
+	  
+	  assertTrue(tg.getProjectiles().equals(newProjs));
+	  assertEquals(tg.getProjectiles().size(), newProjs.size());	  
+  }
+  
+  @Test
+  public void testSetTowers() {
+	  Vector<Tower> newTowers=new Vector<Tower>();
+	  newTowers.add((new DepotTower(new Point(0,0), tg, true)));
+	  
+	  tg.setTowers(newTowers);
+	  
+	  assertTrue(tg.getProjectiles().equals(newTowers));
+	  assertEquals(tg.getProjectiles().size(), newTowers.size());	  
+  }
+  
+  
+  @Test
+  public void testSetMobs() {
+	  Vector<Mob> newMobs=new Vector<Mob>();
+	  Vector<Point> points=new Vector<Point>();
+	  
+	  newMobs.add((new Zealot(points, tg, true)));
+	  
+	  tg.setMobs(newMobs);
+	  
+	  assertTrue(tg.getProjectiles().equals(newMobs));
+	  assertEquals(tg.getProjectiles().size(), newMobs.size());	  
+  }
 }

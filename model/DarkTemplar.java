@@ -34,7 +34,7 @@ public class DarkTemplar extends Mob implements Serializable {
     		54.0,
     		59.0,
     		57.0, 
-    		62.0, 
+    		62.0,  
     		8, 
     		13,
     		game
@@ -48,7 +48,7 @@ public class DarkTemplar extends Mob implements Serializable {
 			return "file:assets/images/mob/terran/debray.png";
 		}
 		else {
-			return "file:assets/images/mob/terran/dark_templar.png";
+			return "file:assets/images/mob/protoss/dark_templar.png";
 		}
 	}  
 }  
