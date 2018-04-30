@@ -23,7 +23,7 @@ public abstract class Mob implements Serializable {
   
   public static int IDNumber = 0;
 
-  private int movementPerturbation = 3;
+  private int movementPerturbation = 2;
 
   // Movement related fields
   private Point currentLocation;

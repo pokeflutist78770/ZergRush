@@ -31,10 +31,10 @@ public class TowerGame extends Observable implements Serializable {
   private int mobsKilled;
   
   // Cash required to win at each difficulty
-  final public static int easyCash = 1000;
-  final public static int medCash = 2000;
-  final public static int hardCash = 3000;
-  final public static int dankCash = 10000;
+  final public static int easyCash = 10000;
+  final public static int medCash = 100000;
+  final public static int hardCash = 1000000;
+  final public static int dankCash = 100000000;
   
   private String backgroundImageFilePath;
   
