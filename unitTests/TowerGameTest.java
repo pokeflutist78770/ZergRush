@@ -192,7 +192,7 @@ public class TowerGameTest {
 	  
 	  assertTrue(tg.getProjectiles().equals(newProjs));
 	  assertEquals(tg.getProjectiles().size(), newProjs.size());	  
-  }
+  }  
   
   @Test
   public void testSetTowers() {

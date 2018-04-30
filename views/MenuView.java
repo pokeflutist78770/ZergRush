@@ -258,7 +258,7 @@ public class MenuView extends StackPane {
 	  public double getSpeedSelection()
 	  {
 		  // Returns 0.0 (min) to 1.0 (max) representing 
-		  // position of cursor on slider
+		  // position of cursor on slider  
 		  return speedSlider.getValue();
 	  }
 	  

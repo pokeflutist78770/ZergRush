@@ -70,7 +70,7 @@ public class ProjectileTest {
     assertTrue(demoProj.isDone());  
   }
 
-  @Test
+  @Test  
   public void testFireTerminate() {
     double hp = testBattleCruiser.hp;
     for (int i = 0; i < numberOfTries+2000; i++) {

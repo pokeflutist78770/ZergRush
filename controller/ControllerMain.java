@@ -103,6 +103,7 @@ public class ControllerMain extends Application {
         a.stop();
       }
       ac.play();
+      
     }
   }
 
@@ -142,6 +143,7 @@ public class ControllerMain extends Application {
     soundEffects.put("marauder", new AudioClip("file:assets/audio/marauder.mp3"));
     soundEffects.put("time", new AudioClip("file:assets/audio/map/TimeToStop.mp3")); 
     soundEffects.put("swamp", new AudioClip("file:assets/audio/map/swamp.mp3"));
+    soundEffects.put("trolo", new AudioClip("file:assets/audio/map/trolo.mp3"));
   }
  
   /*
@@ -176,7 +178,7 @@ public class ControllerMain extends Application {
     startButton.setOnAction(menuHandler);
     instrButton.setOnAction(menuHandler);
     backButtonMap.setOnAction(menuHandler);
-    backButtonInstr.setOnAction(menuHandler);
+    backButtonInstr.setOnAction(menuHandler);  
 
     // Initialize Instruction View
     theInstrView = new InstructionView(backButtonInstr);
@@ -337,7 +339,12 @@ public class ControllerMain extends Application {
     if (playerLost)
     {
     	gameStatus.setText("You lost!");
-    	play(soundEffects.get("defeat"));
+    	if(MenuView.getModeSelection().equals("Fun")) {
+    		play(soundEffects.get("trolo"));
+    	}
+    	else {
+    		play(soundEffects.get("defeat"));
+    	}
     }
     else
     {

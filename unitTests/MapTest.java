@@ -43,7 +43,7 @@ public class MapTest {
   @Test(expected = ClassNotFoundException.class)
   public void testClassNotFoundException() throws ClassNotFoundException {
     Map dummyMap01 = new TestMap(tg,1);
-    Map dummyMap02 = new TestMap(tg,0);
+    Map dummyMap02 = new TestMap(tg,0);  
   }
 
   @Test

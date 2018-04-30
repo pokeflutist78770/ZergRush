@@ -95,7 +95,7 @@ public class MobTest {
   @Test
   public void testSetImageFilePath() {
     String initial = new String(testZealot.getImageFilePath());
-    testZealot.setImageFilePath(".");
+    testZealot.setImageFilePath(".");  
     assertTrue(testZealot.getImageFilePath().equals("."));
     assertFalse(testZealot.getImageFilePath().equals(initial));
   }

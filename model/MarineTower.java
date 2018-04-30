@@ -48,7 +48,7 @@ public class MarineTower extends Tower implements Serializable {
 	protected void shoot(Set<Mob> nearbyMobs) {
 		Mob closest = getClosestMob(nearbyMobs);
 		
-		Projectile projectile=null;
+		Projectile projectile=null;      
 		
 		//tower is at base stage
 		if(rank==0) {  

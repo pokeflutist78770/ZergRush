@@ -23,7 +23,7 @@ public class DepotTower extends Tower implements Serializable {
     super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
           game, 120, isDank);
   }
-
+  
   
   protected static String getPicString(boolean isDank) {
 		String pic="";

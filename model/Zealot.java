@@ -28,7 +28,7 @@ public Zealot(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 				"Zealot"+Mob.IDNumber++,
 				getPicString(isDank), "zealot_death",
         1.0,
-        2.0,
+        2.0,   
         39.0,
         41.0,    
         42.0,

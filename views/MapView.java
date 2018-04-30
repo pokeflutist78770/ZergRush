@@ -1195,7 +1195,7 @@ public class MapView extends StackPane implements Observer {
 		Tower newTower=null;
 		double cost=0;
 		
-		//the different buttons
+		//the different buttons   
 		if(currName.equals("Marine")) {
 			cost=tower1.getCost();
 			newTower=new MarineTower(new Point((int)(mousePos.getX()-.5*ghostTowerSize),

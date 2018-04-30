@@ -6,7 +6,7 @@ import controller.ControllerMain;
 
 // Players can buy towers through some form of currency (money, points, mana 
 // power, life-force, etc.).
-
+  
 // There is a graphical way for the player to place the tower at the desired
 // location (e.g. change the cursor to look liek the tower and use a mouse click,
 // select a grid square, etc.)

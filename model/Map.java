@@ -12,7 +12,7 @@ import java.lang.reflect.*;
 import controller.ControllerMain;
 import javafx.scene.image.Image;
 import views.MenuView;
-
+  
 // You should have at least 3 maps.
 
 // Each map has a background image and contains a pre-defined path for enemies
@@ -235,7 +235,7 @@ private int queSize;
     int numberOfMobTypes = mobConstructors.size();
     int spawnCount = waveIntensity;
     
-    //lets start spawning enemies shall we!
+    //lets start spawning enemies shall we!   
     for (int i = 0; i < numberOfMobTypes; i++) {
       try {
         for (int j = 0; j < spawnCount; j++) {

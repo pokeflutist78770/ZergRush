@@ -11,7 +11,7 @@ public class SiegeProjectile extends Projectile {
   
   private int blastRadius = ControllerMain.TILE_SIZE * 2;
   
-  
+    
 
   public SiegeProjectile(Point startLocation, Point targetLocation, TowerGame game, boolean isDank) {
     super(startLocation, 

@@ -51,7 +51,7 @@ public class TowerTest {
     tg.add(testWraith);
     tg.add(testZealot);
     tg.add(testZergling);
-  } 
+  }  
   
   // Towers for testing
   DepotTower depotTowerTest = new DepotTower(path.get(0), tg, false);
