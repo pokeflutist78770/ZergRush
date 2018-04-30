@@ -11,10 +11,10 @@ import java.awt.Point;
 public class IceProjectile extends Projectile {
 
   
-  public IceProjectile(Point startLocation, Mob targetMob, TowerGame game) {
-    super(startLocation, 
+  public IceProjectile(Point startLocation, Mob targetMob, TowerGame game, boolean isDank) {
+    super(startLocation,   
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/ice.png", game);
+        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/ice.png", game, isDank);
     
     this.setMob(targetMob);  
     this.targetLocation = targetMob.getCurrentLocation();

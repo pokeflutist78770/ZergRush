@@ -31,7 +31,8 @@ abstract public class Projectile implements Serializable {
   protected String imageFilePath;
   protected TowerGame theGame;
   private boolean hit = false;
-
+  private boolean isDank;
+  
   /**
    * 
    * @param startLocation Where the projectile spawns
@@ -45,7 +46,7 @@ abstract public class Projectile implements Serializable {
   public Projectile(Point startLocation, SpeedAttribute spd,
                     double radius, double baseDamage,  ElementalAttribute ea,
                     String imgFilePath,
-                    TowerGame game) {
+                    TowerGame game, boolean isDank) {
 		
     currentLocation = startLocation;
     speed = spd;
@@ -54,8 +55,9 @@ abstract public class Projectile implements Serializable {
     dmgType = ea;
 
     imageFilePath = imgFilePath;
+    this.isDank=isDank;
     
-    if(MenuView.getModeSelection().equals("Fun")) {
+    if(isDank) {
     	projSize=50;
     }
     else {
@@ -160,7 +162,7 @@ abstract public class Projectile implements Serializable {
   }
 
   public String getImageFilePath() {
-	if(MenuView.getModeSelection().equals("Fun")) {
+	if(isDank) {
 		return "file:assets/images/tower/dickbutt.png";
 	}
     return imageFilePath;
@@ -170,12 +172,12 @@ abstract public class Projectile implements Serializable {
     this.imageFilePath = imgStr;
   }
   
-  public void setSpeed(SpeedAttribute s) {
+  public void setSpeed(SpeedAttribute s) {  
 	  this.speed = s;
   }
   
   public SpeedAttribute getSpeed() {
-    return speed;
+    return speed; 
   }
   
   public Image getImage() {
@@ -183,7 +185,7 @@ abstract public class Projectile implements Serializable {
   }
 	
   public double getX() {
-    return currentLocation.getX();
+    return currentLocation.getX();  
   }
 	
   public double getY() {

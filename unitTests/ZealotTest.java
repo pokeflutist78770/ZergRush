@@ -13,7 +13,7 @@ public class ZealotTest {
   @Test
   public void test() {
     TowerGame tg = new TowerGame("Easy", "Terran");
-    Zealot testZealot = new Zealot(tg.getMap().getPaths().get(1), tg);
+    Zealot testZealot = new Zealot(tg.getMap().getPaths().get(1), tg, false); 
   }
 
 }

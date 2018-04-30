@@ -11,7 +11,9 @@ import org.junit.Test;
 import model.Archon;
 import model.BattleCruiser;
 import model.DarkTemplar;
+import model.FireProjectile;
 import model.NormalProjectile;
+import model.PoisonProjectile;
 import model.Hydralisk;
 import model.Marine;
 import model.Projectile;
@@ -30,18 +32,20 @@ public class ProjectileTest {
   Vector<Point> path = tg.getMap().getPaths().get(1);
   
   
-  // Mobs for testing
-  Archon testArchon = new Archon(path, tg);
-  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg);
-  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg);
-  Hydralisk testHydralisk = new Hydralisk(path, tg);
-  Marine testMarine = new Marine(path, tg);
-  Ultralisk testUltralisk = new Ultralisk(path, tg);
-  Wraith testWraith = new Wraith(path, tg);
-  Zealot testZealot = new Zealot(path, tg);
-  Zergling testZergling = new Zergling(path, tg);
+  // Mobs for testing  
+  Archon testArchon = new Archon(path, tg, false);
+  BattleCruiser testBattleCruiser = new BattleCruiser(path, tg, false);
+  DarkTemplar testDarkTemplar = new DarkTemplar(path, tg, false);
+  Hydralisk testHydralisk = new Hydralisk(path, tg, false);
+  Marine testMarine = new Marine(path, tg, false);
+  Ultralisk testUltralisk = new Ultralisk(path, tg, false);
+  Wraith testWraith = new Wraith(path, tg, false);
+  Zealot testZealot = new Zealot(path, tg, false); 
+  Zergling testZergling = new Zergling(path, tg, false);
 
-  Projectile demoProj = new NormalProjectile(new Point(0,1), testArchon, tg);
+  Projectile demoProj = new NormalProjectile(new Point(0,1), testArchon, tg, false);
+  Projectile fireProj=new FireProjectile(new Point(0,1), testBattleCruiser, tg, false);
+  Projectile poisonProj=new PoisonProjectile(new Point(0,1), testBattleCruiser, tg, false);
   
   private void objectsToGame() {
     tg.add(testArchon);
@@ -63,15 +67,39 @@ public class ProjectileTest {
       demoProj.update();
     }
     assertFalse(hp == testArchon.hp);
-    assertTrue(demoProj.isDone());
+    assertTrue(demoProj.isDone());  
   }
 
+  @Test
+  public void testFireTerminate() {
+    double hp = testBattleCruiser.hp;
+    for (int i = 0; i < numberOfTries+2000; i++) {
+      fireProj.update();
+    } 
+     
+    assertFalse(hp == testBattleCruiser.hp);
+    assertTrue(fireProj.isDone());   
+  } 
+  
+  
+  @Test
+  public void testPoisonTerminate() {
+	  double hp = testBattleCruiser.hp;
+	  for (int i = 0; i < numberOfTries+2000; i++) {
+	    poisonProj.update();
+	  } 
+	   
+	  assertFalse(hp == testBattleCruiser.hp);
+	  assertTrue(poisonProj.isDone());   
+  } 
+  
+  
   @Test
   public void testGetMob() {
     assertTrue(demoProj.getMob().equals(testArchon));
   }
 
-  @Test
+  @Test 
   public void testGetImageFilePath() {
     String imgFP = new String(demoProj.getImageFilePath());
     demoProj.setImageFilePath(".");
@@ -86,7 +114,7 @@ public class ProjectileTest {
     assertFalse(demoProj.getSpeed().equals(speed));
     assertTrue(demoProj.getSpeed().equals(SpeedAttribute.SLOW));
   }
-
+  
   @Test
   public void testGetXY() {
     assertTrue(demoProj.getX() == 0);

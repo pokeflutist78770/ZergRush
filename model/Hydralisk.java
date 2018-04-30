@@ -17,7 +17,7 @@ import controller.ControllerMain;
  */
 public class Hydralisk extends Mob implements Serializable {
 	
-	public Hydralisk(Vector<Point> movementPath, TowerGame game) {
+	public Hydralisk(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.MEDIUM_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
@@ -27,16 +27,26 @@ public class Hydralisk extends Mob implements Serializable {
 						                           ResistanceAttribute.POISON)), 
 				"Hydralisk"+Mob.IDNumber++,
 
-				"file:assets/images/mob/zerg/hydralisk.png", "hydra_death",
+				getPicString(isDank), "hydra_death",
 				2.0,
 				2.0,  
 				42.0,
 				55.0,
-				45.0,
+				45.0, 
 				58.0, 
 				7,
 				10,
 				game
-				);
+		);
+	}
+	
+	
+	private static String getPicString(boolean isDank) {
+		if(isDank){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/hydralisk.png";
+		}
 	}
 }

@@ -12,8 +12,8 @@ public class BattleCruiserTest {
 
   @Test
   public void test() {
-    TowerGame tg = new TowerGame("Easy", "Terran");
-    BattleCruiser testBattleCruiser = new BattleCruiser(tg.getMap().getPaths().get(1), tg);
+    TowerGame tg = new TowerGame("Easy", "Terran"); 
+    BattleCruiser testBattleCruiser = new BattleCruiser(tg.getMap().getPaths().get(1), tg, false);
   }
 
 }

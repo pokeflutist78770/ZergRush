@@ -18,17 +18,17 @@ import views.MenuView;
  */
 public class Marine extends Mob implements Serializable {
 
-	public Marine(Vector<Point> movementPath, TowerGame game) {
+	public Marine(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.LIGHT_ARMOR, 
-				AttackAttribute.WEAK_ATTACK,
+				AttackAttribute.WEAK_ATTACK,  
 				DefenseAttribute.SMALL, 
 				SpeedAttribute.NORMAL, 
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Marine"+Mob.IDNumber++,
-				getPicString(), "marine_death",
+				getPicString(isDank), "marine_death",
 				2.0,
 				2.0,
 				25.0,
@@ -36,14 +36,14 @@ public class Marine extends Mob implements Serializable {
 				26.0,
 				36.0, 
 				8,
-				6,
+				6,  
 				game  
         );
 	}
 	
 	
-	private static String getPicString() {
-		if(MenuView.getModeSelection().equals("Fun")){
+	private static String getPicString(boolean isDank) {
+		if(isDank){
 			return "file:assets/images/mob/terran/frank.png";
 		}
 		else {

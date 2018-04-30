@@ -13,7 +13,7 @@ public class ZerglingTest {
   @Test
   public void test() {
     TowerGame tg = new TowerGame("Easy", "Terran");
-    Zergling testZergling = new Zergling(tg.getMap().getPaths().get(1), tg);
+    Zergling testZergling = new Zergling(tg.getMap().getPaths().get(1), tg, false); 
   }
 
 }

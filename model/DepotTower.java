@@ -18,17 +18,17 @@ public class DepotTower extends Tower implements Serializable {
   public static final double COST=150;
   public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
   
-  public DepotTower(Point loc, TowerGame game) {
+  public DepotTower(Point loc, TowerGame game, boolean isDank) {
 
-    super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(), 
-          game, 120);
+    super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
+          game, 120, isDank);
   }
 
   
-  protected static String getPicString() {
+  protected static String getPicString(boolean isDank) {
 		String pic="";
 		
-		if (MenuView.getModeSelection().equals("Fun")) {
+		if (isDank) {
 		  pic="file:assets/images/tower/doge.png";
 		}
 		else {
@@ -56,7 +56,7 @@ public class DepotTower extends Tower implements Serializable {
     	projectile=new NormalProjectile(new Point(
       	                                          (int)(location.getX()+.5*MapView.ghostTowerSize),
                                                   (int)(location.getY()+.5*MapView.ghostTowerSize)),
-                                        closest,theGame);
+                                        closest,theGame, isDank);
     }
     
     //tower is upgraded, give a better projectile
@@ -64,15 +64,15 @@ public class DepotTower extends Tower implements Serializable {
     	projectile=new IceProjectile(new Point(
 					                       	   (int)(location.getX()+.5*MapView.ghostTowerSize),
 						                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
-				                     closest, theGame);
+				                     closest, theGame, isDank);
     }
     
-    projectile.addDamageBonus(25*rank);
+    projectile.addDamageBonus(25*rank);  
     theGame.add(projectile);
   }
   
   
-  /**
+  /**  
 	 * upgrade
 	 * allows the tower to upgrade and gain better stats
 	*/

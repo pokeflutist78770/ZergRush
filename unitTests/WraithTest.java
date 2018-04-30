@@ -13,7 +13,7 @@ public class WraithTest {
   @Test
   public void test() {
     TowerGame tg = new TowerGame("Easy", "Terran");
-    Wraith testWraith = new Wraith(tg.getMap().getPaths().get(1), tg);
+    Wraith testWraith = new Wraith(tg.getMap().getPaths().get(1), tg, false); 
   }
 
 }

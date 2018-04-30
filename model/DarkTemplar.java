@@ -17,26 +17,38 @@ import controller.ControllerMain;
  */
 public class DarkTemplar extends Mob implements Serializable {
 
-  public DarkTemplar(Vector<Point> movementPath, TowerGame game) {
+  public DarkTemplar(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 
     super(movementPath, 
-    		ControllerMain.TILE_SIZE / 3,
+    		ControllerMain.TILE_SIZE / 3,  
     		ArmorAttribute.HEAVY_ARMOR,
     		AttackAttribute.WEAK_ATTACK,
     		DefenseAttribute.MEDIUM, 
     		SpeedAttribute.SLOW,
     		new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.POISON)),
-        "DarkTemplar" + Mob.IDNumber++,
-        "file:assets/images/mob/protoss/dark_templar.png", 
-        "dt_death", 
-        5.0, 
-        2.0, 
-        54.0,
-        59.0,
-        57.0, 
-        62.0, 
-        8, 
-        13,
-        game);
+    		"DarkTemplar" + Mob.IDNumber++,
+    		getPicString(isDank), 
+    		"dt_death", 
+    		5.0, 
+    		2.0, 
+    		54.0,
+    		59.0,
+    		57.0, 
+    		62.0, 
+    		8, 
+    		13,
+    		game
+    );
   }
+   
+  
+  
+    private static String getPicString(boolean isDank) {
+		if(isDank){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/dark_templar.png";
+		}
+	}  
 }  

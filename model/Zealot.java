@@ -16,27 +16,37 @@ public class Zealot extends Mob implements Serializable {
  * 	
  * @param movementPath
  */
-public Zealot(Vector<Point> movementPath, TowerGame game) {
+public Zealot(Vector<Point> movementPath, TowerGame game, boolean isDank) { 
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.LIGHT_ARMOR, 
-				AttackAttribute.WEAK_ATTACK, 
+				AttackAttribute.WEAK_ATTACK,   
 				DefenseAttribute.MEDIUM, 
 				SpeedAttribute.NORMAL, 
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"Zealot"+Mob.IDNumber++,
-				"file:assets/images/mob/protoss/zealot.png", "zealot_death",
+				getPicString(isDank), "zealot_death",
         1.0,
         2.0,
         39.0,
-        41.0,
+        41.0,    
         42.0,
-        44.0, 
+        44.0,   
         8, 
         4,
         game
         );
+	}
+
+
+	private static String getPicString(boolean isDank) {
+		if(isDank){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/zealot.png";
+		}
 	}
 }
 
