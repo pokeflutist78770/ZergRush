@@ -61,6 +61,7 @@ public abstract class Mob implements Serializable {
   private String imageFilePath;
 
 
+
   /**
    * Constructor for Mobs
    * 
@@ -135,7 +136,6 @@ public abstract class Mob implements Serializable {
     this.radius = radius;
     this.armor = armor;
     this.attack = attack;
-    this.hp = new Double(defense.getDefense());
     this.speed = speed;
     this.resistances = resistances;
     this.name = name;
@@ -143,6 +143,10 @@ public abstract class Mob implements Serializable {
     attackTime = 0;    
     this.theGame = game;
     targetPlayer = game.getPlayer();
+    
+
+    this.hp = new Double(defense.getDefense());
+    hp += Math.sqrt(theGame.getKillCount());
 
   }
 
