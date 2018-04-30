@@ -233,8 +233,16 @@ public class MapView extends StackPane implements Observer {
     tower1.setOnMouseExited(towerButtonMouseHandler);
     tower1.setStyle("-fx-base: #808080;");
 
+    
+    if (MenuView.getModeSelection().equals("Fun")) {
+    	pic="file:assets/images/tower/doge.png";
+    }
+    else {
+    	pic="file:assets/images/tower/marine.png";
+    }
+    
     // Tower2 Button
-    Image tower2Image = new Image("file:assets/images/tower/depot.png", false);
+    Image tower2Image = new Image(pic, false);
     ImageView iv2 = new ImageView(tower2Image);
     iv2.setFitHeight(37);
     iv2.setFitWidth(37);

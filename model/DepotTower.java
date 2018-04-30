@@ -29,7 +29,7 @@ public class DepotTower extends Tower implements Serializable {
 		String pic="";
 		
 		if (MenuView.getModeSelection().equals("Fun")) {
-		  pic="file:assets/images/tower/cage.png";
+		  pic="file:assets/images/tower/doge.png";
 		}
 		else {
 	  	  pic="file:assets/images/tower/depot.png";
@@ -76,19 +76,34 @@ public class DepotTower extends Tower implements Serializable {
 	 * upgrade
 	 * allows the tower to upgrade and gain better stats
 	*/
-  public void upgrade() {
-    if(rank==0) { 
-		setImageFilePath("file:assets/images/tower/tower.png");
-		setRange(RangeAttribute.MEDIUM_RANGE);
-		increaseFrequency(40);	
+	public void upgrade() {
+		String pic = "";
+		if (rank == 0) {
+
+			if (MenuView.getModeSelection().equals("Fun")) {
+				pic = "file:assets/images/tower/doge2.png";
+			} else {
+				pic = "file:assets/images/tower/tower.png";
+			}
+			
+			setImageFilePath(pic);
+			setRange(RangeAttribute.MEDIUM_RANGE);
+			increaseFrequency(40);
+		} 
+		else if (rank == 1) {
+			
+			if (MenuView.getModeSelection().equals("Fun")) {
+				pic = "file:assets/images/tower/doge3.gif";
+			} else {
+				pic = "file:assets/images/tower/bunker.png";
+			}
+			
+			setImageFilePath(pic);
+			setRange(RangeAttribute.LARGE_RANGE);
+			increaseFrequency(30);
+			isFullyUpgraded = true;
+		}
+
+		rank++;
 	}
-	else if(rank==1) {
-		setImageFilePath("file:assets/images/tower/bunker.png");
-		setRange(RangeAttribute.LARGE_RANGE);
-		increaseFrequency(30);
-		isFullyUpgraded=true;
-	}
-		
-	rank++;
-  }
 }
