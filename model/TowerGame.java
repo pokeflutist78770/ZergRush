@@ -3,6 +3,9 @@ package model;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.Vector;
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
@@ -168,7 +171,7 @@ public class TowerGame extends Observable implements Serializable {
   /**
    * Update all the towers. Any towers that are done are removed from the game.
    */
-  private void updateTowers() {
+  private synchronized void updateTowers() {
     for (Iterator<Tower> itr = towers.iterator(); itr.hasNext(); ) {
       Tower t = itr.next();
       if (t.isDone()) {
@@ -183,11 +186,11 @@ public class TowerGame extends Observable implements Serializable {
   /**
    * Update all the projectiles. Any projectile that is done is removed from the game.
    */
-  private void updateProjectiles() {
-    for (Iterator<Projectile> itr = projectiles.iterator(); itr.hasNext(); ) {
+  private synchronized void updateProjectiles() {
+    for (Iterator<Projectile> itr = (new HashSet<Projectile>(projectiles)).iterator(); itr.hasNext(); ) {
       Projectile p = itr.next();
       if (p.isDone()) {
-        itr.remove();
+        projectiles.remove(p);
       } else {
         p.update();
       }
@@ -200,7 +203,7 @@ public class TowerGame extends Observable implements Serializable {
    * Update all the mobs. If a mob is done, play its death sound, 
    * increment the kill count, add cash to the player, and remove the mob from the game.
    */
-  private void updateMobs() {
+  private synchronized void updateMobs() {
     for (Iterator<Mob> itr = mobs.iterator(); itr.hasNext(); ) {
       Mob m = itr.next();
       if (m.isDone()) {
@@ -219,7 +222,7 @@ public class TowerGame extends Observable implements Serializable {
   /**
    * Update the state of the map.
    */
-  private void updateMap() {
+  private synchronized void updateMap() {
     theMap.update();
   }
 
@@ -227,21 +230,21 @@ public class TowerGame extends Observable implements Serializable {
    * Is the game paused?
    * @return True, if the game is on pause. False, otherwise.
    */
-  public synchronized boolean isPaused() {
+  public boolean isPaused() {
     return paused;
   }
 
   /**
    * Pause the game.
    */
-  public synchronized void pause() {
+  public void pause() {
     paused = true;
   }
 
   /**
    * Unpause the game.
    */
-  public synchronized void unPause() {
+  public void unPause() {
     paused = false;
   }
 
@@ -249,7 +252,7 @@ public class TowerGame extends Observable implements Serializable {
    * Get the filepath of the background image
    * @return The desired filepath.
    */
-  public synchronized String getBackgroundImageFP() {
+  public String getBackgroundImageFP() {
     return backgroundImageFilePath;
   }
 
@@ -257,7 +260,7 @@ public class TowerGame extends Observable implements Serializable {
    * Get a pointer to the player.
    * @return The player.
    */
-  public synchronized Player getPlayer() {
+  public Player getPlayer() {
     return thePlayer;
   }
   
@@ -339,7 +342,7 @@ public class TowerGame extends Observable implements Serializable {
    * Increase the player's cash.
    * @param i The amount to increase the player's cash by.
    */
-  public synchronized void addCash(int i) {
+  public void addCash(int i) {
     thePlayer.addCash(i);
   }
   
@@ -347,7 +350,7 @@ public class TowerGame extends Observable implements Serializable {
    * Get the current cash of the player.
    * @return The current cash of the player.
    */
-  public synchronized double getCash() {
+  public double getCash() {
     return thePlayer.getCash();
   }
   
@@ -355,7 +358,7 @@ public class TowerGame extends Observable implements Serializable {
    * Get the number of mobs killed.
    * @return The number of mobs killed in the current game.
    */
-  public synchronized int getKillCount() {
+  public int getKillCount() {
     return mobsKilled;
   }
   

@@ -31,6 +31,7 @@ public class SiegeProjectile extends Projectile {
     for (Mob m: targets) {
       m.takeDamage(baseDmg, dmgType);
     }
+    hit = true;
   }
 
   /*

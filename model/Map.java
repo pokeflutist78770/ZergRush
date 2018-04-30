@@ -100,7 +100,7 @@ private int queSize;
     } else if (difficulty.equals("Medium")) {
       waveRatio = 2;
     } else if (difficulty.equals("Hard")) {
-      waveRatio = 2.5;
+      waveRatio = 3;
     } else {
       waveRatio = 1.5;
     }
@@ -194,6 +194,7 @@ private int queSize;
       if (queSize < 100000) {
         mapClock = 0;
         spawnWave(ControllerMain.mobConstructors, waveIntensity);
+        simulSpawnCount += 2;
       }
       if (waveIntensity < 100000) {
         updateWaveIntensity();  //allows waves to get harder as time goes on
@@ -204,8 +205,10 @@ private int queSize;
       return;
     }
     if (!unitQueue.isEmpty()) {
-      int bound = Math.max((int) Math.log(queSize),1);
-      for (int i = 0; i < bound; i++) {
+      for (int i = 0; i < simulSpawnCount; i++) {
+        if (queSize < 1) {
+          break;
+        }
         theGame.add(unitQueue.poll());
         queSize--;
       }

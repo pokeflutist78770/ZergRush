@@ -23,7 +23,7 @@ import javafx.scene.image.Image;
 public abstract class Tower implements Serializable {
   
   protected int firing_frequency;
-  protected int fire_counter = firing_frequency;
+  protected int fire_counter = -1;
 
   
   protected String name;
@@ -165,6 +165,15 @@ public abstract class Tower implements Serializable {
    *   the tower shoots and the fire_counter is reset.
    */
   public void update() {
+    if (fire_counter < 0) {
+      
+      Set<Mob> nearbyMobs = getNearbyMobs();
+      if (!nearbyMobs.isEmpty() && theGame.getProjectiles().size() < 5000) {
+        fire_counter = 0;
+        shoot(nearbyMobs);
+      }
+      
+    }
     fire_counter++;
     
     Set<Mob> nearbyMobs = getNearbyMobs();
