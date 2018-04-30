@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.Random;
@@ -44,11 +45,15 @@ import views.MenuView;
  */
 public abstract class Map implements Serializable {
   
-  public final static int DEFAULT_SPAWN_FREQUENCY =   1000;
+  public final static int DEFAULT_SPAWN_FREQUENCY = 500;
   public final static int DEFAULT_SPAWN_INTENSITY = 3;
   
+  private int spawnFreq;
+  
+  private int simulSpawnCount = 1;
+  
   protected int waveIntensity; 
-  protected int waveRatio;
+  protected double waveRatio;
    
   public String backgroundImageFilePath;
   public static int idNo = 0;
@@ -59,6 +64,9 @@ public abstract class Map implements Serializable {
 
   protected TowerGame theGame;
   protected int mapClock;
+  
+public ConcurrentLinkedQueue<Mob> unitQueue;
+private int queSize;
   
   /**
    * Create a map with the given difficulty, game, and image filepath.
@@ -72,7 +80,11 @@ public abstract class Map implements Serializable {
     setBackground(imgFp);
     setWaveRatio(difficulty);
     theGame = game;
-    mapClock = DEFAULT_SPAWN_FREQUENCY;
+    mapClock = -1;
+    unitQueue = new ConcurrentLinkedQueue<Mob>();
+    queSize = 0;
+
+    spawnFreq = (int) Math.round(DEFAULT_SPAWN_FREQUENCY * waveRatio);
     
   }
 
@@ -88,9 +100,9 @@ public abstract class Map implements Serializable {
     } else if (difficulty.equals("Medium")) {
       waveRatio = 2;
     } else if (difficulty.equals("Hard")) {
-      waveRatio = 3;
+      waveRatio = 2.5;
     } else {
-      waveRatio = 2;
+      waveRatio = 1.5;
     }
   }
 
@@ -167,12 +179,7 @@ public abstract class Map implements Serializable {
    * If there are more than 5000 mobs, nothing happens.
    */
   public void update() {
-    mapClock++;
-    if (theGame.getMobs().size() > 5000) {
-      mapClock = 0;
-      return;
-    }
-    if (mapClock > DEFAULT_SPAWN_FREQUENCY) {
+    if (mapClock < 0) {
       mapClock = 0;
       
       spawnWave(ControllerMain.mobConstructors, waveIntensity);
@@ -181,12 +188,38 @@ public abstract class Map implements Serializable {
         
       }
     }
+    mapClock++;
+    if (mapClock > spawnFreq) {
+      
+      if (queSize < 100000) {
+        mapClock = 0;
+        spawnWave(ControllerMain.mobConstructors, waveIntensity);
+      }
+      if (waveIntensity < 100000) {
+        updateWaveIntensity();  //allows waves to get harder as time goes on
+      }
+    }
+    if (theGame.getMobs().size() > 100000) {
+      mapClock = 0;
+      return;
+    }
+    if (!unitQueue.isEmpty()) {
+      int bound = Math.max((int) Math.log(queSize),1);
+      for (int i = 0; i < bound; i++) {
+        theGame.add(unitQueue.poll());
+        queSize--;
+      }
+    }
   }
 
 
   /* updates the wave intensity, increasing it */
   protected void updateWaveIntensity() {
-    waveIntensity = waveRatio*waveIntensity;
+    if (waveRatio == 1) {
+      waveIntensity +=3;
+    } else {
+      waveIntensity = (int) Math.round(waveRatio*waveIntensity);
+    }
   }
 
   
@@ -206,8 +239,10 @@ public abstract class Map implements Serializable {
     for (int i = 0; i < numberOfMobTypes; i++) {
       try {
         for (int j = 0; j < spawnCount; j++) {
-          theGame.add(mobConstructors.get(i).newInstance(
+
+          unitQueue.add(mobConstructors.get(i).newInstance(
         		                  paths.get(1+ (new Random()).nextInt(numberOfPaths)), theGame, MenuView.getModeSelection().equals("Fun")));
+          queSize++; 
         }
         spawnCount = spawnCount / 3;
       } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -253,7 +288,7 @@ public abstract class Map implements Serializable {
     this.soundTrackName = soundTrackName;
   }
 	
-  public int getWaveRatio() {
+  public double getWaveRatio() {
 	  return waveRatio;
   }
 }
