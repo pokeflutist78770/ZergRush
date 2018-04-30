@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import controller.ControllerMain;
+import views.MenuView;
 
 
 /*============================================================================*
@@ -19,8 +20,7 @@ import controller.ControllerMain;
 
 public class BattleCruiser extends Mob implements Serializable {
 
-	public BattleCruiser(Vector<Point> movementPath, TowerGame game) {
-		
+	public BattleCruiser(Vector<Point> movementPath, TowerGame game) {		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.HEAVY_ARMOR,  
 				AttackAttribute.WEAK_ATTACK, 
@@ -29,7 +29,7 @@ public class BattleCruiser extends Mob implements Serializable {
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 
 				"BattleCruiser"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/battlecruiser.png", "bc_death",
+				getPicString(), "bc_death",
         265.0,
         209.0,
         78.0,
@@ -40,5 +40,15 @@ public class BattleCruiser extends Mob implements Serializable {
         20,
         game
         );
+	}
+	
+	
+	private static String getPicString() {
+		if(MenuView.getModeSelection().equals("Fun")){
+			return "file:assets/images/mob/terran/debray.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/battlecruiser.png";
+		}
 	}
 }

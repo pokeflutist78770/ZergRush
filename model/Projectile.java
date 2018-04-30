@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
+import views.MenuView;
 
 /**
  * This is the object that is instantiated when the tower shoots. 
@@ -22,7 +23,7 @@ abstract public class Projectile implements Serializable {
   protected Point currentLocation;
   protected Point targetLocation = null;
   protected Mob targetMob = null;
-
+  protected int projSize;
   protected double baseDmg;
   protected ElementalAttribute dmgType;
   protected double blastRadius;
@@ -53,6 +54,13 @@ abstract public class Projectile implements Serializable {
     dmgType = ea;
 
     imageFilePath = imgFilePath;
+    
+    if(MenuView.getModeSelection().equals("Fun")) {
+    	projSize=50;
+    }
+    else {
+    	projSize=30;
+    }
     
     theGame = game;
   }
@@ -100,7 +108,7 @@ abstract public class Projectile implements Serializable {
    */
   public void update() {
     if (targetMob != null) {
-      targetLocation = targetMob.getCurrentLocation();
+      targetLocation = targetMob.getCurrentLocation();  
     }
     
     if (hasReachedTarget(targetLocation)) {
@@ -152,6 +160,9 @@ abstract public class Projectile implements Serializable {
   }
 
   public String getImageFilePath() {
+	if(MenuView.getModeSelection().equals("Fun")) {
+		return "file:assets/images/tower/dickbutt.png";
+	}
     return imageFilePath;
   }
 
@@ -177,5 +188,9 @@ abstract public class Projectile implements Serializable {
 	
   public double getY() {
     return currentLocation.getY();
+  }
+  
+  public int getProjSize() {
+	  return projSize;
   }
 }

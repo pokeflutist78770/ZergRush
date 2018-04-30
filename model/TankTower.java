@@ -6,6 +6,7 @@ import java.util.Set;
 
 import controller.ControllerMain;
 import views.MapView;
+import views.MenuView;
 
 /**
  * Tank is the second basic Tower of the Terran army.   It upgrades to a Siege Tank and ultimately a Thor tower.
@@ -19,10 +20,25 @@ public class TankTower  extends Tower implements Serializable {
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.MEDIUM_RANGE;
 	
 	public TankTower(Point loc, TowerGame game) {
-		super(350, 200, "Library", loc, RangeAttribute.MEDIUM_RANGE, "file:assets/images/tower/tank.png",
+		super(350, 200, "Library", loc, RangeAttribute.MEDIUM_RANGE, 
+			  getPicString(),
 		      game, 120);
 	}
 
+	
+	protected static String getPicString() {
+		String pic="";
+			
+		if (MenuView.getModeSelection().equals("Fun")) {
+			pic="file:assets/images/tower/shrek.png";
+		}
+		else {
+			pic="file:assets/images/tower/tank.png";
+		}
+			
+		return pic;
+	}
+	
 	
 	/**
 	 * shoot
@@ -32,7 +48,7 @@ public class TankTower  extends Tower implements Serializable {
 	*/
 	@Override
 	protected void shoot(Set<Mob> nearbyMobs) {
-		Mob closest = getClosestMob(nearbyMobs);
+		Mob closest = getClosestMob(nearbyMobs); 
 		
 		Projectile projectile=new SiegeProjectile(new Point(
                  	                                       (int)(location.getX()+.5*MapView.ghostTowerSize),
@@ -48,13 +64,29 @@ public class TankTower  extends Tower implements Serializable {
 	 * allows the tower to upgrade and gain better stats
 	*/
 	public void upgrade() {
+		String pic="";
+		
 		if(rank==0) {
-			setImageFilePath("file:assets/images/tower/siege.png");
+			
+			if (MenuView.getModeSelection().equals("Fun")) {
+				pic = "file:assets/images/tower/shrek2.png";
+			} else {
+				pic = "file:assets/images/tower/siege.png";
+			}
+			
+			setImageFilePath(pic);
 			setRange(RangeAttribute.LARGE_RANGE);
 			increaseFrequency(30);
 		}
 		else if(rank==1) {
-			setImageFilePath("file:assets/images/tower/thor.png");
+			
+			if (MenuView.getModeSelection().equals("Fun")) {
+				pic = "file:assets/images/tower/shrek3.png";
+			} else {
+				pic = "file:assets/images/tower/thor.png";
+			}
+			
+			setImageFilePath(pic);
 			increaseFrequency(60);
 			isFullyUpgraded=true;
 		}

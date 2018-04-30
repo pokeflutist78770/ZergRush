@@ -10,6 +10,7 @@ import java.lang.reflect.*;
 
 import controller.ControllerMain;
 import javafx.scene.image.Image;
+import views.MenuView;
 
 // You should have at least 3 maps.
 
@@ -237,7 +238,12 @@ public abstract class Map implements Serializable {
 
 
   public String getSoundTrackName() {
-    return soundTrackName;
+    if (MenuView.getModeSelection().equals("Fun")) {
+	  return "marauder";
+	}
+	else {
+      return soundTrackName;
+	}
   }
 
   public void setSoundTrackName(String soundTrackName) {

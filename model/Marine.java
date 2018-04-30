@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import controller.ControllerMain;
+import views.MenuView;
 
 /**
  * Marines are the tier one unit of the Terran army.  They have low HP and movement speed and deal reltively little
@@ -27,20 +28,26 @@ public class Marine extends Mob implements Serializable {
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Marine"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/marine.png", "marine_death",
-        2.0,
-        2.0,
-        25.0,
-        33.0,
-        26.0,
-        36.0, 
-        8,
-        6,
-        game  
+				getPicString(), "marine_death",
+				2.0,
+				2.0,
+				25.0,
+				33.0,
+				26.0,
+				36.0, 
+				8,
+				6,
+				game  
         );
-
-
-
 	}
-
+	
+	
+	private static String getPicString() {
+		if(MenuView.getModeSelection().equals("Fun")){
+			return "file:assets/images/mob/terran/frank.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/marine.png";
+		}
+	}
 }

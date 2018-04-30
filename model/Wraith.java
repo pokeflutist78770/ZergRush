@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import controller.ControllerMain;
+import views.MenuView;
 
 /**
  * Wraiths are the tier two unit of the Terran army.  They are fast, flying units, with relatively low damage.
@@ -26,16 +27,26 @@ public class Wraith extends Mob implements Serializable {
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Wraith"+Mob.IDNumber++,
-				"file:assets/images/mob/terran/wraith.png", "wraith_death",
-        688.0,
-        0.0,
-        49.0,
-        30.0,
-        0.0,
-        0.0, 
-        1,
-        12,
-        game
+				getPicString(), "wraith_death",
+				688.0,
+				0.0,
+				49.0,
+				30.0,
+				0.0,
+				0.0, 
+				1,
+				12,
+				game
         );
 	} 
+	
+	
+	private static String getPicString() {
+		if(MenuView.getModeSelection().equals("Fun")){
+			return "file:assets/images/mob/terran/frank.png";
+		}
+		else {
+			return "file:assets/images/mob/terran/wraith.png";
+		}
+	}
 }

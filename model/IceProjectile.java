@@ -16,7 +16,7 @@ public class IceProjectile extends Projectile {
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 
         ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/ice.png", game);
     
-    this.setMob(targetMob);
+    this.setMob(targetMob);  
     this.targetLocation = targetMob.getCurrentLocation();
   }
 

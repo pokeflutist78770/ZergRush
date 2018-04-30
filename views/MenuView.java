@@ -114,7 +114,7 @@ public class MenuView extends StackPane {
 	    easy.setStyle("-fx-text-fill: #000000;");
 	    RadioButton medium = new RadioButton("m");
 	    medium.setStyle("-fx-text-fill: #000000;");
-	    RadioButton hard = new RadioButton("h");
+	    RadioButton hard = new RadioButton("h");   
 	    hard.setStyle("-fx-text-fill: #000000;");
 	    RadioButton fun = new RadioButton("f");
 	    fun.setStyle("-fx-text-fill: #000000;");

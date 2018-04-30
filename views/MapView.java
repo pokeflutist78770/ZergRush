@@ -238,7 +238,7 @@ public class MapView extends StackPane implements Observer {
     	pic="file:assets/images/tower/doge.png";
     }
     else {
-    	pic="file:assets/images/tower/marine.png";
+    	pic="file:assets/images/tower/depot.png";
     }
     
     // Tower2 Button
@@ -254,8 +254,14 @@ public class MapView extends StackPane implements Observer {
     tower2.setOnMouseExited(towerButtonMouseHandler);
     tower2.setStyle("-fx-base: #808080;");
     
+    
+    if (MenuView.getModeSelection().equals("Fun"))
+    	pic = "file:assets/images/tower/shrek.png";
+    else
+    	pic = "file:assets/images/tower/tank.png";
+    
     // Tower3 Button
-    Image tower3Image = new Image("file:assets/images/tower/tank.png", false);
+    Image tower3Image = new Image(pic, false);
     ImageView iv3 = new ImageView(tower3Image);
     iv3.setFitHeight(37);
     iv3.setFitWidth(37);
@@ -535,6 +541,10 @@ public class MapView extends StackPane implements Observer {
 
     double currentStep = stepCount % animSteps + 1;
     double currSY = sy + currentStep * delY;
+    if(MenuView.getModeSelection().equals("Fun")) {
+    	gc.drawImage(mob.getImage(), x, y, sw, sh);
+    	return;
+    }
     
     // Draw the Archon enemy on map
     if(mob instanceof Archon) {
@@ -609,7 +619,8 @@ public class MapView extends StackPane implements Observer {
   private void drawProjectiles() {
     for (Iterator<Projectile> itr = theGame.getProjectiles().iterator(); itr.hasNext(); ) {
       Projectile p  = itr.next();
-      gc.drawImage(p.getImage(), 0,0, 400, 400, p.getX() - 15, p.getY() -15, 30, 30);
+      gc.drawImage(p.getImage(), 0,0, 400, 400, p.getX() - 15, p.getY() -15, 
+    		       p.getProjSize(), p.getProjSize());
     }
   }
 
@@ -1227,7 +1238,13 @@ public class MapView extends StackPane implements Observer {
     
     double health = thePlayer.getHP() / 100;
     if(firstAttack && health < 100) {
-        ControllerMain.soundEffects.get("underattack").play();
+    	if(MenuView.getModeSelection().equals("Fun")) {
+    		 ControllerMain.soundEffects.get("swamp").play();
+    	}
+    	else {
+    		ControllerMain.soundEffects.get("underattack").play();
+    	}
+    	
         firstAttack = false;
     }
     String healthStr = formatter.format(health);

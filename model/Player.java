@@ -64,7 +64,7 @@ public class Player implements Serializable {
 	
 	
 	public double getCash() {
-		return CURRENT_CASH;
+		return CURRENT_CASH;  
 	}
 
 	public void decrementCash(double cost) {

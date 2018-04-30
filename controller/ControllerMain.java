@@ -139,7 +139,9 @@ public class ControllerMain extends Application {
     soundEffects.put("resumed", new AudioClip("file:assets/audio/map/Alert_TerranGameResumed.mp3"));
     soundEffects.put("paused", new AudioClip("file:assets/audio/map/Alert_TerranGamePaused.mp3"));
     soundEffects.put("upgrade", new AudioClip("file:assets/audio/map/Alert_TerranUpgradeComplete.mp3"));
-
+    soundEffects.put("marauder", new AudioClip("file:assets/audio/marauder.mp3"));
+    soundEffects.put("time", new AudioClip("file:assets/audio/map/TimeToStop.mp3")); 
+    soundEffects.put("swamp", new AudioClip("file:assets/audio/map/swamp.mp3"));
   }
 
   /*
@@ -234,11 +236,11 @@ public class ControllerMain extends Application {
       if (loading) {
         theGame = PersistenceMaster.loadGame();
         if (theGame.getMap().getSoundTrackName().equals("Zerg")) {
-          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Zergling", "Hydralisk", "Ultralisk")));
+          mobConstructors = Map.initializeSpawnConstructors(new Vector<String>(Arrays.asList("Zergling", "Hydralisk", "Ultralisk")));
         } else if (theGame.getMap().getSoundTrackName().equals("Terran")) {
-          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Marine", "Wraith", "BattleCruiser")));
+          mobConstructors = Map.initializeSpawnConstructors(new Vector<String>(Arrays.asList("Marine", "Wraith", "BattleCruiser")));
         } else if (theGame.getMap().getSoundTrackName().equals("Protoss")) {
-          mobConstructors = Map.initializeSpawnConstructors(new Vector(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
+          mobConstructors = Map.initializeSpawnConstructors(new Vector<String>(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
         }
         
         
@@ -256,7 +258,6 @@ public class ControllerMain extends Application {
         System.out.println("This was selected: " + difficulty + ", " + mapSelection);
         theGame = null;
         theGame = new TowerGame(difficulty, mapSelection);
-        
       }
       
       System.out.println("The game was initialized without issue.");
