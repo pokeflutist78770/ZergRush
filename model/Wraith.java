@@ -34,7 +34,8 @@ public class Wraith extends Mob implements Serializable {
         0.0,
         0.0, 
         1,
+        12,
         game
         );
-	}
+	} 
 }

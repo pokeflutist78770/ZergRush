@@ -33,7 +33,8 @@ public Zealot(Vector<Point> movementPath, TowerGame game) {
         41.0,
         42.0,
         44.0, 
-        8,
+        8, 
+        4,
         game
         );
 	}

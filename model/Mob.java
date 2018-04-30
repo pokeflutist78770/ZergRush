@@ -50,8 +50,8 @@ public abstract class Mob implements Serializable {
   private double delY;
   private int stepCount;
   private int animationSteps;
-  
-  private double cashPayout = 0;
+ 
+  private double cashPayout;
   
   // For audio
   private String deathSound;
@@ -101,11 +101,11 @@ public abstract class Mob implements Serializable {
    * @param animationSteps
    *          - the number of frames representing a cycle on the sprite sheet
    */
-  public Mob(Vector<Point> movementPath, double radius, ArmorAttribute armor, AttackAttribute attack,
+  public Mob(Vector<Point> movementPath, double radius, ArmorAttribute armor, 
+		  AttackAttribute attack,
       DefenseAttribute defense, SpeedAttribute speed, Vector<ResistanceAttribute> resistances, String name,
       String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY,
-      int animationSteps, TowerGame game) {
-
+      int animationSteps, double cash, TowerGame game) {
 
     // Animation Attributes
     initializeAnimationAttributes(sx, sy, sw, sh, delX, delY, animationSteps, imageFP);
@@ -114,21 +114,24 @@ public abstract class Mob implements Serializable {
     initializeSoundAttributes(deathSound);
 
     // Initialize Attributes
-    initializeOtherAttributes(movementPath, radius, armor, attack, defense, speed, resistances, name, game);
+    initializeOtherAttributes(movementPath, radius, cash, armor, attack, defense, speed, resistances, name, game);
   }
+  
 
   // This method is an encapsulation of all the non-media business of the constructor.
-  private void initializeOtherAttributes(Vector<Point> movementPath, double radius, ArmorAttribute armor,
+  private void initializeOtherAttributes(Vector<Point> movementPath, double radius, double cash,
+		  ArmorAttribute armor,
       AttackAttribute attack, DefenseAttribute defense, SpeedAttribute speed, Vector<ResistanceAttribute> resistances,
       String name, TowerGame game) {
     
-    this.movementPath = movementPath;
+    this.movementPath = movementPath;  
     this.pathIndex = 0;
     this.currentLocation = perturbPoint(movementPath.get(0));
     this.pathIndex++;
     this.targetLocation = movementPath.get(pathIndex);
     this.pathIndex++;
     
+    this.cashPayout=cash;
     this.radius = radius;
     this.armor = armor;
     this.attack = attack;

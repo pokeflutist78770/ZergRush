@@ -19,10 +19,24 @@ public class DarkTemplar extends Mob implements Serializable {
 
   public DarkTemplar(Vector<Point> movementPath, TowerGame game) {
 
-    super(movementPath, ControllerMain.TILE_SIZE / 3, ArmorAttribute.HEAVY_ARMOR, AttackAttribute.WEAK_ATTACK,
-        DefenseAttribute.MEDIUM, SpeedAttribute.SLOW,
-        new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.POISON)),
-        "DarkTemplar" + Mob.IDNumber++, "file:assets/images/mob/protoss/dark_templar.png", "dt_death", 5.0, 2.0, 54.0,
-        59.0, 57.0, 62.0, 8, game);
+    super(movementPath, 
+    		ControllerMain.TILE_SIZE / 3,
+    		ArmorAttribute.HEAVY_ARMOR,
+    		AttackAttribute.WEAK_ATTACK,
+    		DefenseAttribute.MEDIUM, 
+    		SpeedAttribute.SLOW,
+    		new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.POISON)),
+        "DarkTemplar" + Mob.IDNumber++,
+        "file:assets/images/mob/protoss/dark_templar.png", 
+        "dt_death", 
+        5.0, 
+        2.0, 
+        54.0,
+        59.0,
+        57.0, 
+        62.0, 
+        8, 
+        13,
+        game);
   }
-}
+}  

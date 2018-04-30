@@ -35,7 +35,8 @@ public class Marine extends Mob implements Serializable {
         26.0,
         36.0, 
         8,
-        game
+        6,
+        game  
         );
 
 

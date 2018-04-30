@@ -28,7 +28,8 @@ public class Zergling extends Mob{
 				43.0,
 				42.0,
 				7,
-				game
+				5,
+				game 
 				);
 	}
 }

@@ -911,6 +911,7 @@ public class MapView extends StackPane implements Observer {
 		if(currName.equals(button.getName()) && towerPlacement) {
 			towerPlacement=false;
 			return;
+			
 		} else if (theGame.getCash() < 50){
 		  return;
 		}
@@ -958,13 +959,13 @@ public class MapView extends StackPane implements Observer {
 				attr6Text = "Ice";
 			}
 			else
-			{
+			{ 
 				attr6Text = "Fire";
 			}
 			  
 			updateLabels();
 		}
-		else if(e.getEventType()==MouseEvent.MOUSE_ENTERED) {
+		else if(e.getEventType()==MouseEvent.MOUSE_EXITED) {
 			attr1Text = "";
 		  	attr2Text="";
 			attr3Text = "";

@@ -17,10 +17,23 @@ public class Archon extends Mob implements Serializable {
 
   public Archon(Vector<Point> movementPath, TowerGame game) {
 
-    super(movementPath, ControllerMain.TILE_SIZE / 3, ArmorAttribute.HEAVY_ARMOR, AttackAttribute.WEAK_ATTACK,
-        DefenseAttribute.LARGE, SpeedAttribute.SLOW,
-        new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.ELECTRIC)),
-        "Archon" + Mob.IDNumber++, "file:assets/images/mob/protoss/archon.png", "archon_death", 213.0, 595.0, 82.0,
-        89.0, 85.0, 92.0, 3, game);
+    super(movementPath, ControllerMain.TILE_SIZE / 3, 
+    		ArmorAttribute.HEAVY_ARMOR, 
+    		AttackAttribute.WEAK_ATTACK,
+    		DefenseAttribute.LARGE, 
+    		SpeedAttribute.SLOW,
+    		new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.ELECTRIC)),
+    		"Archon" + Mob.IDNumber++, 
+    		"file:assets/images/mob/protoss/archon.png", "archon_death", 
+    		213.0, 
+    		595.0,
+    		82.0,
+    		89.0, 
+    		85.0,
+    		92.0,
+    		3, 
+    		25,
+    		game);
   }
 }
+  

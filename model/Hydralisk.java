@@ -29,12 +29,13 @@ public class Hydralisk extends Mob implements Serializable {
 
 				"file:assets/images/mob/zerg/hydralisk.png", "hydra_death",
 				2.0,
-				2.0,
+				2.0,  
 				42.0,
 				55.0,
 				45.0,
 				58.0, 
 				7,
+				10,
 				game
 				);
 	}

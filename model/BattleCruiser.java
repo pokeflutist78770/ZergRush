@@ -22,7 +22,7 @@ public class BattleCruiser extends Mob implements Serializable {
 	public BattleCruiser(Vector<Point> movementPath, TowerGame game) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
-				ArmorAttribute.HEAVY_ARMOR, 
+				ArmorAttribute.HEAVY_ARMOR,  
 				AttackAttribute.WEAK_ATTACK, 
 				DefenseAttribute.LARGE, 
 				SpeedAttribute.SLOW, 
@@ -37,6 +37,7 @@ public class BattleCruiser extends Mob implements Serializable {
         0.0,
         0.0, 
         1,
+        20,
         game
         );
 	}
