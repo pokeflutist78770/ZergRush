@@ -209,7 +209,7 @@ public class ControllerMain extends Application {
         }
         theMenuView.setLoadStatus(false);
       }
-
+ 
       // user wants to access instructions
       else if (buttonText.equals("Instructions")) {
         setViewTo(theInstrView);

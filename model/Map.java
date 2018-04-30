@@ -48,7 +48,7 @@ public abstract class Map implements Serializable {
   
   protected int waveIntensity; 
   protected int waveRatio;
-  
+   
   public String backgroundImageFilePath;
   public static int idNo = 0;
   protected String name;
@@ -240,9 +240,11 @@ public abstract class Map implements Serializable {
     return soundTrackName;
   }
 
-
   public void setSoundTrackName(String soundTrackName) {
     this.soundTrackName = soundTrackName;
   }
 	
+  public int getWaveRatio() {
+	  return waveRatio;
+  }
 }

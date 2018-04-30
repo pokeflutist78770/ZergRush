@@ -50,7 +50,7 @@ public abstract class Tower implements Serializable {
     this.cost = cost;
     this.upgradeCost=upgrade;
     this.name = name;
-    this.location = location;
+    this.location = location; 
     this.range = range;
     rank=0;
     imageFilePath = imageFP;
@@ -216,6 +216,6 @@ public abstract class Tower implements Serializable {
   }
   
   public int getUpgradeCost() {
-	  return upgradeCost;
+	  return upgradeCost*(rank+1);
   }
 }

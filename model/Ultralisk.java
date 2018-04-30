@@ -27,15 +27,15 @@ public class Ultralisk extends Mob implements Serializable {
 						                           ResistanceAttribute.POISON)), 
 				"Ultralisk"+Mob.IDNumber++,
 				"file:assets/images/mob/zerg/ultralisk.png", "ultra_death",
-        2.0,
-        2.0,
-        98.0,
-        105.0,
-        101.0,
-        108.0, 
-        9, 
-        23,
-        game
+				2.0,
+				2.0,
+				98.0,
+				105.0,
+				101.0,
+				108.0, 
+				9, 
+				23,
+				game
         );
 	}
 }

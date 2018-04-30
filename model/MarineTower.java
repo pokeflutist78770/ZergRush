@@ -6,6 +6,7 @@ import java.util.Set;
 
 import controller.ControllerMain;
 import views.MapView;
+import views.MenuView;
 /**
  * Marine is the first Tower type.  It upgrades to a Marauder and Ultimately a Ghost.
  * 
@@ -18,10 +19,24 @@ public class MarineTower extends Tower implements Serializable {
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
 	
 	public MarineTower(Point loc, TowerGame game) {
-		super(100, 100, "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/marine.png", 
+		super(100, 100, "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(), 
 			  game, 120);
 	}
 
+	
+	protected static String getPicString() {
+		String pic="";
+			
+		if (MenuView.getModeSelection().equals("Fun")) {
+			pic="file:assets/images/tower/cage.png";
+		}
+		else {
+		  	pic="file:assets/images/tower/marine.png";
+		}
+			
+		return pic;
+	}
+	
 	
 	/**
 	 * shoot
@@ -49,7 +64,7 @@ public class MarineTower extends Tower implements Serializable {
           	                                    (int)(location.getX()+.5*MapView.ghostTowerSize),
                                                 (int)(location.getY()+.5*MapView.ghostTowerSize)),
                                             closest,theGame);
-		}
+		}   
 		
 		projectile.addDamageBonus(25*rank);
 	    theGame.add(projectile);
@@ -61,14 +76,33 @@ public class MarineTower extends Tower implements Serializable {
 	 * allows the tower to upgrade and gain better stats
 	*/
 	public void upgrade() {
+		String pic="";
+		
 		if(rank==0) {
-			setImageFilePath("file:assets/images/tower/thick.png");
+			
+			if (MenuView.getModeSelection().equals("Fun")) {
+				pic="file:assets/images/tower/cage2.png";
+			}
+			else {
+			  	pic="file:assets/images/tower/thick.png";
+			}
+				
+			setImageFilePath(pic);
 			setRange(RangeAttribute.MEDIUM_RANGE);
 			increaseFrequency(50);
 		}
 		
 		else if(rank==1) {
-			setImageFilePath("file:assets/images/tower/ghost.png");
+			
+			if (MenuView.getModeSelection().equals("Fun")) {
+				pic="file:assets/images/tower/cage3.png";
+			}
+			else {
+			  	pic="file:assets/images/tower/ghost.png";
+			}
+				
+			setImageFilePath(pic);
+			setImageFilePath(pic);
 			setRange(RangeAttribute.LARGE_RANGE);
 			increaseFrequency(60);
 			isFullyUpgraded=true;

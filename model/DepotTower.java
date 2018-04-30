@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Set;
 import controller.ControllerMain;
 import views.MapView;
+import views.MenuView;
 
 /**
  * Depot is the third basic Tower. It upgrades to a Turret, and ultimately, a
@@ -18,10 +19,25 @@ public class DepotTower extends Tower implements Serializable {
   public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
   
   public DepotTower(Point loc, TowerGame game) {
-    super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, "file:assets/images/tower/depot.png", 
+
+    super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(), 
           game, 120);
   }
 
+  
+  protected static String getPicString() {
+		String pic="";
+		
+		if (MenuView.getModeSelection().equals("Fun")) {
+		  pic="file:assets/images/tower/cage.png";
+		}
+		else {
+	  	  pic="file:assets/images/tower/depot.png";
+		}
+		
+		return pic;
+  }
+  
   
   /**
 	 * shoot
@@ -61,7 +77,7 @@ public class DepotTower extends Tower implements Serializable {
 	 * allows the tower to upgrade and gain better stats
 	*/
   public void upgrade() {
-    if(rank==0) {
+    if(rank==0) { 
 		setImageFilePath("file:assets/images/tower/tower.png");
 		setRange(RangeAttribute.MEDIUM_RANGE);
 		increaseFrequency(40);	

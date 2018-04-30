@@ -140,7 +140,7 @@ public abstract class Mob implements Serializable {
     this.resistances = resistances;
     this.name = name;
 
-    attackTime = 0;
+    attackTime = 0;    
     this.theGame = game;
     targetPlayer = game.getPlayer();
 
@@ -427,7 +427,7 @@ public abstract class Mob implements Serializable {
   }
   
   public double getCashPayout() {
-	  return cashPayout;
+	  return cashPayout*(4-theGame.getMap().getWaveRatio());
   }
 
   public void setSpeed(SpeedAttribute s) {

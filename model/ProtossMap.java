@@ -28,7 +28,7 @@ public class ProtossMap extends Map implements Serializable {
   }
 
   
-  /* constructMobRoute
+  /* constructMobRoute 
    * Creates the route for each mob to walk through
    * Parameters: None
    * Returns: None

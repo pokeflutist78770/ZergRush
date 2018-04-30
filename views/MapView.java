@@ -211,8 +211,17 @@ public class MapView extends StackPane implements Observer {
     pauseBox.setSpacing(5);
     pauseBox.setPickOnBounds(false);
     
-    // Tower1 Button
-    Image tower1Image = new Image("file:assets/images/tower/marine.png", false);
+    String pic="";
+    
+    if (MenuView.getModeSelection().equals("Fun")) {
+    	pic="file:assets/images/tower/cage.png";
+    }
+    else {
+    	pic="file:assets/images/tower/marine.png";
+    }
+    
+    // Tower1 Button  
+    Image tower1Image = new Image(pic, false);
     ImageView iv1 = new ImageView(tower1Image);
     iv1.setFitHeight(37);
     iv1.setFitWidth(37);
@@ -250,8 +259,6 @@ public class MapView extends StackPane implements Observer {
     tower3.setOnMouseExited(towerButtonMouseHandler);
     tower3.setStyle("-fx-base: #808080;");
 
-    
-    String pic = "";
     if (MenuView.getModeSelection().equals("Fun"))
     	pic = "guy.jpeg";
     else
@@ -791,7 +798,15 @@ public class MapView extends StackPane implements Observer {
 	  }
 	  
 	  attr3Text = "Upgrade Cost:";
-	  attr4Text = "$"+String.valueOf(upgradeCost);
+	  
+	  //in case of tower being upgraded all the way, dont display upgrade cost
+	  if(currentTower.isFullyUpgraded()) {
+		  attr4Text = "Fully Upgraded";
+	  }
+	  else {
+		  attr4Text = "$"+String.valueOf(currentTower.getUpgradeCost());
+	  }
+	  
 	  attr5Text = "Range:";
 	  attr6Text = String.valueOf(formatter.format(t.getRange())); 
   }
@@ -871,14 +886,19 @@ public class MapView extends StackPane implements Observer {
 			
 		//user wants to upgrade a currently selected tower
 		//user can actually upgrade
-		if(towerSelected  && thePlayer.getCash()>=currentTower.getCost()) {
+		if(towerSelected  && thePlayer.getCash()>=currentTower.getUpgradeCost()) {
 			currentTower.upgrade();
 			thePlayer.decrementCash(currentTower.getCost());
 			ControllerMain.soundEffects.get("upgrade").play();
 				
 			if(currentTower.isFullyUpgraded()) {
+				attr4Text = "MaxRank";
 				upgradeButton.setVisible(false);
 			}
+			else {
+				attr4Text = "$"+String.valueOf(currentTower.getUpgradeCost());
+			}
+			updateLabels();
 		}
 		
 		//player doesnt have enough money
@@ -1098,8 +1118,6 @@ public class MapView extends StackPane implements Observer {
 			
 			//find the closest tower to the users click
 			for (Tower t : theGame.getTowers()) {
-				System.out.println("Tower: "+t.getX()+" "+t.getY());
-				System.out.println("Mouse: "+mousePoint);
 				
 				towerPoint=new Point((int) t.getX(), (int) t.getY());
 				tempDist=Metric.distanceSquared(mousePoint,  towerPoint);

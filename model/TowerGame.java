@@ -404,5 +404,4 @@ public class TowerGame extends Observable implements Serializable {
   public void setMap(Map inputMap) {
     theMap = inputMap;
   }
-  
 }
