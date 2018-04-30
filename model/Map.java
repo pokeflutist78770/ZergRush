@@ -176,7 +176,10 @@ public abstract class Map implements Serializable {
       mapClock = 0;
       
       spawnWave(ControllerMain.mobConstructors, waveIntensity);
-      updateWaveIntensity();  //allows waves to get harder as time goes on
+      if (waveIntensity < 1000000) {
+        updateWaveIntensity();  //allows waves to get harder as time goes on
+        
+      }
     }
   }
 
