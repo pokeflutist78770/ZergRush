@@ -571,7 +571,7 @@ public class MapView extends StackPane implements Observer {
     } else {
       gc.drawImage(mob.getImage(), sx, currSY, sw, sh, x, y, sw, sh);
       
-      if (this.updateCount % 5 == 0) {
+      if (!theGame.isPaused() && this.updateCount % 5 == 0) {
         mob.step();
       }
     }
@@ -828,6 +828,7 @@ public class MapView extends StackPane implements Observer {
 	  
 	  attr5Text = "Range:";
 	  attr6Text = String.valueOf(formatter.format(t.getRange())); 
+	  drawMap();
   }
 
 
@@ -924,6 +925,7 @@ public class MapView extends StackPane implements Observer {
 		else if(thePlayer.getCash()<currentTower.getCost()) {
 			ControllerMain.soundEffects.get("mins").play();
 		}
+		drawMap();
 	}
   }
 
@@ -965,6 +967,8 @@ public class MapView extends StackPane implements Observer {
 		} else {
 		  ControllerMain.soundEffects.get("mins").play();
 		}
+		
+		drawMap();
 	} 
   } 
   
@@ -1043,7 +1047,7 @@ public class MapView extends StackPane implements Observer {
     	else
     	{
     		pause.setStyle("-fx-text-fill: #ffffff; -fx-font: 14 serif; -fx-base: #000000;");
-        ControllerMain.soundEffects.get("resumed").play();
+    		ControllerMain.soundEffects.get("resumed").play();
     		theGame.unPause();
     	}
 		
@@ -1180,6 +1184,10 @@ public class MapView extends StackPane implements Observer {
 		System.out.println("MOUSE X: "+mousePos.getX());
 		System.out.println("MOUSE Y: "+mousePos.getY());
 		System.out.println("Mouse Clicked");
+	  }
+	  
+	  if(theGame.isPaused()) {
+		  drawMap();
 	  }
     }
 	

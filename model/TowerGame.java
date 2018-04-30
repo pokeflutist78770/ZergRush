@@ -378,7 +378,7 @@ public class TowerGame extends Observable implements Serializable {
 
 
   public void setMobs(Vector<Mob> inputMobs) {
-    mobs = new HashSet(inputMobs);
+    mobs = new HashSet(inputMobs);   
   }
 
 
