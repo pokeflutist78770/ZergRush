@@ -58,7 +58,7 @@ public class DepotTower extends Tower implements Serializable {
                                                   (int)(location.getY()+.5*MapView.ghostTowerSize)),
                                         closest,theGame, isDank);
     }
-    
+     
     //tower is upgraded, give a better projectile
     else if(rank>=1) {
     	projectile=new IceProjectile(new Point(

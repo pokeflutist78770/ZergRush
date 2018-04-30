@@ -221,4 +221,8 @@ public abstract class Tower implements Serializable {
   public int getUpgradeCost() {
 	  return upgradeCost*(rank+1);
   }
+  
+  public int getRank() {
+	  return rank;
+  }
 }

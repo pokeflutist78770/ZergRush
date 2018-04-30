@@ -51,7 +51,7 @@ public class TowerTest {
     tg.add(testWraith);
     tg.add(testZealot);
     tg.add(testZergling);
-  }
+  } 
   
   // Towers for testing
   DepotTower depotTowerTest = new DepotTower(path.get(0), tg, false);
@@ -71,12 +71,15 @@ public class TowerTest {
 
   @Test
   public void testUpdate() {
-    addMobsToGame();
+    addMobsToGame(); 
     
     for (int i = 0; i < numberOfTries; i++) {
       marineTowerTest.update();
+      marineTowerTest.upgrade();
       depotTowerTest.update();
+      depotTowerTest.upgrade();
       tankTowerTest.update();
+      tankTowerTest.upgrade();
     }
   }
 
@@ -105,5 +108,44 @@ public class TowerTest {
     assertTrue(depotTowerTest.getCost() == 150);
     assertTrue(tankTowerTest.getCost() == 350);
   }
+  
+  @Test
+  public void testTankUpgrade() {
+	  assertTrue(tankTowerTest.getUpgradeCost()==200);
+	  tankTowerTest.upgrade();
+	  assertTrue(tankTowerTest.getRank()==1);
+	  assertTrue(tankTowerTest.getUpgradeCost()==400);
+	  
+	  tankTowerTest.upgrade();
+	  assertTrue(tankTowerTest.getRank()==2);
+	  assertTrue(tankTowerTest.isFullyUpgraded());
+  }
+  
+  @Test
+  public void testDepotUpgrade() {
+	  
+	  assertTrue(depotTowerTest.getUpgradeCost()==150);
+	  depotTowerTest.upgrade();
+	  assertTrue(depotTowerTest.getRank()==1);
+	  assertTrue(depotTowerTest.getUpgradeCost()==300);
+	  
+	  depotTowerTest.upgrade();
+	  assertTrue(depotTowerTest.getRank()==2);
+	  assertTrue(depotTowerTest.isFullyUpgraded());
+  } 
+  
+  
+  @Test 
+  public void testMarineUpgrade() {
+	  
+	  assertTrue(marineTowerTest.getUpgradeCost()==100);
+	  marineTowerTest.upgrade();
+	  assertTrue(marineTowerTest.getRank()==1);
+	  assertTrue(marineTowerTest.getUpgradeCost()==200);
+	  
+	  marineTowerTest.upgrade();
+	  assertTrue(marineTowerTest.getRank()==2);
+	  assertTrue(marineTowerTest.isFullyUpgraded());
+  } 
 
 }

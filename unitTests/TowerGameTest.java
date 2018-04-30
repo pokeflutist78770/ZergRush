@@ -201,21 +201,22 @@ public class TowerGameTest {
 	  
 	  tg.setTowers(newTowers);
 	  
-	  assertTrue(tg.getProjectiles().equals(newTowers));
-	  assertEquals(tg.getProjectiles().size(), newTowers.size());	  
+	  assertTrue(tg.getTowers().equals(newTowers));
+	  assertEquals(tg.getTowers().size(), newTowers.size());	   
   }
   
   
   @Test
   public void testSetMobs() {
 	  Vector<Mob> newMobs=new Vector<Mob>();
-	  Vector<Point> points=new Vector<Point>();
+	  Vector<Point> points=new Vector<Point>();  
+	  points.add(new Point(0,0));
+	  points.add(new Point(1,0));
 	  
 	  newMobs.add((new Zealot(points, tg, true)));
 	  
 	  tg.setMobs(newMobs);
 	  
-	  assertTrue(tg.getProjectiles().equals(newMobs));
-	  assertEquals(tg.getProjectiles().size(), newMobs.size());	  
+	  assertTrue(tg.getMobs().equals(newMobs));
   }
 }

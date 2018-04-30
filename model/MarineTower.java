@@ -65,7 +65,7 @@ public class MarineTower extends Tower implements Serializable {
                                                 (int)(location.getY()+.5*MapView.ghostTowerSize)),
                                             closest,theGame, isDank);
 		}   
-		
+		 
 		projectile.addDamageBonus(25*rank);
 	    theGame.add(projectile);
 	}
