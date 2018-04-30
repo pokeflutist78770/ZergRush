@@ -26,5 +26,6 @@ public class FireProjectile extends Projectile {
   @Override
   protected void terminate() {
     targetMob.takeDamage(baseDmg, dmgType);
+    hit = true;
   }
 }

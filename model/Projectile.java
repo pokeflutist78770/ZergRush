@@ -30,8 +30,8 @@ abstract public class Projectile implements Serializable {
  
   protected String imageFilePath;
   protected TowerGame theGame;
-  private boolean hit = false;
-  private boolean isDank;
+  protected boolean hit = false;
+  protected boolean isDank;
   
   /**
    * 
@@ -115,7 +115,6 @@ abstract public class Projectile implements Serializable {
     
     if (hasReachedTarget(targetLocation)) {
       terminate();
-      hit = true;
     } else {
       updateLocation();
     }

@@ -3,6 +3,8 @@ package model;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import controller.ControllerMain;
 import views.MapView;
 import views.MenuView;
@@ -47,24 +49,24 @@ public class DepotTower extends Tower implements Serializable {
 	*/
   @Override
   protected void shoot(Set<Mob> nearbyMobs) {
-    Mob closest = getClosestMob(nearbyMobs);
+    ConcurrentLinkedQueue<Mob> targets = new ConcurrentLinkedQueue<Mob>(nearbyMobs);
     
     Projectile projectile=null;
     
     //towewr is at the base stage
     if(rank==0) {
-    	projectile=new NormalProjectile(new Point(
+    	projectile=new DepotProjectile0(new Point(
       	                                          (int)(location.getX()+.5*MapView.ghostTowerSize),
                                                   (int)(location.getY()+.5*MapView.ghostTowerSize)),
-                                        closest,theGame, isDank);
+                                        targets,theGame, isDank);
     }
      
     //tower is upgraded, give a better projectile
     else if(rank>=1) {
-    	projectile=new IceProjectile(new Point(
+    	projectile=new DepotProjectile1(new Point(
 					                       	   (int)(location.getX()+.5*MapView.ghostTowerSize),
 						                       (int)(location.getY()+.5*MapView.ghostTowerSize)), 
-				                     closest, theGame, isDank);
+				                     targets, theGame, isDank);
     }
     
     projectile.addDamageBonus(25*rank);  

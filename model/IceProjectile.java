@@ -26,5 +26,6 @@ public class IceProjectile extends Projectile {
   @Override
   protected void terminate() {
     targetMob.takeDamage(baseDmg, dmgType);
+    hit = true;
   }
 }
