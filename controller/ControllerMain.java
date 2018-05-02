@@ -171,6 +171,8 @@ public class ControllerMain extends Application {
     		      new Media(new File("assets/audio/map/defeat.mp3").toURI().toString()));
     songClips.put("victory", 
     		      new Media(new File("assets/audio/map/victory.mp3").toURI().toString()));
+    songClips.put("dankVictory", 
+		      new Media(new File("assets/audio/map/heya.mp3").toURI().toString()));
 	
     soundEffects.put("zergling_death", new AudioClip("file:assets/audio/mob/zerg/zergling_death.wav"));
     soundEffects.put("hydra_death", new AudioClip("file:assets/audio/mob/zerg/hydra_death.wav"));
@@ -311,7 +313,7 @@ public class ControllerMain extends Application {
         theGame = new TowerGame(difficulty, mapSelection);
       }
       
-      //dealWithDeadPlayer(true);
+      //dealWithDeadPlayer(false);
       
       System.out.println("The game was initialized without issue.");
       theMapView = new MapView(backButtonMap, theGame);
@@ -404,7 +406,12 @@ public class ControllerMain extends Application {
     {
     	statusImage=new Image("file:assets/images/win.png",false);
     	gameStatus.setText("You win!");
-    	playBackground(songClips.get("victory"));
+    	if(MenuView.getModeSelection().equals("Fun")) {
+    		playBackground(songClips.get("dankVictory"));
+    	}
+    	else {
+    		playBackground(songClips.get("victory"));
+    	}
     }
     
     final Image status=statusImage;
@@ -425,11 +432,17 @@ public class ControllerMain extends Application {
 
       
       if(MenuView.getModeSelection().equals("Fun")) {
-    	  Image troll=new Image("file:assets/images/troll.png",200,200,false, false);
+    	  Image troll=null;
+    	  if(playerLost) {
+	    	  troll=new Image("file:assets/images/troll.png",200,200,false, false);
+	    	 
+    	  } else {
+    		  troll=new Image("file:assets/images/winTroll.png",200,200,false, false);
+    	  }
+    	  
     	  ImageView trollView=new ImageView(troll);
     	  pauseRoot.getChildren().add(trollView);
-    	  
-    	  startTroll(trollView);
+	      startTroll(trollView);
       }
       
       VBox buttonBox=new VBox(5);
