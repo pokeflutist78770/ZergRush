@@ -913,7 +913,13 @@ public class MapView extends StackPane implements Observer {
 		if(towerSelected  && thePlayer.getCash()>=currentTower.getUpgradeCost()) {
 			thePlayer.decrementCash(currentTower.getUpgradeCost());
 			currentTower.upgrade();
-			ControllerMain.soundEffects.get("upgrade").play();
+			
+			if(MenuView.getModeSelection().equals("Fun")) {
+				ControllerMain.soundEffects.get("dankUpgrade").play();
+			}
+			else {
+				ControllerMain.soundEffects.get("upgrade").play();
+			}
 				
 			if(currentTower.isFullyUpgraded()) {
 				attr4Text = "MaxRank";

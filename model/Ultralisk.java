@@ -35,7 +35,8 @@ public class Ultralisk extends Mob implements Serializable {
 				108.0, 
 				9, 
 				23, 
-				game
+				game,
+				isDank
         ); 
 	}
 	

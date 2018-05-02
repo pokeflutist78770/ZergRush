@@ -2,6 +2,7 @@ package views;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 
 import controller.ControllerMain;
 import javafx.geometry.Insets;
@@ -38,7 +39,7 @@ public class InstructionView extends StackPane {
 	private Button backButton;
 	private BorderPane pane;
 	private VBox vBox;
-	
+	   
 	/**
 	* Constructor for InstructionVew. Provides an instruction page on 
 	* how to play Tower Defense. Takes a Button for implementation
@@ -81,6 +82,8 @@ public class InstructionView extends StackPane {
 		String hard = String.valueOf(TowerGame.hardCash);
 		String dank = String.valueOf(TowerGame.dankCash);
 		
+		DecimalFormat formatter = new DecimalFormat("$###,###.###");
+		
 		// Set instruction text
 		Text instructions = new Text("OBJECTIVE\nThe objective of Tower Defense is to defend your command"
 				+ " center. Waves of enemies will spawn periodically, each wave stronger than the last.\n"
@@ -89,10 +92,10 @@ public class InstructionView extends StackPane {
 				+ "earn money. Survive the wave and earn enough cash with your command center in tact, and you will have survived\n"
 				+ "Tower Defense!\n\n"
 				+ "DIFFICULTIES\n"
-				+ "Easy - $"+easy+"\n"
-				+ "Medium - $"+medium+"\n"
-				+ "Hard - $"+hard+"\n"
-				+ "Dank Memes - $"+dank+"\n\n"
+				+ "Easy - "+formatter.format(Integer.valueOf(easy))+"\n"
+				+ "Medium - "+formatter.format(Integer.valueOf(medium))+"\n"
+				+ "Hard - "+formatter.format(Integer.valueOf(hard))+"\n"
+				+ "Dank Memes - "+formatter.format(Integer.valueOf(dank))+"\n\n"
 				+ "START NEW GAME\n"
 				+ "1) Choose Difficulty\n"
 				+ "2) Choose Game Speed\n"

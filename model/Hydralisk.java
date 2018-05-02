@@ -36,7 +36,8 @@ public class Hydralisk extends Mob implements Serializable {
 				58.0, 
 				7, 
 				10,
-				game
+				game,
+				isDank
 		);
 	}
 	

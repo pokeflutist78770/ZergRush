@@ -208,7 +208,7 @@ public class TowerGame extends Observable implements Serializable {
       Mob m = itr.next();
       if (m.isDone()) {
         ControllerMain.soundEffects.get(m.getDeathSoundStr()).play();
-        mobsKilled++;
+        mobsKilled++;   
         
         thePlayer.addCash(m.getCashPayout());
         itr.remove();

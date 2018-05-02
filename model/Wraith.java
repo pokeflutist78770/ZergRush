@@ -23,7 +23,7 @@ public class Wraith extends Mob implements Serializable {
 				ArmorAttribute.MEDIUM_ARMOR, 
 				AttackAttribute.WEAK_ATTACK, 
 				DefenseAttribute.MEDIUM, 
-				SpeedAttribute.NORMAL, 
+				SpeedAttribute.NORMAL,    
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.NONE)), 
 				"Wraith"+Mob.IDNumber++,
@@ -36,7 +36,8 @@ public class Wraith extends Mob implements Serializable {
 				0.0,   
 				1,
 				12,
-				game  
+				game,
+				isDank
         );
 	}   
 	

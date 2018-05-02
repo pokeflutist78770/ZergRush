@@ -1,5 +1,6 @@
 package views;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 // You should have a starting screen prior to the maps.
 
@@ -96,6 +98,14 @@ public class MenuView extends StackPane {
 		ImageView imv2 = new ImageView();
 		imv2.setImage(title);
 		this.getChildren().add(imv2);
+		
+		FadeTransition ft = new FadeTransition();
+	    ft.setNode(imv2);
+	    ft.setDuration(new Duration(4500));
+	    ft.setFromValue(0.0);
+	    ft.setToValue(1.0);
+	    ft.setCycleCount(1);
+	    ft.play();
 		
 		// Set Label
 		difficulty = new Label("Select difficulty:");

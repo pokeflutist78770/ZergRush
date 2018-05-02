@@ -1,10 +1,16 @@
 package controller;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javafx.animation.Animation;
+import javafx.animation.FillTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.application.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,10 +27,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import model.Map;
 import model.Mob;
 import model.TowerGame;
@@ -56,7 +66,9 @@ public class ControllerMain extends Application {
 
   // Media data
   public static HashMap<String, AudioClip> soundEffects = new HashMap<>();
+  public static HashMap<String, Media> songClips= new HashMap<>();
   public static HashMap<String, Image> imageMap;
+  public static MediaPlayer songPlayer;
 
   // Buttons
   private Button startButton;
@@ -108,6 +120,28 @@ public class ControllerMain extends Application {
     }
   }
 
+  
+  /**
+   * playBackground
+   * Serves to be able to play background music, as MediaPlayer is better suited for it
+   * @param song: current song to be played
+   */
+  private static void playBackground(Media song) {
+	  if(songPlayer.getStatus().equals(Status.PLAYING)) {
+		  songPlayer.stop();
+	  }
+	  
+      songPlayer=new MediaPlayer(song);
+      songPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+      songPlayer.setOnEndOfMedia(new Runnable() {
+          public void run() {
+            songPlayer.seek(Duration.ZERO);
+          }
+      });
+      songPlayer.play();
+  }
+  
+  
   /*
    * initializeAssets Initializes all images and sound, allowing for a flyweight
    * design pattern Parameters: None Returns: None
@@ -121,6 +155,23 @@ public class ControllerMain extends Application {
    * Instantiates and stores all audio clips for gameplay for flyweight retrieval.
    */
   private void initializeAudio() {
+	songClips.put("menu_soundtrack",
+			      new Media(new File("assets/audio/map/menu.mp3").toURI().toString()));
+	songClips.put("marauder", 
+			      new Media(new File("assets/audio/marauder.mp3").toURI().toString()));
+	songClips.put("Terran", 
+			      new Media(new File("assets/audio/map/terran.mp3").toURI().toString())); 
+	songClips.put("Protoss", 
+			      new Media(new File("assets/audio/map/protoss.mp3").toURI().toString()));
+	songClips.put("Zerg", 
+			      new Media(new File("assets/audio/map/zerg.mp3").toURI().toString()));
+    songClips.put("trolo", 
+    		       new Media(new File("assets/audio/map/trolo.mp3").toURI().toString()));
+    songClips.put("defeat", 
+    		      new Media(new File("assets/audio/map/defeat.mp3").toURI().toString()));
+    songClips.put("victory", 
+    		      new Media(new File("assets/audio/map/victory.mp3").toURI().toString()));
+	
     soundEffects.put("zergling_death", new AudioClip("file:assets/audio/mob/zerg/zergling_death.wav"));
     soundEffects.put("hydra_death", new AudioClip("file:assets/audio/mob/zerg/hydra_death.wav"));
     soundEffects.put("ultra_death", new AudioClip("file:assets/audio/mob/zerg/ultra_death.wav"));
@@ -130,21 +181,15 @@ public class ControllerMain extends Application {
     soundEffects.put("marine_death", new AudioClip("file:assets/audio/mob/terran/marine_death.wav"));
     soundEffects.put("wraith_death", new AudioClip("file:assets/audio/mob/terran/wraith_death.wav"));
     soundEffects.put("bc_death", new AudioClip("file:assets/audio/mob/terran/bc_death.wav"));
-    soundEffects.put("Terran", new AudioClip("file:assets/audio/map/terran.mp3"));
-    soundEffects.put("Protoss", new AudioClip("file:assets/audio/map/protoss.mp3"));
-    soundEffects.put("Zerg", new AudioClip("file:assets/audio/map/zerg.mp3"));
-    soundEffects.put("menu_soundtrack", new AudioClip("file:assets/audio/map/menu.mp3"));
-    soundEffects.put("defeat", new AudioClip("file:assets/audio/map/defeat.mp3"));
-    soundEffects.put("victory", new AudioClip("file:assets/audio/map/victory.mp3"));
     soundEffects.put("mins", new AudioClip("file:assets/audio/map/notenoughminerals.mp3"));
     soundEffects.put("underattack", new AudioClip("file:assets/audio/map/underattack.mp3"));
     soundEffects.put("resumed", new AudioClip("file:assets/audio/map/Alert_TerranGameResumed.mp3"));
     soundEffects.put("paused", new AudioClip("file:assets/audio/map/Alert_TerranGamePaused.mp3"));
     soundEffects.put("upgrade", new AudioClip("file:assets/audio/map/Alert_TerranUpgradeComplete.mp3"));
-    soundEffects.put("marauder", new AudioClip("file:assets/audio/marauder.mp3"));
     soundEffects.put("time", new AudioClip("file:assets/audio/map/TimeToStop.mp3")); 
     soundEffects.put("swamp", new AudioClip("file:assets/audio/map/swamp.mp3"));
-    soundEffects.put("trolo", new AudioClip("file:assets/audio/map/trolo.mp3"));
+    soundEffects.put("dankDeath", new AudioClip("file:assets/audio/mob/roblox.mp3"));
+    soundEffects.put("dankUpgrade", new AudioClip("file:assets/audio/tower/whoah.mp3"));
   }
  
   /*
@@ -173,7 +218,8 @@ public class ControllerMain extends Application {
     // Initialize Menu View
     theMenuView = new MenuView(startButton, instrButton);
     ControllerMain.setViewTo(theMenuView);
-    play(soundEffects.get("menu_soundtrack"));
+    songPlayer=new MediaPlayer(songClips.get("menu_soundtrack"));
+    songPlayer.play();
 
     menuButtonListener menuHandler = new menuButtonListener();
     startButton.setOnAction(menuHandler);
@@ -223,8 +269,10 @@ public class ControllerMain extends Application {
       // button to go back from the gameplay (might be a optional button)
       else if (buttonText.equals("Quit") || buttonText.equals("Back")) {
         setViewTo(theMenuView);
-        if (buttonText.equals("Quit"))
+        if (buttonText.equals("Quit")) {
+        	playBackground(ControllerMain.songClips.get("menu_soundtrack"));
         	theGame.pause();
+        }
       }
   }
 
@@ -274,7 +322,7 @@ public class ControllerMain extends Application {
       theGame.getPlayer().resetStats();
       initializeMapView();
       System.out.println("MapView has been configured.");
-      play(soundEffects.get(theGame.getMap().getSoundTrackName()));
+      playBackground(songClips.get(theGame.getMap().getSoundTrackName()));
       theGame.unPause(); //The mapview needs to be initialized before the game unpauses.
     }
 
@@ -334,6 +382,8 @@ public class ControllerMain extends Application {
    */
   public static void dealWithDeadPlayer(boolean playerLost) {
     theGame.pause();
+    songPlayer.stop();
+    
     System.out.println("Game over");
 
     // Label - Win or Loss
@@ -344,17 +394,17 @@ public class ControllerMain extends Application {
     {
     	statusImage=new Image("file:assets/images/gameOver.png",false);
     	if(MenuView.getModeSelection().equals("Fun")) {
-    		play(soundEffects.get("trolo"));
+    		playBackground(songClips.get("trolo"));
     	}
     	else {
-    		play(soundEffects.get("defeat"));
+    		playBackground(songClips.get("defeat"));
     	}
     }
     else
     {
     	statusImage=new Image("file:assets/images/win.png",false);
     	gameStatus.setText("You win!");
-    	play(soundEffects.get("victory"));
+    	playBackground(songClips.get("victory"));
     }
     
     final Image status=statusImage;
@@ -373,12 +423,22 @@ public class ControllerMain extends Application {
       pauseRoot.setAlignment(Pos.CENTER);
       pauseRoot.setPadding(new Insets(20));
 
+      
+      if(MenuView.getModeSelection().equals("Fun")) {
+    	  Image troll=new Image("file:assets/images/troll.png",200,200,false, false);
+    	  ImageView trollView=new ImageView(troll);
+    	  pauseRoot.getChildren().add(trollView);
+    	  
+    	  startTroll(trollView);
+      }
+      
       VBox buttonBox=new VBox(5);
       buttonBox.setAlignment(Pos.CENTER);
       buttonBox.setPadding(new Insets(20));
       buttonBox.setMaxWidth(200);
       
       Button resume = new Button("Main Menu");
+      
       resume.setStyle("-fx-font: 15 serif; -fx-base: #000000;");
       buttonBox.getChildren().add(resume);
       
@@ -392,7 +452,7 @@ public class ControllerMain extends Application {
       resume.setOnAction(event -> {
         ControllerMain.currentView.setEffect(null);
         ControllerMain.resetMainMenu();
-        play(ControllerMain.soundEffects.get("menu_soundtrack"));
+        playBackground(ControllerMain.songClips.get("menu_soundtrack"));
         popupStage.hide();
         theGame = null;
         theMapView = null;
@@ -401,6 +461,26 @@ public class ControllerMain extends Application {
       popupStage.show();
     });
 
+  }
+  
+  
+  /**
+   * startTroll
+   * starts the animation for the troll image upon game over
+   * @param troll: the image used as a troll
+   * @return None
+   */
+  private static void startTroll(ImageView troll) {
+	  RotateTransition rt = new RotateTransition();
+      rt.setNode(troll);
+      rt.setFromAngle(-20);
+      rt.setToAngle(20);
+      rt.setInterpolator(Interpolator.LINEAR);
+      rt.setAutoReverse(true);
+      rt.setCycleCount(Timeline.INDEFINITE);
+      
+      rt.setDuration(new Duration(2000));
+      rt.play();
   }
 
 }

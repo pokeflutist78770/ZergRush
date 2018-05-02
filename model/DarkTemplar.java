@@ -32,12 +32,13 @@ public class DarkTemplar extends Mob implements Serializable {
     		5.0, 
     		2.0, 
     		54.0,
-    		59.0,
+    		59.0,    
     		57.0, 
     		62.0,  
     		8, 
     		13,
-    		game
+    		game,
+    		isDank
     );
   }
    
@@ -45,7 +46,7 @@ public class DarkTemplar extends Mob implements Serializable {
   
     private static String getPicString(boolean isDank) {
 		if(isDank){
-			return "file:assets/images/mob/terran/debray.png";
+			return "file:assets/images/mob/protoss/gotcha.png";
 		}
 		else {
 			return "file:assets/images/mob/protoss/dark_templar.png";

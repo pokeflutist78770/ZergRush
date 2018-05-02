@@ -35,14 +35,15 @@ public Zealot(Vector<Point> movementPath, TowerGame game, boolean isDank) {
         44.0,   
         8, 
         4,
-        game
+        game,
+        isDank
         );
 	} 
 
 
 	private static String getPicString(boolean isDank) {
 		if(isDank){
-			return "file:assets/images/mob/terran/debray.png";
+			return "file:assets/images/mob/protoss/pepe.png";
 		}
 		else {
 			return "file:assets/images/mob/protoss/zealot.png";

@@ -20,7 +20,7 @@ public class Archon extends Mob implements Serializable {
     super(movementPath, ControllerMain.TILE_SIZE / 3, 
     		ArmorAttribute.HEAVY_ARMOR,    
     		AttackAttribute.WEAK_ATTACK,   
-    		DefenseAttribute.LARGE, 
+    		DefenseAttribute.LARGE,    
     		SpeedAttribute.SLOW,
     		new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.ELECTRIC)),
     		"Archon" + Mob.IDNumber++, 
@@ -33,12 +33,13 @@ public class Archon extends Mob implements Serializable {
     		92.0,
     		3, 
     		25,
-    		game);
+    		game,
+    		isDank);
   	} 
   
 	private static String getPicString(boolean isDank) {
 		if(isDank){
-			return "file:assets/images/mob/terran/debray.png";
+			return "file:assets/images/mob/protoss/boi.png";
 		}
 		else {
 			return "file:assets/images/mob/protoss/archon.png";

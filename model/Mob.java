@@ -60,7 +60,7 @@ public abstract class Mob implements Serializable {
   private String name;
   private String imageFilePath;
 
-
+  private boolean isDank;
 
   /**
    * Constructor for Mobs
@@ -106,7 +106,7 @@ public abstract class Mob implements Serializable {
 		  AttackAttribute attack,
       DefenseAttribute defense, SpeedAttribute speed, Vector<ResistanceAttribute> resistances, String name,
       String imageFP, String deathSound, double sx, double sy, double sw, double sh, double delX, double delY,
-      int animationSteps, double cash, TowerGame game) {
+      int animationSteps, double cash, TowerGame game, boolean isDank) {
 
     // Animation Attributes
     initializeAnimationAttributes(sx, sy, sw, sh, delX, delY, animationSteps, imageFP);
@@ -115,7 +115,8 @@ public abstract class Mob implements Serializable {
     initializeSoundAttributes(deathSound);
 
     // Initialize Attributes
-    initializeOtherAttributes(movementPath, radius, cash, armor, attack, defense, speed, resistances, name, game);
+    initializeOtherAttributes(movementPath, radius, cash, armor, attack, defense, speed, 
+    		                  resistances, name, game, isDank);
   }
   
 
@@ -123,14 +124,16 @@ public abstract class Mob implements Serializable {
   private void initializeOtherAttributes(Vector<Point> movementPath, double radius, double cash,
 		  ArmorAttribute armor,
       AttackAttribute attack, DefenseAttribute defense, SpeedAttribute speed, Vector<ResistanceAttribute> resistances,
-      String name, TowerGame game) {
-    
+      String name, TowerGame game, boolean isDank) {
+       
     this.movementPath = movementPath;  
     this.pathIndex = 0;
     this.currentLocation = perturbPoint(movementPath.get(0));
     this.pathIndex++;
     this.targetLocation = movementPath.get(pathIndex);
     this.pathIndex++;
+    
+    this.isDank=isDank;
     
     this.cashPayout=cash;
     this.radius = radius;
@@ -140,7 +143,7 @@ public abstract class Mob implements Serializable {
     this.resistances = resistances;
     this.name = name;
 
-    attackTime = 0;    
+    attackTime = 0;       
     this.theGame = game;
     targetPlayer = game.getPlayer();
     
@@ -443,10 +446,12 @@ public abstract class Mob implements Serializable {
   }
 
   public String getDeathSoundStr() {
+	if(isDank) {
+		return "dankDeath";
+	}
     return deathSound;
-
   }
-  
+    
   public double getAttack() {
 	return attack.getAttack();  
   }

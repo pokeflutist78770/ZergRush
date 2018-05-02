@@ -21,7 +21,7 @@ public class Marine extends Mob implements Serializable {
 	public Marine(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
-				ArmorAttribute.LIGHT_ARMOR, 
+				ArmorAttribute.LIGHT_ARMOR,    
 				AttackAttribute.WEAK_ATTACK,  
 				DefenseAttribute.SMALL, 
 				SpeedAttribute.NORMAL, 
@@ -37,14 +37,15 @@ public class Marine extends Mob implements Serializable {
 				36.0, 
 				8,
 				6,  
-				game  
+				game,
+				isDank
         );
 	}
 	
 	
 	private static String getPicString(boolean isDank) {
 		if(isDank){
-			return "file:assets/images/mob/terran/frank.png";
+			return "file:assets/images/mob/terran/crash.png";
 		}
 		else {
 			return "file:assets/images/mob/terran/marine.png";
