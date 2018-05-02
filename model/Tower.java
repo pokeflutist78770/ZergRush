@@ -216,7 +216,7 @@ public abstract class Tower implements Serializable {
   }
 
   public double getRange() {
-	  return range.toDouble();
+	  return range.toDouble();   
   }
   
   public int getCost() {

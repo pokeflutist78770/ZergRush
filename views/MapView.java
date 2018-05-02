@@ -329,7 +329,7 @@ public class MapView extends StackPane implements Observer {
     health.setPadding(new Insets(0, 0, 0, 20));
     gameGrid.add(health, 2, 0);
 
-    healthNum = new Label("000");
+    healthNum = new Label(""+theGame.getPlayer().getHP());
     healthNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ff0000;");
     healthNum.setPadding(new Insets(0, 0, 0, 3));
     gameGrid.add(healthNum, 3, 0);
@@ -339,7 +339,7 @@ public class MapView extends StackPane implements Observer {
     cash.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ffffff;");
     gameGrid.add(cash, 0, 1);
 
-    cashNum = new Label("$100");
+    cashNum = new Label("$"+theGame.getPlayer().getCash());
     cashNum.setStyle("-fx-font: 15.5 serif; -fx-text-fill: #ffffff;");
     cashNum.setPadding(new Insets(0, 0, 0, 10));
     gameGrid.add(cashNum, 1, 1);
@@ -459,9 +459,9 @@ public class MapView extends StackPane implements Observer {
   */
   public void setCashNum(int num) {
 	// Sets the Player Cash Label
-    cashNum.setText("$" + String.valueOf(theGame.getCash()));
+    cashNum.setText("$" + String.valueOf(theGame.getPlayer().getCash()));
   }
-
+  
   
   /**
   * Set the amount of Health Points for Player.
@@ -903,17 +903,21 @@ public class MapView extends StackPane implements Observer {
 	@Override
 	public void handle(ActionEvent e) {
 		Button button=(Button) e.getSource();
-			
+		
+		System.out.println("------UPGRADE-----");
+		System.out.println("\t Player: "+thePlayer.getCash());
+		System.out.println("\t Tower Cost: "+currentTower.getUpgradeCost());
+		System.out.println("\t TowerRank: "+currentTower.getRank());
 		//user wants to upgrade a currently selected tower
 		//user can actually upgrade
 		if(towerSelected  && thePlayer.getCash()>=currentTower.getUpgradeCost()) {
+			thePlayer.decrementCash(currentTower.getUpgradeCost());
 			currentTower.upgrade();
-			thePlayer.decrementCash(currentTower.getCost());
 			ControllerMain.soundEffects.get("upgrade").play();
 				
 			if(currentTower.isFullyUpgraded()) {
 				attr4Text = "MaxRank";
-				upgradeButton.setVisible(false);
+				upgradeButton.setVisible(false);  
 			}
 			else {
 				attr4Text = "$"+String.valueOf(currentTower.getUpgradeCost());
@@ -922,7 +926,7 @@ public class MapView extends StackPane implements Observer {
 		}
 		
 		//player doesnt have enough money
-		else if(thePlayer.getCash()<currentTower.getCost()) {
+		else if(thePlayer.getCash()<currentTower.getUpgradeCost()) {
 			ControllerMain.soundEffects.get("mins").play();
 		}
 		drawMap();
@@ -1054,6 +1058,7 @@ public class MapView extends StackPane implements Observer {
 	} 
   } 
   
+  
   /**
   * Button handler to save the game.
   * Game status label will notify user that game has been saved.
@@ -1149,7 +1154,6 @@ public class MapView extends StackPane implements Observer {
 				if(isClosest(tempDist, closestTowerDistance)) {
 					closestTower=t;
 					closestTowerDistance=tempDist;
-					System.out.println("Found tower");
 				}
 			}
 			

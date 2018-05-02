@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -262,6 +263,8 @@ public class ControllerMain extends Application {
         theGame = new TowerGame(difficulty, mapSelection);
       }
       
+      //dealWithDeadPlayer(true);
+      
       System.out.println("The game was initialized without issue.");
       theMapView = new MapView(backButtonMap, theGame);
       System.out.println("The mapView was initialized without issue.");
@@ -335,10 +338,11 @@ public class ControllerMain extends Application {
 
     // Label - Win or Loss
     Label gameStatus = new Label();
+    Image statusImage=null;
     
     if (playerLost)
     {
-    	gameStatus.setText("You lost!");
+    	statusImage=new Image("file:assets/images/gameOver.png",false);
     	if(MenuView.getModeSelection().equals("Fun")) {
     		play(soundEffects.get("trolo"));
     	}
@@ -348,9 +352,12 @@ public class ControllerMain extends Application {
     }
     else
     {
+    	statusImage=new Image("file:assets/images/win.png",false);
     	gameStatus.setText("You win!");
     	play(soundEffects.get("victory"));
     }
+    
+    final Image status=statusImage;
     
     // display win or loss screen
     Platform.runLater(() -> {
@@ -359,14 +366,24 @@ public class ControllerMain extends Application {
       ControllerMain.currentView.setEffect(new GaussianBlur());
 
       VBox pauseRoot = new VBox(5);
-      pauseRoot.getChildren().add(gameStatus);
-      pauseRoot.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
+      
+      ImageView image=new ImageView(status);
+      pauseRoot.getChildren().add(image);
+      pauseRoot.setStyle("-fx-background-color: #970EF200;");
       pauseRoot.setAlignment(Pos.CENTER);
       pauseRoot.setPadding(new Insets(20));
 
+      VBox buttonBox=new VBox(5);
+      buttonBox.setAlignment(Pos.CENTER);
+      buttonBox.setPadding(new Insets(20));
+      buttonBox.setMaxWidth(200);
+      
       Button resume = new Button("Main Menu");
-      pauseRoot.getChildren().add(resume);
-
+      resume.setStyle("-fx-font: 15 serif; -fx-base: #000000;");
+      buttonBox.getChildren().add(resume);
+      
+      pauseRoot.getChildren().add(buttonBox);
+      
       Stage popupStage = new Stage(StageStyle.TRANSPARENT);
       popupStage.initOwner(ControllerMain.getStage());
       popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -375,6 +392,7 @@ public class ControllerMain extends Application {
       resume.setOnAction(event -> {
         ControllerMain.currentView.setEffect(null);
         ControllerMain.resetMainMenu();
+        play(ControllerMain.soundEffects.get("menu_soundtrack"));
         popupStage.hide();
         theGame = null;
         theMapView = null;

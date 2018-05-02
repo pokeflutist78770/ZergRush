@@ -16,15 +16,16 @@ import views.MenuView;
  */
 public class TankTower  extends Tower implements Serializable {  
   
-	public static final double COST=350;
+	public static final int COST=350;
+	public static final int UPGRADE_COST=200;
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.MEDIUM_RANGE;
 	
 	public TankTower(Point loc, TowerGame game, boolean isDank) {
-		super(350, 200, "Library", loc, RangeAttribute.MEDIUM_RANGE, 
+		super(COST, UPGRADE_COST, "Library", loc, RangeAttribute.MEDIUM_RANGE, 
 			  getPicString(isDank),
 		      game, 120, isDank);
 	}
-
+   
 	
 	protected static String getPicString(boolean isDank) {
 		String pic="";

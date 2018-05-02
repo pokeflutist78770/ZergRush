@@ -17,12 +17,13 @@ import views.MenuView;
  */
 public class DepotTower extends Tower implements Serializable {
   
-  public static final double COST=150;
+  public static final int COST=150;
+  public static final int UPGRADE_COST=150;
   public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
   
   public DepotTower(Point loc, TowerGame game, boolean isDank) {
 
-    super(150, 150,  "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
+    super(COST, UPGRADE_COST,  "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
           game, 120, isDank);
   }
   
@@ -30,7 +31,7 @@ public class DepotTower extends Tower implements Serializable {
   protected static String getPicString(boolean isDank) {
 		String pic="";
 		
-		if (isDank) {
+		if (isDank) {   
 		  pic="file:assets/images/tower/doge.png";
 		}
 		else {

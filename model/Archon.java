@@ -14,7 +14,7 @@ import controller.ControllerMain;
  *
  */
 public class Archon extends Mob implements Serializable {
-
+  
   public Archon(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 
     super(movementPath, ControllerMain.TILE_SIZE / 3, 

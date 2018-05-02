@@ -47,9 +47,9 @@ public abstract class Map implements Serializable {
   
   public final static int DEFAULT_SPAWN_FREQUENCY = 500;
   public final static int DEFAULT_SPAWN_INTENSITY = 3;
-  
+  static final long serialVersionUID = 1L;
   private int spawnFreq;
-  
+     
   private int simulSpawnCount = 1;
   
   protected int waveIntensity; 

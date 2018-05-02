@@ -9,8 +9,8 @@ public class DepotProjectile1 extends Projectile {
   
   public DepotProjectile1(Point startLocation, ConcurrentLinkedQueue<Mob> targets, TowerGame game, boolean isDank) {
     super(startLocation,   
-        SpeedAttribute.VERY_FAST, targets.peek().getRadius(), 100.0, 
-        ElementalAttribute.DEMO_ELEMENT, "file:assets/images/tower/ice.png", game, isDank);
+        SpeedAttribute.VERY_FAST, targets.peek().getRadius(), 150.0, 
+        ElementalAttribute.ICE, "file:assets/images/tower/ice.png", game, isDank);
     myTargets = targets;
     this.setMob(myTargets.poll());
     this.targetLocation = targetMob.getCurrentLocation();

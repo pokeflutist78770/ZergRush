@@ -52,7 +52,10 @@ public class Player implements Serializable {
 	 * Returns: None
 	*/
 	public void addCash(double cash) {
+		System.out.println("CASH: "+CURRENT_CASH);
 		CURRENT_CASH+=cash;
+		System.out.println("\t Incr: "+cash);
+		System.out.println("\t NEW_CASH: "+CURRENT_CASH);
 	}
 	
 	/*------------------ Getters/Setters   -----------------*/
@@ -67,8 +70,11 @@ public class Player implements Serializable {
 		return CURRENT_CASH;  
 	}
 
-	public void decrementCash(double cost) {
-		CURRENT_CASH -= cost;
+	public void decrementCash(double cash) {
+		System.out.println("CASH: "+CURRENT_CASH);
+		CURRENT_CASH -= cash;
+		System.out.println("\t Decr: "+cash);
+		System.out.println("\t NEW_CASH: "+CURRENT_CASH);
 	}
 	
 	//resets HP for a new game

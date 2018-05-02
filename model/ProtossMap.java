@@ -17,13 +17,14 @@ import controller.ControllerMain;
  *============================================================================*/
 public class ProtossMap extends Map implements Serializable {
 
-  private String soundtrack;;
+  private String soundtrack;
   
   public ProtossMap(String difficulty, TowerGame game) throws ClassNotFoundException {
     super("Protoss", "file:assets/images/map/protoss_map.jpg", difficulty, game);
     soundtrack = "protossSoundtrack";
     ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
     name = "Protoss"+ idNo;
+    
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
 

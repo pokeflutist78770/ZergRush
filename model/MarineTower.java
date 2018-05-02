@@ -15,11 +15,12 @@ import views.MenuView;
  */
 public class MarineTower extends Tower implements Serializable {
   
-	public static final double COST=100;
+	public static final int COST=100;
+	public static final int UPGRADE_COST=100;
 	public static final RangeAttribute BASE_RANGE=RangeAttribute.SMALL_RANGE;
 	
 	public MarineTower(Point loc, TowerGame game, boolean isDank) {
-		super(100, 100, "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
+		super(COST, UPGRADE_COST, "Library", loc, RangeAttribute.SMALL_RANGE, getPicString(isDank), 
 			  game, 120, isDank);
 	}
 

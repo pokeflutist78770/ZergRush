@@ -28,7 +28,7 @@ public class TowerButton extends Button {
 	*          - name: String to represent type of tower
 	*          - range: Range to represent tower damage radius
 	* 
-	* @return None
+	* @return None  
 	*/
 	public TowerButton(String buttonText, ImageView buttonImage, String name, RangeAttribute range,
 			           double cashThreshold) {
