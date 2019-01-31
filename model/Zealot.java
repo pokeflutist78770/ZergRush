@@ -21,7 +21,7 @@ public Zealot(Vector<Point> movementPath, TowerGame game, boolean isDank) {
 		super(movementPath, ControllerMain.TILE_SIZE/3, 
 				ArmorAttribute.LIGHT_ARMOR, 
 				AttackAttribute.WEAK_ATTACK,   
-				DefenseAttribute.MEDIUM, 
+				DefenseAttribute.MEDIUM,   
 				SpeedAttribute.NORMAL, 
 				new Vector<ResistanceAttribute>(
 						Collections.singletonList(ResistanceAttribute.ELECTRIC)), 

@@ -429,7 +429,7 @@ public abstract class Mob implements Serializable {
     this.stepCount++;
   }
 
-  public String getName() {
+  public String getName() { 
     return name;
   }
   

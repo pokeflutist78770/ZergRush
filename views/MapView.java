@@ -955,7 +955,7 @@ public class MapView extends StackPane implements Observer {
 	public void handle(ActionEvent e) {
 		TowerButton button=(TowerButton) e.getSource();
 		
-		mobSelected=false;
+		mobSelected=false; 
 		towerSelected = false;
 		
 		//user clicks on the same button as previously clicked, so cancel

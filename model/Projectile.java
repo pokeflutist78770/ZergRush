@@ -190,7 +190,7 @@ abstract public class Projectile implements Serializable {
   public double getY() {
     return currentLocation.getY();
   }
-  
+   
   public int getProjSize() {
 	  return projSize;
   }

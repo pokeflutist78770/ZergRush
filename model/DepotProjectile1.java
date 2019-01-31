@@ -11,7 +11,7 @@ public class DepotProjectile1 extends Projectile {
     super(startLocation,   
         SpeedAttribute.VERY_FAST, targets.peek().getRadius(), 150.0, 
         ElementalAttribute.ICE, "file:assets/images/tower/ice.png", game, isDank);
-    myTargets = targets;
+    myTargets = targets; 
     this.setMob(myTargets.poll());
     this.targetLocation = targetMob.getCurrentLocation();
   }

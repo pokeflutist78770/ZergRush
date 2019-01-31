@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javax.swing.text.View;
+
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
@@ -89,6 +91,7 @@ public class ControllerMain extends Application {
   private static TowerGame theGame;
   
   public static Vector<Constructor<Mob>> mobConstructors;
+  
 
 
   /* Launch the JavaFX application */
@@ -232,7 +235,18 @@ public class ControllerMain extends Application {
     // Initialize Instruction View
     theInstrView = new InstructionView(backButtonInstr);
   }
-
+  
+  
+  /**
+   * Allows access to be able to chnge the vieew when needed
+   * @param view: the view to be switched to
+   * @return None
+   */
+  public static void changeCurrentView(StackPane view) {
+	  setViewTo(view);
+  }
+  
+  
   /*
    * setViewTo changes the current view that the usere can see Parameters:
    * newView: the new view to be able to change Returns: None
@@ -334,7 +348,7 @@ public class ControllerMain extends Application {
     private void initializeMapView() {
       theMapView.setMapSelection(theGame.getBackgroundImageFP());
       System.out.println("map selection set");
-      // Set Wave Difficulty
+      // Set Wave Difficulty 
       theMapView.setWaveNum(theMenuView.getModeSelection());
       System.out.println("wave difficulty set");
 

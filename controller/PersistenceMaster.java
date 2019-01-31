@@ -26,6 +26,7 @@ import model.TowerGame;
 public class PersistenceMaster {
   
   private static Vector saveData;
+  private static Vector saveDataSlots;
   private static Vector loadData;
   
   private static TowerGame theGame;
@@ -36,9 +37,10 @@ public class PersistenceMaster {
   private static Player thePlayer;
   private static Map theMap;
 
+  
   /**
    * Saves a TowerGame.
-   * @param tg
+   * @param tg  
    */
   public static void saveGame(TowerGame tg) {
     // just in case
@@ -52,8 +54,8 @@ public class PersistenceMaster {
     savePlayer();
     saveMap();
     writeData("THE_IMMORTAL_SPRITESHEET");
-    
   }
+  
 
   /**
    * Loads a TowerGame.

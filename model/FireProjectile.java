@@ -10,7 +10,7 @@ import java.awt.Point;
  *============================================================================*/
 public class FireProjectile extends Projectile {
 
-  
+   
   public FireProjectile(Point startLocation, Mob targetMob, TowerGame game, boolean isDank) {
     super(startLocation,   
         SpeedAttribute.PROJECTILE_SPEED, targetMob.getRadius(), 100.0, 

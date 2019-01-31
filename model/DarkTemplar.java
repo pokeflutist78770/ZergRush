@@ -22,7 +22,7 @@ public class DarkTemplar extends Mob implements Serializable {
     super(movementPath, 
     		ControllerMain.TILE_SIZE / 3,  
     		ArmorAttribute.HEAVY_ARMOR,
-    		AttackAttribute.WEAK_ATTACK,
+    		AttackAttribute.WEAK_ATTACK, 
     		DefenseAttribute.MEDIUM, 
     		SpeedAttribute.SLOW,
     		new Vector<ResistanceAttribute>(Collections.singletonList(ResistanceAttribute.POISON)),

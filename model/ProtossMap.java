@@ -24,7 +24,7 @@ public class ProtossMap extends Map implements Serializable {
     soundtrack = "protossSoundtrack";
     ControllerMain.mobConstructors = initializeSpawnConstructors(new Vector(Arrays.asList("Zealot", "DarkTemplar", "Archon")));
     name = "Protoss"+ idNo;
-    
+     
    // ControllerMain.mobs.add(new DemoMob(paths.get(1)));
   }
 

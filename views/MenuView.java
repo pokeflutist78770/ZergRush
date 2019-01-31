@@ -1,5 +1,6 @@
 package views;
 
+import controller.ControllerMain;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -84,7 +85,7 @@ public class MenuView extends StackPane {
 		gc.setFill(Color.BLACK);
 		gc.setStroke(Color.BLACK);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		this.getChildren().add(canvas);
+		this.getChildren().add(canvas); 
 		
 		// Set Image Background
 		background = new Image("file:assets/images/sc.jpg", false);
@@ -131,7 +132,7 @@ public class MenuView extends StackPane {
 	    fun.setStyle("-fx-text-fill: #000000;");
 	
 	    ToggleGroup radioGroup = new ToggleGroup();
-	
+	 
 	    // Radio Group
 	    easy.setToggleGroup(radioGroup);
 	    medium.setToggleGroup(radioGroup);
@@ -197,18 +198,9 @@ public class MenuView extends StackPane {
 		loadButton.setMinWidth(80);
 		loadButton.setMinHeight(10);
 		loadButton.setStyle("-fx-font: 15 serif; -fx-base: #000000;");
-	    loadButton.setOnAction((ActionEvent ev) -> {
-	    	if (load == false)
-	    	{
-	    		loadButton.setStyle("-fx-text-fill: #ff0000; -fx-font: 15 serif; -fx-base: #000000;");
-	    		load = true;
-	    	}
-	    	else
-	    	{
-	    		loadButton.setStyle("-fx-text-fill: #ffffff; -fx-font: 15 serif; -fx-base: #000000;");
-	    		load = false;
-	    	}
-	    });
+		EventHandler<ActionEvent> loadHandler=new loadHandler();
+		loadButton.setOnAction(loadHandler);
+
 	    
 		// Add Load Button
 		VBox loadSaveBox = new VBox();
@@ -253,10 +245,10 @@ public class MenuView extends StackPane {
 						difficulty.setText("Dank Memes");
 						mode = "Fun";
 						break;
-				}
-				
+				}	
 			}
 	  }
+	
 	
 	  /*----------    Getters/Setters     -------------*/
 	
@@ -299,5 +291,28 @@ public class MenuView extends StackPane {
     
     public static void setModeForTest(String newMode) {
     	mode=newMode;
+    }
+    
+    
+    private class loadHandler implements EventHandler<ActionEvent>{
+
+		@Override
+		public void handle(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+			LoadView loadView=new LoadView();
+			ControllerMain.changeCurrentView(loadView);
+			if (load == false)
+	    	{
+	    		loadButton.setStyle("-fx-text-fill: #ff0000; -fx-font: 15 serif; -fx-base: #000000;");
+	    		load = true;
+	    	}
+	    	else
+	    	{
+	    		
+	    		loadButton.setStyle("-fx-text-fill: #ffffff; -fx-font: 15 serif; -fx-base: #000000;");
+	    		load = false;
+	    	}
+		}
     }
 }

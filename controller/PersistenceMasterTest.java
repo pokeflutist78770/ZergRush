@@ -17,7 +17,7 @@ public class PersistenceMasterTest {
   public void test() throws InterruptedException {
     TowerGame tg = new TowerGame("Easy", "Zerg");
     tg.start();
-    tg.unPause();
+    tg.unPause();   
     Thread.sleep(1000);
     tg.pause();
     PersistenceMaster.saveGame(tg);
